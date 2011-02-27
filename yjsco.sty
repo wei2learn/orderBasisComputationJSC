@@ -1,0 +1,264 @@
+%% ----- JSC Internal Version: March 12 2007
+%%
+%% This is file `yjsco.sty', generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% yjsco.dtx  (with options: 'package')
+%% 
+%% yjsco.dtx Copyright (C) 2006 River Valley Technologies
+%% 
+%% This file may be distributed and/or modified under the conditions
+%% of the LaTeX Project Public License, either version 1.2 of this
+%% license or (at your option) any later version.  The latest version
+%% of this license is in http://www.latex-project.org/lppl.txt and
+%% version 1.2 or later is part of all distributions of LaTeX version
+%% 1999/12/01 or later.
+%% 
+%% $Id: yjsco.sty,v 1.4 2006/02/23 10:43:38 cvr Exp cvr $
+%%
+%%
+%%
+\NeedsTeXFormat{LaTeX2e}
+\def\Fileversion$#1: #2 ${\gdef\fileversion{#2}}
+\def\Filedate$#1: #2 #3 ${\gdef\filedate{#2}}
+\Fileversion$Revision: 1.4-HH-SP $
+\Filedate$Date: 2007/03/12 12:17:00 $
+\ProvidesPackage{yjsco}
+   [\filedate\space\fileversion\space Add-on for elsart.cls (CVR)]
+\PackageWarningNoLine{yjsco}
+   {****************************************\MessageBreak
+    Package yjsco v,\fileversion\space loaded\MessageBreak
+    [Add-on for elsart.cls (CVR)]\MessageBreak
+    ****************************************}
+
+%%
+%% Options to load the commercial mathtime fonts or
+%% the free version, pxfonts available at CTAN.
+%% Decault is TeX's CMR fonts.
+%% 
+\DeclareOption{mathtime}{\def\mfontstatus{1}}
+\DeclareOption{txfonts}{\def\mfontstatus{2}}
+\DeclareOption{cmr}{\def\mfontstatus{0}}
+\ExecuteOptions{cmr}
+\ProcessOptions
+\ifcase\mfontstatus\or
+  \usepackage{txfonts}\or
+  \usepackage[mtpluscal,mtbold]{mathtime}
+\fi
+
+%%
+%% Page dimensions and skips changed to meet model 1 specs
+%%
+\parskip=0pt
+\parindent=1pc
+\textwidth=32pc
+\textheight=47pc
+\baselineskip=12pt plus 1pt minus .5pt
+\AtBeginDocument{\parskip=0pt
+\parindent=1pc
+\textwidth=32pc
+\textheight=47pc
+\baselineskip=12pt plus 1pt minus .5pt}
+
+%%
+%% Font sizes changed to 10pt basefont.
+%%
+\def\normalsize{\@setfontsize\normalsize\@xpt{12pt plus 1pt minus .5pt}%
+\abovedisplayskip 6\p@ \@plus 1\p@ \@minus 1\p@%
+\belowdisplayskip \abovedisplayskip
+\abovedisplayshortskip \z@ \@plus 2\p@%
+\belowdisplayshortskip 2\p@ \@plus 1\p@ \@minus 1\p@
+\let\@listi\@listI}
+\def\small{\@setfontsize\small\@ixpt{11}%
+\abovedisplayskip 5\p@ \@plus2\p@ minus1\p@
+\belowdisplayskip \abovedisplayskip
+\abovedisplayshortskip  \z@ \@plus2\p@
+\belowdisplayshortskip  2\p@ \@plus1\p@ minus1\p@
+\def\@listi{\leftmargin\leftmargini
+ \parsep 4.5\p@ \@plus2\p@ minus\p@ \itemsep \parsep
+            \topsep 9\p@ \@plus3\p@ minus5\p@}}
+\def\footnotesize{\fontsize{8}{10}\selectfont}
+\let\@xviiipt\@xviipt
+\def\scriptsize{\@setfontsize\scriptsize\@viiipt{9.5}}
+\def\tiny{\@setfontsize\tiny\@vipt{7}}
+\def\large{\@setfontsize\large\@xivpt{18}}
+\def\Large{\@setfontsize\Large\@xviipt{22}}
+\def\LARGE{\@setfontsize\LARGE\@xxpt{22}}
+\def\huge{\@setfontsize\huge\@xxvpt{27}}
+\let\Huge=\huge
+\normalsize
+
+%%
+%% Elsart.cls has \thm@preskip equivalent to \parskip which
+%% is now \z@.  So new skip, \thmskip is defined.
+%% 
+\newskip\thmskip
+\setlength\thmskip{.75\baselineskip}
+\if@amsthm
+  \RequirePackage{amsthm}%
+  \def\th@plain{%
+    \thm@preskip\thmskip
+%  HONG increased the postskip.  12/11/2006
+%    \thm@postskip\z@       
+     \thm@postskip\thmskip
+    \itshape % body font
+  }
+  \def\th@definition{%
+    \thm@preskip\thmskip
+%  HONG increased the postskip.  12/11/2006
+%    \thm@postskip\z@
+     \thm@postskip\thmskip
+    \normalfont % body font
+  }
+  \def\th@remark{%
+    \thm@headfont{\itshape}%
+    \normalfont % body font
+    \thm@preskip\thmskip \divide\thm@preskip\tw@
+%  HONG increased the postskip.  12/11/2006
+%    \thm@postskip\z@
+     \thm@postskip\thmskip
+  }
+\else
+% SP 20070312
+% Change to a package error
+\PackageError{yjsco}{amsthm option should be used}{For YJSCO elsart should
+  be used with the option `amsthm'}%
+\fi
+\renewenvironment{pf}%
+  {\par\addvspace{\@bls \@plus 0.5\@bls \@minus 0.1\@bls}\noindent
+   {\bfseries\Elproofname}\enspace\ignorespaces}%
+  {\qed\par\addvspace{\@bls \@plus 0.5\@bls \@minus 0.1\@bls}}
+\def\Elproofname{Proof.}
+\@namedef{pf*}#1{\par\begingroup\def\Elproofname{#1}\pf\endgroup\ignorespaces}
+\expandafter\let\csname endpf*\endcsname=\endpf
+\def\qed{\relax\ifmmode\hskip2em \Box\else\unskip\nobreak\hskip1em $\Box$\fi}
+\def\proof@headerfont{\upshape\bfseries}
+
+%%\renewenvironment{proof}{\begin{pf}}{\end{pf}}
+%% Causes error. Removed. Hoon Hong  2006/2/23
+
+%%
+%% Section definitions
+%% 
+\def\section{\@startsection {section}{1}{\z@}%
+           {19\p@ \@plus 3\p@ \@minus 2\p@}%    24pt
+           {8\p@ \@plus 3\p@ \@minus 2\p@}%     12pt
+           {\normalsize\bfseries\boldmath}}
+\def\subsection{\@startsection{subsection}{2}{\z@}%
+           {9\p@ \@plus 3\p@ \@minus 2\p@}%     12pt
+           {8\p@ \@plus 3\p@ \@minus 2\p@}%     12pt 
+           {\normalfont\normalsize\itshape}}
+\def\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+           {9\p@ \@plus 3\p@ \@minus 2\p@}%     %12pt
+           {.1\p@ \@plus 2\p@ \@minus 1\p@}%
+           {\normalfont\normalsize\itshape}}
+\def\paragraph{\@startsection{paragraph}{4}{0\p@}%
+           {9\p@ \@plus 3\p@ \@minus 2\p@}%    %12pt
+           {-6\p@}%
+           {\normalfont\normalsize\itshape}}
+\def\subparagraph{\@startsection{subparagraph}{5}{1pc}%
+           {0\p@ \@plus 2\p@ \@minus 0\p@}%
+           {-6\p@}%
+           {\normalfont\normalsize\itshape}}
+
+%%
+%% dot after section counters
+%% 
+\def\@seccntformat#1{\csname the#1\endcsname.\quad}
+
+%%
+%% Table caption
+%% 
+\long\def\@maketablecaption#1#2{\@tablecaptionsize
+    \global \@minipagefalse
+    \hbox to \hsize{\parbox[t]{\hsize}{\textbf{#1.}~~#2}}%
+    \medskip}
+
+%%
+%% Bibliography listing font size is changed to footnotesize
+%% from normalsize.
+%% 
+\def\@bibliosize{\footnotesize}
+
+%%
+%% Abstract and keywords
+%% 
+\def\@abstract[#1]{%
+  \global\@hasabstracttrue
+  \hyphenpenalty\sv@hyphenpenalty     % restore \hyphenpenalty
+  \global\setbox\t@abstract=\vbox\bgroup\hsize=\textwidth
+  \leftskip\z@
+  \@rightskip\z@ \rightskip\@rightskip \parfillskip\@flushglue
+   \small
+  \parindent 1em                      % \parindent in abstract
+  \noindent {\bfseries\abstractname}  % caption `Abstract' (bold)
+  \vskip 0.5\@bls    % half a line of space below
+  \noindent\ignorespaces}
+ \def\endabstract{\par \egroup}
+
+\def\keyword{%
+  \global\@haskeywordstrue             % Implies rules are to be printed
+  \hyphenpenalty\sv@hyphenpenalty      % restore \hyphenpenalty
+  \def\sep{\unskip, }                  % separator for multiple keywords
+  \def\MSC{\par\leavevmode\hbox {\it 1991 MSC:\ }}%
+  \def\PACS{\par\leavevmode\hbox {\it PACS:\ }}%
+  \global\setbox\t@keyword=\vbox\bgroup\hsize=\textwidth
+  \@keywordsize
+  \parskip\z@
+  \vskip 10\p@ \@plus 2\p@ \@minus 2\p@% One line of space above keywords.
+  \noindent\@keywordheading
+  \justify@off                         % Keywords are not justified.
+  \ignorespaces}
+\def\endkeyword{\par \egroup}
+
+%%
+%% End frontmatter
+%% 
+\def\endfrontmatter{%
+  \ifx\@runauthor\relax
+   \global\let\@runauthor\@runningauthor
+  \fi
+  \global\n@author=\c@author
+  \global\n@collab=\c@collab \@writecount
+  \global\@topnum\z@
+  \thispagestyle{copyright}%            % Format rest of front matter:
+  \if@preface \else                     % IF not preface THEN
+  \vskip \@overhistoryskip
+  \history@fmt                          % print history (received, ...)
+  \newcount\c@sv@footnote
+  \global\c@sv@footnote=\c@footnote     % save current footnote number
+  \if@hasabstract                       % IF abstract/ keywords THEN
+   \vskip \@preabstractskip     % Space above rule
+  \hrule height 0.4\p@ width\textwidth% Rule above abstract/keywords
+    \vskip 8\p@
+  \unvbox\t@abstract                  % print abstract, if any
+  \fi
+  \if@haskeywords                       % IF keywords THEN
+    \vskip \@overkeywordskip
+  \unvbox\t@keyword                   % Keyword abstract, if any
+  \fi                                   % FI
+  \vskip 10\p@
+  \hrule height 0.4\p@ width\textwidth% rule below abstract/keywords
+  \dedicated@fmt                        % print dedication
+  \vskip \@belowfmskip                  % Vertical space below frontmatter
+\fi                                     % FI
+  \close@fm                             % Close front matter material.
+   \output@glob@notes  % Put notes at bottom of 1st page
+  \global\c@footnote=\c@sv@footnote     % restore footnote number
+  \global\@prefacefalse
+  \global\leftskip\z@                   % Restore the normal values of
+  \global\@rightskip\z@                 % \leftskip,
+  \global\rightskip\@rightskip          % \rightskip and
+  \global\mathsurround\sv@mathsurround  % \mathsurround.
+  \let\title\relax       \let\author\relax
+  \let\collab\relax      \let\address\relax
+  \let\frontmatter\relax \let\endfrontmatter\relax
+  \let\@maketitle\relax  \let\@@maketitle\relax
+  \normal@text
+}
+\endinput
+
+%%
+%% End of file 'yjsco.sty'
+%% 

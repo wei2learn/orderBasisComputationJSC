@@ -1,0 +1,1574 @@
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass elsart
+\begin_preamble
+\usepackage{yjsco}\journal{JournalofSymbolicComputation}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}\renewcommand{\algorithmicensure}{\textbf{Output:}}\renewcommand{\algorithmicensure}{\textbf{if}}\renewcommand{\algorithmicensure}{\textbf{Uses:}}
+
+\def\diag{\mbox{diag}}\def\cdeg{\qopname\relax n{cdeg}}\keycomment{\{\{}{\}\}}\def\MM{\qopname\relax n{MM}}\def\M{\qopname\relax n{M}}\def\ord{\qopname\relax n{ord}}
+
+\def\StorjohannTransform{\qopname\relax n{StorjohannTransform}}\def\TransformUnbalanced{\qopname\relax n{TransformUnbalanced}}\def\rowDimension{\qopname\relax n{rowDimension}}\def\columnDimension{\qopname\relax n{columnDimension}}\DeclareMathOperator{\re}{rem}\DeclareMathOperator{\coeff}{coeff}\DeclareMathOperator{\lcoeff}{lcoeff}\def\mab{\qopname\relax n{OrderBasis}}\def\mmab{\qopname\relax n{FastBasis}}\def\umab{\qopname\relax n{UnbalancedFastBasis}}\newcommand{\bb}{\\}
+
+\makeatother
+\end_preamble
+\options amsthm,seceqn,secthm
+\use_default_options false
+\language english
+\inputencoding latin9
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 2
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Efficient Algorithms for Order Bases Computation
+\end_layout
+
+\begin_layout Author
+Wei Zhou and George Labahn
+\end_layout
+
+\begin_layout Author Address
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Cheriton School of Computer Science
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+University of Waterloo
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+,
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Waterloo, Ontario, Canada
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author Email
+
+\backslash
+{w2zhou,glabahn
+\backslash
+}@uwaterloo.ca 
+\end_layout
+
+\begin_layout Abstract
+In this paper we present two algorithms for the computation of a shifted
+ order basis of an 
+\begin_inset Formula $m\times n$
+\end_inset
+
+ matrix of power series over a field 
+\begin_inset Formula $\mathbb{K}$
+\end_inset
+
+ with 
+\begin_inset Formula $m\le n$
+\end_inset
+
+.
+ For a given order 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ and balanced shift 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+ the first algorithm determines an order basis with a cost of 
+\begin_inset Formula $O^{\sim}(\MM(n,\lceil m\sigma/n\rceil))\subset O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$
+\end_inset
+
+ field operations in 
+\begin_inset Formula $\mathbb{K}$
+\end_inset
+
+ where 
+\begin_inset Formula $\MM\left(n,d\right)$
+\end_inset
+
+ denotes the cost of multiplying two polynomial matrices with dimension
+ 
+\begin_inset Formula $n$
+\end_inset
+
+ and degree 
+\begin_inset Formula $d$
+\end_inset
+
+.
+ Here an input shift is balanced when 
+\begin_inset Formula $\max(\vec{s})-\min(\vec{s})\in O(m\sigma/n)$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%Here $O^{
+\backslash
+sim}$
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%is just $O$ with log factors omitted and 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%$
+\backslash
+MM
+\backslash
+left(n,d
+\backslash
+right)$ denotes
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%the cost of multiplying two polynomial matrices with dimension $n$
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%and degree $d$.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+This extends earlier work of Storjohann which only determines a subset of
+ an order basis that is within a specified degree bound 
+\begin_inset Formula $\delta$
+\end_inset
+
+ using 
+\begin_inset Formula $O^{\sim}(\MM(n,\delta))$
+\end_inset
+
+ field operations for 
+\begin_inset Formula $\delta\ge\lceil m\sigma/n\rceil$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Abstract
+While the first algorithm addresses the case when the column degrees of
+ a complete order basis are unbalanced given a balanced input shift, it
+ is not efficient in the case when a unbalanced shift results in the row
+ degrees also becoming unbalanced.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%The column degrees of a complete basis may be unbalanced, which is
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%a major issue we address in the first algorithm.
+ When the input shift
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%is unbalanced, the row degrees of the basis can also be unbalanced
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%in addition to the unbalanced column degrees.
+ For this, we present
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+We present a second algorithm which balances the high degree rows and computes
+ an order basis using 
+\begin_inset Formula $O^{\sim}(\MM(n,\lceil m\sigma/n\rceil))$
+\end_inset
+
+ field operations in the case that the shift is unbalanced but satisfies
+ the condition 
+\begin_inset Formula $\sum_{i=1}^{n}(\max(\vec{s})-\vec{s}_{i})\le m\sigma$
+\end_inset
+
+.
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+Every problem with any unbalanced shift can be in fact reduced to a problem
+ with a shift that satisfying this condition if the degrees of a resulting
+ order basis is known.
+ 
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+Many unbalanced shift problems can be in fact converted to problems satisfying
+ this condition.
+ 
+\end_layout
+
+\end_inset
+
+ This condition essentially allows us to locate those high degree rows that
+ need to be balanced.
+ 
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+In more general unbalanced shift cases, this algorithm may not work well
+ directly since we do not know in advance which are the high degree rows
+ need to be balanced.
+ But it may work efficiently if we have an effective way of estimating the
+ resulting row degrees.
+ 
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "introduction.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "preliminaries.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "transform.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "computing.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "complexity.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "unbalanced.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "conclusion.lyx"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{Baker and Graves-Morris(1996)}"
+key "gravesmorris"
+
+\end_inset
+
+ G.
+\begin_inset space ~
+\end_inset
+
+Baker and P.
+\begin_inset space ~
+\end_inset
+
+Graves-Morris.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ Padi Approximants, 2nd edition
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ Cambridge, 1996.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{Beckermann and Labahn(1994)}"
+key "BeLa94"
+
+\end_inset
+
+ B.
+\begin_inset space ~
+\end_inset
+
+Beckermann and G.
+\begin_inset space ~
+\end_inset
+
+Labahn.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ A uniform approach for fast computation of matrix-type 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Padi
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ approximants.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ SIAM J.
+ Matrix Analysis and its Applications
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, 15(3):804--823, July 1994.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{Beckermann and Labahn(1997)}"
+key "BL1997"
+
+\end_inset
+
+ B.
+\begin_inset space ~
+\end_inset
+
+Beckermann and G.
+\begin_inset space ~
+\end_inset
+
+Labahn.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ Recursiveness in matrix rational interpolation problems.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ Journal of Computational and Applied Math
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, 5-34, 1997.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{Beckermann and Labahn(2000)}"
+key "BL2000"
+
+\end_inset
+
+ B.
+\begin_inset space ~
+\end_inset
+
+Beckermann and G.
+\begin_inset space ~
+\end_inset
+
+Labahn.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ Fraction-free Computation of Matrix Rational Interpolants and Matrix GCD's.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ SIAM J.
+ Matrix Analysis and Applications
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, 22(1):114-144, 2000.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{Beckermann, Labahn, and Villard(1999)}"
+key "BLV:1999"
+
+\end_inset
+
+ B.
+\begin_inset space ~
+\end_inset
+
+Beckermann, G.
+\begin_inset space ~
+\end_inset
+
+Labahn, and G.
+\begin_inset space ~
+\end_inset
+
+Villard.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ Shifted normal forms of polynomial matrices.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ In 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ Proceedings of ISSAC'99
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, 1999.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{Beckermann, Labahn, and Villard(2006)}"
+key "BLV:jsc06"
+
+\end_inset
+
+ B.
+\begin_inset space ~
+\end_inset
+
+Beckermann, G.
+\begin_inset space ~
+\end_inset
+
+Labahn, and G.
+\begin_inset space ~
+\end_inset
+
+Villard.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ Normal forms for general polynomial matrices.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ Journal of Symbolic Computation
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, 41(6):708--737, 2006.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{Giorgi, Jeannerod, and Villard(2003)}"
+key "Giorgi2003"
+
+\end_inset
+
+ P.
+\begin_inset space ~
+\end_inset
+
+Giorgi, C.P.
+ Jeannerod, and G.
+\begin_inset space ~
+\end_inset
+
+Villard.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ On the complexity of polynomial matrix computations.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ In 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Proceedings of ISSAC'03
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, pages 135--142.
+ ACM Press, August 2003.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{Ibarra, Moran, and Hu (1982)}"
+key "IbarraMH82"
+
+\end_inset
+
+ O.H.
+ Ibarra, S.
+\begin_inset space ~
+\end_inset
+
+Moran, and R.
+\begin_inset space ~
+\end_inset
+
+Hui.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ A generalization of the fast 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+LUP
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ matrix decomposition algorithm and applications.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ J.
+ Algorithms
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, 3(1):45--56, 1982.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{Labahn(1992)}"
+key "La92"
+
+\end_inset
+
+ G.
+\begin_inset space ~
+\end_inset
+
+Labahn.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ Inversion components for block 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Hankel
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+-like matrices.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ Linear Algebra and its Applications
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, 177:7--48, 1992.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{Storjohann(2006)}"
+key "Storjohann:2006"
+
+\end_inset
+
+ A.
+\begin_inset space ~
+\end_inset
+
+Storjohann.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ Notes on computing minimal approximant bases.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ In 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ Challenges in Symbolic Computation Software
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+.
+ Internationales Begegnungs- und Forschungszentrum fuer Informatik (IBFI),
+ Schloss Dagstuhl, Germany, 2006.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{Storjohann and Villard(2005)}"
+key "storjohann-villard:2005"
+
+\end_inset
+
+ A.
+\begin_inset space ~
+\end_inset
+
+Storjohann and G.
+\begin_inset space ~
+\end_inset
+
+Villard.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ Computing the rank and a small nullspace basis of a polynomial matrix.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ In 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ Proceedings of ISSAC'05
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, page 309, 2005.
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{van Hoeij(1997)}"
+key "vanHoeij"
+
+\end_inset
+
+ M.
+\begin_inset space ~
+\end_inset
+
+van
+\begin_inset space ~
+\end_inset
+
+Hoeij.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ Factorization of Differential Operators with Rational Function Coefficients.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ Journal of Symbolic Computation
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, 22:537--561, 1997.
+\end_layout
+
+\end_body
+\end_document

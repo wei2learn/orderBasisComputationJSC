@@ -1,0 +1,3172 @@
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass elsart
+\options amsthm,seceqn,secthm
+\use_default_options false
+\language english
+\inputencoding latin9
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 2
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Unbalanced Shifts
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Unbalanced-Shift"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "sec:complexity"
+
+\end_inset
+
+ shows that 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "alg:mab"
+
+\end_inset
+
+ can efficiently compute a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis when the shift 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+ is balanced.
+ When the 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+ is unbalanced (something important for example in normal form computation),
+ then 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "alg:mab"
+
+\end_inset
+
+ still returns a correct answer but may be less efficient.
+ The possible inefficiency results because there may not be enough partial
+ results from the intermediate subproblems to sufficiently reduce the column
+ dimension of the subsequent subproblem.
+ This is clear from the fact that the column degrees of the output can be
+ much larger and no longer sum up to 
+\begin_inset Formula $O\left(m\sigma\right)$
+\end_inset
+
+ as in the balanced shift case.
+ The shifted 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-column degrees, however, still behave well.
+ In particular, the total 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degree increase is still bounded by 
+\begin_inset Formula $m\sigma$
+\end_inset
+
+ as stated in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:size"
+
+\end_inset
+
+, while the shifted degree of any column can also increase by up to 
+\begin_inset Formula $\sigma$
+\end_inset
+
+.
+ Recall that 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:size"
+
+\end_inset
+
+ states that for any shift 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+, there exists a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis still having a total size bounded by 
+\begin_inset Formula $nm\sigma$
+\end_inset
+
+ which gives hope for efficient computation.
+\end_layout
+
+\begin_layout Standard
+In this section, we describe an algorithm for an important special case
+ of unbalanced shift -- when the input when the input shift 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+ satisfies the condition:
+\begin_inset Formula \[
+\sum_{i=1}^{n}(\max(\vec{s})-\vec{s}_{i})\le m\sigma.\]
+
+\end_inset
+
+ For simpler presentation, we use the equivalent condition 
+\begin_inset Formula \begin{equation}
+\vec{s}\le0\mbox{ and }\sum_{i}-\vec{s}_{i}\le m\sigma,\label{con:unbalancedCondition}\end{equation}
+
+\end_inset
+
+ which can always be obtained from the previous condition by using 
+\begin_inset Formula $\vec{s}-\max\vec{s}$
+\end_inset
+
+ as the new shift, as translating every entry of the shift by a equal constant
+ does not change the problem.
+\end_layout
+
+\begin_layout Standard
+In the balanced shift case, a central problem is to find a way to handle
+ unbalanced column degrees of the output order basis.
+ In this section, the unbalanced shift makes row degrees of the output also
+ unbalanced, which is a major problem that needs to be resolved.
+ Here we note a second transformation by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Storjohann:2006"
+
+\end_inset
+
+ which converts the input in such a way that each high degree row of the
+ output becomes multiple rows of lower degrees.
+ We refer to this as Storjohann's second transformation to distinguish it
+ from that described in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "sub:storjohannTransformation"
+
+\end_inset
+
+.
+ The transformed problem can then be computed efficiently using 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "alg:mab"
+
+\end_inset
+
+.
+ After the computation, rows can then be combined appropriately to form
+ a basis of the original problem.
+ The method is computationally efficient.
+ However, the bases computed this way are not minimal and hence do not produce
+ our reduced order bases in general.
+ In the following, we describe a transformation that incorporates Storjohann's
+ second transformation and guarantees the minimality of some columns of
+ the output, hence providing a partial order basis.
+ We can then work on the remaining columns iteratively as done in the balanced
+ shift case to compute a full order basis.
+\end_layout
+
+\begin_layout Standard
+Condition 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "con:unbalancedCondition"
+
+\end_inset
+
+ essentially allows us to locate the potential high degree rows that need
+ to be balanced.
+ In more general cases, we may not know in advance which are the high degree
+ rows that need to be balanced, so our approach given in this section does
+ not work directly.
+ This suggests that one possible future direction to pursue is to find an
+ effective way to estimate the row degree of the result pivot entries.
+ Such an estimate may allow us to apply the method given in this section
+ efficiently for general unbalanced shift.
+\end_layout
+
+\begin_layout Standard
+We now describe the transformation for balancing the high degree rows of
+ the resulting basis.
+ Consider the problem of computing a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis, where the input shift 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+ satisfies the conditions 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "con:unbalancedCondition"
+
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\alpha,\beta\in\mathbb{Z}_{>0}$
+\end_inset
+
+ be two parameters.
+ For each shift entry 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+ in 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+ with 
+\begin_inset Formula $-s_{i}>\alpha+\beta$
+\end_inset
+
+, let 
+\begin_inset Formula \[
+r_{i}=\mbox{rem}\left(-s_{i}-\alpha-1,\beta\right)+1\]
+
+\end_inset
+
+ be the remainder when 
+\begin_inset Formula $-s_{i}-\alpha$
+\end_inset
+
+ is divided by 
+\begin_inset Formula $\beta$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta$
+\end_inset
+
+ in the case of the remainder is 
+\begin_inset Formula $0$
+\end_inset
+
+ and set 
+\begin_inset Formula \[
+q_{i}=\begin{cases}
+1 & \mbox{if }-s_{i}\le\alpha+\beta\\
+1+\left(-s_{i}-\alpha-r_{i}\right)/\beta & \mbox{otherwise}\end{cases}\]
+
+\end_inset
+
+ Then for each 
+\begin_inset Formula $q_{i}>1$
+\end_inset
+
+, we expand the corresponding 
+\begin_inset Formula $i$
+\end_inset
+
+th column of 
+\begin_inset Formula $\mathbf{f}^{\left(i\right)}$
+\end_inset
+
+ and shift 
+\begin_inset Formula $a_{i}$
+\end_inset
+
+ to 
+\begin_inset Formula \begin{eqnarray*}
+\tilde{\mathbf{F}}^{\left(i\right)} & = & \left[~\mathbf{f}_{i},~x^{r_{i}}\mathbf{f}_{i},~x^{r_{i}+\beta}\mathbf{f}_{i},\dots,~\mathbf{f}_{i},x^{r_{i}+(q_{i}-2)\beta}\mathbf{f}_{i}\right]\\
+\tilde{s}_{i} & = & \left[-\alpha-\beta,\dots,-\alpha-\beta\right]\end{eqnarray*}
+
+\end_inset
+
+ with 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+ entries in each case.
+ For each 
+\begin_inset Formula $q_{i}=1$
+\end_inset
+
+, the corresponding shift entry and input column remain the same, that is,
+ 
+\begin_inset Formula $\tilde{s}_{i}=s_{i}$
+\end_inset
+
+, and 
+\begin_inset Formula $\tilde{\mathbf{F}}^{\left(i\right)}=\mathbf{f}_{i}$
+\end_inset
+
+.
+ Then for the transformed problem, the new shift becomes 
+\begin_inset Formula $\bar{s}=[\tilde{s}_{1},\dots,\tilde{s}_{n}]\in\mathbb{Z}_{\le0}^{\bar{n}}$
+\end_inset
+
+, and the new input matrix becomes 
+\begin_inset Formula $\bar{\mathbf{F}}=[\tilde{\mathbf{F}}^{\left(1\right)},\dots,\tilde{\mathbf{F}}^{\left(n\right)}]\in\mathbb{K}\left[x\right]^{m\times\bar{n}}$
+\end_inset
+
+, with the new column dimension being 
+\begin_inset Formula $\bar{n}=\sum_{i=1}^{n}q_{i}$
+\end_inset
+
+.
+ Note that every entry of the new shift 
+\begin_inset Formula $\bar{s}$
+\end_inset
+
+ is an integer from 
+\begin_inset Formula $-\alpha-\beta$
+\end_inset
+
+ to 
+\begin_inset Formula $0$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula \[
+\mathbf{E}=\left[\begin{array}{ccccc|c|ccccccc}
+1 & x^{r_{1}} & x^{r_{1}+\beta} & \cdots & x^{r_{1}+(q_{1}-2)\beta} & \\
+\hline  &  &  &  &  & \ddots\\
+\hline  &  &  &  &  &  & 1 & x^{r_{n}} & x^{r_{n}+\beta} & \cdots & x^{r_{n}+(q_{n}-2)\beta}\end{array}\right]_{n\times\bar{n}}.\]
+
+\end_inset
+
+ Then 
+\begin_inset Formula $\bar{\mathbf{F}}=\mathbf{F}\mathbf{E}$
+\end_inset
+
+.
+ Storjohann's second transformation is determined by setting 
+\begin_inset Formula $\alpha=-1$
+\end_inset
+
+, a value not allowed for in our transformation (we show later in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "thm:correctHighDegreeElements"
+
+\end_inset
+
+ that this value is not useful in our case).
+ One can verify that the new dimension 
+\begin_inset Formula \[
+\bar{n}=\sum_{i=1}^{n}q_{i}\le n+\sum_{i=1}^{n}-s_{i}/\beta\le m\sigma/\beta+n.\]
+
+\end_inset
+
+ Thus by setting 
+\begin_inset Formula $\beta\in\Theta\left(m\sigma/n\right)=\Theta\left(d\right)$
+\end_inset
+
+, we can make 
+\begin_inset Formula $\bar{n}\in\Theta\left(n\right)$
+\end_inset
+
+.
+ Furthermore, by also setting 
+\begin_inset Formula $\alpha\in\Theta\left(d\right)$
+\end_inset
+
+, we have a balanced shift problem as 
+\begin_inset Formula \[
+\max\bar{s}-\min\bar{s}\le-\min\bar{s}\le\alpha+\beta\in\Theta(d).\]
+
+\end_inset
+
+ Hence 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "alg:mab"
+
+\end_inset
+
+ can compute a 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$
+\end_inset
+
+-basis with cost 
+\begin_inset Formula $O^{\sim}\left(n^{\omega}d\right)$
+\end_inset
+
+ in this case.
+\end_layout
+
+\begin_layout Standard
+With a 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$
+\end_inset
+
+-basis 
+\begin_inset Formula $\bar{\mathbf{P}}\in\mathbb{K}\left[x\right]^{\bar{n}\times\bar{n}}$
+\end_inset
+
+ computed, let us now consider 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}\in\mathbb{K}\left[x\right]^{n\times\bar{n}}$
+\end_inset
+
+.
+ While it is easy to see that 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}$
+\end_inset
+
+ has order 
+\begin_inset Formula $\left(\mathbf{F},\sigma\right)$
+\end_inset
+
+ since 
+\series bold
+
+\begin_inset Formula $\mathbf{F}\mathbf{E}\bar{\mathbf{P}}=\bar{\mathbf{F}}\bar{\mathbf{P}}\equiv0\mod x^{\sigma}$
+\end_inset
+
+
+\series default
+, in general it is not a minimal basis (in fact, 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}$
+\end_inset
+
+ is not even square).
+ However, our transformation does guarantee that the highest degree columns
+ of 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}$
+\end_inset
+
+ having 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degrees exceed 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+ are minimal.
+ That is, the columns of 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}$
+\end_inset
+
+ whose 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degrees exceed 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+ are exactly the columns of a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis whose 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degrees exceed 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+.
+ We have therefore correctly computed a partial 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis.
+ 
+\end_layout
+
+\begin_layout Example
+\begin_inset CommandInset label
+LatexCommand label
+name "exm:unbalancedShift"
+
+\end_inset
+
+ Use the same input as in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "exm:StorjohannTransformation"
+
+\end_inset
+
+, but with shift 
+\begin_inset Formula $\vec{s}=[0,-3,-5,-6]$
+\end_inset
+
+, and also parameters 
+\begin_inset Formula $\alpha=\beta=1$
+\end_inset
+
+, we get the transformed input 
+\begin_inset Formula \begin{align*}
+\bar{\mathbf{F}}=[ & x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},\,1+x+x^{5}+x^{6}+x^{7},x+x^{2}+x^{6}+x^{7}+x^{8},\\
+ & 1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},\, x+x^{3}+x^{5}+x^{6}+x^{7}+x^{8},\, x^{2}+x^{4}+x^{6}+x^{7}+x^{8}+x^{9},\\
+ & x^{3}+x^{5}+x^{7}+x^{8}+x^{9}+x^{10},\,1+x+x^{3}+x^{7},\, x+x^{2}+x^{4}+x^{8},\\
+ & x^{2}+x^{3}+x^{5}+x^{9},\, x^{3}+x^{4}+x^{6}+x^{10},\, x^{4}+x^{5}+x^{7}+x^{11}]\end{align*}
+
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{s}=[0,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2]$
+\end_inset
+
+.
+ The transformation matrix 
+\begin_inset Formula \[
+\mathbf{E}=\left[{\begin{array}{r|rc|rccc|rcccc}
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+\hline 0 & 1 & x & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 1 & x & x^{2} & x^{3} & 0 & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & x & x^{2} & x^{3} & x^{4}\end{array}}\right].\]
+
+\end_inset
+
+ Using the earlier algorithm for balanced shift, we compute a 
+\begin_inset Formula $(\bar{\mathbf{F}},8,\bar{s})$
+\end_inset
+
+-basis 
+\begin_inset Formula \[
+\bar{\mathbf{P}}=\left[{\begin{array}{cccccccccccc}
+0 & ~0~ & ~0~ & ~0~ & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+\hline ~x~ & 1 & 0 & 0 & 1 & 0 & ~x~ & 0 & 0 & 0 & ~x~ & ~0~\\
+0 & 0 & 1 & 0 & 0 & ~x~ & 1+~x~ & ~x~ & ~x~ & ~x~ & 1 & 0\\
+\hline ~x~ & 1 & 0 & 1 & 1+x & 1 & ~x~ & 0 & 0 & 0 & 0 & 1\\
+~x~ & 0 & 1 & 1 & 1+x & 1+x & 1 & ~x~ & ~x~ & 0 & 0 & 0\\
+~x~ & 0 & 0 & 1 & 1+x & 1+x & 1 & ~x~ & 0 & 1 & 0 & 0\\
+~x~ & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 1 & ~x~ & 1 & 0 & 0 & 0 & 0 & 0 & 1\\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & ~x~ & 1 & 1 & 1 & 1 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\end{array}}\right]\]
+
+\end_inset
+
+ with 
+\begin_inset Formula $\bar{s}$
+\end_inset
+
+-degrees 
+\begin_inset Formula $[-1,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0]$
+\end_inset
+
+.
+ Only the last column has 
+\begin_inset Formula $\bar{s}$
+\end_inset
+
+-degree exceeding 
+\begin_inset Formula $-\alpha=-1$
+\end_inset
+
+.
+ So the last the column is the only column guaranteed to give a correct
+ 
+\begin_inset Formula $(\mathbf{F},8,\vec{s})$
+\end_inset
+
+-basis.
+ Comparing 
+\begin_inset Formula \[
+\mathbf{E}\bar{\mathbf{P}}=\left[{\begin{array}{ccccccccccrr}
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+x & 1 & x & 0 & 1 & x^{2} & x^{2} & x^{2} & x^{2} & x^{2} & 0 & 0\\
+x+x^{2}+x^{3}+x^{4} & 1 & x & 1+x+x^{2}+x^{3} & 1 & 1+x+x^{3} & x^{2} & x^{2} & x^{2} & x^{2} & 0 & 1\\
+0 & x & x^{2} & 1+x^{3}+x^{4} & x & 1+x^{4} & x^{3} & x^{3} & x^{3} & x^{3} & 0 & 1\end{array}}\right]\]
+
+\end_inset
+
+ to a 
+\begin_inset Formula $(\mathbf{F},8,\vec{s})$
+\end_inset
+
+-basis 
+\begin_inset Formula \[
+\mathbf{P}=\left[{\begin{array}{cccr}
+0 & 0 & 0 & 1\\
+1 & 0 & 0 & 0\\
+1 & x^{2}+x^{3}+x^{4} & 1+x+x^{2}+x^{3} & 1\\
+x & x^{2} & 1+x^{3}+x^{4} & 1\end{array}}\right]\]
+
+\end_inset
+
+ with 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degrees 
+\begin_inset Formula $[-3,-1,-2,0]$
+\end_inset
+
+, notice that the last column of 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}$
+\end_inset
+
+ is a element of a 
+\begin_inset Formula $(\mathbf{F},8,\vec{s})$
+\end_inset
+
+-basis.
+\end_layout
+
+\begin_layout Example
+If we set 
+\begin_inset Formula $\alpha=2,\beta=1$
+\end_inset
+
+, then the new transformed problem gives 
+\begin_inset Formula \[
+\bar{\mathbf{P}}=\left[{\begin{array}{ccccccccc}
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+1 & 0 & 0 & x & 1+x & x & x & \, x\, & \,0\,\\
+1 & x^{2} & 1 & x & 1 & x & \, x\, & 0 & 1\\
+0 & x^{2} & 1 & \, x\, & 1 & \, x\, & 0 & 1 & 0\\
+0 & x^{2} & 1+x & 1 & 0 & 1 & 0 & 0 & 0\\
+0 & x^{2} & 1 & 0 & \, x\, & 0 & 0 & 0 & 1\\
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+\,0\, & \,0\, & \, x\, & 1+x & 1 & 1 & 1 & 1 & 0\\
+0 & 0 & x & 1 & 0 & 0 & 0 & 0 & 0\end{array}}\right]\]
+
+\end_inset
+
+ with 
+\begin_inset Formula $\bar{s}$
+\end_inset
+
+-degrees 
+\begin_inset Formula $[-3,-1,-2,-2,-2,-2,-2,-2,0]$
+\end_inset
+
+.
+ Now the second column also has 
+\begin_inset Formula $\bar{s}$
+\end_inset
+
+-degree exceeding 
+\begin_inset Formula $-\alpha=-2$
+\end_inset
+
+, so guaranteed to produce another element of a 
+\begin_inset Formula $(\mathbf{F},8,\vec{s})$
+\end_inset
+
+-basis.
+ Computing 
+\begin_inset Formula \[
+\mathbf{E}\bar{\mathbf{P}}=\left[{\begin{array}{ccccccccr}
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+1 & 0 & 0 & x & 1+x & x & x & x & 0\\
+1 & x^{2}+x^{3}+x^{4} & 1+x+x^{2}+x^{3} & x & 1+x & x & x & x & 1\\
+x & x^{2} & 1+x^{3}+x^{4} & x^{2} & x+x^{2} & x^{2} & x^{2} & x^{2} & 1\end{array}}\right],\]
+
+\end_inset
+
+ and notice the second column is indeed an element of a 
+\begin_inset Formula $(\mathbf{F},8,\vec{s})$
+\end_inset
+
+-basis.
+ 
+\end_layout
+
+\begin_layout Standard
+We now work towards establishing the correspondence between the high degree
+ columns of a 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$
+\end_inset
+
+-basis with 
+\begin_inset Formula $\bar{s}$
+\end_inset
+
+-degrees exceeds 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+ and that of a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis with 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degrees exceeds 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+.
+ We first develop some intermediate results.
+\end_layout
+
+\begin_layout Standard
+Set 
+\begin_inset Formula \[
+\mathbf{A}_{i}=\begin{bmatrix}~~x^{r_{i}}\\
+-1 & ~~x^{\beta}\\
+ & -1 & \ddots\\
+ &  & \ddots & ~~x^{\beta}\\
+ &  &  & -1\end{bmatrix}_{q_{i}\times(q_{i}-1)}\mbox{ and }\mathbf{A}=\left[\begin{array}{ccc}
+\mathbf{A}_{1}\\
+ & \ddots\\
+ &  & \mathbf{A}_{n}\end{array}\right]_{\bar{n}\times(\bar{n}-n)}.\]
+
+\end_inset
+
+ If 
+\begin_inset Formula $q_{i}=1$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{A}_{i}$
+\end_inset
+
+ has dimension 
+\begin_inset Formula $1\times0$
+\end_inset
+
+, which just adds a zero row and no column in 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We now show that for any 
+\begin_inset Formula $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $
+\end_inset
+
+, 
+\begin_inset Formula $\bar{\mathbf{w}}$
+\end_inset
+
+ can be column reduced by 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ to one of the two forms that correspond to the original problem and transformed
+ problem.
+ We then use unimodular equivalence of these two forms to show the equivalence
+ between the high degree part of the result from the transformed problem
+ and that of the original problem.
+ 
+\end_layout
+
+\begin_layout Lemma
+Let 
+\begin_inset Formula \[
+\bar{\mathbf{w}}=\begin{bmatrix}\bar{\mathbf{w}}_{1}\\
+\vdots\\
+\bar{\mathbf{w}}_{n}\end{bmatrix}\in\langle(\bar{\mathbf{F}},\sigma,\bar{s})\rangle\mbox{ with }\bar{\mathbf{w}}_{i}=\begin{bmatrix}\bar{w}_{i,0}\\
+\vdots\\
+\bar{w}_{i,q_{i}-1}\end{bmatrix}_{q_{i}\times1}.\]
+
+\end_inset
+
+ Then there exists a 
+\begin_inset Formula $\mathbf{u}\in\mathbb{K}\left[x\right]^{\left(\bar{n}-n\right)\times1}$
+\end_inset
+
+ such that 
+\begin_inset Formula $\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}$
+\end_inset
+
+ is one of the following two forms.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+(a)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ The first form is 
+\shape up
+
+\begin_inset Formula \[
+\mathbf{w}^{[1]}=\begin{bmatrix}\mathbf{w}_{1}^{[1]}\\
+\vdots\\
+\mathbf{w}_{n}^{[1]}\end{bmatrix}\mbox{ with }\mathbf{w}_{i}^{[1]}=\begin{bmatrix}w_{i}\\
+0\\
+\vdots\\
+0\end{bmatrix}_{q_{i}\times1},\]
+
+\end_inset
+
+ 
+\shape default
+ where 
+\shape up
+
+\begin_inset Formula $w_{i}=\bar{w}_{i,0}+\bar{w}_{i,1}x^{r_{i}}+\bar{w}_{i,2}x^{r_{i}+\beta}+\cdots+\bar{w}_{i,q_{i}-1}x^{r_{i}+(q_{i}-2)\beta}$
+\end_inset
+
+.
+
+\shape default
+ 
+\end_layout
+
+\begin_layout Description
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+(b)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ Let 
+\begin_inset Formula \[
+t_{i,j}=\begin{cases}
+r_{i} & \mbox{if }j=0\\
+\beta & \mbox{if }j\in\{1,\dots,q_{i}-2\}\end{cases}.\]
+
+\end_inset
+
+ Then the second form is 
+\begin_inset Formula \[
+\mathbf{w}^{[2]}=\begin{bmatrix}\mathbf{w}_{1}^{[2]}\\
+\vdots\\
+\mathbf{w}_{n}^{[2]}\end{bmatrix}\mbox{ with }\mathbf{w}_{i}^{[2]}=\begin{bmatrix}w_{i,0}\\
+\vdots\\
+w_{i,q_{i}-1}\end{bmatrix},\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\deg w_{i,j}<t_{i,j}\le\beta$
+\end_inset
+
+ unless 
+\begin_inset Formula $j=q_{i}-1$
+\end_inset
+
+.
+ Note that there is no degree restriction placed on 
+\begin_inset Formula $w_{i,q_{i}-1}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+The first form is obtained by setting 
+\begin_inset Formula \[
+\mathbf{u}^{[1]}=\begin{bmatrix}\mathbf{u}_{1}^{[1]}\\
+\vdots\\
+\mathbf{u}_{n}^{[1]}\end{bmatrix}\mbox{ with }\mathbf{u}_{i}^{[1]}=\left[\begin{array}{r}
+\bar{w}_{i,1}+\bar{w}_{i,2}x^{\beta}+\bar{w}_{i,3}x^{2\beta}+\cdots+\bar{w}_{i,q_{i}-1}x^{(q_{i}-2)\beta}\\
+\bar{w}_{i,2}+\bar{w}_{i,3}x^{\beta}+\cdots+\bar{w}_{i,q_{i}-1}x^{(q_{i}-3)\beta}\\
+\vdots~~~~~\\
+\bar{w}_{i,q_{i}-1}\end{array}\right].\]
+
+\end_inset
+
+ Then 
+\begin_inset Formula $\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}^{[1]}$
+\end_inset
+
+ gives the first form.
+ Note that 
+\begin_inset Formula $\mathbf{u}_{i}^{[1]}$
+\end_inset
+
+ is empty if 
+\begin_inset Formula $q_{i}=1$
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{\mathbf{w}}_{i}=\mathbf{w}_{i}^{[1]}=[\bar{w}_{i,0}]$
+\end_inset
+
+ is not changed by the transformation.
+\end_layout
+
+\begin_layout Proof
+The second form can be obtained based on the first form.
+ Write 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+ from the first form as 
+\begin_inset Formula \begin{equation}
+w_{i}=w_{i,0}+w_{i,1}x^{r_{i}}+w_{i,2}x^{r_{i}+\beta}+\cdots+w_{i,q_{i}-1}x^{r_{i}+(q_{i}-2)\beta}\label{eq:wiSeparatedForm}\end{equation}
+
+\end_inset
+
+ with 
+\begin_inset Formula $\deg w_{i,j}<t_{i,j}$
+\end_inset
+
+ for 
+\begin_inset Formula $j<q_{i}-1$
+\end_inset
+
+.
+ Note that 
+\begin_inset Formula $w_{i,j}\ne\bar{w}_{i,j}$
+\end_inset
+
+ in general, as 
+\begin_inset Formula $\deg\bar{w}_{i,j}$
+\end_inset
+
+ may not be less than 
+\begin_inset Formula $t_{i,j}$
+\end_inset
+
+.
+ Now set 
+\begin_inset Formula \[
+\mathbf{v}=\begin{bmatrix}\mathbf{v}_{1}\\
+\vdots\\
+\mathbf{v}_{n}\end{bmatrix}\mbox{ with }\mathbf{v}_{i}=\left[\begin{array}{r}
+w_{i,1}+w_{i,2}x^{\beta}+w_{i,3}x^{2\beta}+\cdots+w_{i,q_{i}-1}x^{(q_{i}-2)\beta}\\
+w_{i,2}+w_{i,3}x^{\beta}+\cdots+w_{i,q_{i}-1}x^{(q_{i}-3)\beta}\\
+\vdots~~~~~\\
+w_{i,q_{i}-1}\end{array}\right]\]
+
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{u}^{[2]}=\mathbf{u}^{[1]}-\mathbf{v}$
+\end_inset
+
+, which comes from the unimodular transformation 
+\begin_inset Formula \[
+\left[\bar{\mathbf{w}},\mathbf{A}\right]\left[\begin{array}{cc}
+1\\
+\mathbf{\mathbf{u}}^{[1]} & \mathbf{I}\end{array}\right]\begin{bmatrix}1\\
+-\mathbf{v} & \mathbf{I}\end{bmatrix}=\left[\bar{\mathbf{w}},\mathbf{A}\right]\begin{bmatrix}1\\
+\mathbf{u}^{[1]}-\mathbf{v} & \mathbf{I}\end{bmatrix}.\]
+
+\end_inset
+
+ Then 
+\begin_inset Formula $\mathbf{w}^{[2]}=\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}^{[2]}$
+\end_inset
+
+ is in the second form.
+ Again note that 
+\begin_inset Formula $\mathbf{v}_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{u}_{i}^{[2]}$
+\end_inset
+
+ are empty if 
+\begin_inset Formula $q_{i}=1$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{w}_{i}^{[2]}=\bar{\mathbf{w}}_{i}=[\bar{w}_{i,0}]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:degreeCorrespondence"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{w}^{[2]}$
+\end_inset
+
+ be its the second form.
+ If 
+\begin_inset Formula $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}>-\alpha$
+\end_inset
+
+ or 
+\begin_inset Formula $\deg_{\bar{s}}\mathbf{w}^{[2]}>-\alpha$
+\end_inset
+
+, then 
+\begin_inset Formula $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}=\deg_{\bar{s}}\mathbf{w}^{[2]}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Proof
+Consider the 
+\begin_inset Formula $i$
+\end_inset
+
+th entry 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{w}}$
+\end_inset
+
+ and its corresponding entries 
+\begin_inset Formula $\mathbf{w}_{i}^{[2]}=\left[w_{i,0},\dots,w_{i,q_{i}-1}\right]^{T}$
+\end_inset
+
+ in 
+\begin_inset Formula $\mathbf{w}^{[2]}$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $q_{i}=1$
+\end_inset
+
+, then 
+\begin_inset Formula $w_{i}=w_{i,0}$
+\end_inset
+
+ and the corresponding shifts 
+\begin_inset Formula $s_{i}=\bar{s}_{\ell(i)}$
+\end_inset
+
+, where 
+\begin_inset Formula $\ell(i)=\sum_{k=1}^{i}q_{k}$
+\end_inset
+
+.
+ Hence 
+\begin_inset Formula $\deg w_{i}+s_{i}=\deg w_{i,0}+\bar{s}_{\ell(i)}$
+\end_inset
+
+.
+ Thus we only need to consider 
+\begin_inset Formula $q_{i}>1$
+\end_inset
+
+.
+ Write 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+ as in Equation 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "eq:wiSeparatedForm"
+
+\end_inset
+
+.
+ Note that 
+\begin_inset Formula $\deg w_{i,q_{i}-1}=\deg w_{i}-r_{i}-\beta\left(q_{i}-2\right)$
+\end_inset
+
+ and hence 
+\begin_inset Formula $\deg w_{i,q_{i}-1}-\alpha-\beta=\deg w_{i}-r_{i}-\alpha-\beta\left(q_{i}-1\right)$
+\end_inset
+
+, that is, 
+\begin_inset Formula $\deg w_{i,q_{i}-1}+\bar{s}_{\ell(i)}=\deg w_{i}+s_{i}$
+\end_inset
+
+.
+ It follows that 
+\begin_inset Formula \begin{eqnarray*}
+\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}} & = & \max_{i}(\deg w_{i}+s_{i})=\max_{i}(\deg w_{i,q_{i}-1}+\bar{s}_{\ell(i)})\\
+ & \le & \max_{i,j}\left(\deg w_{i,j}+\bar{s}_{\ell(i-1)+j+1}\right)=\deg_{\bar{s}}\mathbf{w}^{[2]}.\end{eqnarray*}
+
+\end_inset
+
+ The only possible indices 
+\begin_inset Formula $j$
+\end_inset
+
+ where the inequality can be strict occur when 
+\begin_inset Formula $j<q_{i}-1$
+\end_inset
+
+.
+ But since 
+\begin_inset Formula $\deg w_{i,j}<\beta$
+\end_inset
+
+ for all 
+\begin_inset Formula $j<q_{i}-1$
+\end_inset
+
+, which implies 
+\begin_inset Formula $\deg w_{i,j}+\bar{s}_{\ell(i-1)+j+1}=\deg w_{i,j}-\alpha-\beta<-\alpha$
+\end_inset
+
+, it follows that the entries at these indices 
+\begin_inset Formula $j$
+\end_inset
+
+ do not contribute to 
+\begin_inset Formula $\deg_{\bar{s}}\mathbf{w}^{[2]}$
+\end_inset
+
+ when 
+\begin_inset Formula $\deg_{\bar{s}}\mathbf{w}^{[2]}>-\alpha$
+\end_inset
+
+ or 
+\begin_inset Formula $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}=\max_{i}(\deg w_{i,q_{i}-1}+\bar{s}_{\ell(i)})>-\alpha$
+\end_inset
+
+.
+ In other words, if one of them exceeds 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+, then 
+\begin_inset Formula $\deg_{\bar{s}}\mathbf{w}^{[2]}$
+\end_inset
+
+ and 
+\begin_inset Formula $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}$
+\end_inset
+
+ are determined only by entries at indices 
+\begin_inset Formula $j=q_{i}-1$
+\end_inset
+
+, but the equality always hold for these entries.
+ 
+\end_layout
+
+\begin_layout Remark
+Notice that the first form 
+\begin_inset Formula $\mathbf{w}^{\left[1\right]}$
+\end_inset
+
+ of 
+\begin_inset Formula $\bar{\mathbf{w}}$
+\end_inset
+
+ has nonzero entries only at indices 
+\begin_inset Formula $I=[1,q_{1}+1,\dots,\sum_{k=1}^{n-1}q_{k}+1]$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ be a 
+\begin_inset Formula $\bar{n}\times n$
+\end_inset
+
+ matrix with 
+\begin_inset Formula $1$
+\end_inset
+
+'s at position 
+\begin_inset Formula $(\sum_{k=1}^{n-1}q_{k}+1,i)$
+\end_inset
+
+ and 0's everywhere else.
+ Then the first form 
+\shape up
+ 
+\begin_inset Formula $\mathbf{w}^{[1]}=\mathbf{B}\mathbf{E}\bar{\mathbf{w}}$
+\end_inset
+
+.
+
+\shape default
+ Hence 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:degreeCorrespondence"
+
+\end_inset
+
+ provides the degree correspondence between the degrees of the first form
+ 
+\begin_inset Formula $\mathbf{B}\mathbf{E}\bar{\mathbf{w}}$
+\end_inset
+
+, which is just 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{w}}$
+\end_inset
+
+ with zero rows added, and the second form 
+\begin_inset Formula $\bar{\mathbf{w}}^{[2]}$
+\end_inset
+
+ of 
+\begin_inset Formula $\bar{\mathbf{w}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:degreeCorrespondence"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{w}^{[2]}$
+\end_inset
+
+ be its the second form.
+ Then 
+\begin_inset Formula $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}>-\alpha$
+\end_inset
+
+ if and only if 
+\begin_inset Formula $\deg_{\bar{s}}\mathbf{w}^{[2]}>-\alpha$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+The proof follows directly from 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:degreeCorrespondence"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:degEwLessEqDegw"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}\le\deg_{\bar{s}}\bar{\mathbf{w}}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Proof
+As in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:degreeCorrespondence"
+
+\end_inset
+
+, consider the 
+\begin_inset Formula $i$
+\end_inset
+
+th entry 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{w}}$
+\end_inset
+
+ and the corresponding entries 
+\begin_inset Formula $\bar{\mathbf{w}}_{i}=\left[\bar{w}_{i,0},\dots,\bar{w}_{i,q_{i}-1}\right]^{T}$
+\end_inset
+
+ in 
+\begin_inset Formula $\bar{\mathbf{w}}$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $q_{i}=1$
+\end_inset
+
+, then 
+\begin_inset Formula $\deg w_{i}+s_{i}=\deg w_{i,0}+\bar{s}_{\ell(i)}$
+\end_inset
+
+ as before.
+ Thus we just need to consider the case 
+\begin_inset Formula $q_{i}>1$
+\end_inset
+
+, where the shifts for 
+\begin_inset Formula $\bar{\mathbf{w}}_{i}$
+\end_inset
+
+ are 
+\begin_inset Formula $-\alpha-\beta$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $w_{i}=\bar{w}_{i,0}+\bar{w}_{i,1}x^{r_{i}}+\bar{w}_{i,2}x^{r_{i}+\beta}+\cdots+\bar{w}_{i,q_{i}-1}x^{r_{i}+(q_{i}-2)\beta},$
+\end_inset
+
+ we get 
+\begin_inset Formula \[
+\deg w_{i}=\max\left\{ \deg\bar{w}_{i,0},\deg\bar{w}_{i,1}+r_{i},\deg\bar{w}_{i,2}+r_{i}+\beta,\dots,\deg\bar{w}_{i,q_{i}-2}+r_{i}+(q_{i}-2)\beta\right\} .\]
+
+\end_inset
+
+ Then 
+\begin_inset Formula \begin{eqnarray*}
+ &  & \deg w_{i}+s_{i}\\
+ & = & \deg w_{i}-r_{i}-\alpha-\beta(q_{i}-1)\\
+ & = & \max\left\{ \deg\bar{w}_{i,0}-r_{i}-\alpha-\beta(q_{i}-1),\deg\bar{w}_{i,1}-\alpha-\beta(q_{i}-1),\dots,\deg\bar{w}_{i,q_{i}-2}-\alpha-\beta\right\} \\
+ & \le & \max\left\{ \deg\bar{w}_{i,0}-\alpha-\beta,\deg\bar{w}_{i,1}-\alpha-\beta,\dots,\deg\bar{w}_{i,q_{i}-2}-\alpha-\beta\right\} ,\end{eqnarray*}
+
+\end_inset
+
+ and so 
+\begin_inset Formula $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}\le\deg_{\bar{s}}\bar{\mathbf{w}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:P2Degree"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bar{\mathbf{P}}=[\bar{\mathbf{P}}_{1},\bar{\mathbf{P}}_{2}]$
+\end_inset
+
+ be a 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$
+\end_inset
+
+-basis, where 
+\begin_inset Formula $\deg_{\bar{s}}\bar{\mathbf{P}}_{1}\le-\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\deg_{\bar{s}}\bar{\mathbf{P}}_{2}>-\alpha$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\bar{\mathbf{P}}_{2}^{[2]}$
+\end_inset
+
+ be the second form of 
+\begin_inset Formula $\bar{\mathbf{P}}_{2}$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $\deg_{\bar{s}}\bar{\mathbf{P}}_{2}=\deg_{\bar{s}}\bar{\mathbf{P}}_{2}^{[2]}=\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{P}}_{2}$
+\end_inset
+
+.
+ Hence 
+\begin_inset Formula $[\bar{\mathbf{P}}_{1},\bar{\mathbf{P}}_{2}^{[2]}]$
+\end_inset
+
+ is also a 
+\begin_inset Formula $(\bar{\mathbf{F}},\sigma,\bar{s})$
+\end_inset
+
+-basis.
+\end_layout
+
+\begin_layout Proof
+Since any column 
+\begin_inset Formula $\bar{\mathbf{p}}$
+\end_inset
+
+ of 
+\begin_inset Formula $\bar{\mathbf{P}}_{2}$
+\end_inset
+
+ satisfies 
+\begin_inset Formula $\deg_{\bar{s}}\bar{\mathbf{p}}>-\alpha,$
+\end_inset
+
+ from 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:degreeCorrespondence"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:degEwLessEqDegw"
+
+\end_inset
+
+, we get 
+\begin_inset Formula \[
+\deg_{\bar{s}}\bar{\mathbf{p}}^{[2]}=\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{p}}\le\deg_{\bar{s}}\bar{\mathbf{p}}.\]
+
+\end_inset
+
+ The inequality is in fact an equality, since otherwise, 
+\begin_inset Formula $\bar{\mathbf{p}}$
+\end_inset
+
+ in 
+\begin_inset Formula $\bar{\mathbf{P}}$
+\end_inset
+
+ can be replaced by 
+\begin_inset Formula $\bar{\mathbf{p}}^{[2]}$
+\end_inset
+
+ to get a basis of lower degree, contradicting the minimality of 
+\begin_inset Formula $\bar{\mathbf{P}}$
+\end_inset
+
+.
+ Note that 
+\begin_inset Formula $\bar{\mathbf{P}}$
+\end_inset
+
+ with its column 
+\begin_inset Formula $\bar{\mathbf{p}}$
+\end_inset
+
+ replaced by 
+\begin_inset Formula $\bar{\mathbf{p}}^{[2]}$
+\end_inset
+
+ remains to be a 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$
+\end_inset
+
+-basis, since 
+\begin_inset Formula $\bar{\mathbf{p}}^{[2]}=\bar{\mathbf{p}}+\mathbf{A}\mathbf{u}$
+\end_inset
+
+ involves column operations with only columns in 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}$
+\end_inset
+
+ as 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ has 
+\begin_inset Formula $\bar{s}$
+\end_inset
+
+-degrees bounded by 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+ and hence is generated by 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:PtoBPA"
+
+\end_inset
+
+If 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis, then 
+\begin_inset Formula $\left[\mathbf{B}\mathbf{P},\mathbf{A}\right]$
+\end_inset
+
+ is a basis for 
+\begin_inset Formula $\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Any 
+\begin_inset Formula $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $
+\end_inset
+
+ can be transformed by 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ to the first form 
+\begin_inset Formula \[
+\mathbf{w}^{[1]}=\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}^{[1]}=\mathbf{B}\mathbf{E}\bar{\mathbf{w}},\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{w}}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+\end_inset
+
+ is generated by 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+.
+ That is, 
+\begin_inset Formula \[
+\bar{\mathbf{w}}=\mathbf{w}^{[1]}-\mathbf{A}\mathbf{u}^{[1]}=\mathbf{B}\mathbf{E}\bar{\mathbf{w}}-\mathbf{A}\mathbf{u}^{[1]}=\mathbf{B}\mathbf{P}\mathbf{v}-\mathbf{A}\mathbf{u}^{[1]}=\left[\mathbf{B}\mathbf{P},\mathbf{A}\right][\mathbf{v},-\mathbf{u}^{[1]}]^{T}.\]
+
+\end_inset
+
+ One can also see that the columns of 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ and the columns of 
+\begin_inset Formula $\mathbf{B}\mathbf{P}$
+\end_inset
+
+ are linearly independent, as each zero row of 
+\begin_inset Formula $\mathbf{B}\mathbf{P}$
+\end_inset
+
+ is occupied by a 
+\begin_inset Formula $-1$
+\end_inset
+
+ from a column of 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Lemma
+If 
+\begin_inset Formula $\mathbf{P}_{1}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$
+\end_inset
+
+-basis , then 
+\begin_inset Formula $\left[\mathbf{B}\mathbf{P}_{1},\mathbf{A}\right]$
+\end_inset
+
+ is a basis for 
+\begin_inset Formula $\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle _{-\alpha}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We know that if 
+\begin_inset Formula $\bar{\mathbf{w}}$
+\end_inset
+
+ has order 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma\right)$
+\end_inset
+
+ then 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{w}}$
+\end_inset
+
+ has order 
+\begin_inset Formula $\left(\vec{\mathbf{F}},\sigma\right)$
+\end_inset
+
+.
+ Also if 
+\begin_inset Formula $\deg_{\bar{s}}\bar{\mathbf{w}}\le-\alpha$
+\end_inset
+
+, then 
+\begin_inset Formula $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}\le-\alpha$
+\end_inset
+
+ by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:degEwLessEqDegw"
+
+\end_inset
+
+.
+ Therefore, if 
+\begin_inset Formula $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle _{-\alpha}$
+\end_inset
+
+ , then 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{w}}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{-\alpha}$
+\end_inset
+
+.
+ Now apply the same procedure as in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:PtoBPA"
+
+\end_inset
+
+, we get 
+\begin_inset Formula $\bar{\mathbf{w}}=\mathbf{w}^{[1]}-\mathbf{A}\mathbf{u}^{[1]}=\mathbf{B}\mathbf{E}\bar{\mathbf{w}}-\mathbf{A}\mathbf{u}^{[1]}=\mathbf{B}\mathbf{P}_{1}\mathbf{v}-\mathbf{A}\mathbf{u}^{[1]}=\left[\mathbf{B}\mathbf{P}_{1},\mathbf{A}\right][\mathbf{v},-\mathbf{u}^{[1]}]^{T}.$
+\end_inset
+
+ Also as before, the columns of 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ and the columns of 
+\begin_inset Formula $\mathbf{B}\mathbf{P}_{1}$
+\end_inset
+
+ are linearly independent.
+ 
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:EPgeneration"
+
+\end_inset
+
+If 
+\begin_inset Formula $\bar{\mathbf{P}}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$
+\end_inset
+
+-basis, then 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}$
+\end_inset
+
+ generates 
+\begin_inset Formula $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+\end_inset
+
+.
+ That is, for any 
+\begin_inset Formula $\mathbf{w}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+\end_inset
+
+, there is an 
+\begin_inset Formula $\mathbf{u}\in\mathbb{K}\left[x\right]^{\bar{n}\times1}$
+\end_inset
+
+ such that 
+\begin_inset Formula $\mathbf{w}=\mathbf{E}\bar{\mathbf{P}}\mathbf{u}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+For any 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+, the columns of 
+\begin_inset Formula $\mathbf{B}\mathbf{P}$
+\end_inset
+
+ are in 
+\begin_inset Formula $\langle(\bar{\mathbf{F}},\sigma,\bar{s})\rangle$
+\end_inset
+
+ generated by 
+\begin_inset Formula $\bar{\mathbf{P}}$
+\end_inset
+
+, that is, 
+\begin_inset Formula $\mathbf{B}\mathbf{P}=\bar{\mathbf{P}}\mathbf{U}$
+\end_inset
+
+ for some 
+\begin_inset Formula $\mathbf{U}\in\mathbb{K}[x]^{\bar{n}\times n}$
+\end_inset
+
+.
+ Hence 
+\begin_inset Formula $\mathbf{E}\mathbf{B}\mathbf{P}=\mathbf{P}$
+\end_inset
+
+ is generated by 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}$
+\end_inset
+
+.
+ That is, 
+\begin_inset Formula $\mathbf{P}=\mathbf{E}\bar{\mathbf{P}}\mathbf{U}$
+\end_inset
+
+.
+ Then any 
+\begin_inset Formula $\mathbf{w}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+\end_inset
+
+, which satisfies 
+\begin_inset Formula $\mathbf{w}=\mathbf{P}\mathbf{v}$
+\end_inset
+
+ for some 
+\begin_inset Formula $\mathbf{v}\in\mathbb{K}[x]^{n\times1}$
+\end_inset
+
+, satisfies 
+\begin_inset Formula $\mathbf{w}=\mathbf{E}\bar{\mathbf{P}}\mathbf{U}\mathbf{v}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:EP1generation"
+
+\end_inset
+
+If 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)_{-\alpha}$
+\end_inset
+
+-basis, then 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}_{1}$
+\end_inset
+
+ generates 
+\begin_inset Formula $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{-\alpha}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Proof
+Suppose 
+\begin_inset Formula $\mathbf{P}_{1}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$
+\end_inset
+
+-basis, then the columns of 
+\begin_inset Formula $\mathbf{B}\mathbf{P}_{1}$
+\end_inset
+
+ can be transformed to the second form with 
+\begin_inset Formula $\bar{s}$
+\end_inset
+
+-degrees less than or equal to
+\begin_inset Formula $-\alpha$
+\end_inset
+
+ by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:degreeCorrespondence"
+
+\end_inset
+
+, hence generated by 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}$
+\end_inset
+
+.
+ That is, 
+\begin_inset Formula $\mathbf{B}\mathbf{P}_{1}+\mathbf{A}\mathbf{U}$
+\end_inset
+
+ is generated by 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}$
+\end_inset
+
+.
+ Therefore, 
+\begin_inset Formula $\mathbf{E}(\mathbf{B}\mathbf{P}_{1}+\mathbf{A}\mathbf{U})=\mathbf{E}\mathbf{B}\mathbf{P}_{1}=\mathbf{P}_{1}$
+\end_inset
+
+ is generated by 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}_{1}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are now ready to prove the main result on the correspondence between
+ a high degree part of a basis of the transformed problem and that of the
+ original problem.
+ 
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:correctHighDegreeElements"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bar{\mathbf{P}}=[\bar{\mathbf{P}}_{1},\bar{\mathbf{P}}_{2}]$
+\end_inset
+
+ be a 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$
+\end_inset
+
+-basis, where 
+\begin_inset Formula $\deg_{\bar{s}}\bar{\mathbf{P}}_{1}\le-\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\deg_{\bar{s}}\bar{\mathbf{P}}_{2}>-\alpha$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}_{2}$
+\end_inset
+
+ are the high degree columns of a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis.
+ 
+\end_layout
+
+\begin_layout Proof
+We want to show that 
+\begin_inset Formula $[\mathbf{P}_{1},\mathbf{E}\bar{\mathbf{P}}_{2}]$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis for any 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$
+\end_inset
+
+-basis 
+\begin_inset Formula $\mathbf{P}_{1}$
+\end_inset
+
+.
+ First, 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}$
+\end_inset
+
+ has order 
+\begin_inset Formula $(\mathbf{F},\sigma)$
+\end_inset
+
+ since 
+\begin_inset Formula $\bar{\mathbf{F}}\bar{\mathbf{P}}=\mathbf{F}\mathbf{E}\bar{\mathbf{P}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{\mathbf{P}}$
+\end_inset
+
+ has order 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma\right)$
+\end_inset
+
+.
+ Also, since 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}$
+\end_inset
+
+ generates 
+\begin_inset Formula $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+\end_inset
+
+ by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:EPgeneration"
+
+\end_inset
+
+, and from 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:degreeCorrespondence"
+
+\end_inset
+
+ 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}_{1}$
+\end_inset
+
+ has 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degree bounded by 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+ hence is generated by 
+\begin_inset Formula $\mathbf{P}_{1}$
+\end_inset
+
+, we get 
+\begin_inset Formula $\left[\mathbf{P}_{1},\mathbf{E}\bar{\mathbf{P}}_{2}\right]$
+\end_inset
+
+ generates 
+\begin_inset Formula $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+It only remains to show that the 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degrees of 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}_{2}$
+\end_inset
+
+ are minimal.
+ Suppose not, then 
+\begin_inset Formula $[\mathbf{P}_{1},\mathbf{E}\bar{\mathbf{P}}_{2}]$
+\end_inset
+
+ can be reduced to 
+\begin_inset Formula $[\mathbf{P}_{1},\tilde{\mathbf{P}}_{2}]$
+\end_inset
+
+ where 
+\begin_inset Formula $\tilde{\mathbf{P}}_{2}$
+\end_inset
+
+ has some column having lower 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degree than that of the corresponding column in 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}_{2}$
+\end_inset
+
+.
+ (That is, assuming the columns of 
+\begin_inset Formula $\tilde{\mathbf{P}}_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}_{2}$
+\end_inset
+
+ are in non-decreasing 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degrees order, then we can find the first index 
+\begin_inset Formula $i$
+\end_inset
+
+ where the 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degree of 
+\begin_inset Formula $i$
+\end_inset
+
+th column of 
+\begin_inset Formula $\tilde{\mathbf{P}}_{2}$
+\end_inset
+
+ is lower than the 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degree of the 
+\begin_inset Formula $i$
+\end_inset
+
+th column of 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}_{2}$
+\end_inset
+
+.) It follows that 
+\begin_inset Formula $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\mathbf{E}\bar{\mathbf{P}}_{2}]$
+\end_inset
+
+ can be reduced to 
+\begin_inset Formula $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\tilde{\mathbf{P}}_{2}]$
+\end_inset
+
+ and 
+\begin_inset Formula $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\mathbf{E}\bar{\mathbf{P}}_{2},\mathbf{A}]$
+\end_inset
+
+ can be reduced to 
+\begin_inset Formula $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\tilde{\mathbf{P}}_{2},\mathbf{A}]$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\tilde{\mathbf{P}}_{2},\mathbf{A}]$
+\end_inset
+
+ generates 
+\begin_inset Formula $\langle(\bar{\mathbf{F}},\sigma,\bar{s})\rangle$
+\end_inset
+
+ by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:PtoBPA"
+
+\end_inset
+
+, it can be reduced to 
+\begin_inset Formula $\bar{\mathbf{P}}=[\bar{\mathbf{P}}_{1},\bar{\mathbf{P}}_{2}]$
+\end_inset
+
+.
+ But it can also be reduced to 
+\begin_inset Formula $[\bar{\mathbf{P}}_{1},\tilde{\mathbf{P}}_{2}^{[2]},\mathbf{A}]$
+\end_inset
+
+ with 
+\begin_inset Formula $\tilde{\mathbf{P}}_{2}^{[2]}$
+\end_inset
+
+ the second form of 
+\begin_inset Formula $\mathbf{B}\tilde{\mathbf{P}}_{2}$
+\end_inset
+
+, and to 
+\begin_inset Formula $[\bar{\mathbf{P}}_{1},\tilde{\mathbf{P}}_{2}^{[2]}]$
+\end_inset
+
+ as the columns of 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ are generated by the 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)_{-\alpha}$
+\end_inset
+
+-basis 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+In order to reach a contradiction we just need to show that 
+\begin_inset Formula $\tilde{\mathbf{P}}_{2}^{[2]}$
+\end_inset
+
+ has some column with 
+\begin_inset Formula $\bar{s}$
+\end_inset
+
+-degree less than that of the corresponding column in 
+\begin_inset Formula $\bar{\mathbf{P}}_{2}$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\tilde{\mathbf{w}}$
+\end_inset
+
+ be the first column of 
+\begin_inset Formula $\tilde{\mathbf{P}}_{2}$
+\end_inset
+
+ with 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degree less than that of the corresponding column 
+\begin_inset Formula $\mathbf{w}$
+\end_inset
+
+ in 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}_{2}$
+\end_inset
+
+ and let 
+\begin_inset Formula $\bar{\mathbf{w}}$
+\end_inset
+
+ be the corresponding column in 
+\begin_inset Formula $\bar{\mathbf{P}}_{2}$
+\end_inset
+
+.
+ By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:P2Degree"
+
+\end_inset
+
+ 
+\begin_inset Formula $\deg_{\vec{s}}\mathbf{w}=\deg_{\bar{s}}\bar{\mathbf{w}}$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\tilde{\mathbf{w}}^{[2]}$
+\end_inset
+
+ be the second form of 
+\begin_inset Formula $\mathbf{B}\tilde{\mathbf{w}}$
+\end_inset
+
+, which is a column in 
+\begin_inset Formula $\tilde{\mathbf{P}}_{2}^{[2]}$
+\end_inset
+
+ corresponding to the column 
+\begin_inset Formula $\bar{\mathbf{w}}$
+\end_inset
+
+ in 
+\begin_inset Formula $\bar{\mathbf{P}}_{2}$
+\end_inset
+
+.
+ We know that either 
+\begin_inset Formula $\deg_{\bar{s}}\tilde{\mathbf{w}}^{[2]}\le-\alpha$
+\end_inset
+
+ or 
+\begin_inset Formula $\deg_{\bar{s}}\tilde{\mathbf{w}}^{[2]}=\deg_{\vec{s}}\tilde{\mathbf{w}}$
+\end_inset
+
+ by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:degreeCorrespondence"
+
+\end_inset
+
+, as 
+\begin_inset Formula $\mathbf{E}\tilde{\mathbf{w}}^{[2]}=\mathbf{E}(\mathbf{B}\tilde{\mathbf{w}}+\mathbf{A}\mathbf{u})=\tilde{\mathbf{w}}$
+\end_inset
+
+.
+ In either case, 
+\begin_inset Formula $\deg_{\bar{s}}\tilde{\mathbf{w}}^{[2]}<\deg_{\bar{s}}\bar{\mathbf{w}}$
+\end_inset
+
+, as 
+\begin_inset Formula $\deg_{\bar{s}}\bar{\mathbf{w}}$
+\end_inset
+
+ is greater than both 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\deg_{\vec{s}}\tilde{\mathbf{w}}$
+\end_inset
+
+.
+ Hence we have 
+\begin_inset Formula $[\bar{\mathbf{P}}_{1},\tilde{\mathbf{P}}_{2}^{[2]}]$
+\end_inset
+
+ is another 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$
+\end_inset
+
+-basis with lower 
+\begin_inset Formula $\bar{s}$
+\end_inset
+
+-degrees than 
+\begin_inset Formula $\mathbf{\bar{P}}$
+\end_inset
+
+, contradicting with the minimality of 
+\begin_inset Formula $\bar{\mathbf{P}}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "thm:correctHighDegreeElements"
+
+\end_inset
+
+ essentially tells us that a high degree part of a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis can be determined by computing a 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$
+\end_inset
+
+-basis, something we know can be done efficiently.
+ Notice the parallel between the situation here and in the balanced shift
+ case earlier, where the transformed problem also allows us to compute a
+ partial 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis, albeit a low degree part, in each iteration.
+\end_layout
+
+\begin_layout Standard
+After a 
+\begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$
+\end_inset
+
+-basis, or equivalently a high degree part of a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis, is computed, for the remaining problem of computing the remaining
+ basis elements, we can in fact reduce the dimension of the input 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+ by removing some of its columns corresponding to the high shift entries.
+ 
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:zeroHighShiftEntries"
+
+\end_inset
+
+Suppose without loss of generality the entries of 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+ are in non-decreasing order.
+ Let 
+\begin_inset Formula $I$
+\end_inset
+
+ be the index set containing the indices of entries 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+ in 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+ such that 
+\begin_inset Formula $s_{i}\le-\alpha$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\mathbf{F}_{I}$
+\end_inset
+
+ be the columns of 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+ indexed by 
+\begin_inset Formula $I$
+\end_inset
+
+.
+ Then a 
+\begin_inset Formula $\left(\mathbf{F}_{I},\sigma,\vec{s}\right)_{-\alpha}$
+\end_inset
+
+-basis 
+\series bold
+
+\begin_inset Formula $\mathbf{P}_{1}$
+\end_inset
+
+
+\series default
+ gives a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$
+\end_inset
+
+-basis 
+\begin_inset Formula $\left[\mathbf{P}_{1}^{T},\mathbf{0}\right]^{T}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%The theorem follows from the following claim.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+end{pf}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+begin{claim}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+label{cla:zeroHighShiftEntries}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+For any 
+\begin_inset Formula $\mathbf{p}\in\mathbb{K}\left[x\right]^{n\times1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\deg_{\vec{s}}\mathbf{p}\le-\alpha$
+\end_inset
+
+, note that if the 
+\begin_inset Formula $i$
+\end_inset
+
+th entry of the shift 
+\begin_inset Formula $s_{i}\le-\alpha$
+\end_inset
+
+, then the corresponding entry 
+\begin_inset Formula $p_{i}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathbf{p}$
+\end_inset
+
+ is zero.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+end{claim}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+begin{pf}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Otherwise, if 
+\begin_inset Formula $p_{i}\ne0$
+\end_inset
+
+ then the 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degree of 
+\begin_inset Formula $\mathbf{p}$
+\end_inset
+
+ is at least 
+\begin_inset Formula $s_{i}>-\alpha$
+\end_inset
+
+, contradicting the assumption that the 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degree of 
+\begin_inset Formula $\mathbf{p}$
+\end_inset
+
+ is lower than or equal to 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Thus, these zero entries do not need to be considered in the remaining problem
+ of computing a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$
+\end_inset
+
+-basis.
+ As such the corresponding columns from the input matrix 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+ can be removed.
+\end_layout
+
+\begin_layout Example
+Let us look at 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "exm:unbalancedShift"
+
+\end_inset
+
+ again.
+ When the parameters 
+\begin_inset Formula $\alpha=\beta=1$
+\end_inset
+
+, after computing an element of a 
+\begin_inset Formula $(\mathbf{F},8,\vec{s})$
+\end_inset
+
+-basis with 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degree 
+\begin_inset Formula $0$
+\end_inset
+
+ that exceeds 
+\begin_inset Formula $-\alpha=-1$
+\end_inset
+
+, since the first entry of 
+\begin_inset Formula $\vec{s}=[0,-3,-5,-6]$
+\end_inset
+
+ is 
+\begin_inset Formula $0>-\alpha$
+\end_inset
+
+, by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "thm:zeroHighShiftEntries"
+
+\end_inset
+
+ the first row of any 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{-1}$
+\end_inset
+
+-basis must be zero, as illustrated by the 
+\begin_inset Formula $(\mathbf{F},8,\vec{s})$
+\end_inset
+
+-basis 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+ given in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "exm:unbalancedShift"
+
+\end_inset
+
+.
+ This implies that the first column of 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+ is not needed in the subsequent computation of the remaining basis elements.
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:numberBasisElements"
+
+\end_inset
+
+If the shift 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+ satisfies condition 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "con:unbalancedCondition"
+
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+ is a constant greater than or equal to 
+\begin_inset Formula $1$
+\end_inset
+
+, then a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{-cd}$
+\end_inset
+
+-basis has at most 
+\begin_inset Formula $n/c$
+\end_inset
+
+ basis elements.
+\end_layout
+
+\begin_layout Proof
+Since 
+\begin_inset Formula $d=m\sigma/n\ge-\sum\vec{s}/n$
+\end_inset
+
+ under condition 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "con:unbalancedCondition"
+
+\end_inset
+
+, there cannot be more than 
+\begin_inset Formula $n/c$
+\end_inset
+
+ entries of 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+ less than or equal to 
+\begin_inset Formula $-cd$
+\end_inset
+
+.
+ By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "thm:zeroHighShiftEntries"
+
+\end_inset
+
+, the only possible nonzero rows of a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{-cd}$
+\end_inset
+
+-basis are the ones corresponding to (with the same indices as) the shift
+ entries that are less than or equal to 
+\begin_inset Formula $-cd$
+\end_inset
+
+, hence there cannot be more than 
+\begin_inset Formula $n/c$
+\end_inset
+
+ nonzero rows.
+ Therefore it can have at most 
+\begin_inset Formula $n/c$
+\end_inset
+
+ columns, as the columns are linearly independent.
+ 
+\end_layout
+
+\begin_layout Standard
+We now have a situation similar to that in the balanced shift case.
+ Namely, for each iteration we transform the problem using appropriate parameter
+s 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta$
+\end_inset
+
+ to efficiently compute the basis elements with degrees greater than 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+.
+ Then we can remove columns from the input matrix 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+ corresponding to the shift entries that are greater than 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+.
+ We can then repeat the same process again, with a larger 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta$
+\end_inset
+
+, to compute more basis elements.
+ 
+\end_layout
+
+\begin_layout Theorem
+If the shift 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+ satisfies condition 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "con:unbalancedCondition"
+
+\end_inset
+
+, then a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis can be computed with cost 
+\begin_inset Formula $O^{\sim}\left(n^{\omega-1}m\sigma\right)=O^{\sim}\left(n^{\omega}d\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Proof
+We give the following constructive proof.
+ Initially, we set transformation parameters 
+\begin_inset Formula $\alpha_{1}=\beta_{1}=2d$
+\end_inset
+
+ with 
+\begin_inset Formula $d=m\sigma/n\ge-\sum\vec{s}/n$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "alg:mab"
+
+\end_inset
+
+ works efficiently on the transformed problem as the shift 
+\begin_inset Formula $\bar{s}^{\left(1\right)}$
+\end_inset
+
+ is balanced and the dimension of 
+\begin_inset Formula $\bar{\mathbf{F}}_{1}$
+\end_inset
+
+ remains 
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+.
+ By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "thm:correctHighDegreeElements"
+
+\end_inset
+
+ this gives the basis elements of 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis with 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degree exceeding 
+\begin_inset Formula $-\alpha_{1}=-2d$
+\end_inset
+
+.
+ By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:numberBasisElements"
+
+\end_inset
+
+, the number of basis elements remaining to be computed is at most 
+\begin_inset Formula $n/2$
+\end_inset
+
+, hence the number of elements correctly computed is at least 
+\begin_inset Formula $n/2$
+\end_inset
+
+.
+ By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "thm:zeroHighShiftEntries"
+
+\end_inset
+
+, this also allows us to remove at least half of the columns from the input
+ 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+ and correspondingly at least half of rows from the output for the remaining
+ problem.
+ Thus the new input matrix 
+\begin_inset Formula $\mathbf{F}_{2}$
+\end_inset
+
+ has a new column dimension 
+\begin_inset Formula $n_{2}\le n/2$
+\end_inset
+
+ and the corresponding shift 
+\begin_inset Formula $\vec{s}^{\left(2\right)}$
+\end_inset
+
+ has 
+\begin_inset Formula $n_{2}$
+\end_inset
+
+ entries.
+ The average degree of the new problem is 
+\begin_inset Formula $d_{2}~=~m\sigma/n_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+For the second iteration, we set 
+\begin_inset Formula $\alpha_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta_{2}$
+\end_inset
+
+ to 
+\begin_inset Formula $2d_{2}$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $\alpha_{2}=2m\sigma/n_{2}\ge-2\sum\vec{s}/n_{2}\ge-2\sum\vec{s}^{\left(2\right)}/n_{2}$
+\end_inset
+
+, this allows us to reduce the dimension 
+\begin_inset Formula $n_{3}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathbf{F}_{3}$
+\end_inset
+
+ to at most 
+\begin_inset Formula $n_{2}/2$
+\end_inset
+
+ after finishing computing a 
+\begin_inset Formula $\left(\bar{\mathbf{F}}_{2},\sigma,\bar{s}^{\left(2\right)}\right)_{-\alpha_{1}}$
+\end_inset
+
+-basis.
+ Again, this can be done using 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "alg:mab"
+
+\end_inset
+
+ with a cost of 
+\begin_inset Formula $O^{\sim}\left(n_{2}^{\omega}d_{2}\right)=O^{\sim}\left(n^{\omega}d\right)$
+\end_inset
+
+ as the shift 
+\begin_inset Formula $\bar{a}_{2}$
+\end_inset
+
+ is balanced and the dimension of 
+\begin_inset Formula $\bar{\mathbf{F}}_{2}$
+\end_inset
+
+ is 
+\begin_inset Formula $O\left(n_{2}\right)$
+\end_inset
+
+.
+ Repeating this process, at iteration 
+\begin_inset Formula $i$
+\end_inset
+
+, we set 
+\begin_inset Formula $\alpha_{i}=\beta_{i}=2d_{i}=2m\sigma/n_{i}$
+\end_inset
+
+.
+ The transformed problem has a balanced shift 
+\begin_inset Formula $\bar{a}_{i}$
+\end_inset
+
+ and column dimension 
+\begin_inset Formula $O\left(n_{i}\right)$
+\end_inset
+
+.
+ So a 
+\begin_inset Formula $\left(\bar{\mathbf{F}}_{i},\sigma,\bar{s}^{\left(i\right)}\right)_{-\alpha_{i-1}}$
+\end_inset
+
+-basis can be computed with a cost of 
+\begin_inset Formula \[
+O^{\sim}\left(n_{i}^{\omega}d_{i}\right)=O^{\sim}\left(n_{i}^{\omega-1}m\sigma\right)\subset O^{\sim}\left(n^{\omega-1}m\sigma\right)=O^{\sim}\left(n^{\omega}d\right).\]
+
+\end_inset
+
+ Since 
+\begin_inset Formula \[
+\alpha_{i}=2m\sigma/n_{i}\ge-2\sum\vec{s}/n_{i}\ge-2\sum\vec{s}^{\left(i\right)}/n_{i},\]
+
+\end_inset
+
+ the column dimension 
+\begin_inset Formula $n_{i+1}$
+\end_inset
+
+ of the next problem can again be reduced by a half.
+ After iteration 
+\begin_inset Formula $i$
+\end_inset
+
+, at most 
+\begin_inset Formula $n/2^{i}$
+\end_inset
+
+ 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis elements remain to be computed.
+ We can stop this process when the column dimension 
+\begin_inset Formula $n_{i}$
+\end_inset
+
+ of the input matrix 
+\begin_inset Formula $\mathbf{F}_{i}$
+\end_inset
+
+ reaches the row dimension 
+\begin_inset Formula $m$
+\end_inset
+
+, as an order basis can be efficiently computed in such case.
+ Therefore, a complete 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis can be computed in at most 
+\begin_inset Formula $\log n/m$
+\end_inset
+
+ iterations, so the overall cost is 
+\begin_inset Formula $O^{\sim}\left(n^{\omega}d\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+More precisely, summing up the cost for the balanced case from 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "thm:balancedCost"
+
+\end_inset
+
+ over 
+\begin_inset Formula $\log n/m$
+\end_inset
+
+ iterations, we get the cost of 
+\begin_inset Formula \begin{eqnarray*}
+ &  & O\left(\sum_{i=1}^{\log n/m}\MM\left(n/2^{i},2^{i}d\right)(\log n/2^{i}m+\log2^{i}d)\right)\\
+ &  & \subset O\left(\MM\left(n,d\right)(\log^{2}n/m+\log d\right)\end{eqnarray*}
+
+\end_inset
+
+ field operations.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "algorithm2.lyx"
+
+\end_inset
+
+ Finally, we remark that when the condition 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "con:unbalancedCondition"
+
+\end_inset
+
+ is relaxed to 
+\begin_inset Formula $\sum-\vec{s}\in O\left(m\sigma\right)$
+\end_inset
+
+, so that 
+\begin_inset Formula $\sum-\vec{s}\le cm\sigma$
+\end_inset
+
+ for a constant 
+\begin_inset Formula $c$
+\end_inset
+
+, we can still compute a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis with the same complexity, by setting 
+\begin_inset Formula $\alpha_{i}=\beta_{i}=2cm\sigma/n_{i}$
+\end_inset
+
+ at each iteration 
+\begin_inset Formula $i$
+\end_inset
+
+ and following the same procedure as above.
+ The cost at each iteration 
+\begin_inset Formula $i$
+\end_inset
+
+ remains 
+\begin_inset Formula $O^{\sim}\left(n^{\omega}d\right)$
+\end_inset
+
+, and the entire computation still uses at most 
+\begin_inset Formula $\log n/m$
+\end_inset
+
+ iterations.
+ 
+\end_layout
+
+\end_body
+\end_document

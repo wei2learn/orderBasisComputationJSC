@@ -1,0 +1,41 @@
+%
+\begin{algorithm}
+\caption{$\umab\left(\mathbf{F},\sigma,\vec{s}\right)$ }
+
+
+\label{alg:umab} 
+\begin{algor}
+\item [{{{*}}}] Input: $\mathbf{F}\in K\left[x\right]^{m\times n}$,
+$\sigma\in\mathbb{Z}_{\ge0}$, $\vec{s}$ satisfies condition \eqref{con:unbalancedCondition}.
+\item [{{{*}}}] Output: $\mathbf{P}\in K\left[x\right]^{n\times n}$,
+an $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis.
+\item [{{{*}}}] Uses:
+\item [{{*}}] (a) $\TransformUnbalanced$ : converts an unbalanced shift
+problem to a balanced one using the transformation described in \prettyref{sec:Unbalanced-Shift}.
+Returns transformed input matrix, transformed shift, and transformation
+matrix.
+\item [{{*}}] (b) %{\em OrderBasis} 
+$\mmab$ : computes order basis with balanced shift. 
+\item [{{*}}]~\end{algor}
+\begin{algor}[1]
+\item [{{{*}}}]  $i:=1;$ $\mathbf{P}=[\,]$;
+\item [{{{*}}}] $\mathbf{F}^{\left(i\right)}:=\mathbf{F}$, $\vec{s}^{\left(i\right)}:=\vec{s}$;
+\item [{{while}}] $\columnDimension(\mathbf{P})\ne n$
+\item [{{{*}}}] $d_{i}=\left\lceil m\sigma/\columnDimension(\mathbf{F}^{\left(i\right)})\right\rceil $;
+\item [{{{*}}}] $\alpha_{i}:=\beta_{i}:=2d_{i};$
+\item [{{{*}}}] $\left[\bar{\mathbf{F}}^{\left(i\right)},\bar{s}^{\left(i\right)},\mathbf{E}\right]:=\TransformUnbalanced\left(\mathbf{F}^{\left(i\right)},\vec{s}^{\left(i\right)},\alpha_{i},\beta_{i}\right)$;
+\item [{{{*}}}] $\bar{\mathbf{P}}^{\left(i\right)}:=\mmab\left(\bar{\mathbf{F}}^{\left(i\right)},\sigma,\bar{s}^{\left(i\right)}\right)$;
+\item [{{{*}}}] Set $\mathbf{P}^{\left(i\right)}$ to be the columns
+of $\mathbf{E}\bar{\mathbf{P}}^{\left(i\right)}$ with $\bar{s}_{i}$-column
+degrees above $-\alpha_{i}$ and no more than $-\alpha_{i-1}$;
+\item [{{{*}}}] $\mathbf{P}:=\left[\mathbf{P}^{\left(i\right)},\mathbf{P}\right]$;
+\item [{{{*}}}] Set $I$ as index set with $i$ satisfying $s_{i}\le-\alpha_{i}$;
+\item [{{{*}}}] $\mathbf{F}^{\left(i+1\right)}:=\mathbf{F}_{I}^{\left(i\right)}$,
+$\vec{s}^{\left(i+1\right)}:=\vec{s}_{I}^{\left(i\right)}$;
+\item [{{{*}}}] $i:=i+1$;
+\item [{{endwhile}}] ~
+\item [{{{*}}}] return $\mathbf{P}$ ; 
+\end{algor}
+
+\end{algorithm}
+

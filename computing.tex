@@ -1,0 +1,259 @@
+
+\section{Computation of Order Bases}
+
+\label{sec:Order-Basis-Computation}
+
+In this section, we establish a link between two different Storjohann
+transformed problems by dividing the transformed problem from the
+previous section to two subproblems and then simplifying the second
+subproblem. This leads to a recursive way of computing order bases.
+We then describe our algorithm in the equivalent iterative way.
+
+
+\subsection{\label{sub:Dividing-to-Subproblems}Dividing to Subproblems }
+
+\prettyref{sec:transform} shows that the problem of computing a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+can be converted to the problem of computing a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+and more generally, computing a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis,
+a Storjohann transformed problem with degree parameter $\delta^{\left(i\right)}$,
+can be converted to a $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$-basis
+computation problem. We now consider dividing the new converted problem
+to two subproblems.
+
+The first subproblem is to compute a $(\check{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
+or equivalently a $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
+$\bar{\mathbf{P}}^{\left(i-1\right)}$. This is another Storjohann
+transformed problem with degree parameter $\delta^{\left(i-1\right)}$.
+The second subproblem is computing a $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis
+$\bar{\mathbf{Q}}^{\left(i\right)}$ using the residual $\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+from the first subproblem along with a degree shift $\vec{t}^{\left(i-1\right)}=\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}^{\left(i-1\right)}$.
+From Theorem 5.1 in \citep{BL1997} we then know that the product
+$\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$
+is a $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$-basis
+and $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}=\deg_{\vec{t}^{\left(i-1\right)}}\bar{\mathbf{Q}}^{\left(i\right)}$. 
+\begin{exmp}
+\label{exm:subproblems} Let us continue with \prettyref{exm:StorjohannTransformation}
+and \prettyref{exm:auxiliaryTransformation} to compute a $\left(\mathbf{F},8,\vec{0}\right)$-basis
+( or equivalently a $(\bar{\mathbf{F}}^{\left(2\right)},8,\vec{0})$-basis).
+This can be determined by computing a $(\check{\mathbf{F}}^{\left(2\right)},[8,4,4],\vec{0})$-basis
+as shown in \prettyref{exm:auxiliaryTransformation} with $\check{\mathbf{F}}^{\left(2\right)}=\check{\mathbf{F}}$
+from \prettyref{exm:auxiliaryTransformation}. Computing a $(\check{\mathbf{F}}^{\left(2\right)},[8,4,4],\vec{0})$-basis
+can be divided to two subproblems. The first subproblem is computing
+a $(\bar{\mathbf{F}}^{\left(1\right)},4,\vec{0})$-basis $\bar{\mathbf{P}}^{\left(1\right)}$,
+the Storjohann partial linearized problem in \prettyref{exm:StorjohannTransformation}.
+The residual \[
+\check{\mathbf{F}}^{(2)}\bar{\mathbf{P}}^{(1)}=\left[{\begin{array}{rccccc}
+0 & x^{8} & x^{6}+x^{9} & x^{4}+x^{6}+x^{9} & x^{6}+x^{8}+x^{9}+x^{10} & x^{5}+x^{8}\\
+0 & 0 & x^{5} & x^{4}+x^{6} & x^{4}+x^{6} & x^{5}+x^{6}\\
+0 & x^{4} & x^{5} & x^{5} & x^{4}+x^{5}+x^{6} & x^{4}\end{array}}\right]\]
+ is then used as the input matrix for the second subproblem. The shift
+for the second subprobem $\vec{t}^{(1)}=[0,1,2,3,3,3]$ is the list
+of column degrees of $\bar{\mathbf{P}}^{(1)}$ and so the second subproblem
+is to compute a $(\check{\mathbf{F}}^{(2)}\bar{\mathbf{P}}^{(1)},\left[8,4,4\right],[0,1,2,3,3,3])$-basis,
+which is \begin{equation}
+\bar{\mathbf{Q}}^{(2)}=\left[{\begin{array}{cccccc}
+~1~ & ~0~ & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & ~x^{2}~ & ~x~ & ~1~\\
+0 & 0 & 0 & 0 & x & 0\\
+0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 1 & ~x~\end{array}}\right],\label{eq:Qbar2}\end{equation}
+ $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$ then gives the $(\check{\mathbf{F}}^{\left(2\right)},[8,4,4],\vec{0})$-basis
+shown in \prettyref{exm:auxiliaryTransformation}. 
+\end{exmp}
+We now show that the dimension of the second subproblem can be significantly
+reduced. First, the row dimension can be reduced by over a half. Let
+$\hat{\mathbf{P}}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$. 
+\begin{lem}
+\label{lem:simplifySecondSubproblem}A $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis
+is a $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis.\end{lem}
+\begin{pf}
+This follows because $\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)}$
+is a submatrix of $\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+after removing rows already having the correct order $2\delta^{\left(i-1\right)}$. 
+\end{pf}
+The column dimension of the second subproblem can be reduced by disregarding
+the $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i-1\right)}-1}$-basis
+already computed. More specifically, after sorting the columns of
+$\bar{\mathbf{P}}^{\left(i-1\right)}$ in an increasing order of their
+$\vec{s}^{\left(i-1\right)}$-degrees, let $[\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{P}}_{2}^{\left(i-1\right)}]=\bar{\mathbf{P}}^{\left(i-1\right)}$
+be such that $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{1}^{\left(i-1\right)}\le\delta^{\left(i-1\right)}-1$
+and $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}\ge\delta^{\left(i-1\right)}$.
+Then $\hat{\mathbf{P}}_{1}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
+is a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i-1\right)}-1}$-basis
+by \prettyref{lem:linkStorjohanTransform}. In the second subproblem,
+the remaining basis elements of a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis
+can then be computed without $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$.
+
+Let $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}$,
+$\vec{b}^{\left(i-1\right)}=\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}$,
+$\bar{\mathbf{Q}}_{2}^{\left(i\right)}$ be a $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis
+(or equivalently a $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis),
+and $k^{\left(i-1\right)}$ be the column dimension of $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$.
+Then 
+\begin{lem}
+\label{lem:disregardComputedBasisElements} The matrix \[
+\bar{\mathbf{Q}}^{\left(i\right)}=\left[\begin{array}{cc}
+\mathbf{I}_{k^{\left(i-1\right)}}\\
+ & \bar{\mathbf{Q}}_{2}^{\left(i\right)}\end{array}\right]\]
+ is a $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis
+(equivalently a $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis).\end{lem}
+\begin{pf}
+First note that $\bar{\mathbf{Q}}^{\left(i\right)}$ has order $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)})$
+as \[
+\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}=[\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]\equiv0\mod x^{2\delta^{\left(i\right)}}.\]
+ In addition, $\bar{\mathbf{Q}}^{\left(i\right)}$ has minimal $\vec{t}^{\left(i-1\right)}$
+degrees as $\bar{\mathbf{Q}}_{2}^{\left(i\right)}$ is $\vec{b}$-minimal.
+Hence $\bar{\mathbf{Q}}^{\left(i\right)}$ is a $(\bar{\mathbf{F}}^{\left(i\right)}\cdot\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis
+by \prettyref{lem:orderBasisEquivalence}. 
+\end{pf}
+%
+\begin{comment}
+Alternatively, one can also argue that since $\hat{\mathbf{P}}_{1}^{\left(i-1\right)}$
+already has order $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)})$,
+it cannot contribute in any way to and cannot be affected in any way
+by the computations of a $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis,
+hence it is sufficient to just use $\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
+to compute a $(\bar{\mathbf{F}}^{\left(i\right)}\cdot\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis. 
+\end{comment}
+{}
+
+\prettyref{lem:disregardComputedBasisElements} immediately leads
+to the following. 
+\begin{lem}
+\label{lem:computationAtTopLevel}Let $\hat{\mathbf{S}}=[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]$,
+$I$ the column rank profile of $\lcoeff(x^{\vec{s}^{\left(i\right)}}\hat{\mathbf{S}})$.
+Then $\hat{\mathbf{S}}_{I}$ is a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis.\end{lem}
+\begin{pf}
+From \prettyref{lem:disregardComputedBasisElements}, $\bar{\mathbf{Q}}^{\left(i\right)}$
+is a $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis
+and hence $\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$
+is a $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$-basis.
+Therefore \prettyref{thm:extractingOrderBasis} applies since $[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$.
+%
+\begin{comment}
+$=\mathbf{E}^{\left(i\right)}[\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]$ 
+\end{comment}
+{}\end{pf}
+\begin{exmp}
+Continuing with \prettyref{exm:StorjohannTransformation}, \prettyref{exm:auxiliaryTransformation},
+and \prettyref{exm:subproblems}, %
+\begin{comment}
+notice that after the first subproblem, the second subproblem of computing
+$\bar{\mathbf{Q}}^{(2)}$ in \prettyref{exm:subproblems} is really
+a smaller problem of computing the lower right $4\times4$ submatrix
+$\bar{\mathbf{Q}}_{2}^{(2)}$, which is a $(\bar{\mathbf{F}}^{\left(2\right)}\hat{\mathbf{P}}_{2}^{\left(1\right)},8,\vec{b}^{\left(1\right)})$-basis
+(or equivalently a $(\check{\mathbf{F}}^{\left(2\right)}\bar{\mathbf{P}}_{2}^{\left(1\right)},[8,4,4],\vec{b}^{\left(1\right)})$-basis),
+where $\bar{\mathbf{P}}_{2}^{\left(1\right)}$ is the last $4$ columns
+of $\bar{\mathbf{P}}^{(1)}$, $\vec{b}^{(1)}=[2,3,3,3]$ is the list
+of column degrees of $\bar{\mathbf{P}}_{2}^{(1)}$, and $\hat{\mathbf{P}}_{2}^{\left(1\right)}$
+is the first $4$ rows of $\bar{\mathbf{P}}_{2}^{(1)}$. 
+\end{comment}
+{}notice that in the computation of the second subproblem, instead of
+using $\check{\mathbf{F}}^{\left(2\right)},$ $\bar{\mathbf{P}}^{\left(1\right)}$,
+$\bar{\mathbf{Q}}^{(2)}$, and $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$,
+the previous lemmas show that we can just use their submatrices, $\bar{\mathbf{F}}^{(2)}$
+the top left $1\times4$ submatrix of $\check{\mathbf{F}}^{\left(2\right)}$,
+$\hat{\mathbf{P}}_{2}^{(1)}$ the top right $4\times4$ submatrix
+of $\bar{\mathbf{P}}^{(1)}$, $\bar{\mathbf{Q}}_{2}^{(2)}$ the bottom
+right $4\times4$ submatrix of $\bar{\mathbf{Q}}^{(2)}$, and $\hat{\mathbf{P}}_{2}^{(1)}\bar{\mathbf{Q}}_{2}^{(2)}$
+the top right $4\times4$ submatrix of $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$of
+lower dimensions. 
+\end{exmp}
+\prettyref{lem:computationAtTopLevel} gives us a way of computing
+a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis. We can set $i$
+to $\log\left(n/m\right)-1$ so that $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$=$\left(\mathbf{F},\sigma,\vec{s}\right)$,
+and compute a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis.
+By \prettyref{lem:computationAtTopLevel}, this can be divided into
+two subproblems. The first produces $[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}]=\hat{\mathbf{P}}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+from computing a $(\bar{\mathbf{F}}^{\left(i-1\right)},\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
+$\bar{\mathbf{P}}^{\left(i-1\right)}$. The second subproblem then
+computes a $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis
+$\bar{\mathbf{Q}}_{2}^{\left(i\right)}$. Note the first subproblem
+of computing a $(\bar{\mathbf{F}}^{\left(i-1\right)},\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
+can again be divided to two subproblems just as before. This can be
+repeated recursively until we reach the base case with degree parameter
+$\delta^{\left(1\right)}=2d$. The total levels of recursion is therefore
+$\log\left(n/m\right)-1$.
+
+Notice that the transformed matrix $\check{\mathbf{F}}^{\left(i\right)}$
+is not used explicitly in the computation, even though it is crucial
+for deriving our results.
+
+
+\subsection{The Iterative View}
+
+In this subsection we present our algorithm, which uses an iterative
+version of the computation discussed above.%
+\begin{comment}
+The recursive top-down approach of the previous subsection is useful
+for giving an overall picture of the computation process. Algorithm
+\prettyref{alg:mab} uses an equivalent corresponding bottom-up iterative
+approach. 
+\end{comment}
+{}%
+\begin{comment}
+, allowing the complexity to be more easily analyzed. 
+\end{comment}
+{}%
+\begin{comment}
+. In practice, bottom-up iterative approaches are more efficient than
+the corresponding top-down recursive approaches. For our purpose,
+it is also easier to analyze the computational cost of the iterative
+procedure. 
+\end{comment}
+{}
+
+\prettyref{alg:mab} uses a subroutine $\mab$, the algorithm from
+Giorgi et al. \citeyearpar{Giorgi2003}, for computing order bases
+with balanced input. Specifically, $\left[\mathbf{Q},\vec{a}\right]=\mab(\mathbf{G},\sigma,\vec{b})$
+computes a $(\mathbf{G},\sigma,\vec{b})$-basis and also returns its
+$\vec{b}$-column degrees $\vec{a}$. The other subroutine $\StorjohannTransform$
+is the transformation described in \prettyref{sub:storjohannTransformation}.
+
+\prettyref{alg:mab} proceeds as follows. In the first iteration,
+which is the base case of the recursive approach, we set the degree
+parameter $\delta^{\left(1\right)}$ to be twice of the average degree
+$d$ and apply Storjohann's transformation to produce a new input
+matrix $\bar{\mathbf{F}}^{\left(1\right)}$, which has $l^{\left(1\right)}$
+block rows. Then a $(\bar{\mathbf{F}}^{\left(1\right)},2\delta^{\left(1\right)},\vec{s}^{\left(1\right)})$-basis
+$\bar{\mathbf{P}}^{\left(1\right)}$ is computed. Note this is in
+fact the first subproblem of computing a $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})$-basis,
+which is another Storjohann transformed problem and also the problem
+of the second iteration. Now at the second iteration, we work on a
+new Storjohann transformed problem with the degree doubled and the
+number of block rows $l^{\left(2\right)}=(l^{\left(1\right)}-1)/2$
+reduced by over a half. The column dimension is reduced by using the
+result from the previous iteration. More specifically, we know that
+a $\bar{\mathbf{P}}^{\left(1\right)}$ already provides a $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})_{\delta^{\left(1\right)}-1}$-basis
+$\hat{\mathbf{P}}_{1}^{\left(1\right)}$, which can be disregarded
+in the remaining computation. Now the remaining work in the second
+iteration is to compute a $(\bar{\mathbf{F}}^{\left(2\right)}\hat{\mathbf{P}}_{2}^{\left(1\right)},2\delta^{\left(2\right)},\vec{b}^{\left(1\right)})$-basis
+$\bar{\mathbf{Q}}^{\left(2\right)}$, where $\vec{b}^{\left(1\right)}=\deg_{\vec{s}^{\left(1\right)}}\bar{\mathbf{P}}_{2}^{\left(1\right)}$,
+and then to combine it with the result from the previous iteration
+to form a matrix $[\hat{\mathbf{P}}_{1}^{\left(1\right)},\hat{\mathbf{P}}_{2}^{\left(1\right)}\bar{\mathbf{Q}}^{\left(2\right)}]$
+in order to extract a $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})$-basis
+$\bar{\mathbf{P}}^{\left(2\right)}$.
+
+With a $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})$-basis
+computed, we can repeat the same process to use it for computing a
+$(\bar{\mathbf{F}}^{\left(3\right)},2\delta^{\left(3\right)},\vec{s}^{\left(3\right)})$-basis.
+Continue, using the computed $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
+to compute a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis,
+until all $n$ elements of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+have been determined.
+
+\input{algorithm1.tex}
+
+%
+\begin{comment}
+\begin{thm}
+Algorithm \prettyref{alg:mab} computes a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+correctly.\end{thm}
+\begin{pf}
+This follows from \prettyref{lem:simplifySecondSubproblem}, \prettyref{lem:disregardComputedBasisElements},
+and \prettyref{lem:computationAtTopLevel}. 
+\end{pf}
+
+\end{comment}
+{} 

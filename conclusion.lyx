@@ -1,0 +1,88 @@
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass elsart
+\options amsthm,seceqn,secthm
+\use_default_options false
+\language english
+\inputencoding latin9
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 2
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Future Research
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Future-Research"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The algorithms in this paper give fast procedures for efficiently computing
+ a large class of order basis problems, including those without shift, those
+ with a balanced shift or with a restricted unbalanced shift.
+ However a number of problems remain to be solved.
+ In particular, the efficient computation of order basis with a general
+ unbalanced shift remains an open problem.
+ In addition, order bases are closely related to many other problems in
+ polynomial matrix computation, for example nullspace basis and matrix normal
+ forms.
+ We are interested in seeing how our tools can be used to solve these problems
+ more efficiently.
+ Our work assumes that we are working with polynomials and power series
+ represented in standard bases.
+ We would like to obtain efficient methods for computation of order bases
+ represented in arbitrary bases, particularly those associated to interpolation
+ bases.
+ Finally, the constructions used in this paper assume exact arithmetic where
+ coefficient growth is not an issue.
+ We are interested in determining how our tools can be used with methods
+ such as fraction-free or modular construction of order bases, particularly
+ combining the constructions found in 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "BL2000"
+
+\end_inset
+
+.
+\end_layout
+
+\end_body
+\end_document

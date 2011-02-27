@@ -1,0 +1,55 @@
+%
+\begin{algorithm}[t]
+\caption{$\mmab\left(\mathbf{F},\sigma,\vec{s}\right)$ }
+
+
+\label{alg:mab} 
+\begin{algor}
+\item [{{*}}] \textbf{Input:} $\mathbf{F}\in\mathbb{K}\left[x\right]^{m\times n}$,$\sigma\in\mathbb{Z}_{\ge0}$,$\vec{s}\in\mathbb{Z}^{n}$
+satisfying $n\ge m,$ $n/m$ and $\sigma$ are powers of 2 and $\min\left(\vec{s}\right)=0$ 
+\item [{{*}}] \textbf{Output:} a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+$\mathbf{P}\in K\left[x\right]^{n\times n}$ and $\deg_{\vec{s}}\mathbf{P}$
+\item [{{*}}]~\end{algor}
+\begin{algor}[1]
+\item [{{*}}] \textbf{if }$2m\ge n$ \textbf{then return} $\mab\left(\mathbf{F},\sigma,\vec{s}\right);$ 
+\item [{{{*}}}] $i:=1;$ $d:=m\sigma/n;$ $\delta^{\left(1\right)}:=2d;$ 
+\item [{{{*}}}] $\bar{\mathbf{F}}^{\left(1\right)}:=\StorjohannTransform(\mathbf{F},\delta^{\left(1\right)});$ 
+\item [{{{*}}}] $l^{\left(1\right)}:=\rowDimension(\bar{\mathbf{F}}^{\left(1\right)})/m;$ 
+\item [{{{*}}}] $\vec{b}^{\left(0\right)}:=\left[\vec{s},0,\dots,0\right];$
+\{\{ $m(l_{1}-1)$ $0$'s\}\}
+\item [{{{*}}}] $[\bar{\mathbf{P}}^{\left(1\right)},\vec{a}^{\left(1\right)}]:=\mab(\bar{\mathbf{F}}^{\left(1\right)},2\delta^{\left(1\right)},\vec{b}^{\left(0\right)});$ 
+\item [{{{*}}}] Sort the columns of $\bar{\mathbf{P}}^{\left(i\right)}$
+and $\vec{a}^{\left(i\right)}$ by the shifted column degrees $\vec{a}^{\left(i\right)}=\deg_{\vec{b}}\bar{\mathbf{P}}^{\left(i\right)}$
+in increasing order; 
+\item [{{*}}] $\vec{t}^{\left(i\right)}:=\vec{a}^{\left(i\right)};$ 
+\item [{{{*}}}] $k^{\left(i\right)}:=$number of entries of $\vec{a}^{\left(i\right)}$
+less than $\delta^{\left(i\right)}$;
+\item [{{*}}] $[\bar{\mathbf{P}}_{1}^{\left(i\right)},\bar{\mathbf{P}}_{2}^{\left(i\right)}]:=\bar{\mathbf{P}}^{\left(i\right)}$
+with $\bar{\mathbf{P}}_{1}^{\left(i\right)}\in K\left[x\right]^{n\times k^{\left(i\right)}}$;
+\item [{{while}}] $\columnDimension(\bar{\mathbf{P}}_{1}^{\left(i\right)})<n$ 
+\item [{{{*}}}] $i:=i+1;$ $\delta^{\left(i\right)}:=2\delta^{\left(i-1\right)};$
+$l^{\left(i\right)}:=(l^{\left(i-1\right)}-1)/2;$ 
+\item [{{{*}}}] $\bar{\mathbf{F}}^{\left(i\right)}:=\StorjohannTransform(\mathbf{F},\delta^{\left(i\right)});$ 
+\item [{{{*}}}] $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}:=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}$;
+\item [{{{*}}}] \label{line:matrixProduct1}$\mathbf{G}^{\left(i\right)}:=\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)};$ 
+\item [{{{*}}}] $\vec{b}^{\left(i-1\right)}:=\vec{t}^{\left(i-1\right)}[k^{\left(i-1\right)}+1\dots n+m(l^{\left(i-1\right)}-1)];$ 
+\item [{{{*}}}] \label{line:orderBasisComputation}$[\mathbf{Q}^{\left(i\right)},\vec{a}^{\left(i\right)}]:=\mab(\mathbf{G}^{\left(i\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)});$ 
+\item [{{{*}}}] Sort the columns of $\mathbf{Q}^{\left(i\right)}$ and
+$\vec{a}^{\left(i\right)}$ by $\vec{a}^{\left(i\right)}=\deg_{\vec{b}^{\left(i-1\right)}}\mathbf{Q}^{\left(i\right)}$
+in increasing order; 
+\item [{{{*}}}] \label{line:matrixProduct2}$\check{\mathbf{P}}^{\left(i\right)}:=\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\mathbf{Q}^{\left(i\right)};$ 
+\item [{{{*}}}] \label{line:LSP}$J:=$ the column rank profile of $\lcoeff(x^{\left[\vec{s},0,\dots,0\right]}[\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\check{\mathbf{P}}^{\left(i\right)}])$; 
+\item [{{*}}] $\bar{\mathbf{P}}^{\left(i\right)}:=[\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\check{\mathbf{P}}^{\left(i\right)}]_{J}$,
+\item [{{*}}] $\vec{t}^{\left(i\right)}:=\deg_{\left[\vec{s},0,\dots,0\right]}\bar{\mathbf{P}}^{\left(i\right)}$; 
+\item [{{{*}}}] $k^{\left(i\right)}:=$number of entries of $\vec{t}^{\left(i\right)}$
+less than $\delta^{\left(i\right)}$;
+\item [{{*}}] $[\bar{\mathbf{P}}_{1}^{\left(i\right)},\bar{\mathbf{P}}_{2}^{\left(i\right)}]:=\bar{\mathbf{P}}^{\left(i\right)}$
+with $\bar{\mathbf{P}}_{1}^{\left(i\right)}\in K\left[x\right]^{n\times k^{\left(i\right)}}$
+;
+\item [{{endwhile}}] ~ 
+\item [{{{*}}}] \textbf{return} the top $n$ rows of $\bar{\mathbf{P}}_{1}^{\left(i\right)}$,
+$\vec{t}^{\left(i\right)}\left[1..n\right]$; 
+\end{algor}
+
+\end{algorithm}
+

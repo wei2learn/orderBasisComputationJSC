@@ -1,0 +1,921 @@
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass elsart
+\begin_preamble
+\usepackage{yjsco}
+\journal{JournalofSymbolicComputation}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\renewcommand{\algorithmicensure}{\textbf{if}}
+\renewcommand{\algorithmicensure}{\textbf{Uses:}}
+
+\def\diag{\mbox{diag}}
+\def\cdeg{\qopname\relax n{cdeg}}
+\keycomment{\{\{}{\}\}}
+\def\MM{\qopname\relax n{MM}}
+\def\M{\qopname\relax n{M}}
+\def\ord{\qopname\relax n{ord}}
+
+\def\StorjohannTransform{\qopname\relax n{StorjohannTransform}}
+\def\TransformUnbalanced{\qopname\relax n{TransformUnbalanced}}
+\def\rowDimension{\qopname\relax n{rowDimension}}
+\def\columnDimension{\qopname\relax n{columnDimension}}
+\DeclareMathOperator{\re}{rem}
+\DeclareMathOperator{\coeff}{coeff}
+\DeclareMathOperator{\lcoeff}{lcoeff}
+\def\mab{\qopname\relax n{OrderBasis}}
+\def\mmab{\qopname\relax n{FastBasis}}
+\def\umab{\qopname\relax n{UnbalancedFastBasis}}
+\newcommand{\bb}{\\}
+\end_preamble
+\options amsthm
+\use_default_options false
+\master computing.lyx
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mmab\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:mab"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm
+* 
+\series bold
+Input:
+\series default
+ 
+\begin_inset Formula $\mathbf{F}\in\mathbb{K}\left[x\right]^{m\times n}$
+\end_inset
+
+,
+\begin_inset Formula $\sigma\in\mathbb{Z}_{\ge0}$
+\end_inset
+
+,
+\begin_inset Formula $\vec{s}\in\mathbb{Z}^{n}$
+\end_inset
+
+ satisfying 
+\begin_inset Formula $n\ge m,$
+\end_inset
+
+ 
+\begin_inset Formula $n/m$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ are powers of 2 and 
+\begin_inset Formula $\min\left(\vec{s}\right)=0$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm
+* 
+\series bold
+Output:
+\series default
+ a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis 
+\begin_inset Formula $\mathbf{P}\in K\left[x\right]^{n\times n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\deg_{\vec{s}}\mathbf{P}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Algorithm
+* 
+\end_layout
+
+\begin_layout Algorithm (num)
+* 
+\series bold
+if 
+\series default
+
+\begin_inset Formula $2m\ge n$
+\end_inset
+
+ 
+\series bold
+then return
+\series default
+ 
+\begin_inset Formula $\mab\left(\mathbf{F},\sigma,\vec{s}\right);$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $i:=1;$
+\end_inset
+
+ 
+\begin_inset Formula $d:=m\sigma/n;$
+\end_inset
+
+ 
+\begin_inset Formula $\delta^{\left(1\right)}:=2d;$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\bar{\mathbf{F}}^{\left(1\right)}:=\StorjohannTransform(\mathbf{F},\delta^{\left(1\right)});$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $l^{\left(1\right)}:=\rowDimension(\bar{\mathbf{F}}^{\left(1\right)})/m;$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\vec{b}^{\left(0\right)}:=\left[\vec{s},0,\dots,0\right];$
+\end_inset
+
+ {{ 
+\begin_inset Formula $m(l_{1}-1)$
+\end_inset
+
+ 
+\begin_inset Formula $0$
+\end_inset
+
+'s}}
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $[\bar{\mathbf{P}}^{\left(1\right)},\vec{a}^{\left(1\right)}]:=\mab(\bar{\mathbf{F}}^{\left(1\right)},2\delta^{\left(1\right)},\vec{b}^{\left(0\right)});$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ Sort the columns of 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(i\right)}$
+\end_inset
+
+ and 
+\begin_inset Formula $\vec{a}^{\left(i\right)}$
+\end_inset
+
+ by the shifted column degrees 
+\begin_inset Formula $\vec{a}^{\left(i\right)}=\deg_{\vec{b}}\bar{\mathbf{P}}^{\left(i\right)}$
+\end_inset
+
+ in increasing order; 
+\end_layout
+
+\begin_layout Algorithm (num)
+* 
+\begin_inset Formula $\vec{t}^{\left(i\right)}:=\vec{a}^{\left(i\right)};$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $k^{\left(i\right)}:=$
+\end_inset
+
+number of entries of 
+\begin_inset Formula $\vec{a}^{\left(i\right)}$
+\end_inset
+
+ less than 
+\begin_inset Formula $\delta^{\left(i\right)}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+* 
+\begin_inset Formula $[\bar{\mathbf{P}}_{1}^{\left(i\right)},\bar{\mathbf{P}}_{2}^{\left(i\right)}]:=\bar{\mathbf{P}}^{\left(i\right)}$
+\end_inset
+
+ with 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}^{\left(i\right)}\in K\left[x\right]^{n\times k^{\left(i\right)}}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+while
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\columnDimension(\bar{\mathbf{P}}_{1}^{\left(i\right)})<n$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $i:=i+1;$
+\end_inset
+
+ 
+\begin_inset Formula $\delta^{\left(i\right)}:=2\delta^{\left(i-1\right)};$
+\end_inset
+
+ 
+\begin_inset Formula $l^{\left(i\right)}:=(l^{\left(i-1\right)}-1)/2;$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\bar{\mathbf{F}}^{\left(i\right)}:=\StorjohannTransform(\mathbf{F},\delta^{\left(i\right)});$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}:=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "line:matrixProduct1"
+
+\end_inset
+
+
+\begin_inset Formula $\mathbf{G}^{\left(i\right)}:=\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)};$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\vec{b}^{\left(i-1\right)}:=\vec{t}^{\left(i-1\right)}[k^{\left(i-1\right)}+1\dots n+m(l^{\left(i-1\right)}-1)];$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "line:orderBasisComputation"
+
+\end_inset
+
+
+\begin_inset Formula $[\mathbf{Q}^{\left(i\right)},\vec{a}^{\left(i\right)}]:=\mab(\mathbf{G}^{\left(i\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)});$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ Sort the columns of 
+\begin_inset Formula $\mathbf{Q}^{\left(i\right)}$
+\end_inset
+
+ and 
+\begin_inset Formula $\vec{a}^{\left(i\right)}$
+\end_inset
+
+ by 
+\begin_inset Formula $\vec{a}^{\left(i\right)}=\deg_{\vec{b}^{\left(i-1\right)}}\mathbf{Q}^{\left(i\right)}$
+\end_inset
+
+ in increasing order; 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "line:matrixProduct2"
+
+\end_inset
+
+
+\begin_inset Formula $\check{\mathbf{P}}^{\left(i\right)}:=\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\mathbf{Q}^{\left(i\right)};$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "line:LSP"
+
+\end_inset
+
+
+\begin_inset Formula $J:=$
+\end_inset
+
+ the column rank profile of 
+\begin_inset Formula $\lcoeff(x^{\left[\vec{s},0,\dots,0\right]}[\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\check{\mathbf{P}}^{\left(i\right)}])$
+\end_inset
+
+; 
+\end_layout
+
+\begin_layout Algorithm (num)
+* 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(i\right)}:=[\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\check{\mathbf{P}}^{\left(i\right)}]_{J}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Algorithm (num)
+* 
+\begin_inset Formula $\vec{t}^{\left(i\right)}:=\deg_{\left[\vec{s},0,\dots,0\right]}\bar{\mathbf{P}}^{\left(i\right)}$
+\end_inset
+
+; 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $k^{\left(i\right)}:=$
+\end_inset
+
+number of entries of 
+\begin_inset Formula $\vec{t}^{\left(i\right)}$
+\end_inset
+
+ less than 
+\begin_inset Formula $\delta^{\left(i\right)}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+* 
+\begin_inset Formula $[\bar{\mathbf{P}}_{1}^{\left(i\right)},\bar{\mathbf{P}}_{2}^{\left(i\right)}]:=\bar{\mathbf{P}}^{\left(i\right)}$
+\end_inset
+
+ with 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}^{\left(i\right)}\in K\left[x\right]^{n\times k^{\left(i\right)}}$
+\end_inset
+
+ ;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+endwhile
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset space ~
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\series bold
+return
+\series default
+ the top 
+\begin_inset Formula $n$
+\end_inset
+
+ rows of 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}^{\left(i\right)}$
+\end_inset
+
+, 
+\begin_inset Formula $\vec{t}^{\left(i\right)}\left[1..n\right]$
+\end_inset
+
+; 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,704 @@
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass elsart
+\begin_preamble
+\usepackage{yjsco}
+\journal{JournalofSymbolicComputation}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\renewcommand{\algorithmicensure}{\textbf{if}}
+\renewcommand{\algorithmicensure}{\textbf{Uses:}}
+
+\def\diag{\mbox{diag}}
+\def\cdeg{\qopname\relax n{cdeg}}
+\keycomment{\{\{}{\}\}}
+\def\MM{\qopname\relax n{MM}}
+\def\M{\qopname\relax n{M}}
+\def\ord{\qopname\relax n{ord}}
+
+\def\StorjohannTransform{\qopname\relax n{StorjohannTransform}}
+\def\TransformUnbalanced{\qopname\relax n{TransformUnbalanced}}
+\def\rowDimension{\qopname\relax n{rowDimension}}
+\def\columnDimension{\qopname\relax n{columnDimension}}
+\DeclareMathOperator{\re}{rem}
+\DeclareMathOperator{\coeff}{coeff}
+\DeclareMathOperator{\lcoeff}{lcoeff}
+\def\mab{\qopname\relax n{OrderBasis}}
+\def\mmab{\qopname\relax n{FastBasis}}
+\def\umab{\qopname\relax n{UnbalancedFastBasis}}
+\newcommand{\bb}{\\}
+\end_preamble
+\options amsthm
+\use_default_options false
+\master unbalanced.lyx
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset Formula $\umab\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:umab"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Algorithm
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ Input: 
+\begin_inset Formula $\mathbf{F}\in K\left[x\right]^{m\times n}$
+\end_inset
+
+, 
+\begin_inset Formula $\sigma\in\mathbb{Z}_{\ge0}$
+\end_inset
+
+, 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+ satisfies condition 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "con:unbalancedCondition"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Algorithm
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ Output: 
+\begin_inset Formula $\mathbf{P}\in K\left[x\right]^{n\times n}$
+\end_inset
+
+, an 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis.
+\end_layout
+
+\begin_layout Algorithm
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ Uses:
+\end_layout
+
+\begin_layout Algorithm
+* (a) 
+\begin_inset Formula $\TransformUnbalanced$
+\end_inset
+
+ : converts an unbalanced shift problem to a balanced one using the transformati
+on described in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "sec:Unbalanced-Shift"
+
+\end_inset
+
+.
+ Returns transformed input matrix, transformed shift, and transformation
+ matrix.
+\end_layout
+
+\begin_layout Algorithm
+* (b) 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%{
+\backslash
+em OrderBasis} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\mmab$
+\end_inset
+
+ : computes order basis with balanced shift.
+ 
+\end_layout
+
+\begin_layout Algorithm
+* 
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+  
+\begin_inset Formula $i:=1;$
+\end_inset
+
+ 
+\begin_inset Formula $\mathbf{P}=[\,]$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\mathbf{F}^{\left(i\right)}:=\mathbf{F}$
+\end_inset
+
+, 
+\begin_inset Formula $\vec{s}^{\left(i\right)}:=\vec{s}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+while
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\columnDimension(\mathbf{P})\ne n$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $d_{i}=\left\lceil m\sigma/\columnDimension(\mathbf{F}^{\left(i\right)})\right\rceil $
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\alpha_{i}:=\beta_{i}:=2d_{i};$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\left[\bar{\mathbf{F}}^{\left(i\right)},\bar{s}^{\left(i\right)},\mathbf{E}\right]:=\TransformUnbalanced\left(\mathbf{F}^{\left(i\right)},\vec{s}^{\left(i\right)},\alpha_{i},\beta_{i}\right)$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(i\right)}:=\mmab\left(\bar{\mathbf{F}}^{\left(i\right)},\sigma,\bar{s}^{\left(i\right)}\right)$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ Set 
+\begin_inset Formula $\mathbf{P}^{\left(i\right)}$
+\end_inset
+
+ to be the columns of 
+\begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}^{\left(i\right)}$
+\end_inset
+
+ with 
+\begin_inset Formula $\bar{s}_{i}$
+\end_inset
+
+-column degrees above 
+\begin_inset Formula $-\alpha_{i}$
+\end_inset
+
+ and no more than 
+\begin_inset Formula $-\alpha_{i-1}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\mathbf{P}:=\left[\mathbf{P}^{\left(i\right)},\mathbf{P}\right]$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ Set 
+\begin_inset Formula $I$
+\end_inset
+
+ as index set with 
+\begin_inset Formula $i$
+\end_inset
+
+ satisfying 
+\begin_inset Formula $s_{i}\le-\alpha_{i}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\mathbf{F}^{\left(i+1\right)}:=\mathbf{F}_{I}^{\left(i\right)}$
+\end_inset
+
+, 
+\begin_inset Formula $\vec{s}^{\left(i+1\right)}:=\vec{s}_{I}^{\left(i\right)}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $i:=i+1$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+endwhile
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Algorithm (num)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+*
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ return 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+ ; 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

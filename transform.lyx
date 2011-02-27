@@ -1,0 +1,2892 @@
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass elsart
+\options amsthm,seceqn,secthm
+\use_default_options false
+\language english
+\inputencoding latin9
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 2
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Extending Storjohann's Transformation
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:transform"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+notations: 
+\end_layout
+
+\begin_layout Itemize
+Matrices
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Polynomial matrices: bold capital 
+\begin_inset Formula $\mathbf{A,B,F,G,P,R}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+: input matrix,
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\bar{\mathbf{F}}$
+\end_inset
+
+: Storjohann transformed matrix, 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\check{\mathbf{F}}$
+\end_inset
+
+: the transformation that extends 
+\begin_inset Formula $\bar{\mathbf{F}}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{G}$
+\end_inset
+
+: input matrix for the second subproblem.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+scalar matrices: non-bold Capital, used to distinguish coefficient matrix
+ 
+\end_layout
+
+\begin_layout Itemize
+Identity matrix: 
+\begin_inset Formula $\mathbf{I}$
+\end_inset
+
+ this is to be consistent with polynomial matrices, as identity is considered
+ as an important element of polynomial matrices.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+order
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\sigma,\omega$
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+vectors
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+polynomial vectors: 
+\begin_inset Formula $\mathbf{p,q,r,s,t}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{p}$
+\end_inset
+
+: element in basis 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{q}:$
+\end_inset
+
+ some test element in 
+\begin_inset Formula $\left\langle \left(\mathbf{F},\sigma\right)\right\rangle $
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\bar{\mathbf{t}}$
+\end_inset
+
+: test element in 
+\begin_inset Formula $\left\langle \left(\check{\mathbf{F}},\vec{\omega}\right)\right\rangle $
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+shifts:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\vec{e}$
+\end_inset
+
+: uniform 0 shift used for transformation.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+: original input shift 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\vec{t}$
+\end_inset
+
+: output shifted degrees of the current basis, with result from previous
+ subproblems included.
+ i.e., 
+\begin_inset Formula $\left[\vec{s},0,\dots,0\right]$
+\end_inset
+
+-degrees of the current basis.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\vec{b},\vec{a}$
+\end_inset
+
+: input shift and output shifted degrees for each reduced subproblem that
+ calls OrderBasis.
+ In the iterative computational process, input shift 
+\begin_inset Formula $\vec{b}^{\left(i-1\right)}$
+\end_inset
+
+ corresponds to input shift 
+\begin_inset Formula $\vec{a}^{\left(i\right)}$
+\end_inset
+
+.
+ The high degree entries of 
+\begin_inset Formula $\vec{a}^{\left(i\right)}$
+\end_inset
+
+ at iteration 
+\begin_inset Formula $i$
+\end_inset
+
+ is then used as the input shift 
+\begin_inset Formula $\vec{b}^{\left(i\right)}$
+\end_inset
+
+ for iteration 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+dimension:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $m,n$
+\end_inset
+
+: row, column dimension 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $k$
+\end_inset
+
+: number of columns with 
+\begin_inset Formula $\left[\vec{s},0,\dots,0\right]$
+\end_inset
+
+-degrees less than degree bound 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $l$
+\end_inset
+
+: number of block rows 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+degrees, order:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\sigma$
+\end_inset
+
+: order 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\delta$
+\end_inset
+
+: degree bound 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $d$
+\end_inset
+
+: average degree (=
+\begin_inset Formula $m\sigma/n$
+\end_inset
+
+) 
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this section, we introduce a transformation that can be viewed as an
+ extension of Storjohann's transformation which allows for computation of
+ a full, rather than partial, order basis.
+ More generally (as discussed in the next section) this transformation provides
+ a link between two Storjohann transformed problems constructed using different
+ degree parameters.
+ For easier understanding, we first focus on a particular case of this transform
+ation.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%which extends immediately to the more general results, as discussed
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%towards the end of this section.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Consider the problem of computing a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis.
+ We assume 
+\begin_inset Formula $\sigma=4\delta$
+\end_inset
+
+ for a positive integer 
+\begin_inset Formula $\delta$
+\end_inset
+
+ and write the input matrix 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+ as 
+\begin_inset Formula $\mathbf{F}=\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\mathbf{F}_{3}x^{3\delta}$
+\end_inset
+
+ with 
+\begin_inset Formula $\deg\mathbf{F}_{i}\le\delta-1$
+\end_inset
+
+.
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+(The results below hold for any positive integer great than one, but 4 is
+ used for simplicity.
+ ) 
+\end_layout
+
+\end_inset
+
+ In the following, we show that computing a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis can be done by computing a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis where 
+\begin_inset Formula \begin{equation}
+\check{\mathbf{F}}=\left[\begin{array}{cc}
+\mathbf{F} & \mathbf{0}\\
+\check{\mathbf{F}}_{21} & \check{\mathbf{F}}_{22}\end{array}\right]=\left[\begin{array}{l|cr}
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\mathbf{F}_{3}x^{3\delta} & \mathbf{0} & \mathbf{0}\\
+\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & \mathbf{0}\\
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0} & \mathbf{I}_{m}\end{array}\right]\label{eq:extendedSTransformTop}\end{equation}
+
+\end_inset
+
+ with order 
+\begin_inset Formula $\vec{\omega}=\left[4\delta,\dots,4\delta,2\delta,\dots,2\delta\right]$
+\end_inset
+
+ (with 
+\begin_inset Formula $m$
+\end_inset
+
+ 
+\begin_inset Formula $4\delta$
+\end_inset
+
+'s and 
+\begin_inset Formula $2m$
+\end_inset
+
+ 
+\begin_inset Formula $2\delta$
+\end_inset
+
+'s) and degree shift 
+\begin_inset Formula $\vec{s'}=\left[\vec{s},e,\dots,e\right]$
+\end_inset
+
+ (with 
+\begin_inset Formula $2m$
+\end_inset
+
+ 
+\begin_inset Formula $e$
+\end_inset
+
+'s), where 
+\begin_inset Formula $e$
+\end_inset
+
+ is an integer less than or equal to 
+\begin_inset Formula $1$
+\end_inset
+
+.
+ 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+actually true for 
+\begin_inset Formula $e\le\min\vec{s}+1$
+\end_inset
+
+.
+ keeping this 
+\begin_inset Formula $e$
+\end_inset
+
+ helps to show that this hold true in more general situations, while Storjohann
+ only used 
+\begin_inset Formula $e=1$
+\end_inset
+
+.
+ it can be negative as well.
+ 
+\end_layout
+
+\end_inset
+
+We set 
+\begin_inset Formula $e$
+\end_inset
+
+ to 
+\begin_inset Formula $0$
+\end_inset
+
+ in this paper for simplicity (Storjohann used 
+\begin_inset Formula $e=1$
+\end_inset
+
+ in 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Storjohann:2006"
+
+\end_inset
+
+).
+ In fact, it is quite easy to construct a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis from a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis, as we show later in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:FtoAbasis"
+
+\end_inset
+
+.
+ However, it requires more work to extract a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis from a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis, which is addressed eventually in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:extractingFbasisFromGbasis"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula \[
+\mathbf{B}=\left[\begin{array}{c}
+\mathbf{I}_{n}\\
+x^{-\delta}\mathbf{F}_{0}\\
+x^{-2\delta}\left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}\right)\end{array}\right].\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:qToBqOrder"
+
+\end_inset
+
+If 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma\right)\right\rangle $
+\end_inset
+
+, then 
+\begin_inset Formula $\mathbf{B}\mathbf{q}\in\langle(\check{\mathbf{F}}\vec{,\omega})\rangle$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+The lemma follows from 
+\begin_inset Formula \[
+\check{\mathbf{F}}\mathbf{B}\mathbf{q}=\left[\begin{array}{r}
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\mathbf{F}_{3}x^{3\delta}\\
+\mathbf{F}_{0}x^{-\delta}+\mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta}\\
+\mathbf{F}_{0}x^{-2\delta}+\mathbf{F}_{1}x^{-\delta}+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta}\end{array}\right]\mathbf{q}\equiv\mathbf{0}\mod x^{\vec{\omega}}.\]
+
+\end_inset
+
+ Note that the bottom rows of 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ may not be polynomials.
+ However, 
+\begin_inset Formula $\mathbf{B}\mathbf{q}$
+\end_inset
+
+ is a polynomial vector as 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma\right)\right\rangle $
+\end_inset
+
+ implies 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F}_{0},\delta\right)\right\rangle $
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta},2\delta\right)\right\rangle $
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+The following lemma shows that the condition 
+\begin_inset Formula $e\le1$
+\end_inset
+
+ forces 
+\begin_inset Formula $\deg_{\vec{s'}}\mathbf{B}\mathbf{q}$
+\end_inset
+
+ to be determined by 
+\begin_inset Formula $\mathbf{q}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:qToBqDegree"
+
+\end_inset
+
+If 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
+\end_inset
+
+ 
+\shape up
+for any degree bound 
+\begin_inset Formula $\tau\in\mathbb{Z}$
+\end_inset
+
+
+\shape default
+, then 
+\begin_inset Formula $\deg_{\vec{s'}}\mathbf{B}\mathbf{q}=\deg_{\vec{s}}\mathbf{q}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+By assumption 
+\begin_inset Formula $s_{i}\ge0$
+\end_inset
+
+, so 
+\begin_inset Formula $\deg\mathbf{q}\le\deg_{\vec{s}}\mathbf{q}.$
+\end_inset
+
+ Now consider the degree of the bottom 
+\begin_inset Formula $2m$
+\end_inset
+
+ entries 
+\begin_inset Formula $\mathbf{q}_{2},\mathbf{q}_{3}$
+\end_inset
+
+ of 
+\begin_inset Formula \[
+\begin{bmatrix}\mathbf{q}\\
+\mathbf{q}_{2}\\
+\mathbf{q}_{3}\end{bmatrix}=\mathbf{B}\mathbf{q}=\left[\begin{array}{r}
+\mathbf{q}\\
+x^{-\delta}\mathbf{F}_{0}\cdot\mathbf{q}\\
+x^{-2\delta}\left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}\right)\cdot\mathbf{q}\end{array}\right].\]
+
+\end_inset
+
+ Our goal is to show 
+\begin_inset Formula $\deg_{\vec{e}}\left[\mathbf{q}_{2}^{T},\mathbf{q}_{3}^{T}\right]^{T}\le\deg_{\vec{s}}\mathbf{q}$
+\end_inset
+
+.
+ Note that 
+\begin_inset Formula \[
+\deg\mathbf{q}_{2}=\deg\left(\mathbf{F}_{0}\mathbf{q}/x^{\delta}\right)\le\deg\mathbf{q}+\delta-1-\delta\le\deg_{\vec{s}}\mathbf{q}-1,\]
+
+\end_inset
+
+ and similarly 
+\begin_inset Formula $\deg\mathbf{q}_{3}\le\deg_{\vec{s}}\mathbf{q}-1$
+\end_inset
+
+.
+ Therefore 
+\begin_inset Formula \[
+\deg_{\vec{e}}\begin{bmatrix}\mathbf{q}_{2}\\
+\mathbf{q}_{3}\end{bmatrix}=\deg\begin{bmatrix}\mathbf{q}_{2}\\
+\mathbf{q}_{3}\end{bmatrix}+e\le\deg_{\vec{s}}\mathbf{q}-1+e\le\deg_{\vec{s}}\mathbf{q}.\]
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:sToBs"
+
+\end_inset
+
+If 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
+\end_inset
+
+ for any degree bound 
+\begin_inset Formula $\tau\in\mathbb{Z}$
+\end_inset
+
+ , then
+\shape up
+ 
+\shape default
+
+\begin_inset Formula $\mathbf{B}\mathbf{q}\in\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle_{\tau}$
+\end_inset
+
+
+\shape up
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+begin{pf}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%This follows from 
+\backslash
+prettyref{lem:qToBqOrder} and 
+\backslash
+prettyref{lem:qToBqDegree}.
+\backslash
+end{pf}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:linearCombinationOfFirstnRows"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bar{\mathbf{S}}_{\tau}$
+\end_inset
+
+ be a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})_{\tau}$
+\end_inset
+
+-basis and 
+\begin_inset Formula $\mathbf{S}_{\tau}$
+\end_inset
+
+ the top 
+\begin_inset Formula $n$
+\end_inset
+
+ rows of 
+\begin_inset Formula $\bar{\mathbf{S}}_{\tau}$
+\end_inset
+
+ for any degree bound 
+\begin_inset Formula $\tau\in\mathbb{Z}$
+\end_inset
+
+.
+ Then any 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
+\end_inset
+
+ is a linear combination of the columns of 
+\begin_inset Formula $\mathbf{S}_{\tau}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:sToBs"
+
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{B}\mathbf{q}\in\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle_{\tau}$
+\end_inset
+
+, hence is a linear combination of columns of 
+\begin_inset Formula $\bar{\mathbf{S}}_{\tau}$
+\end_inset
+
+.
+ That is, there exists a polynomial vector 
+\begin_inset Formula $\mathbf{u}$
+\end_inset
+
+ such that 
+\begin_inset Formula $\mathbf{B}\mathbf{q}=\bar{\mathbf{S}}_{\tau}\mathbf{u}$
+\end_inset
+
+.
+ This remains true if we restrict the equation to the top 
+\begin_inset Formula $n$
+\end_inset
+
+ rows, that is, 
+\begin_inset Formula $\mathbf{q}=\left[\mathbf{I}_{n},\mathbf{0}\right]\mathbf{B}\mathbf{q}=\left[\mathbf{I}_{n},\mathbf{0}\right]\bar{\mathbf{S}}_{\tau}\mathbf{u}=\mathbf{S}_{\tau}\mathbf{u}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:bqToqOrder"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bar{\mathbf{q}}\in\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle_{\tau}$
+\end_inset
+
+ for any degree bound 
+\begin_inset Formula $\tau\in\mathbb{Z}$
+\end_inset
+
+, and 
+\begin_inset Formula $\mathbf{q}_{1}$
+\end_inset
+
+ the first 
+\begin_inset Formula $n$
+\end_inset
+
+ entries of 
+\begin_inset Formula $\mathbf{\bar{q}}$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $\mathbf{q}_{1}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+The top rows of 
+\begin_inset Formula \[
+\check{\mathbf{F}}\mathbf{q}=\left[\begin{array}{cc}
+\mathbf{F} & \mathbf{0}\\
+\check{\mathbf{F}}_{21} & \check{\mathbf{F}}_{22}\end{array}\right]\left[\begin{array}{c}
+\mathbf{q}_{1}\\
+\mathbf{q}_{2}\end{array}\right]=\begin{bmatrix}\mathbf{F}\mathbf{q}_{1}\\
+\check{\mathbf{F}}_{21}\mathbf{q}_{1}+\check{\mathbf{F}}_{22}\mathbf{q}_{2}\end{bmatrix}\equiv\mathbf{0}\mod x^{\vec{\omega}}\]
+
+\end_inset
+
+ gives 
+\begin_inset Formula $\mathbf{F}\mathbf{q}_{1}\equiv\mathbf{0}\mod x^{\sigma}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:FtoAbasis"
+
+\end_inset
+
+If 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis, then 
+\begin_inset Formula \begin{eqnarray*}
+\bar{\mathbf{T}} & = & \left[\mathbf{B}\mathbf{P}~\begin{array}{|c}
+\mathbf{0}_{n,2m}\\
+x^{2\delta}\mathbf{I}_{2m}\end{array}\right]=\left[\begin{array}{r|cc}
+\mathbf{P} & \mathbf{0}_{n,m} & \mathbf{0}_{n,m}\\
+\hline x^{-\delta}\mathbf{F}_{0}\cdot\mathbf{P} & x^{2\delta}\mathbf{I}_{m} & \mathbf{0}_{m}\\
+x^{-2\delta}\left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}\right)\cdot\mathbf{P} & \mathbf{0}_{m} & x^{2\delta}\mathbf{I}_{m}\end{array}\right]\end{eqnarray*}
+
+\end_inset
+
+ is a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis.
+\end_layout
+
+\begin_layout Proof
+By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:qToBqOrder"
+
+\end_inset
+
+, 
+\begin_inset Formula $\bar{\mathbf{T}}$
+\end_inset
+
+ has order 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega})$
+\end_inset
+
+ and is 
+\begin_inset Formula $\vec{s'}$
+\end_inset
+
+-column reduced since 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+ dominates the 
+\begin_inset Formula $\vec{s'}$
+\end_inset
+
+-degrees of 
+\begin_inset Formula $\bar{\mathbf{T}}$
+\end_inset
+
+ on the left side by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:qToBqDegree"
+
+\end_inset
+
+.
+ It remains to show that any 
+\begin_inset Formula $\bar{\mathbf{q}}\in\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle$
+\end_inset
+
+ is a linear combination of the columns of 
+\begin_inset Formula $\mathbf{\bar{\mathbf{T}}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $\mathbf{q}$
+\end_inset
+
+ be the top 
+\begin_inset Formula $n$
+\end_inset
+
+ entries of 
+\begin_inset Formula $\bar{\mathbf{q}}$
+\end_inset
+
+.
+ Then by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:bqToqOrder"
+
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+\end_inset
+
+, hence is a linear combination of the columns of 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+, that is 
+\begin_inset Formula $\mathbf{q}=\mathbf{P}\mathbf{u}$
+\end_inset
+
+ with 
+\begin_inset Formula $\mathbf{u}=\mathbf{P}^{-1}\mathbf{q}\in\mathbb{K}\left[x\right]^{n\times1}$
+\end_inset
+
+.
+ Subtracting the contribution of 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+ from 
+\begin_inset Formula $\bar{\mathbf{q}}$
+\end_inset
+
+, we get 
+\begin_inset Formula \[
+\check{\mathbf{q}}=\bar{\mathbf{q}}-\mathbf{B}\mathbf{P}\mathbf{u}=\bar{\mathbf{q}}-\mathbf{B}\mathbf{q}=\left[\begin{array}{c}
+\mathbf{0}\\
+\mathbf{v}\end{array}\right],\]
+
+\end_inset
+
+ which is still in 
+\begin_inset Formula $\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle$
+\end_inset
+
+, that is, 
+\begin_inset Formula \[
+\check{\mathbf{F}}\check{\mathbf{q}}=\begin{bmatrix}\mathbf{0}\\
+\mathbf{I}_{2m}\mathbf{v}\end{bmatrix}\equiv\mathbf{0}\mod x^{\vec{\omega}},\]
+
+\end_inset
+
+ which requires 
+\begin_inset Formula $\mathbf{v}$
+\end_inset
+
+ to have order 
+\begin_inset Formula $\left(\mathbf{I}_{2m},2\delta\right)$
+\end_inset
+
+.
+ This forces 
+\begin_inset Formula $\mathbf{v}$
+\end_inset
+
+ to be a linear combination of the columns of 
+\begin_inset Formula $x^{2\delta}\mathbf{I}_{2m}$
+\end_inset
+
+, the bottom right submatrix of 
+\begin_inset Formula $\bar{\mathbf{T}}$
+\end_inset
+
+.
+ Now 
+\begin_inset Formula $\bar{\mathbf{q}}=\bar{\mathbf{T}}\left[\mathbf{u}^{T},\mathbf{v}^{T}\right]^{T}$
+\end_inset
+
+ as required.
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:AtauBasisForm"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\tau\in\mathbb{Z}$
+\end_inset
+
+ be any degree bound.
+ Let 
+\begin_inset Formula $\mathbf{P}_{\tau}\in\mathbb{K}\left[x\right]^{n\times k}$
+\end_inset
+
+ be a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{\tau}$
+\end_inset
+
+-basis.
+ Let 
+\begin_inset Formula $\bar{\mathbf{q}}\in\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle_{\tau}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{q}$
+\end_inset
+
+ be the top 
+\begin_inset Formula $n$
+\end_inset
+
+ entries of 
+\begin_inset Formula $\bar{\mathbf{q}}$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $\bar{\mathbf{q}}$
+\end_inset
+
+ must have the form 
+\begin_inset Formula \[
+\bar{\mathbf{q}}=\mathbf{B}\mathbf{P}_{\tau}\mathbf{u}+x^{2\delta}\begin{bmatrix}\mathbf{0}\\
+\mathbf{v}\end{bmatrix}=\mathbf{B}\mathbf{q}+x^{2\delta}\begin{bmatrix}\mathbf{0}\\
+\mathbf{v}\end{bmatrix}\]
+
+\end_inset
+
+ for some polynomial vector 
+\begin_inset Formula $\mathbf{u}\in\mathbb{K}\left[x\right]^{k\times1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{v}\in\mathbb{K}\left[x\right]^{2m\times1}$
+\end_inset
+
+.
+ In particular, if 
+\begin_inset Formula $\deg_{\vec{s'}}\bar{\mathbf{q}}<2\delta$
+\end_inset
+
+, then 
+\begin_inset Formula $\bar{\mathbf{q}}=\mathbf{B}\mathbf{P}_{\tau}\mathbf{u}=\mathbf{B}\mathbf{q}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Proof
+This follows directly from 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:FtoAbasis"
+
+\end_inset
+
+ with 
+\begin_inset Formula $\vec{s'}$
+\end_inset
+
+-degrees restricted to 
+\begin_inset Formula $\tau$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:2delta-1Basis"
+
+\end_inset
+
+If 
+\begin_inset Formula $\bar{\mathbf{S}}^{\left(1\right)}$
+\end_inset
+
+ is a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})_{2\delta-1}$
+\end_inset
+
+-basis, then its first 
+\begin_inset Formula $n$
+\end_inset
+
+ rows 
+\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{2\delta-1}$
+\end_inset
+
+-basis.
+\end_layout
+
+\begin_layout Proof
+By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:bqToqOrder"
+
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+ has order 
+\begin_inset Formula $\left(\mathbf{F},\sigma\right)$
+\end_inset
+
+.
+ By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:linearCombinationOfFirstnRows"
+
+\end_inset
+
+, any 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{2\delta-1}$
+\end_inset
+
+ is a linear combination of 
+\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+.
+ It remains to show that 
+\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+ is 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-column reduced.
+ By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:AtauBasisForm"
+
+\end_inset
+
+, 
+\begin_inset Formula $\bar{\mathbf{S}}^{\left(1\right)}=\mathbf{B}\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+, and by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:bqToqOrder"
+
+\end_inset
+
+, the columns of 
+\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+ are in 
+\begin_inset Formula $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{2\delta-1}$
+\end_inset
+
+, hence by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:qToBqDegree"
+
+\end_inset
+
+ 
+\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+ determines the 
+\begin_inset Formula $\vec{s'}$
+\end_inset
+
+-column degrees of 
+\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+.
+ Therefore, the 
+\begin_inset Formula $\vec{s'}$
+\end_inset
+
+-column reducedness of 
+\begin_inset Formula $\bar{\mathbf{S}}^{\left(1\right)}$
+\end_inset
+
+ implies that 
+\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+ is 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-column reduced.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:2deltaBasis"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bar{\mathbf{S}}^{\left(12\right)}=[\bar{\mathbf{S}}^{\left(1\right)},\bar{\mathbf{S}}^{\left(2\right)}]$
+\end_inset
+
+ be a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})_{2\delta}$
+\end_inset
+
+-basis, with 
+\begin_inset Formula $\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(2\right)}=2\delta$
+\end_inset
+
+ and 
+\begin_inset Formula $\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(1\right)}\le2\delta-1$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)},\mathbf{S}^{\left(1\right)},\mathbf{S}^{\left(2\right)}$
+\end_inset
+
+ be the first 
+\begin_inset Formula $n$
+\end_inset
+
+ rows of 
+\begin_inset Formula $\bar{\mathbf{S}}^{\left(12\right)},\bar{\mathbf{S}}^{\left(1\right)},\bar{\mathbf{S}}^{\left(2\right)}$
+\end_inset
+
+ respectively.
+ Let 
+\begin_inset Formula $I$
+\end_inset
+
+ be the column rank profile (the lowest column indices that indicate a full
+ column rank submatrix) of 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+, which contains all columns of 
+\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+ by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:2delta-1Basis"
+
+\end_inset
+
+.
+ Then the submatrix
+\series bold
+ 
+\begin_inset Formula $\mathbf{S}_{I}^{\left(12\right)}$
+\end_inset
+
+ 
+\series default
+comprised of the columns of 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+ indexed by 
+\begin_inset Formula $I$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{2\delta}$
+\end_inset
+
+-basis.
+ 
+\end_layout
+
+\begin_layout Proof
+Consider doing 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-column reduction on 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+.
+ From 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:2delta-1Basis"
+
+\end_inset
+
+, we already know that 
+\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{2\delta-1}$
+\end_inset
+
+-basis.
+ Therefore, only 
+\begin_inset Formula $\mathbf{S}^{\left(2\right)}$
+\end_inset
+
+ may be 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-reduced.
+ If a column 
+\begin_inset Formula $\mathbf{c}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathbf{S}^{\left(2\right)}$
+\end_inset
+
+ can be further 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-reduced, then it becomes an element of 
+\begin_inset Formula $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{2\delta-1}$
+\end_inset
+
+, which is generated by 
+\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+.
+ Thus 
+\begin_inset Formula $\mathbf{c}$
+\end_inset
+
+ must be reduced to zero by 
+\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
+\end_inset
+
+.
+ The only nonzero columns of 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+ remaining after 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-column reduction are therefore the columns that cannot be 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-reduced.
+ Hence 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+ 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-reduces to 
+\series bold
+
+\begin_inset Formula $\mathbf{S}_{I}^{\left(12\right)}$
+\end_inset
+
+
+\series default
+.
+ In addition, 
+\series bold
+
+\begin_inset Formula $\mathbf{S}_{I}^{\left(12\right)}$
+\end_inset
+
+
+\series default
+ has order 
+\begin_inset Formula $\left(\mathbf{F},\sigma\right)$
+\end_inset
+
+ as 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+ has order 
+\begin_inset Formula $\left(\mathbf{F},\sigma\right)$
+\end_inset
+
+ by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:bqToqOrder"
+
+\end_inset
+
+, and by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:linearCombinationOfFirstnRows"
+
+\end_inset
+
+ any 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{2\delta}$
+\end_inset
+
+ is a linear combination of 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+ and hence is also a linear combination of 
+\begin_inset Formula $\mathbf{S}_{I}^{\left(12\right)}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+To extract 
+\begin_inset Formula $\mathbf{S}_{I}^{\left(12\right)}$
+\end_inset
+
+ from 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+, note that doing 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-column reduction on 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+ is equivalent to the more familiar problem of doing column reduction on
+ 
+\begin_inset Formula $x^{\vec{s}}\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+.
+ As 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+ 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-column reduces to 
+\series bold
+
+\begin_inset Formula $\mathbf{S}_{I}^{\left(12\right)}$
+\end_inset
+
+
+\series default
+, this corresponds to determining the column rank profile of the
+\emph on
+ leading column coefficient matrix 
+\emph default
+of
+\emph on
+ 
+\series bold
+\emph default
+
+\begin_inset Formula $x^{\vec{s}}\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+
+\series default
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+ 
+\emph default
+
+\begin_inset Formula $S^{\left(12\right)}=\lcoeff(x^{\vec{s}}\cdot\mathbf{S}^{\left(12\right)})$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\emph on
+.
+ 
+\emph default
+Recall that the leading column coefficient matrix of a matrix 
+\begin_inset Formula $\mathbf{A}=\left[\mathbf{a}_{1},\dots,\mathbf{a}_{k}\right]$
+\end_inset
+
+ used for column reduction is
+\emph on
+ 
+\begin_inset Formula \begin{eqnarray*}
+\lcoeff\left(\mathbf{A}\right) & = & \left[\lcoeff\left(\mathbf{a}_{1}\right),\dots,\lcoeff\left(\mathbf{a}_{k}\right)\right]\\
+ & = & \left[\coeff\left(\mathbf{a}_{1},\deg\left(\mathbf{a}_{1}\right)\right),\dots,\coeff\left(\mathbf{a}_{k},\deg\left(\mathbf{a}_{k}\right)\right)\right].\end{eqnarray*}
+
+\end_inset
+
+ 
+\emph default
+The column rank profile of 
+\begin_inset Formula $\lcoeff(x^{\vec{s}}\mathbf{S}^{\left(12\right)})$
+\end_inset
+
+ can be determined by (the transposed version of) LSP factorization
+\emph on
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "IbarraMH82"
+
+\end_inset
+
+
+\emph default
+, which factorizes 
+\begin_inset Formula $\lcoeff(x^{\vec{s}}\mathbf{S}^{\left(12\right)})=PSU$
+\end_inset
+
+ as the product of a permutation matrix 
+\begin_inset Formula $P$
+\end_inset
+
+, a matrix 
+\begin_inset Formula $S$
+\end_inset
+
+ with its nonzero columns forming a lower triangular submatrix, and an upper
+ triangular matrix 
+\begin_inset Formula $U$
+\end_inset
+
+ with 
+\begin_inset Formula $1$
+\end_inset
+
+'s on the diagonal.
+ Then the indices 
+\begin_inset Formula $I$
+\end_inset
+
+ of the nonzero columns of 
+\begin_inset Formula $S$
+\end_inset
+
+ give 
+\begin_inset Formula $\mathbf{S}_{I}^{\left(12\right)}$
+\end_inset
+
+ in 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:mainTheorem"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bar{\mathbf{S}}=[\bar{\mathbf{S}}^{\left(12\right)},\bar{\mathbf{S}}^{\left(3\right)}]$
+\end_inset
+
+ be a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis, with 
+\begin_inset Formula $\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(12\right)}\le2\delta$
+\end_inset
+
+ and 
+\begin_inset Formula $\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(3\right)}\ge2\delta+1$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\mathbf{S},\mathbf{S}^{\left(12\right)},\mathbf{S}^{\left(3\right)}$
+\end_inset
+
+ be the first 
+\begin_inset Formula $n$
+\end_inset
+
+ rows of 
+\begin_inset Formula $\bar{\mathbf{S}},\bar{\mathbf{S}}^{\left(12\right)},\bar{\mathbf{S}}^{\left(3\right)}$
+\end_inset
+
+ respectively.
+ Let 
+\begin_inset Formula $I$
+\end_inset
+
+ be the column rank profile of 
+\begin_inset Formula $\mathbf{S}^{\left(12\right)}$
+\end_inset
+
+.
+ Then the submatrix
+\series bold
+ 
+\begin_inset Formula $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
+\end_inset
+
+ 
+\series default
+of 
+\begin_inset Formula $\mathbf{S}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis.
+ 
+\end_layout
+
+\begin_layout Proof
+By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:bqToqOrder"
+
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{S}$
+\end_inset
+
+ has order 
+\begin_inset Formula $\left(\mathbf{F},\sigma\right)$
+\end_inset
+
+, and so 
+\begin_inset Formula $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
+\end_inset
+
+ also has order 
+\begin_inset Formula $\left(\mathbf{F},\sigma\right)$
+\end_inset
+
+.
+ By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:linearCombinationOfFirstnRows"
+
+\end_inset
+
+, any 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+\end_inset
+
+ is a linear combination of columns 
+\begin_inset Formula $\mathbf{S}$
+\end_inset
+
+, and so 
+\begin_inset Formula $\mathbf{q}$
+\end_inset
+
+ is also a linear combination of the columns of 
+\begin_inset Formula $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
+\end_inset
+
+.
+ It only remains to show that 
+\begin_inset Formula $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
+\end_inset
+
+ is 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-column reduced.
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+ be a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis and 
+\begin_inset Formula $\mathbf{\bar{\mathbf{T}}}$
+\end_inset
+
+ be the 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis constructed from 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+ as in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:FtoAbasis"
+
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\bar{\mathbf{T}}^{\left(3\right)}$
+\end_inset
+
+ be the columns of 
+\begin_inset Formula $\bar{\mathbf{T}}$
+\end_inset
+
+ with 
+\begin_inset Formula $\vec{s'}$
+\end_inset
+
+-degrees greater than 
+\begin_inset Formula $2\delta,$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{P}^{\left(3\right)}$
+\end_inset
+
+ be the columns of 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+ with 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degrees greater than 
+\begin_inset Formula $2\delta.$
+\end_inset
+
+ Assume without loss of generality that 
+\begin_inset Formula $\mathbf{S},$
+\end_inset
+
+ 
+\begin_inset Formula $\mathbf{P}$
+\end_inset
+
+, and 
+\begin_inset Formula $\bar{\mathbf{T}}$
+\end_inset
+
+ have their columns sorted according to their 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degrees and 
+\begin_inset Formula $\vec{s'}$
+\end_inset
+
+-degrees respectively.
+ Then we have 
+\begin_inset Formula $\deg_{\vec{s}}\mathbf{S}^{\left(3\right)}\le\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(3\right)}=\deg_{\vec{s'}}\bar{\mathbf{T}}^{\left(3\right)}=\deg_{\vec{s}}\mathbf{P}^{\left(3\right)}$
+\end_inset
+
+.
+ Combining this with the 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-minimality of 
+\begin_inset Formula $\mathbf{S}_{I}^{\left(12\right)}$
+\end_inset
+
+ from 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:2deltaBasis"
+
+\end_inset
+
+, it follows that 
+\begin_inset Formula $\deg_{\vec{s}}[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]\le\deg_{\vec{s}}\mathbf{P}$
+\end_inset
+
+.
+ This combined with the fact that 
+\begin_inset Formula $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
+\end_inset
+
+ still generates 
+\begin_inset Formula $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+\end_inset
+
+ implies that 
+\begin_inset Formula $\deg_{\vec{s}}[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]=\deg_{\vec{s}}\mathbf{P}$
+\end_inset
+
+.
+ Therefore, 
+\begin_inset Formula $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis.
+ 
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:extractingFbasisFromGbasis"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bar{\mathbf{S}}$
+\end_inset
+
+ be a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis with its columns sorted in an increasing order of their 
+\begin_inset Formula $\vec{s'}$
+\end_inset
+
+ degrees, and 
+\begin_inset Formula $\mathbf{S}$
+\end_inset
+
+ the first 
+\begin_inset Formula $n$
+\end_inset
+
+ rows of 
+\begin_inset Formula $\bar{\mathbf{S}}$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $J$
+\end_inset
+
+ be the column rank profile of 
+\begin_inset Formula $\lcoeff(x^{\vec{s}}\mathbf{S})$
+\end_inset
+
+.
+ Then the submatrix 
+\begin_inset Formula $\mathbf{S}_{J}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathbf{S}$
+\end_inset
+
+ indexed by 
+\begin_inset Formula $J$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis.
+\end_layout
+
+\begin_layout Proof
+This follows directly from 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "thm:mainTheorem"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+This rank profile 
+\begin_inset Formula $J$
+\end_inset
+
+ can be determined by LSP factorization on 
+\begin_inset Formula $\lcoeff(x^{\vec{s}}\cdot\mathbf{S}^{\left(12\right)})$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%as discussed before.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset CommandInset label
+LatexCommand label
+name "exm:auxiliaryTransformation"
+
+\end_inset
+
+For the problem in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "exm:StorjohannTransformation"
+
+\end_inset
+
+, 
+\begin_inset Formula \[
+\check{\mathbf{F}}=\left[{\begin{array}{llllrr}
+x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6} & 1+x+x^{5}+x^{6}+x^{7} & 1+x^{2}+x^{6}+x^{7} & 1+x+x^{3}+x^{7} & 0 & 0\\
+1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & 1 & 0\\
+1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & 0 & 1\end{array}}\right],\]
+
+\end_inset
+
+ a 
+\begin_inset Formula $\left(\check{\mathbf{F}},\left[8,4,4\right],\vec{0}\right)$
+\end_inset
+
+-basis is 
+\begin_inset Formula \[
+\left[\begin{array}{rccc|cc}
+1 & x & 1 & x^{2} & x^{2}+x^{4} & 1+x^{2}+x^{3}+x^{4}\\
+0 & 1 & x^{2}+x^{3} & 0 & x^{3} & 0\\
+1 & 1+x & x & x^{3}+x^{4} & 0 & x+x^{2}+x^{3}\\
+1 & 0 & 0 & 0 & 0 & 0\\
+\hline 0 & 1 & 1+x^{2} & x^{2} & x^{2}+x^{3} & 1+x^{2}+x^{3}+x^{4}\\
+0 & 1 & 1 & x^{2}+x^{4} & x^{2}+x^{3} & 1+x^{3}\end{array}\right].\]
+
+\end_inset
+
+ A column reduction on the top 4 rows gives the top left 
+\begin_inset Formula $4\times4$
+\end_inset
+
+ submatrix, which is a 
+\series bold
+
+\begin_inset Formula $(\mathbf{F},8,\vec{0})$
+\end_inset
+
+
+\series default
+-basis.
+ 
+\end_layout
+
+\begin_layout Standard
+The following two lemmas verify Storjohann's result in the case of degree
+ parameter 
+\begin_inset Formula $\delta=\sigma/4$
+\end_inset
+
+.
+ More specifically, we show that the top 
+\begin_inset Formula $n$
+\end_inset
+
+ rows of a 
+\begin_inset Formula $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$
+\end_inset
+
+-basis is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$
+\end_inset
+
+-basis, with the Storjohann transformed input matrix 
+\begin_inset Formula \begin{equation}
+\bar{\mathbf{F}}=\left[\begin{array}{l|cr}
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0} & \mathbf{0}\\
+\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & \mathbf{0}\\
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0} & \mathbf{I}_{m}\end{array}\right]\equiv\check{\mathbf{F}}\mod x^{2\delta}.\label{eq:storjohannTransformation4parts}\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:A_delta-1Form"
+
+\end_inset
+
+If 
+\begin_inset Formula $\bar{\mathbf{q}}\in\langle(\bar{\mathbf{F}},2\delta,\vec{s'})\rangle_{\delta-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{q}$
+\end_inset
+
+ is the first 
+\begin_inset Formula $n$
+\end_inset
+
+ entries of 
+\begin_inset Formula $\bar{\mathbf{q}}$
+\end_inset
+
+, then 
+\begin_inset Formula $\bar{\mathbf{q}}$
+\end_inset
+
+ must have the form 
+\begin_inset Formula \[
+\bar{\mathbf{q}}=\mathbf{B}\mathbf{q}=\left[\begin{array}{r}
+\mathbf{q}\\
+x^{-\delta}\mathbf{F}_{0}\cdot\mathbf{q}\\
+x^{-2\delta}\left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}\right)\cdot\mathbf{q}\end{array}\right]\]
+
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $\mathbf{q},\mathbf{q}_{2},\mathbf{q}_{3}$
+\end_inset
+
+ be be the top 
+\begin_inset Formula $n$
+\end_inset
+
+ entries, middle 
+\begin_inset Formula $m$
+\end_inset
+
+ entries, and bottom 
+\begin_inset Formula $m$
+\end_inset
+
+ entries, respectively, of 
+\begin_inset Formula $\mathbf{\bar{\mathbf{q}}}$
+\end_inset
+
+ so that 
+\begin_inset Formula \begin{align}
+\bar{\mathbf{F}}\bar{\mathbf{q}} & \equiv\left[\begin{array}{r}
+\mathbf{F}_{0}\mathbf{q}+x^{\delta}\mathbf{F}_{1}\mathbf{q}\\
+\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}+x^{\delta}\mathbf{F}_{2}\mathbf{q}\\
+\mathbf{q}_{3}+\mathbf{F}_{2}\mathbf{q}+x^{\delta}\mathbf{F}_{3}\mathbf{q}\end{array}\right]\equiv\mathbf{0}\mod x^{2\delta}.\label{eq:Aq}\end{align}
+
+\end_inset
+
+ From the first and second block rows, we get 
+\begin_inset Formula $\mathbf{F}_{0}\mathbf{q}+x^{\delta}\mathbf{F}_{1}\mathbf{q}\equiv\mathbf{0}\mod x^{2\delta}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}\equiv\mathbf{0}\mod x^{\delta}$
+\end_inset
+
+, which implies 
+\begin_inset Formula \begin{equation}
+\mathbf{F}_{0}\mathbf{q}\equiv x^{\delta}\mathbf{q}_{2}\mod x^{2\delta}.\label{eq:q1q2}\end{equation}
+
+\end_inset
+
+ Similarly, from the second and the third row, we get 
+\begin_inset Formula $\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}+x^{\delta}\mathbf{F}_{2}\mathbf{q}\equiv\mathbf{0}\mod x^{2\delta}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{q}_{3}+\mathbf{F}_{2}\mathbf{q}\equiv\mathbf{0}\mod x^{\delta}$
+\end_inset
+
+, which implies 
+\begin_inset Formula $\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}\equiv x^{\delta}\mathbf{q}_{3}\mod x^{2\delta}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Since 
+\begin_inset Formula $\deg\mathbf{q}\le\deg_{\vec{s}}\mathbf{q}=\delta-1$
+\end_inset
+
+, we have 
+\begin_inset Formula $\deg\mathbf{F}_{0}\mathbf{q}\le2\delta-2$
+\end_inset
+
+, hence from 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "eq:q1q2"
+
+\end_inset
+
+ 
+\begin_inset Formula $\deg\mathbf{q}_{2}\le\delta-2$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{q}_{2}x^{\delta}=\mathbf{F}_{0}\mathbf{q}$
+\end_inset
+
+.
+ Similarly, 
+\begin_inset Formula $\deg\mathbf{q}_{3}\le\delta-2$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{q}_{3}x^{2\delta}=\mathbf{q}_{2}x^{\delta}+\mathbf{F}_{1}\mathbf{q}x^{\delta}=\mathbf{F}_{0}\mathbf{q}+\mathbf{F}_{1}\mathbf{q}x^{\delta}$
+\end_inset
+
+.
+ Substituting this to 
+\begin_inset Formula $\mathbf{F}\mathbf{q}=(\mathbf{F}_{0}\mathbf{q}+\mathbf{F}_{1}\mathbf{q}x^{\delta})+(\mathbf{F}_{2}\mathbf{q}x^{2\delta}+\mathbf{F}_{3}\mathbf{q}x^{3\delta})$
+\end_inset
+
+, we get 
+\begin_inset Formula $\mathbf{F}\mathbf{q}=\mathbf{q}_{3}x^{2\delta}+(\mathbf{F}_{2}\mathbf{q}x^{2\delta}+\mathbf{F}_{3}\mathbf{q}x^{3\delta})\equiv\mathbf{0}\mod x^{4\delta}$
+\end_inset
+
+ using the bottom block row of 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "eq:Aq"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:delta-1Basis"
+
+\end_inset
+
+If 
+\begin_inset Formula $\bar{\mathbf{S}}_{\delta-1}$
+\end_inset
+
+ is a 
+\begin_inset Formula $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$
+\end_inset
+
+-basis, then its first 
+\begin_inset Formula $n$
+\end_inset
+
+ rows 
+\begin_inset Formula $\mathbf{S}_{\delta-1}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$
+\end_inset
+
+-basis.
+\end_layout
+
+\begin_layout Proof
+By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:A_delta-1Form"
+
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{S}_{\delta-1}$
+\end_inset
+
+ has order 
+\begin_inset Formula $\left(\mathbf{F},\sigma\right)$
+\end_inset
+
+.
+ Following 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:qToBqOrder"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:qToBqDegree"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:sToBs"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:linearCombinationOfFirstnRows"
+
+\end_inset
+
+ (replacing 
+\begin_inset Formula $\vec{\omega}$
+\end_inset
+
+ by 
+\begin_inset Formula $2\delta$
+\end_inset
+
+), we can conclude that any 
+\begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$
+\end_inset
+
+ is a linear combination of 
+\begin_inset Formula $\mathbf{S}_{\delta-1}$
+\end_inset
+
+.
+ In addition, since 
+\begin_inset Formula $\bar{\mathbf{S}}_{\delta-1}=\mathbf{B}\mathbf{S}_{\delta-1}$
+\end_inset
+
+ by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:A_delta-1Form"
+
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{S}_{\delta-1}$
+\end_inset
+
+ are in 
+\begin_inset Formula $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$
+\end_inset
+
+, it follows that 
+\begin_inset Formula $\mathbf{S}_{\delta-1}$
+\end_inset
+
+ determines the 
+\begin_inset Formula $\vec{s'}$
+\end_inset
+
+-column degrees of 
+\begin_inset Formula $\bar{\mathbf{S}}_{\delta-1}$
+\end_inset
+
+ by 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:qToBqDegree"
+
+\end_inset
+
+, hence the 
+\begin_inset Formula $\vec{s'}$
+\end_inset
+
+-column reducedness of 
+\begin_inset Formula $\bar{\mathbf{S}}_{\delta-1}$
+\end_inset
+
+ implies that 
+\begin_inset Formula $\mathbf{S}_{\delta-1}$
+\end_inset
+
+ is 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-column reduced.
+ 
+\end_layout
+
+\begin_layout Standard
+Let us now consider an immediate extension of the above results.
+ Suppose that instead of a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis we now want to compute a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$
+\end_inset
+
+-basis with a Storjohann transformed input matrix 
+\begin_inset Formula \[
+\bar{\mathbf{F}}^{\left(i\right)}=\left[\begin{array}{c|c}
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta^{\left(i\right)}} & \mathbf{0}_{n,m\left(l^{\left(i\right)}-1\right)}\\
+\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta^{\left(i\right)}}\\
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta^{\left(i\right)}} & \mathbf{I}_{m\left(l^{\left(i\right)}-1\right)}\\
+\vdots\\
+\mathbf{F}_{l^{\left(i\right)}-1}+\mathbf{F}_{l^{\left(i\right)}}x^{\delta^{\left(i\right)}}\end{array}\right]\]
+
+\end_inset
+
+ constructed with degree parameter 
+\begin_inset Formula $\delta^{\left(i\right)}=2^{i}d$
+\end_inset
+
+ for some integer 
+\begin_inset Formula $i$
+\end_inset
+
+ between 
+\begin_inset Formula $2$
+\end_inset
+
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+the base case is 
+\begin_inset Formula $i=1$
+\end_inset
+
+ and problem is not to be subdivided 
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Formula $\log\left(\sigma/d\right)-1$
+\end_inset
+
+, and a shift 
+\begin_inset Formula $\vec{s}^{\left(i\right)}=[\vec{s},0,\dots,0]$
+\end_inset
+
+ (with 
+\begin_inset Formula $m(l^{\left(i\right)}-1)$
+\end_inset
+
+ 0's), where 
+\begin_inset Formula $l^{\left(i\right)}=\sigma/\delta^{\left(i\right)}-1$
+\end_inset
+
+ is the number of block rows.
+ To apply a transformation analogous to 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "eq:extendedSTransformTop"
+
+\end_inset
+
+, we write each 
+\begin_inset Formula $\mathbf{F}_{j}=\mathbf{F}_{j0}+\mathbf{F}_{j1}\delta^{\left(i-1\right)}$
+\end_inset
+
+ and set 
+\begin_inset Formula \begin{equation}
+\check{\mathbf{F}}^{\left(i\right)}=\left[\begin{array}{l|c}
+\mathbf{F}_{00}+\mathbf{F}_{01}x^{\delta^{\left(i-1\right)}}+\mathbf{F}_{10}x^{2\delta^{\left(i-1\right)}}+\mathbf{F}_{11}x^{3\delta^{\left(i-1\right)}} & ~~\mathbf{0}~~\\
+\hline \mathbf{F}_{01}+\mathbf{F}_{10}x^{\delta^{\left(i-1\right)}}\\
+\mathbf{F}_{10}+\mathbf{F}_{11}x^{\delta^{\left(i-1\right)}}+\mathbf{F}_{20}x^{2\delta^{\left(i-1\right)}}+\mathbf{F}_{21}x^{3\delta^{\left(i-1\right)}}\\
+\mathbf{F}_{11}+\mathbf{F}_{20}x^{\delta^{\left(i-1\right)}}\\
+\vdots & ~~\mathbf{I}~~\\
+\mathbf{F}_{\left(l^{\left(i\right)}-1\right)0}+\mathbf{F}_{\left(l^{\left(i\right)}-1\right)1}x^{\delta^{\left(i-1\right)}}+\mathbf{F}_{l^{\left(i\right)}0}x^{2\delta^{\left(i-1\right)}}+\mathbf{F}_{l^{\left(i\right)}1}x^{3\delta^{\left(i-1\right)}}\\
+\mathbf{F}_{\left(l^{\left(i\right)}-1\right)1}+\mathbf{F}_{l^{\left(i\right)}0}x^{\delta^{\left(i-1\right)}}\\
+\mathbf{F}_{l^{\left(i\right)}0}+\mathbf{F}_{l^{\left(i\right)}1}x^{\delta^{\left(i-1\right)}}\end{array}\right],\label{eq:extendedStorjohannTransform}\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+This is not ideal, but no better idea.
+ 
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Formula $\vec{\omega}^{\left(i\right)}=\left[\left[[2\delta^{\left(i\right)}]^{m},[\delta^{\left(i\right)}]^{m}\right]^{l^{\left(i\right)}},[\delta^{\left(i\right)}]^{m}\right]$
+\end_inset
+
+, where 
+\begin_inset Formula $\left[\circ\right]^{k}$
+\end_inset
+
+ represent 
+\begin_inset Formula $\circ$
+\end_inset
+
+ repeated 
+\begin_inset Formula $k$
+\end_inset
+
+ times
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Not sure if using this notation is a good thing to do, but it saves space
+ and makes presentation easier 
+\end_layout
+
+\end_inset
+
+.
+ The order entries 
+\begin_inset Formula $2\delta^{\left(i\right)}$
+\end_inset
+
+, 
+\begin_inset Formula $\delta^{\left(i\right)}$
+\end_inset
+
+ in 
+\begin_inset Formula $\vec{\omega}^{\left(i\right)}$
+\end_inset
+
+ correspond to the degree 
+\begin_inset Formula $2\delta^{\left(i\right)}-1$
+\end_inset
+
+, degree 
+\begin_inset Formula $\delta^{\left(i\right)}-1$
+\end_inset
+
+ rows in 
+\begin_inset Formula $\check{\mathbf{F}}^{\left(i\right)}$
+\end_inset
+
+ respectively.
+ Let 
+\begin_inset Formula \[
+\mathbf{E}^{\left(i\right)}=\left[\begin{array}{c||cc|cc|cc|cc||cc}
+\mathbf{I}_{n} &  &  &  &  &  &  &  &  & \mathbf{0}_{n,m} & \mathbf{0}_{n,m}\\
+\hline\hline  & \mathbf{0}_{m} & \mathbf{I}_{m} &  &  &  &  &  &  & \ \\
+\hline  &  &  & \mathbf{0}_{m} & \mathbf{I}_{m} &  &  &  &  & \ \\
+\hline  &  &  &  &  & \ddots & \ddots &  &  & \ \\
+\hline  &  &  &  &  &  &  & \mathbf{0}_{m} & \mathbf{I}_{m}\end{array}\right]\]
+
+\end_inset
+
+ with 
+\begin_inset Formula $l^{\left(i\right)}-1$
+\end_inset
+
+ blocks of 
+\begin_inset Formula $\left[\mathbf{0}_{m},\mathbf{I}_{m}\right]$
+\end_inset
+
+ and hence an overall dimension of 
+\begin_inset Formula $(n+m(l^{\left(i\right)}-1))\times(n+m(l^{\left(i-1\right)}-1))$
+\end_inset
+
+, so 
+\begin_inset Formula $\mathbf{E}^{\left(i\right)}\mathbf{M}$
+\end_inset
+
+ picks out from 
+\begin_inset Formula $\mathbf{M}$
+\end_inset
+
+ the first 
+\begin_inset Formula $n$
+\end_inset
+
+ rows and the even block rows from the remaining rows except the last block
+ row for a matrix 
+\begin_inset Formula $\mathbf{M}$
+\end_inset
+
+ with 
+\begin_inset Formula $(n+m(l^{\left(i-1\right)}-1))$
+\end_inset
+
+ rows.
+ In particular, if 
+\begin_inset Formula $i=\log\left(n/m\right)-1$
+\end_inset
+
+, then 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})=(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+, which gives the problem considered earlier in this section, and 
+\begin_inset Formula $\mathbf{E}^{\left(i\right)}=\left[\mathbf{I}_{n},\mathbf{0}_{n,m},\mathbf{0}_{n,m}\right]$
+\end_inset
+
+ is used to pick up the top 
+\begin_inset Formula $n$
+\end_inset
+
+ rows of a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis for a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis to be extracted.
+\end_layout
+
+\begin_layout Standard
+We can now state the analog of 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:extractingFbasisFromGbasis"
+
+\end_inset
+
+: 
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:extractingOrderBasis"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\check{\mathbf{S}}^{\left(i\right)}$
+\end_inset
+
+ be a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
+\end_inset
+
+-basis with its columns sorted in an increasing order of their 
+\begin_inset Formula $\vec{s}^{\left(i-1\right)}$
+\end_inset
+
+ degrees.
+ Let 
+\begin_inset Formula $\hat{\mathbf{S}}^{\left(i\right)}=\mathbf{E}^{\left(i\right)}\check{\mathbf{S}}^{\left(i\right)}$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $J$
+\end_inset
+
+ be the column rank profile of 
+\begin_inset Formula $\lcoeff(x^{\vec{s}^{\left(i\right)}}\hat{\mathbf{S}}^{\left(i\right)})$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $\hat{\mathbf{S}}_{J}^{\left(i\right)}$
+\end_inset
+
+ is a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$
+\end_inset
+
+-basis.
+\end_layout
+
+\begin_layout Proof
+One can follow the same arguments used before from 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:qToBqOrder"
+
+\end_inset
+
+ to 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:extractingFbasisFromGbasis"
+
+\end_inset
+
+.
+ Alternatively, this can be derived from 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:extractingFbasisFromGbasis"
+
+\end_inset
+
+ by noticing the redundant block rows that can be disregarded after applying
+ transformation 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "eq:extendedSTransformTop"
+
+\end_inset
+
+ directly to the input matrix 
+\begin_inset Formula $\bar{\mathbf{F}}^{\left(i\right)}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:delta-1Basis"
+
+\end_inset
+
+ can also be extended in the same way to capture Storjohann's transformation
+ with more general degree parameters: 
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:linkStorjohanTransform"
+
+\end_inset
+
+If 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
+\end_inset
+
+ is a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})_{\delta^{\left(i-1\right)}-1}$
+\end_inset
+
+-basis, then 
+\begin_inset Formula $\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
+\end_inset
+
+ is a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i-1\right)}-1}$
+\end_inset
+
+-basis and the top 
+\begin_inset Formula $n$
+\end_inset
+
+ rows of 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
+\end_inset
+
+ is a 
+\begin_inset Formula $(\mathbf{F},\sigma,\vec{s})_{\delta^{\left(i-1\right)}-1}$
+\end_inset
+
+-basis.
+\end_layout
+
+\begin_layout Proof
+Again, this can be justified in the same way as 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:delta-1Basis"
+
+\end_inset
+
+.
+ Alternatively, one can apply Storjohann's transformation with degree parameter
+ 
+\begin_inset Formula $\delta^{\left(i-1\right)}$
+\end_inset
+
+ to 
+\begin_inset Formula $\bar{\mathbf{F}}^{\left(i\right)}$
+\end_inset
+
+ as in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "eq:storjohannTransformation4parts"
+
+\end_inset
+
+.
+ The lemma then follows from 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:delta-1Basis"
+
+\end_inset
+
+ after noticing the redundant block rows that can be disregarded.
+ 
+\end_layout
+
+\begin_layout Standard
+Notice that if 
+\begin_inset Formula $i=\log\left(n/m\right)-1,$
+\end_inset
+
+ then 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "thm:extractingOrderBasis"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:linkStorjohanTransform"
+
+\end_inset
+
+ specialize to 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:extractingFbasisFromGbasis"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:delta-1Basis"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,144 @@
+
+\section{Introduction}
+
+%
+\begin{comment}
+remove all soft O notation and always write logs explicitly? 
+\end{comment}
+{}Let $\mathbf{F}\in\mathbb{K}\left[\left[x\right]\right]^{m\times n}$
+be a matrix of power series over a field $\mathbb{K}$ with $m\le n$.
+Given a non-negative integer $\sigma$, we say a vector $\mathbf{p}\in\mathbb{K}\left[x\right]^{n\times1}$
+of polynomials gives an \emph{order} $\sigma$ approximation of $\mathbf{F}$,
+or $\mathbf{p}$ has order $\left(\mathbf{F},\sigma\right)$, if \[
+\mathbf{F}\cdot\mathbf{p}\equiv\mathbf{0}\mod x^{\sigma},\]
+ that is, the first $\sigma$ terms of $\mathbf{F}\cdot\mathbf{p}$
+are zero. Historically such problems date back to their use in Hermite's
+proof of the transcendence of $e$ in 1873. In 1893 Padé, a student
+of Hermite, formalized the concepts introduced by Hermite and defined
+what is now known as Hermite-Padé approximants (where $m=1$), Padé
+approximants (where $m=1,n=2$) and simultaneous Padé approximants
+(where $\mathbf{F}$ has a special structure). Such rational approximations
+also specified degree constraints on the polynomials $\mathbf{p}$
+and had their order conditions related to these degree constraints.
+%Pad\'e also introduced the notion of a Pad\'e
+%table for the case $m=1,n=2$ which described all Pad\'e approximants 
+%in terms of $2$ nearby approximants. 
+Additional order problems include vector and matrix versions of rational
+approximation, partial realizations of matrix sequences and vector
+rational reconstruction just to name a few. As an example, the factorization
+of differential operators algorithm of \citet{vanHoeij} makes use
+of vector Hermite-Padé approximation to reconstruct differential factorizations
+over rational functions from factorizations of differential operators
+over power series domains.
+
+The set of all such order $\left(\mathbf{F},\sigma\right)$ approximations
+forms a module over $\mathbb{K}\left[x\right]$. An {\em order basis}
+- or minimal approximant basis or $\sigma$-basis - is a basis of
+this module having a type of minimal degree property (called reduced
+order basis in \citep{BL1997}). The minimal degree property parameterizes
+solutions to an order problem by the degrees of the columns of the
+order basis. In the case of rational approximation, order bases can
+be viewed as a natural generalization of the Padé table of a power
+series \citep{gravesmorris} since they are able to describe {\em
+all} solutions to such problems given particular degree bounds \citep{BL1997}.
+Order bases are used in such diverse applications as the inversion
+of structured matrices \citep{La92}, normal forms of matrix polynomials
+\citep{BLV:1999,BLV:jsc06}, and other important problems in matrix
+polynomial arithmetic including matrix inversion, determinant and
+nullspace computation \citep{Giorgi2003,storjohann-villard:2005}.
+In our case we also allow the minimal degree property to include a
+shift $\vec{s}$. Such a shift is important for matrix normal form
+problems \citep{BLV:1999,BLV:jsc06}.
+
+In this paper we focus on the efficient computation of order basis.
+Algorithms for fast computation of order basis include that of \citet{BeLa94}
+which converts the matrix problem into a vector problem of higher
+order (which they called the Power Hermite-Padé problem). Their divide
+and conquer algorithm has complexity of $O^{\sim}(n^{2}m\sigma+nm^{2}\sigma)$
+field operations. As usual, the soft-$O$ notation $O^{\sim}$ is
+simply Big-$O$ with log factors omitted. By working more directly
+on the input $m\times n$ input matrix, \citet{Giorgi2003} give a
+divide and conquer method with cost $O\left(\MM\left(n,\sigma\right)\log\sigma\right)\subset O^{\sim}\left(\MM\left(n,\sigma\right)\right)$
+arithmetic operations, where $\MM\left(n,\sigma\right)\in O^{\sim}\left(n^{\omega}\sigma\right)$
+denotes the cost of multiplying two polynomial matrices with dimension
+$n$ and degree $\sigma$. Their method is nearly optimal if $m$
+is close to the size of $n$ but can be improved if $m$ is small.
+
+In a novel construction, \citet{Storjohann:2006} effectively reverses
+the approach of Beckermann and Labahn. Namely, rather than convert
+a high dimension matrix order problem into a lower dimension vector
+problem of higher order, Storjohann converts a low dimension problem
+to a high dimension problem with lower order. For example, computing
+an order basis for a $1\times n$ vector input $\mathbf{f}$ and order
+$\sigma$ can be converted to a problem of order basis computation
+with an $O\left(n\right)\times O\left(n\right)$ input matrix and
+an order $O\left(\left\lceil \sigma/n\right\rceil \right)$. Combining
+this conversion with the method of Giorgi et al can then be used effectively
+for problems with small row dimensions to achieve a cost of $O^{\sim}\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\right)$.
+
+However, while order bases of the original problem can have degree
+up to $\sigma$, the nature of Storjohann's conversion limits the
+degree of an order basis of the converted problem to $O\left(\left\lceil m\sigma/n\right\rceil \right)$
+in order to be computationally efficient. In other words, this approach
+does not in general compute a complete order basis. Rather, in order
+to achieve efficiency, it only computes a partial order basis containing
+basis elements with degrees within $O\left(\left\lceil m\sigma/n\right\rceil \right)$,
+referred to by Storjohann as a {\em minbasis}. Fast methods for
+computing a minbasis are particularly useful for certain problems,
+for example, in the case of inversion of structured block matrices
+where one needs only precisely the minbasis \citep{La92}. However,
+in other applications, such as those arising in matrix polynomial
+arithmetic, one needs a complete basis which specifies all solutions
+of a given order, not just those within a particular degree bound.
+
+In this paper we present two algorithms which computes an entire order
+basis with a cost of $O\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\log\sigma\right)\subset O^{\sim}\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\right)$
+field operations. The two algorithms differ depending on the nature
+of the degree shift required for the reduced order basis. In the first
+case we use a transformation that can be considered as an extension
+of Storjohann's transformation. This new transformation provides a
+way to extend the results from one Storjohann's transformed problem
+to another Storjohann's transformed problem of a higher degree. This
+enables us to use an idea from the null space basis algorithm of Storjohann
+and Villard \citep{storjohann-villard:2005} in order to achieve efficient
+computation. At each iteration, basis elements within a specified
+degree bound are computed via a Storjohann transformed problem. Then
+the partial result is used to simplify the next Storjohann transformed
+problem of a higher degree, allowing basis elements within a higher
+degree bound to be computed efficiently. This is repeated until all
+basis elements are computed.
+
+In order to achieve its optimal complexity, the first algorithm requires
+that the degree shifts are balanced. In the case where the shift is
+not balanced, the row degrees of the basis can also become unbalanced
+in addition to the unbalanced column degrees. We give a second algorithm
+that balances the high degree rows and uses $O^{\sim}(\MM(n,\lceil m\sigma/n\rceil))$
+field operation when the shift $\vec{s}$ is unbalanced but satisfies
+the condition $\sum_{i=1}^{n}(\max(\vec{s})-\vec{s}_{i})\le m\sigma$.
+This condition essentially allows us to locate the high degree unbalanced
+rows that need to be balanced. %
+\begin{comment}
+In fact, every problem with any unbalanced shift can be reformulated
+to a problem with a shift satisfying this condition if the degrees
+of the resulting order basis is known. 
+\end{comment}
+{} The algorithm converts a problem of unbalanced shift to one with
+balanced shift, based on a second idea from \citep{Storjohann:2006}.
+Then the first algorithm is used to efficiently compute the elements
+of an order basis whose shifted degrees exceed a specified parameter.
+The problem is then reduced to one where we remove the computed elements.
+This results in a new problem with smaller dimension and higher degree.
+The same process is repeated again on this new problem in order to
+compute the elements with the next highest shifted degrees.
+
+The remaining paper is structured as follows. Basic definitions and
+properties of order bases are given in the next section. \prettyref{sec:transform}
+provides an extension to Storjohann's transformation to allow higher
+degree basis elements to be computed. Based on this new transformation,
+\prettyref{sec:Order-Basis-Computation} establishes a link between
+two Storjohann transformed problems of different degrees, from which
+an recursive method and then an iterative algorithm are derived. The
+time complexity is analyzed in the next section. After this, \prettyref{sec:Unbalanced-Shift}
+describes an algorithm which handles problems with a type of unbalanced
+shift. This is followed by a conclusion along with a description for
+topics for future research. 

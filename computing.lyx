@@ -1,0 +1,1115 @@
+#LyX file created by tex2lyx 1.6.5
+\lyxformat 264
+\begin_document
+\begin_header
+\textclass elsart
+\options amsthm,seceqn,secthm
+\language english
+\inputencoding latin9
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\paperfontsize default
+\spacing single
+\papersize default
+\use_geometry false
+\use_amsmath 2
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+
+Computation of Order Bases
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset LatexCommand label
+name "sec:Order-Basis-Computation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+In this section, we establish a link between two different Storjohann transformed problems by dividing the transformed problem from the previous section to two subproblems and then simplifying the second subproblem. This leads to a recursive way of computing order bases. We then describe our algorithm in the equivalent iterative way.
+\end_layout
+
+\begin_layout Subsection
+
+
+\begin_inset LatexCommand label
+name "sub:Dividing-to-Subproblems"
+
+\end_inset
+
+Dividing to Subproblems 
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset LatexCommand prettyref
+reference "sec:transform"
+
+\end_inset
+
+ shows that the problem of computing a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis can be converted to the problem of computing a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis and more generally, computing a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$
+\end_inset
+
+-basis, a Storjohann transformed problem with degree parameter 
+\begin_inset Formula $\delta^{\left(i\right)}$
+\end_inset
+
+, can be converted to a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
+\end_inset
+
+-basis computation problem. We now consider dividing the new converted problem to two subproblems.
+\end_layout
+
+\begin_layout Standard
+
+The first subproblem is to compute a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
+\end_inset
+
+-basis or equivalently a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
+\end_inset
+
+-basis 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(i-1\right)}$
+\end_inset
+
+. This is another Storjohann transformed problem with degree parameter 
+\begin_inset Formula $\delta^{\left(i-1\right)}$
+\end_inset
+
+. The second subproblem is computing a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
+\end_inset
+
+-basis 
+\begin_inset Formula $\bar{\mathbf{Q}}^{\left(i\right)}$
+\end_inset
+
+ using the residual 
+\begin_inset Formula $\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+\end_inset
+
+ from the first subproblem along with a degree shift 
+\begin_inset Formula $\vec{t}^{\left(i-1\right)}=\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}^{\left(i-1\right)}$
+\end_inset
+
+. From Theorem 5.1 in 
+\begin_inset LatexCommand citep
+after ""
+before ""
+key "BL1997"
+
+\end_inset
+
+ we then know that the product 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$
+\end_inset
+
+ is a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
+\end_inset
+
+-basis and 
+\begin_inset Formula $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}=\deg_{\vec{t}^{\left(i-1\right)}}\bar{\mathbf{Q}}^{\left(i\right)}$
+\end_inset
+
+. 
+\end_layout
+
+\begin_layout Example
+
+
+\begin_inset LatexCommand label
+name "exm:subproblems"
+
+\end_inset
+
+ Let us continue with 
+\begin_inset LatexCommand prettyref
+reference "exm:StorjohannTransformation"
+
+\end_inset
+
+ and 
+\begin_inset LatexCommand prettyref
+reference "exm:auxiliaryTransformation"
+
+\end_inset
+
+ to compute a 
+\begin_inset Formula $\left(\mathbf{F},8,\vec{0}\right)$
+\end_inset
+
+-basis ( or equivalently a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(2\right)},8,\vec{0})$
+\end_inset
+
+-basis). This can be determined by computing a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(2\right)},[8,4,4],\vec{0})$
+\end_inset
+
+-basis as shown in 
+\begin_inset LatexCommand prettyref
+reference "exm:auxiliaryTransformation"
+
+\end_inset
+
+ with 
+\begin_inset Formula $\check{\mathbf{F}}^{\left(2\right)}=\check{\mathbf{F}}$
+\end_inset
+
+ from 
+\begin_inset LatexCommand prettyref
+reference "exm:auxiliaryTransformation"
+
+\end_inset
+
+. Computing a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(2\right)},[8,4,4],\vec{0})$
+\end_inset
+
+-basis can be divided to two subproblems. The first subproblem is computing a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(1\right)},4,\vec{0})$
+\end_inset
+
+-basis 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(1\right)}$
+\end_inset
+
+, the Storjohann partial linearized problem in 
+\begin_inset LatexCommand prettyref
+reference "exm:StorjohannTransformation"
+
+\end_inset
+
+. The residual 
+\begin_inset Formula \[
+\check{\mathbf{F}}^{(2)}\bar{\mathbf{P}}^{(1)}=\left[{\begin{array}{rccccc}
+0 & x^{8} & x^{6}+x^{9} & x^{4}+x^{6}+x^{9} & x^{6}+x^{8}+x^{9}+x^{10} & x^{5}+x^{8}\\
+0 & 0 & x^{5} & x^{4}+x^{6} & x^{4}+x^{6} & x^{5}+x^{6}\\
+0 & x^{4} & x^{5} & x^{5} & x^{4}+x^{5}+x^{6} & x^{4}\end{array}}\right]
+\]
+\end_inset
+
+ is then used as the input matrix for the second subproblem. The shift for the second subprobem 
+\begin_inset Formula $\vec{t}^{(1)}=[0,1,2,3,3,3]$
+\end_inset
+
+ is the list of column degrees of 
+\begin_inset Formula $\bar{\mathbf{P}}^{(1)}$
+\end_inset
+
+ and so the second subproblem is to compute a 
+\begin_inset Formula $(\check{\mathbf{F}}^{(2)}\bar{\mathbf{P}}^{(1)},\left[8,4,4\right],[0,1,2,3,3,3])$
+\end_inset
+
+-basis, which is 
+\begin_inset Formula \begin{equation}
+\bar{\mathbf{Q}}^{(2)}=\left[{\begin{array}{cccccc}
+~1~ & ~0~ & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 &~x^{2}~ & ~x~ & ~1~\\
+0 & 0 & 0 & 0 & x & 0\\
+0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 1 & ~x~
+\end{array}}\right]\label{eq:Qbar2},
+\end{equation}
+\end_inset
+
+ 
+\begin_inset Formula $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$
+\end_inset
+
+ then gives the 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(2\right)},[8,4,4],\vec{0})$
+\end_inset
+
+-basis shown in 
+\begin_inset LatexCommand prettyref
+reference "exm:auxiliaryTransformation"
+
+\end_inset
+
+. 
+\end_layout
+
+\begin_layout Standard
+
+We now show that the dimension of the second subproblem can be significantly reduced. First, the row dimension can be reduced by over a half. Let 
+\begin_inset Formula $\hat{\mathbf{P}}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+\end_inset
+
+. 
+\end_layout
+
+\begin_layout Lemma
+
+
+\begin_inset LatexCommand label
+name "lem:simplifySecondSubproblem"
+
+\end_inset
+
+A 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
+\end_inset
+
+-basis is a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
+\end_inset
+
+-basis.
+\end_layout
+
+\begin_layout Proof
+
+This follows because 
+\begin_inset Formula $\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)}$
+\end_inset
+
+ is a submatrix of 
+\begin_inset Formula $\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+\end_inset
+
+ after removing rows already having the correct order 
+\begin_inset Formula $2\delta^{\left(i-1\right)}$
+\end_inset
+
+. 
+\end_layout
+
+\begin_layout Standard
+
+The column dimension of the second subproblem can be reduced by disregarding the 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i-1\right)}-1}$
+\end_inset
+
+-basis already computed. More specifically, after sorting the columns of 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(i-1\right)}$
+\end_inset
+
+ in an increasing order of their 
+\begin_inset Formula $\vec{s}^{\left(i-1\right)}$
+\end_inset
+
+-degrees, let 
+\begin_inset Formula $[\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{P}}_{2}^{\left(i-1\right)}]=\bar{\mathbf{P}}^{\left(i-1\right)}$
+\end_inset
+
+ be such that 
+\begin_inset Formula $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{1}^{\left(i-1\right)}\le\delta^{\left(i-1\right)}-1$
+\end_inset
+
+ and 
+\begin_inset Formula $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}\ge\delta^{\left(i-1\right)}$
+\end_inset
+
+. Then 
+\begin_inset Formula $\hat{\mathbf{P}}_{1}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
+\end_inset
+
+ is a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i-1\right)}-1}$
+\end_inset
+
+-basis by 
+\begin_inset LatexCommand prettyref
+reference "lem:linkStorjohanTransform"
+
+\end_inset
+
+. In the second subproblem, the remaining basis elements of a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$
+\end_inset
+
+-basis can then be computed without 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+Let 
+\begin_inset Formula $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}$
+\end_inset
+
+, 
+\begin_inset Formula $\vec{b}^{\left(i-1\right)}=\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{\mathbf{Q}}_{2}^{\left(i\right)}$
+\end_inset
+
+ be a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$
+\end_inset
+
+-basis (or equivalently a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{b}^{\left(i-1\right)})$
+\end_inset
+
+-basis), and 
+\begin_inset Formula $k^{\left(i-1\right)}$
+\end_inset
+
+ be the column dimension of 
+\begin_inset Formula $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
+\end_inset
+
+. Then 
+\end_layout
+
+\begin_layout Lemma
+
+
+\begin_inset LatexCommand label
+name "lem:disregardComputedBasisElements"
+
+\end_inset
+
+ The matrix 
+\begin_inset Formula \[
+\bar{\mathbf{Q}}^{\left(i\right)}=\left[\begin{array}{cc}
+\mathbf{I}_{k^{\left(i-1\right)}}\\
+ & \bar{\mathbf{Q}}_{2}^{\left(i\right)}\end{array}\right]\]
+\end_inset
+
+ is a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
+\end_inset
+
+-basis (equivalently a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
+\end_inset
+
+-basis).
+\end_layout
+
+\begin_layout Proof
+
+First note that 
+\begin_inset Formula $\bar{\mathbf{Q}}^{\left(i\right)}$
+\end_inset
+
+ has order 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)})$
+\end_inset
+
+ as 
+\begin_inset Formula \[\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}=[\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]\equiv0\mod x^{2\delta^{\left(i\right)}}.\]
+\end_inset
+
+ In addition, 
+\begin_inset Formula $\bar{\mathbf{Q}}^{\left(i\right)}$
+\end_inset
+
+ has minimal 
+\begin_inset Formula $\vec{t}^{\left(i-1\right)}$
+\end_inset
+
+ degrees as 
+\begin_inset Formula $\bar{\mathbf{Q}}_{2}^{\left(i\right)}$
+\end_inset
+
+ is 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+-minimal. Hence 
+\begin_inset Formula $\bar{\mathbf{Q}}^{\left(i\right)}$
+\end_inset
+
+ is a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)}\cdot\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
+\end_inset
+
+-basis by 
+\begin_inset LatexCommand prettyref
+reference "lem:orderBasisEquivalence"
+
+\end_inset
+
+. 
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Standard
+
+Alternatively, one can also argue that since 
+\begin_inset Formula $\hat{\mathbf{P}}_{1}^{\left(i-1\right)}$
+\end_inset
+
+ already has order 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)})$
+\end_inset
+
+, it cannot contribute in any way to and cannot be affected in any way by the computations of a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$
+\end_inset
+
+-basis, hence it is sufficient to just use 
+\begin_inset Formula $\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
+\end_inset
+
+ to compute a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)}\cdot\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$
+\end_inset
+
+-basis. 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset LatexCommand prettyref
+reference "lem:disregardComputedBasisElements"
+
+\end_inset
+
+ immediately leads to the following. 
+\end_layout
+
+\begin_layout Lemma
+
+
+\begin_inset LatexCommand label
+name "lem:computationAtTopLevel"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\hat{\mathbf{S}}=[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]$
+\end_inset
+
+, 
+\begin_inset Formula $I$
+\end_inset
+
+ the column rank profile of 
+\begin_inset Formula $\lcoeff(x^{\vec{s}^{\left(i\right)}}\hat{\mathbf{S}})$
+\end_inset
+
+. Then 
+\begin_inset Formula $\hat{\mathbf{S}}_{I}$
+\end_inset
+
+ is a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$
+\end_inset
+
+-basis.
+\end_layout
+
+\begin_layout Proof
+
+From 
+\begin_inset LatexCommand prettyref
+reference "lem:disregardComputedBasisElements"
+
+\end_inset
+
+, 
+\begin_inset Formula $\bar{\mathbf{Q}}^{\left(i\right)}$
+\end_inset
+
+ is a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
+\end_inset
+
+-basis and hence 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$
+\end_inset
+
+ is a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
+\end_inset
+
+-basis. Therefore 
+\begin_inset LatexCommand prettyref
+reference "thm:extractingOrderBasis"
+
+\end_inset
+
+ applies since 
+\begin_inset Formula $[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$
+\end_inset
+
+. 
+\begin_inset Note Comment
+status open
+
+\begin_layout Standard
+
+
+\begin_inset Formula $=\mathbf{E}^{\left(i\right)}[\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+Continuing with 
+\begin_inset LatexCommand prettyref
+reference "exm:StorjohannTransformation"
+
+\end_inset
+
+, 
+\begin_inset LatexCommand prettyref
+reference "exm:auxiliaryTransformation"
+
+\end_inset
+
+, and 
+\begin_inset LatexCommand prettyref
+reference "exm:subproblems"
+
+\end_inset
+
+, 
+\begin_inset Note Comment
+status open
+
+\begin_layout Standard
+
+notice that after the first subproblem, the second subproblem of computing 
+\begin_inset Formula $\bar{\mathbf{Q}}^{(2)}$
+\end_inset
+
+ in 
+\begin_inset LatexCommand prettyref
+reference "exm:subproblems"
+
+\end_inset
+
+ is really a smaller problem of computing the lower right 
+\begin_inset Formula $4\times4$
+\end_inset
+
+ submatrix 
+\begin_inset Formula $\bar{\mathbf{Q}}_{2}^{(2)}$
+\end_inset
+
+, which is a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(2\right)}\hat{\mathbf{P}}_{2}^{\left(1\right)},8,\vec{b}^{\left(1\right)})$
+\end_inset
+
+-basis (or equivalently a 
+\begin_inset Formula $(\check{\mathbf{F}}^{\left(2\right)}\bar{\mathbf{P}}_{2}^{\left(1\right)},[8,4,4],\vec{b}^{\left(1\right)})$
+\end_inset
+
+-basis), where 
+\begin_inset Formula $\bar{\mathbf{P}}_{2}^{\left(1\right)}$
+\end_inset
+
+ is the last 
+\begin_inset Formula $4$
+\end_inset
+
+ columns of 
+\begin_inset Formula $\bar{\mathbf{P}}^{(1)}$
+\end_inset
+
+, 
+\begin_inset Formula $\vec{b}^{(1)}=[2,3,3,3]$
+\end_inset
+
+ is the list of column degrees of 
+\begin_inset Formula $\bar{\mathbf{P}}_{2}^{(1)}$
+\end_inset
+
+, and 
+\begin_inset Formula $\hat{\mathbf{P}}_{2}^{\left(1\right)}$
+\end_inset
+
+ is the first 
+\begin_inset Formula $4$
+\end_inset
+
+ rows of 
+\begin_inset Formula $\bar{\mathbf{P}}_{2}^{(1)}$
+\end_inset
+
+. 
+\end_layout
+
+\end_inset
+
+notice that in the computation of the second subproblem, instead of using 
+\begin_inset Formula $\check{\mathbf{F}}^{\left(2\right)},$
+\end_inset
+
+ 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(1\right)}$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{\mathbf{Q}}^{(2)}$
+\end_inset
+
+, and 
+\begin_inset Formula $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$
+\end_inset
+
+, the previous lemmas show that we can just use their submatrices, 
+\begin_inset Formula $\bar{\mathbf{F}}^{(2)}$
+\end_inset
+
+ the top left 
+\begin_inset Formula $1\times4$
+\end_inset
+
+ submatrix of 
+\begin_inset Formula $\check{\mathbf{F}}^{\left(2\right)}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{\mathbf{P}}_{2}^{(1)}$
+\end_inset
+
+ the top right 
+\begin_inset Formula $4\times4$
+\end_inset
+
+ submatrix of 
+\begin_inset Formula $\bar{\mathbf{P}}^{(1)}$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{\mathbf{Q}}_{2}^{(2)}$
+\end_inset
+
+ the bottom right 
+\begin_inset Formula $4\times4$
+\end_inset
+
+ submatrix of 
+\begin_inset Formula $\bar{\mathbf{Q}}^{(2)}$
+\end_inset
+
+, and 
+\begin_inset Formula $\hat{\mathbf{P}}_{2}^{(1)}\bar{\mathbf{Q}}_{2}^{(2)}$
+\end_inset
+
+ the top right 
+\begin_inset Formula $4\times4$
+\end_inset
+
+ submatrix of 
+\begin_inset Formula $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$
+\end_inset
+
+of lower dimensions. 
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset LatexCommand prettyref
+reference "lem:computationAtTopLevel"
+
+\end_inset
+
+ gives us a way of computing a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis. We can set 
+\begin_inset Formula $i$
+\end_inset
+
+ to 
+\begin_inset Formula $\log\left(n/m\right)-1$
+\end_inset
+
+ so that 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$
+\end_inset
+
+=
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+, and compute a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$
+\end_inset
+
+-basis. By 
+\begin_inset LatexCommand prettyref
+reference "lem:computationAtTopLevel"
+
+\end_inset
+
+, this can be divided into two subproblems. The first produces 
+\begin_inset Formula $[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}]=\hat{\mathbf{P}}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+\end_inset
+
+ from computing a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i-1\right)},\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
+\end_inset
+
+-basis 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(i-1\right)}$
+\end_inset
+
+. The second subproblem then computes a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$
+\end_inset
+
+-basis 
+\begin_inset Formula $\bar{\mathbf{Q}}_{2}^{\left(i\right)}$
+\end_inset
+
+. Note the first subproblem of computing a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i-1\right)},\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
+\end_inset
+
+-basis can again be divided to two subproblems just as before. This can be repeated recursively until we reach the base case with degree parameter 
+\begin_inset Formula $\delta^{\left(1\right)}=2d$
+\end_inset
+
+. The total levels of recursion is therefore 
+\begin_inset Formula $\log\left(n/m\right)-1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+Notice that the transformed matrix 
+\begin_inset Formula $\check{\mathbf{F}}^{\left(i\right)}$
+\end_inset
+
+ is not used explicitly in the computation, even though it is crucial for deriving our results.
+\end_layout
+
+\begin_layout Subsection
+
+The Iterative View
+\end_layout
+
+\begin_layout Standard
+
+In this subsection we present our algorithm, which uses an iterative version of the computation discussed above.
+\begin_inset Note Comment
+status open
+
+\begin_layout Standard
+
+The recursive top-down approach of the previous subsection is useful for giving an overall picture of the computation process. Algorithm 
+\begin_inset LatexCommand prettyref
+reference "alg:mab"
+
+\end_inset
+
+ uses an equivalent corresponding bottom-up iterative approach. 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Standard
+
+, allowing the complexity to be more easily analyzed. 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Standard
+
+. In practice, bottom-up iterative approaches are more efficient than the corresponding top-down recursive approaches. For our purpose, it is also easier to analyze the computational cost of the iterative procedure. 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset LatexCommand prettyref
+reference "alg:mab"
+
+\end_inset
+
+ uses a subroutine 
+\begin_inset Formula $\mab$
+\end_inset
+
+, the algorithm from Giorgi et al. 
+\begin_inset LatexCommand citeyearpar
+after ""
+before ""
+key "Giorgi2003"
+
+\end_inset
+
+, for computing order bases with balanced input. Specifically, 
+\begin_inset Formula $\left[\mathbf{Q},\vec{a}\right]=\mab(\mathbf{G},\sigma,\vec{b})$
+\end_inset
+
+ computes a 
+\begin_inset Formula $(\mathbf{G},\sigma,\vec{b})$
+\end_inset
+
+-basis and also returns its 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+-column degrees 
+\begin_inset Formula $\vec{a}$
+\end_inset
+
+. The other subroutine 
+\begin_inset Formula $\StorjohannTransform$
+\end_inset
+
+ is the transformation described in 
+\begin_inset LatexCommand prettyref
+reference "sub:storjohannTransformation"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset LatexCommand prettyref
+reference "alg:mab"
+
+\end_inset
+
+ proceeds as follows. In the first iteration, which is the base case of the recursive approach, we set the degree parameter 
+\begin_inset Formula $\delta^{\left(1\right)}$
+\end_inset
+
+ to be twice of the average degree 
+\begin_inset Formula $d$
+\end_inset
+
+ and apply Storjohann's transformation to produce a new input matrix 
+\begin_inset Formula $\bar{\mathbf{F}}^{\left(1\right)}$
+\end_inset
+
+, which has 
+\begin_inset Formula $l^{\left(1\right)}$
+\end_inset
+
+ block rows. Then a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(1\right)},2\delta^{\left(1\right)},\vec{s}^{\left(1\right)})$
+\end_inset
+
+-basis 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(1\right)}$
+\end_inset
+
+ is computed. Note this is in fact the first subproblem of computing a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})$
+\end_inset
+
+-basis, which is another Storjohann transformed problem and also the problem of the second iteration. Now at the second iteration, we work on a new Storjohann transformed problem with the degree doubled and the number of block rows 
+\begin_inset Formula $l^{\left(2\right)}=(l^{\left(1\right)}-1)/2$
+\end_inset
+
+ reduced by over a half. The column dimension is reduced by using the result from the previous iteration. More specifically, we know that a 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(1\right)}$
+\end_inset
+
+ already provides a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})_{\delta^{\left(1\right)}-1}$
+\end_inset
+
+-basis 
+\begin_inset Formula $\hat{\mathbf{P}}_{1}^{\left(1\right)}$
+\end_inset
+
+, which can be disregarded in the remaining computation. Now the remaining work in the second iteration is to compute a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(2\right)}\hat{\mathbf{P}}_{2}^{\left(1\right)},2\delta^{\left(2\right)},\vec{b}^{\left(1\right)})$
+\end_inset
+
+-basis 
+\begin_inset Formula $\bar{\mathbf{Q}}^{\left(2\right)}$
+\end_inset
+
+, where 
+\begin_inset Formula $\vec{b}^{\left(1\right)}=\deg_{\vec{s}^{\left(1\right)}}\bar{\mathbf{P}}_{2}^{\left(1\right)}$
+\end_inset
+
+, and then to combine it with the result from the previous iteration to form a matrix 
+\begin_inset Formula $[\hat{\mathbf{P}}_{1}^{\left(1\right)},\hat{\mathbf{P}}_{2}^{\left(1\right)}\bar{\mathbf{Q}}^{\left(2\right)}]$
+\end_inset
+
+ in order to extract a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})$
+\end_inset
+
+-basis 
+\begin_inset Formula $\bar{\mathbf{P}}^{\left(2\right)}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+With a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})$
+\end_inset
+
+-basis computed, we can repeat the same process to use it for computing a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(3\right)},2\delta^{\left(3\right)},\vec{s}^{\left(3\right)})$
+\end_inset
+
+-basis. Continue, using the computed 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
+\end_inset
+
+-basis to compute a 
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$
+\end_inset
+
+-basis, until all 
+\begin_inset Formula $n$
+\end_inset
+
+ elements of a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis have been determined.
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset Include \input{algorithm1.lyx}
+preview false
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Theorem
+
+Algorithm 
+\begin_inset LatexCommand prettyref
+reference "alg:mab"
+
+\end_inset
+
+ computes a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis correctly.
+\end_layout
+
+\begin_layout Proof
+
+This follows from 
+\begin_inset LatexCommand prettyref
+reference "lem:simplifySecondSubproblem"
+
+\end_inset
+
+, 
+\begin_inset LatexCommand prettyref
+reference "lem:disregardComputedBasisElements"
+
+\end_inset
+
+, and 
+\begin_inset LatexCommand prettyref
+reference "lem:computationAtTopLevel"
+
+\end_inset
+
+. 
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\end_body
+\end_document
