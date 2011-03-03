@@ -86,12 +86,17 @@ case of this transformation. %which extends immediately to the more general resu
 
 
 Consider the problem of computing a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis.
-We assume $\sigma=4\delta$ for a positive integer $\delta$ and write
-the input matrix $\mathbf{F}$ as $\mathbf{F}=\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\mathbf{F}_{3}x^{3\delta}$
-with $\deg\mathbf{F}_{i}\le\delta-1$.%
+We assume $\sigma=4\delta$ %
 \begin{comment}
 (The results below hold for any positive integer great than one, but
 4 is used for simplicity. ) 
+\end{comment}
+{}for a positive integer $\delta$ and write the input matrix $\mathbf{F}$
+as $\mathbf{F}=\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\mathbf{F}_{3}x^{3\delta}$
+with $\deg\mathbf{F}_{i}<\delta$.%
+\begin{comment}
+again, changed from $\deg\mathbf{F}_{i}\le\delta-1$ to $\deg\mathbf{F}_{i}<\delta$
+even though I prefer $\le$ 
 \end{comment}
 {} In the following, we show that computing a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 can be done by computing a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis

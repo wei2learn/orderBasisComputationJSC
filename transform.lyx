@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -37,6 +37,7 @@
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
+\author "" 
 \author "" 
 \end_header
 
@@ -380,7 +381,19 @@ Consider the problem of computing a
 \begin_inset Formula $\sigma=4\delta$
 \end_inset
 
- for a positive integer 
+ 
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+(The results below hold for any positive integer great than one, but 4 is
+ used for simplicity.
+ ) 
+\end_layout
+
+\end_inset
+
+for a positive integer 
 \begin_inset Formula $\delta$
 \end_inset
 
@@ -393,7 +406,7 @@ Consider the problem of computing a
 \end_inset
 
  with 
-\begin_inset Formula $\deg\mathbf{F}_{i}\le\delta-1$
+\begin_inset Formula $\deg\mathbf{F}_{i}<\delta$
 \end_inset
 
 .
@@ -401,9 +414,19 @@ Consider the problem of computing a
 status open
 
 \begin_layout Plain Layout
-(The results below hold for any positive integer great than one, but 4 is
- used for simplicity.
- ) 
+again, changed from 
+\begin_inset Formula $\deg\mathbf{F}_{i}\le\delta-1$
+\end_inset
+
+ to 
+\begin_inset Formula $\deg\mathbf{F}_{i}<\delta$
+\end_inset
+
+ even though I prefer 
+\begin_inset Formula $\le$
+\end_inset
+
+ 
 \end_layout
 
 \end_inset

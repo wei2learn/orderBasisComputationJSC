@@ -608,8 +608,7 @@ reference "exm:StorjohannTransformation"
 \end_inset
 
 .
- So the last the column is the only column guaranteed to give a correct
- 
+ So the last column is the only column guaranteed to give a correct 
 \begin_inset Formula $(\mathbf{F},8,\vec{s})$
 \end_inset
 

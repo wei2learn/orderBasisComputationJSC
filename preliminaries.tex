@@ -122,15 +122,15 @@ can be expressed as a linear combination of the columns of $\mathbf{P}$.
 \end{lem}
 In some cases an entire order basis is unnecessary and instead one
 looks for a minimal basis that generates only the elements of $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
-with $\vec{s}$-degrees bounded by $\delta$. Such minimal basis is
-a partial $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis comprised
-of elements of a $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis
+with $\vec{s}$-degrees bounded by a given $\delta$. Such minimal
+basis is a partial $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis
+comprised of elements of a $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis
 with $\vec{s}$-degrees bounded by $\delta$. This is called a \emph{minbasis}
 in \citet{Storjohann:2006}. 
 \begin{defn}
 \label{def:genset} Let $\left\langle \left(\mathbf{F},\vec{\sigma},\vec{s}\right)\right\rangle _{\delta}\subset\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
 denote the set of order $\left(\mathbf{F},\vec{\sigma}\right)$ polynomial
-vector with $\vec{s}$-degree bounded by $\delta$. A $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)_{\delta}$-basis
+vectors with $\vec{s}$-degree bounded by $\delta$. A $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)_{\delta}$-basis
 is a polynomial matrix $\mathbf{P}$ not containing a zero column
 and satisfying: 
 \begin{enumerate}
@@ -159,18 +159,18 @@ shift $\vec{s}$ and order $\sigma$ one can view $\mathbf{F}$ as
 a polynomial matrix with degree $\sigma-1$, as higher order terms
 are not needed in the computation. As such the total input size of
 an order basis problem is $mn\sigma$ coefficients. One can apply
-the method of Giorgi et al \citeyearpar{Giorgi2003} directly, which
+the method of Giorgi et al. \citeyearpar{Giorgi2003} directly, which
 gives a cost of $O\left(\MM\left(n,\sigma\right)\log\sigma\right)\subset O^{\sim}\left(\MM\left(n,\sigma\right)\right)$
 field operations, close to the cost of multiplying two matrices with
 dimension $n$ and degree $\sigma$. Note that this cost is independent
-of the degree shift. This is optimal within a log factor if $m\in\Theta\left(n\right)$.
-However, for small $m$, say $m=1$ as in Hermite Padi approximation,
+of the degree shift. This is very efficient if $m\in\Theta\left(n\right)$.
+However, for small $m$, say $m=1$ as in Hermite Padé approximation,
 the total input size is only $n\sigma$ coefficients. Matrix multiplication
 cannot be used effectively on a such vector input.
 
 \citet{Storjohann:2006} provides a novel way to transform an order
 basis problem with small row dimension to a problem with higher row
-dimension and lower degree to take advantage of Giorgi et al's algorithm.
+dimension and lower degree to take advantage of Giorgi et al.'s algorithm.
 We provide a quick overview of a slightly modified version of Storjohann's
 method. Our small modification allows a nonuniform degree shift for
 the input and provides a slightly simpler degree shift, degree, and
@@ -179,18 +179,28 @@ provided in \prettyref{sec:transform}. In order to compute a $\left(\mathbf{F},\
 assuming without loss of generality that $\min\left(\vec{s}\right)=0$,
 we first write \[
 \mathbf{F}=\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\cdots+\mathbf{F}_{l}x^{l\delta},\]
- with $\deg\mathbf{F}_{i}\le\delta-1$ for a positive integer $\delta$,
-and where we assume (again without loss of generality) that $\sigma=\left(l+1\right)\delta$.
-Set \[
+ with $\deg\mathbf{F}_{i}<\delta$%
+\begin{comment}
+I used $\deg\mathbf{F}_{i}\le\delta-1$ before, but the reviewer suggested
+changing to $\deg\mathbf{F}_{i}<\delta$ and said it's slightly easier
+to read. A reason to use $\le$ is to make it consistent with the
+definition of minbasis. For example, $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$-basis
+indicates that the degree bound is $\delta-1$. I still prefer to
+use $\le$. 
+\end{comment}
+{} for a positive integer $\delta$, and where we assume (again without
+loss of generality) that $\sigma=\left(l+1\right)\delta$. Set \[
 {\bar{\mathbf{F}}}=\left[\begin{array}{c|c}
-\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0}_{n,m\left(l-1\right)}\\
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0}_{m,m\left(l-1\right)}\\
 \hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta}\\
 \mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{I}_{m\left(l-1\right)}\\
 \vdots\\
-\mathbf{F}_{l-1}+\mathbf{F}_{l}x^{\delta}\end{array}\right]\]
- and $\vec{s'}=\left[\vec{s},0,\dots,0\right]$ ($\vec{s}$ followed
+\mathbf{F}_{l-1}+\mathbf{F}_{l}x^{\delta}\end{array}\right]_{ml\times(n+m(l-1))}.\]
+ Note that each block $\mathbf{F}_{i}+\mathbf{F}_{i+1}x^{\delta}$
+has dimension $m\times n$ and $\bar{\mathbf{F}}$ has dimension $ml\times(n+m(l-1))$.
+Set $\vec{s'}=\left[\vec{s},0,\dots,0\right]$ ($\vec{s}$ followed
 by $m\left(l-1\right)$ $0$'s). A $({\bar{\mathbf{F}}},2\delta,\vec{s'})$-basis
-can then be computed by Giorgi et al's method with a cost of $O^{\sim}\left(\MM\left(n,\delta\right)\right)$
+can then be computed by Giorgi et al.'s method with a cost of $O^{\sim}\left(\MM\left(n,\delta\right)\right)$
 for $\delta\ge\left\lceil m\sigma/n\right\rceil $. This transformation
 of Storjohann can be viewed as a partial linearization of the original
 problem, where $\bar{\mathbf{F}}$ is analogous to the coefficient
@@ -201,7 +211,7 @@ to represent $m$ rows for the remainder of the paper.
 Clearly a $(\bar{\mathbf{F}},2\delta,\vec{s'})$-basis $\bar{\mathbf{P}}$
 of the transformed problem is not a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 of the original problem, as $\bar{\mathbf{P}}$ has a higher dimension
-and lower degree. However, the top $n$-rows of the $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$-basis
+and lower degree. However, the first $n$ rows of the $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$-basis
 contained in $\bar{\mathbf{P}}$ is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$-basis.
 
 Note that there is no need to set the degree parameter $\delta$ to
@@ -228,12 +238,12 @@ always a positive integer in this paper.
 \begin{exmp}
 \label{exm:StorjohannTransformation}Let $\mathbb{K}=\mathbb{Z}_{2}$,
 $\sigma=8$, $\delta=2$ and \[
-\mathbf{F}=[x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},1+x+x^{5}+x^{6}+x^{7},1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},1+x+x^{3}+x^{7}].\]
- Then \[
+\mathbf{F}=[x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},1+x+x^{5}+x^{6}+x^{7},1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},1+x+x^{3}+x^{7}]_{1\times4}.\]
+Then \[
 \bar{\mathbf{F}}=\left[{\begin{array}{cccccc}
 x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
 1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & ~~1~ & ~0~\\
-1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]\]
+1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]_{3\times6}\]
  and a $\left(\bar{\mathbf{F}},4,\vec{0}\right)$-basis is given by
 \[
 \bar{\mathbf{P}}=\left[{\begin{array}{rc|cccc}
@@ -310,7 +320,7 @@ bounded by $d=m\sigma/n$. In the first part of this paper, we consider
 a slightly more general case, when the shift $\vec{s}$ is \emph{balanced},
 which is defined as follows. 
 \begin{defn}
-A shift $\vec{s}$ is balanced if $(\max\vec{s}-\min\vec{s})\in O(d)=O(m\sigma/n)$. 
+A shift $\vec{s}$ is balanced if $\max\vec{s}-\min\vec{s}\in O(d)=O(m\sigma/n)$. 
 \end{defn}
 By assuming $\min\vec{s}=0$, $\vec{s}$ is balanced if $\max\vec{s}\in O(d)$.
 In this case, \prettyref{lem:size} implies $\sum_{i}\left(\vec{t}_{i}\right)\le m\sigma+\sum_{i}\left(\vec{s}_{i}\right)\in O\left(m\sigma+nd\right)=O\left(m\sigma\right)$.
@@ -335,7 +345,7 @@ column degrees by exactly $m$.
 The fact that a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis can
 have degree up to $\sigma$ while its average column degree is $O\left(m\sigma/n\right)$
 implies that an order basis can have quite unbalanced column degrees,
-especially if $m$ small. A similar problem with unbalanced output
+especially if $m$ is small. A similar problem with unbalanced output
 is encountered in null space basis computation. \citet{storjohann-villard:2005}
 deal with this in the following way.
 
@@ -343,12 +353,12 @@ Let $d$ be the average column degree of the output. Set the degree
 parameter $\delta$ to twice that of $d$. This allows one to compute
 at least half the columns of a basis (since the number of columns
 with degree at least $\delta$ must be at most a half of the total
-number of columns). One can then simplify the problem so the computed
-basis elements are completely removed from the problem. This reduces
-the dimension of the problem by at least a factor of $2$. One then
-doubles the degree bound $\delta$ in order to have at least $3/4$
-of the basis elements computed. Repeating this, at iteration $i$,
-at most $1/2^{i}$ of the basis elements are remaining. Therefore,
+number of columns). One can then simplify the problem, so that the
+computed basis elements are completely removed from the problem. This
+reduces the dimension of the problem by at least a factor of $2$.
+One then doubles the degree bound $\delta$ in order to have at least
+$3/4$ of the basis elements computed. Repeating this, at iteration
+$i$, at most $1/2^{i}$ of the basis elements are remaining. Therefore,
 no more than $\log n$ iterations are needed to compute all basis
 elements.
 

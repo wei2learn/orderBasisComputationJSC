@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -37,6 +37,7 @@
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
+\author "" 
 \author "" 
 \end_header
 
@@ -684,7 +685,7 @@ In some cases an entire order basis is unnecessary and instead one looks
 \begin_inset Formula $\vec{s}$
 \end_inset
 
--degrees bounded by 
+-degrees bounded by a given 
 \begin_inset Formula $\delta$
 \end_inset
 
@@ -736,7 +737,7 @@ name "def:genset"
 \begin_inset Formula $\left(\mathbf{F},\vec{\sigma}\right)$
 \end_inset
 
- polynomial vector with 
+ polynomial vectors with 
 \begin_inset Formula $\vec{s}$
 \end_inset
 
@@ -869,7 +870,8 @@ For computing a
 \end_inset
 
  coefficients.
- One can apply the method of Giorgi et al 
+ One can apply the method of Giorgi et al.
+ 
 \begin_inset CommandInset citation
 LatexCommand citeyearpar
 key "Giorgi2003"
@@ -891,7 +893,7 @@ key "Giorgi2003"
 
 .
  Note that this cost is independent of the degree shift.
- This is optimal within a log factor if 
+ This is very efficient if 
 \begin_inset Formula $m\in\Theta\left(n\right)$
 \end_inset
 
@@ -904,7 +906,7 @@ key "Giorgi2003"
 \begin_inset Formula $m=1$
 \end_inset
 
- as in Hermite Padi approximation, the total input size is only 
+ as in Hermite Padé approximation, the total input size is only 
 \begin_inset Formula $n\sigma$
 \end_inset
 
@@ -921,7 +923,7 @@ key "Storjohann:2006"
 
  provides a novel way to transform an order basis problem with small row
  dimension to a problem with higher row dimension and lower degree to take
- advantage of Giorgi et al's algorithm.
+ advantage of Giorgi et al.'s algorithm.
  We provide a quick overview of a slightly modified version of Storjohann's
  method.
  Our small modification allows a nonuniform degree shift for the input and
@@ -950,7 +952,45 @@ reference "sec:transform"
 \end_inset
 
  with 
+\begin_inset Formula $\deg\mathbf{F}_{i}<\delta$
+\end_inset
+
+
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+I used 
 \begin_inset Formula $\deg\mathbf{F}_{i}\le\delta-1$
+\end_inset
+
+ before, but the reviewer suggested changing to 
+\begin_inset Formula $\deg\mathbf{F}_{i}<\delta$
+\end_inset
+
+ and said it's slightly easier to read.
+ A reason to use 
+\begin_inset Formula $\le$
+\end_inset
+
+ is to make it consistent with the definition of minbasis.
+ For example, 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$
+\end_inset
+
+-basis indicates that the degree bound is 
+\begin_inset Formula $\delta-1$
+\end_inset
+
+.
+ I still prefer to use 
+\begin_inset Formula $\le$
+\end_inset
+
+.
+ 
+\end_layout
+
 \end_inset
 
  for a positive integer 
@@ -965,15 +1005,32 @@ reference "sec:transform"
  Set 
 \begin_inset Formula \[
 {\bar{\mathbf{F}}}=\left[\begin{array}{c|c}
-\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0}_{n,m\left(l-1\right)}\\
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0}_{m,m\left(l-1\right)}\\
 \hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta}\\
 \mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{I}_{m\left(l-1\right)}\\
 \vdots\\
-\mathbf{F}_{l-1}+\mathbf{F}_{l}x^{\delta}\end{array}\right]\]
+\mathbf{F}_{l-1}+\mathbf{F}_{l}x^{\delta}\end{array}\right]_{ml\times(n+m(l-1))}.\]
 
 \end_inset
 
+ Note that each block 
+\begin_inset Formula $\mathbf{F}_{i}+\mathbf{F}_{i+1}x^{\delta}$
+\end_inset
+
+ has dimension 
+\begin_inset Formula $m\times n$
+\end_inset
+
  and 
+\begin_inset Formula $\bar{\mathbf{F}}$
+\end_inset
+
+ has dimension 
+\begin_inset Formula $ml\times(n+m(l-1))$
+\end_inset
+
+.
+ Set 
 \begin_inset Formula $\vec{s'}=\left[\vec{s},0,\dots,0\right]$
 \end_inset
 
@@ -994,7 +1051,7 @@ reference "sec:transform"
 \begin_inset Formula $({\bar{\mathbf{F}}},2\delta,\vec{s'})$
 \end_inset
 
--basis can then be computed by Giorgi et al's method with a cost of 
+-basis can then be computed by Giorgi et al.'s method with a cost of 
 \begin_inset Formula $O^{\sim}\left(\MM\left(n,\delta\right)\right)$
 \end_inset
 
@@ -1051,11 +1108,11 @@ Clearly a
 \end_inset
 
  has a higher dimension and lower degree.
- However, the top 
+ However, the first 
 \begin_inset Formula $n$
 \end_inset
 
--rows of the 
+ rows of the 
 \begin_inset Formula $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$
 \end_inset
 
@@ -1201,16 +1258,16 @@ Let
 
  and 
 \begin_inset Formula \[
-\mathbf{F}=[x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},1+x+x^{5}+x^{6}+x^{7},1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},1+x+x^{3}+x^{7}].\]
+\mathbf{F}=[x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},1+x+x^{5}+x^{6}+x^{7},1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},1+x+x^{3}+x^{7}]_{1\times4}.\]
 
 \end_inset
 
- Then 
+Then 
 \begin_inset Formula \[
 \bar{\mathbf{F}}=\left[{\begin{array}{cccccc}
 x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
 1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & ~~1~ & ~0~\\
-1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]\]
+1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]_{3\times6}\]
 
 \end_inset
 
@@ -1409,7 +1466,7 @@ key "BeLa94,Giorgi2003"
 .
  
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Consider the degree of pivot entries in the iterative order basis computation
@@ -1543,7 +1600,7 @@ A shift
 \end_inset
 
  is balanced if 
-\begin_inset Formula $(\max\vec{s}-\min\vec{s})\in O(d)=O(m\sigma/n)$
+\begin_inset Formula $\max\vec{s}-\min\vec{s}\in O(d)=O(m\sigma/n)$
 \end_inset
 
 .
@@ -1672,7 +1729,7 @@ sigma$.
 
 \begin_layout Standard
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 In fact, if 
@@ -1722,7 +1779,7 @@ y if
 \begin_inset Formula $m$
 \end_inset
 
- small.
+ is small.
  A similar problem with unbalanced output is encountered in null space basis
  computation.
  
@@ -1756,8 +1813,8 @@ Let
 \end_inset
 
  must be at most a half of the total number of columns).
- One can then simplify the problem so the computed basis elements are completely
- removed from the problem.
+ One can then simplify the problem, so that the computed basis elements
+ are completely removed from the problem.
  This reduces the dimension of the problem by at least a factor of 
 \begin_inset Formula $2$
 \end_inset

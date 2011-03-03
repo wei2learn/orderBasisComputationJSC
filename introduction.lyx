@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -37,6 +37,7 @@
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
+\author "" 
 \author "" 
 \end_header
 
@@ -416,7 +417,7 @@ key "Giorgi2003"
 \end_inset
 
 .
- Their method is nearly optimal if 
+ Their method is very efficient if 
 \begin_inset Formula $m$
 \end_inset
 
@@ -464,9 +465,9 @@ key "Storjohann:2006"
 \end_inset
 
 .
- Combining this conversion with the method of Giorgi et al can then be used
- effectively for problems with small row dimensions to achieve a cost of
- 
+ Combining this conversion with the method of Giorgi et al.
+ can then be used effectively for problems with small row dimensions to
+ achieve a cost of 
 \begin_inset Formula $O^{\sim}\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\right)$
 \end_inset
 
@@ -544,9 +545,9 @@ key "La92"
 \end_layout
 
 \begin_layout Standard
-In this paper we present two algorithms which computes an entire order basis
+In this paper we present two algorithms which compute an entire order basis
  with a cost of 
-\begin_inset Formula $O\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\log\sigma\right)\subset O^{\sim}\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\right)$
+\begin_inset Formula $O^{\sim}\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\right)$
 \end_inset
 
  field operations.
@@ -575,7 +576,7 @@ key "storjohann-villard:2005"
 \end_layout
 
 \begin_layout Standard
-In order to achieve its optimal complexity, the first algorithm requires
+In order to compute an order basis efficiently, the first algorithm requires
  that the degree shifts are balanced.
  In the case where the shift is not balanced, the row degrees of the basis
  can also become unbalanced in addition to the unbalanced column degrees.
@@ -584,7 +585,7 @@ In order to achieve its optimal complexity, the first algorithm requires
 \begin_inset Formula $O^{\sim}(\MM(n,\lceil m\sigma/n\rceil))$
 \end_inset
 
- field operation when the shift 
+ field operations when the shift 
 \begin_inset Formula $\vec{s}$
 \end_inset
 
