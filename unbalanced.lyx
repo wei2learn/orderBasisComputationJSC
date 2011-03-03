@@ -3090,29 +3090,6 @@ O^{\sim}\left(n_{i}^{\omega}d_{i}\right)=O^{\sim}\left(n_{i}^{\omega-1}m\sigma\r
 .
 \end_layout
 
-\begin_layout Proof
-More precisely, summing up the cost for the balanced case from 
-\begin_inset CommandInset ref
-LatexCommand prettyref
-reference "thm:balancedCost"
-
-\end_inset
-
- over 
-\begin_inset Formula $\log n/m$
-\end_inset
-
- iterations, we get the cost of 
-\begin_inset Formula \begin{eqnarray*}
- &  & O\left(\sum_{i=1}^{\log n/m}\MM\left(n/2^{i},2^{i}d\right)(\log n/2^{i}m+\log2^{i}d)\right)\\
- &  & \subset O\left(\MM\left(n,d\right)(\log^{2}n/m+\log d\right)\end{eqnarray*}
-
-\end_inset
-
- field operations.
- 
-\end_layout
-
 \begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand input

@@ -615,12 +615,6 @@ the row dimension $m$, as an order basis can be efficiently computed
 in such case. Therefore, a complete $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 can be computed in at most $\log n/m$ iterations, so the overall
 cost is $O^{\sim}\left(n^{\omega}d\right)$.
-
-More precisely, summing up the cost for the balanced case from \prettyref{thm:balancedCost}
-over $\log n/m$ iterations, we get the cost of \begin{eqnarray*}
- &  & O\left(\sum_{i=1}^{\log n/m}\MM\left(n/2^{i},2^{i}d\right)(\log n/2^{i}m+\log2^{i}d)\right)\\
- &  & \subset O\left(\MM\left(n,d\right)(\log^{2}n/m+\log d\right)\end{eqnarray*}
- field operations. 
 \end{pf}
 \input{algorithm2.tex} Finally, we remark that when the condition
 \eqref{con:unbalancedCondition} is relaxed to $\sum-\vec{s}\in O\left(m\sigma\right)$,

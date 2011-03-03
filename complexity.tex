@@ -3,12 +3,8 @@
 
 \label{sec:complexity}
 
-%
-\begin{comment}
-In this section, we analyze the computational complexity of Algorithm
-\prettyref{alg:mab}. 
-\end{comment}
-{} 
+In this section, we analyze the computational complexity of \prettyref{alg:mab}.
+ 
 \begin{lem}
 \prettyref{alg:mab} computes a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 in no more than $\log\left(n/m\right)-1$ iterations.\end{lem}
@@ -38,7 +34,7 @@ $n^{\left(i\right)}\le n<2^{\lambda}(n/2^{i})\in O(n/2^{i})$.\end{pf}
 \begin{thm}
 \label{thm:balancedCost}If the shift $\vec{s}$ is balanced with
 $\min\left(\vec{s}\right)=0$, then \prettyref{alg:mab} computes
-a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis with a cost of $O\left(\MM\left(n,d\right)\log\sigma\right)\subset O^{\sim}\left(\MM\left(n,d\right)\right)$
+a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis with a cost of $O^{\sim}\left(\MM\left(n,d\right)\right)$
 field operations.\end{thm}
 \begin{pf}
 The computational cost depends on the degree, the row dimension, and
@@ -59,37 +55,36 @@ Therefore, the overall column dimension of the problem at iteration
 $i$ is $O(n/2^{i})$.
 
 At each iteration, the four most expensive operations are the multiplications
-at line \prettyref{line:matrixProduct1} and \prettyref{line:matrixProduct2},
-the order basis computation at line \prettyref{line:orderBasisComputation},
-and extracting basis at line \prettyref{line:LSP}.
+at \prettyref{line:matrixProduct1} and \prettyref{line:matrixProduct2},
+the order basis computation at \prettyref{line:orderBasisComputation},
+and extracting basis at \prettyref{line:LSP}.
 
 The matrices $\bar{\mathbf{F}}^{\left(i\right)}$ and $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
 have degree $O(2^{i}d)$ and dimensions $O(n/2^{i})\times O\left(n\right)$
 and $O\left(n\right)\times O(n/2^{i})$. The multiplication cost is
 therefore $2^{i}\MM(n/2^{i},2^{i}d)$ field operations, which is in
-$O\left(\MM\left(n,d\right)\right)$. The matrices $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
+$O^{\sim}\left(\MM\left(n,d\right)\right)$. The matrices $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
 and $\bar{\mathbf{Q}}^{\left(i\right)}$ of the second multiplication
 have the same degree $O(2^{i}d)$ and dimensions $O\left(n\right)\times O(n/2^{i})$
 and $O(n/2^{i})\times O(n/2^{i})$ and can also be multiplied with
-a cost of $O\left(\MM\left(n,d\right)\right)$ field operations. The
-total cost of the multiplications over $O(\log\left(n/m\right))$
-iterations is therefore $O\left(\MM\left(n,d\right)\log\left(n/m\right)\right)$.
+a cost of $O^{\sim}\left(\MM\left(n,d\right)\right)$ field operations.
+The total cost of the multiplications over $O(\log\left(n/m\right))$
+iterations is therefore $O^{\sim}\left(\MM\left(n,d\right)\right)$.
 
 The input matrix $\mathbf{G}^{\left(i\right)}=\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
 of the order basis computation problem at iteration $i$ has dimension
 $O(n/2^{i})\times O(n/2^{i})$ and the order of the problem is $2\delta^{\left(i\right)}\in O(2^{i}d)$.
 Therefore, the cost of the order basis computation at iteration $i$
-is $O(\MM(n/2^{i},2^{i}d)\log(2^{i}d))$. The total cost over $O(\log\left(n/m\right))$
-iterations is then \[
-O(\sum\MM(n/2^{i},2^{i}d)\log2^{i}d)=O\left(\MM\left(n,d\right)\log d\right).\]
-%
+is $O^{\sim}(\MM(n/2^{i},2^{i}d)\subset O^{\sim}\left(\MM\left(n,d\right)\right)$.
+The total cost over $O(\log\left(n/m\right))$ iterations is then
+$O^{\sim}\left(\MM\left(n,d\right)\right)$. %
 \begin{comment}
 not sure if this needs more explanation. 
 \end{comment}
 {}
 
 Finally, extracting an order basis by LSP factorization costs $O\left(n^{\omega}\right)$,
-which is dominated by the other costs. Combining the above gives $O(\MM\left(n,d\right)(\log n/m+$$\log d))=O\left(\MM\left(n,d\right)\log\sigma\right)$
+which is dominated by the other costs. Combining the above gives $O^{\sim}(\MM\left(n,d\right))$
 as the total cost of the algorithm. 
 \end{pf}
 
