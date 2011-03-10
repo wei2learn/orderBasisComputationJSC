@@ -337,38 +337,31 @@ In this section, we introduce a transformation that can be viewed as an
  a link between two Storjohann transformed problems constructed using different
  degree parameters.
  For easier understanding, we first focus on a particular case of this transform
-ation.
- 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%which extends immediately to the more general results, as discussed
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
+ation in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "sub:particularCase"
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%towards the end of this section.
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
+, which is then generalized in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "sub:generalTransform"
 
 \end_inset
 
+.
+\end_layout
 
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:particularCase"
+
+\end_inset
+
+A Particular Case
 \end_layout
 
 \begin_layout Standard
@@ -411,7 +404,7 @@ for a positive integer
 
 .
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 again, changed from 
@@ -493,7 +486,7 @@ again, changed from
 .
  
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 actually true for 
@@ -517,7 +510,7 @@ actually true for
 
 \end_inset
 
-We set 
+ We set 
 \begin_inset Formula $e$
 \end_inset
 
@@ -525,7 +518,12 @@ We set
 \begin_inset Formula $0$
 \end_inset
 
- in this paper for simplicity (Storjohann used 
+ in this paper for simplicity
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Storjohann used 
 \begin_inset Formula $e=1$
 \end_inset
 
@@ -536,8 +534,23 @@ key "Storjohann:2006"
 
 \end_inset
 
-).
- In fact, it is quite easy to construct a 
+.
+ All results in this section still hold for any other 
+\begin_inset Formula $e\le1.$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ 
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+In fact, it is quite easy to construct a 
 \begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
 \end_inset
 
@@ -569,6 +582,138 @@ reference "cor:extractingFbasisFromGbasis"
 \end_inset
 
 .
+ Note that although constructing a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis from a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:FtoAbasis"
+
+\end_inset
+
+ is the reverse of what we want, this well-formed 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis restricts the elements of 
+\begin_inset Formula $\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle$
+\end_inset
+
+ to a simple form shown in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:FtauBasisForm"
+
+\end_inset
+
+, which helps to establish a close correspondence between a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis and a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:2delta-1Basis"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:2deltaBasis"
+
+\end_inset
+
+, and 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "thm:mainTheorem"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We first look at the correspondence bettween the elements of 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+
+\begin_inset Formula $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
+\end_inset
+
+ and the elements of 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+
+\begin_inset Formula $\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle_{\tau}$
+\end_inset
+
+ in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:qToBqOrder"
+
+\end_inset
+
+ to 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:bqToqOrder"
+
+\end_inset
+
+, then look at the correspondence between 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-bases and 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-bases in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:FtauBasisForm"
+
+\end_inset
+
+ to 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "thm:mainTheorem"
+
+\end_inset
+
+..
+ 
 \end_layout
 
 \begin_layout Standard
@@ -824,7 +969,7 @@ Let
 \begin_inset Formula $\mathbf{S}_{\tau}$
 \end_inset
 
- the top 
+ be the top 
 \begin_inset Formula $n$
 \end_inset
 
@@ -932,8 +1077,65 @@ The top rows of
 
 \end_inset
 
- gives 
+ give 
 \begin_inset Formula $\mathbf{F}\mathbf{q}_{1}\equiv\mathbf{0}\mod x^{\sigma}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+The next lemma shows a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis can be constructed from a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis.
+ This well-formed 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis restricts the elements of 
+\begin_inset Formula $\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle$
+\end_inset
+
+ to a simple form shown in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "cor:FtauBasisForm"
+
+\end_inset
+
+, which helps to establish a close correspondence between a 
+\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\end_inset
+
+-basis and a 
+\begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
+\end_inset
+
+-basis in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:2delta-1Basis"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "lem:2deltaBasis"
+
+\end_inset
+
+, and 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "thm:mainTheorem"
+
 \end_inset
 
 .
@@ -1084,19 +1286,10 @@ reference "lem:bqToqOrder"
 , that is, 
 \begin_inset Formula \[
 \check{\mathbf{F}}\check{\mathbf{q}}=\begin{bmatrix}\mathbf{0}\\
-\mathbf{I}_{2m}\mathbf{v}\end{bmatrix}\equiv\mathbf{0}\mod x^{\vec{\omega}},\]
+\mathbf{I}_{2m}\mathbf{v}\end{bmatrix}\equiv\mathbf{0}\mod x^{\vec{\omega}}.\]
 
 \end_inset
 
- which requires 
-\begin_inset Formula $\mathbf{v}$
-\end_inset
-
- to have order 
-\begin_inset Formula $\left(\mathbf{I}_{2m},2\delta\right)$
-\end_inset
-
-.
  This forces 
 \begin_inset Formula $\mathbf{v}$
 \end_inset
@@ -1120,7 +1313,7 @@ reference "lem:bqToqOrder"
 \begin_layout Corollary
 \begin_inset CommandInset label
 LatexCommand label
-name "cor:AtauBasisForm"
+name "cor:FtauBasisForm"
 
 \end_inset
 
@@ -1130,7 +1323,7 @@ Let
 
  be any degree bound.
  Let 
-\begin_inset Formula $\mathbf{P}_{\tau}\in\mathbb{K}\left[x\right]^{n\times k}$
+\begin_inset Formula $\mathbf{P}_{\tau}\in\mathbb{K}\left[x\right]^{n\times t}$
 \end_inset
 
  be a 
@@ -1168,7 +1361,7 @@ Let
 \end_inset
 
  for some polynomial vector 
-\begin_inset Formula $\mathbf{u}\in\mathbb{K}\left[x\right]^{k\times1}$
+\begin_inset Formula $\mathbf{u}\in\mathbb{K}\left[x\right]^{t\times1}$
 \end_inset
 
  and 
@@ -1222,15 +1415,15 @@ If
 \begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})_{2\delta-1}$
 \end_inset
 
--basis, then its first 
-\begin_inset Formula $n$
-\end_inset
-
- rows 
+-basis, then the matrix 
 \begin_inset Formula $\mathbf{S}^{\left(1\right)}$
 \end_inset
 
- is a 
+ consisting of its first 
+\begin_inset Formula $n$
+\end_inset
+
+ rows is a 
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{2\delta-1}$
 \end_inset
 
@@ -1279,10 +1472,14 @@ reference "cor:linearCombinationOfFirstnRows"
 \end_inset
 
 -column reduced.
- By 
+ 
+\end_layout
+
+\begin_layout Proof
+By 
 \begin_inset CommandInset ref
 LatexCommand prettyref
-reference "cor:AtauBasisForm"
+reference "cor:FtauBasisForm"
 
 \end_inset
 
@@ -1385,8 +1582,8 @@ Let
 \begin_inset Formula $I$
 \end_inset
 
- be the column rank profile (the lowest column indices that indicate a full
- column rank submatrix) of 
+ be the column rank profile (the lexicographically smallest sequence of
+ column indices that indicates a full column rank submatrix) of 
 \begin_inset Formula $\mathbf{S}^{\left(12\right)}$
 \end_inset
 
@@ -1667,17 +1864,13 @@ The column rank profile of
 \begin_inset Formula $\lcoeff(x^{\vec{s}}\mathbf{S}^{\left(12\right)})$
 \end_inset
 
- can be determined by (the transposed version of) LSP factorization
-\emph on
- 
+ can be determined by (the transposed version of) LSP factorization 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "IbarraMH82"
 
 \end_inset
 
-
-\emph default
 , which factorizes 
 \begin_inset Formula $\lcoeff(x^{\vec{s}}\mathbf{S}^{\left(12\right)})=PSU$
 \end_inset
@@ -1822,7 +2015,7 @@ reference "cor:linearCombinationOfFirstnRows"
 \begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
 \end_inset
 
- is a linear combination of columns 
+ is a linear combination of the columns of 
 \begin_inset Formula $\mathbf{S}$
 \end_inset
 
@@ -2093,11 +2286,12 @@ reference "exm:StorjohannTransformation"
 \end_inset
 
 , 
-\begin_inset Formula \[
-\check{\mathbf{F}}=\left[{\begin{array}{llllrr}
-x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6} & 1+x+x^{5}+x^{6}+x^{7} & 1+x^{2}+x^{6}+x^{7} & 1+x+x^{3}+x^{7} & 0 & 0\\
-1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & 1 & 0\\
-1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & 0 & 1\end{array}}\right],\]
+\begin_inset Formula \begin{align*}
+ & \check{\mathbf{F}}=\\
+ & \left[{\begin{array}{cccccr}
+x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6} & \ 1+x+x^{5}+x^{6}+x^{7}\  & 1+x^{2}+x^{6}+x^{7} & \ 1+x+x^{3}+x^{7}\  & 0\  & 0\\
+1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & 1\  & 0\\
+1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & 0\  & 1\end{array}}\right],\end{align*}
 
 \end_inset
 
@@ -2140,7 +2334,7 @@ The following two lemmas verify Storjohann's result in the case of degree
 \end_inset
 
 .
- More specifically, we show that the top 
+ More specifically, we show that the matrix of the top 
 \begin_inset Formula $n$
 \end_inset
 
@@ -2179,7 +2373,7 @@ If
 \begin_inset Formula $\mathbf{q}$
 \end_inset
 
- is the first 
+ consists of the first 
 \begin_inset Formula $n$
 \end_inset
 
@@ -2212,7 +2406,7 @@ Let
 \begin_inset Formula $\mathbf{q},\mathbf{q}_{2},\mathbf{q}_{3}$
 \end_inset
 
- be be the top 
+ consist of the top 
 \begin_inset Formula $n$
 \end_inset
 
@@ -2251,7 +2445,7 @@ Let
 
 \end_inset
 
- Similarly, from the second and the third row, we get 
+ Similarly, from the second and the third rows, we get 
 \begin_inset Formula $\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}+x^{\delta}\mathbf{F}_{2}\mathbf{q}\equiv\mathbf{0}\mod x^{2\delta}$
 \end_inset
 
@@ -2333,7 +2527,7 @@ If
 \begin_inset Formula $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$
 \end_inset
 
--basis, then its first 
+-basis, then the matrix of its first 
 \begin_inset Formula $n$
 \end_inset
 
@@ -2405,7 +2599,7 @@ reference "cor:linearCombinationOfFirstnRows"
 \begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$
 \end_inset
 
- is a linear combination of 
+ is a linear combination of the columns of 
 \begin_inset Formula $\mathbf{S}_{\delta-1}$
 \end_inset
 
@@ -2468,6 +2662,16 @@ reference "lem:qToBqDegree"
  
 \end_layout
 
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:generalTransform"
+
+\end_inset
+
+More General Results
+\end_layout
+
 \begin_layout Standard
 Let us now consider an immediate extension of the above results.
  Suppose that instead of a 
@@ -2503,7 +2707,7 @@ Let us now consider an immediate extension of the above results.
 
 
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 the base case is 
@@ -2531,7 +2735,57 @@ the base case is
 \begin_inset Formula $l^{\left(i\right)}=\sigma/\delta^{\left(i\right)}-1$
 \end_inset
 
- is the number of block rows.
+ is the number of block rows
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Recall that 
+\begin_inset Formula $d=m\sigma/n$
+\end_inset
+
+ is the average degree of the input matrix 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+ if we treat 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+ as a square 
+\begin_inset Formula $n\times n$
+\end_inset
+
+ matrix.
+ Also, 
+\begin_inset Formula $i$
+\end_inset
+
+ starts at 
+\begin_inset Formula $2$
+\end_inset
+
+ because 
+\begin_inset Formula $i=1$
+\end_inset
+
+ is our base case in the computation of an order basis, which may become
+ more clear in the next section.
+ The base case can be computed efficiently using the method of Giorgi et
+ al.
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyearpar
+key "Giorgi2003"
+
+\end_inset
+
+ directly and does not require the transformation discussed in this section.
+\end_layout
+
+\end_inset
+
+.
  To apply a transformation analogous to 
 \begin_inset CommandInset ref
 LatexCommand prettyref
@@ -2559,7 +2813,7 @@ reference "eq:extendedSTransformTop"
 
  
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 This is not ideal, but no better idea.
@@ -2576,7 +2830,7 @@ This is not ideal, but no better idea.
 \begin_inset Formula $\left[\circ\right]^{k}$
 \end_inset
 
- represent 
+ represents 
 \begin_inset Formula $\circ$
 \end_inset
 
@@ -2586,7 +2840,7 @@ This is not ideal, but no better idea.
 
  times
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Not sure if using this notation is a good thing to do, but it saves space
@@ -2662,7 +2916,7 @@ Not sure if using this notation is a good thing to do, but it saves space
 \end_inset
 
  with 
-\begin_inset Formula $(n+m(l^{\left(i-1\right)}-1))$
+\begin_inset Formula $n+m(l^{\left(i-1\right)}-1)$
 \end_inset
 
  rows.
@@ -2674,11 +2928,22 @@ Not sure if using this notation is a good thing to do, but it saves space
 \begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})=(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
 \end_inset
 
-, which gives the problem considered earlier in this section, and 
+, which for 
+\begin_inset Formula $d=m\sigma/n$
+\end_inset
+
+ gives the problem considered earlier in 
+\begin_inset CommandInset ref
+LatexCommand prettyref
+reference "sub:particularCase"
+
+\end_inset
+
+, and 
 \begin_inset Formula $\mathbf{E}^{\left(i\right)}=\left[\mathbf{I}_{n},\mathbf{0}_{n,m},\mathbf{0}_{n,m}\right]$
 \end_inset
 
- is used to pick up the top 
+ is used to select the top 
 \begin_inset Formula $n$
 \end_inset
 
@@ -2822,7 +3087,7 @@ If
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i-1\right)}-1}$
 \end_inset
 
--basis and the top 
+-basis and the matrix of the top 
 \begin_inset Formula $n$
 \end_inset
 

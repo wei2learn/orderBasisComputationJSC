@@ -1,9 +1,10 @@
-#LyX file created by tex2lyx 1.6.5
-\lyxformat 264
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
 \begin_document
 \begin_header
 \textclass elsart
 \options amsthm,seceqn,secthm
+\use_default_options false
 \language english
 \inputencoding latin9
 \font_roman default
@@ -14,9 +15,11 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \paperfontsize default
 \spacing single
+\use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 2
@@ -34,19 +37,18 @@
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
+\author "" 
 \end_header
 
 \begin_body
 
 \begin_layout Section
-
 Computation of Order Bases
 \end_layout
 
 \begin_layout Standard
-
-
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "sec:Order-Basis-Computation"
 
 \end_inset
@@ -55,14 +57,16 @@ name "sec:Order-Basis-Computation"
 \end_layout
 
 \begin_layout Standard
-
-In this section, we establish a link between two different Storjohann transformed problems by dividing the transformed problem from the previous section to two subproblems and then simplifying the second subproblem. This leads to a recursive way of computing order bases. We then describe our algorithm in the equivalent iterative way.
+In this section, we establish a link between two different Storjohann transforme
+d problems by dividing the transformed problem from the previous section
+ to two subproblems and then simplifying the second subproblem.
+ This leads to a recursive way of computing order bases.
+ We then describe our algorithm in the equivalent iterative way.
 \end_layout
 
 \begin_layout Subsection
-
-
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "sub:Dividing-to-Subproblems"
 
 \end_inset
@@ -71,9 +75,8 @@ Dividing to Subproblems
 \end_layout
 
 \begin_layout Standard
-
-
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "sec:transform"
 
 \end_inset
@@ -98,11 +101,11 @@ reference "sec:transform"
 \begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
 
--basis computation problem. We now consider dividing the new converted problem to two subproblems.
+-basis computation problem.
+ We now consider dividing the new converted problem to two subproblems.
 \end_layout
 
 \begin_layout Standard
-
 The first subproblem is to compute a 
 \begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
@@ -115,11 +118,13 @@ The first subproblem is to compute a
 \begin_inset Formula $\bar{\mathbf{P}}^{\left(i-1\right)}$
 \end_inset
 
-. This is another Storjohann transformed problem with degree parameter 
+.
+ This is another Storjohann transformed problem with degree parameter 
 \begin_inset Formula $\delta^{\left(i-1\right)}$
 \end_inset
 
-. The second subproblem is computing a 
+.
+ The second subproblem is computing a 
 \begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
 \end_inset
 
@@ -135,10 +140,10 @@ The first subproblem is to compute a
 \begin_inset Formula $\vec{t}^{\left(i-1\right)}=\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}^{\left(i-1\right)}$
 \end_inset
 
-. From Theorem 5.1 in 
-\begin_inset LatexCommand citep
-after ""
-before ""
+.
+ From Theorem 5.1 in 
+\begin_inset CommandInset citation
+LatexCommand citep
 key "BL1997"
 
 \end_inset
@@ -155,25 +160,27 @@ key "BL1997"
 \begin_inset Formula $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}=\deg_{\vec{t}^{\left(i-1\right)}}\bar{\mathbf{Q}}^{\left(i\right)}$
 \end_inset
 
-. 
+.
+ 
 \end_layout
 
 \begin_layout Example
-
-
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "exm:subproblems"
 
 \end_inset
 
  Let us continue with 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "exm:StorjohannTransformation"
 
 \end_inset
 
  and 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "exm:auxiliaryTransformation"
 
 \end_inset
@@ -186,12 +193,14 @@ reference "exm:auxiliaryTransformation"
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(2\right)},8,\vec{0})$
 \end_inset
 
--basis). This can be determined by computing a 
+-basis).
+ This can be determined by computing a 
 \begin_inset Formula $(\check{\mathbf{F}}^{\left(2\right)},[8,4,4],\vec{0})$
 \end_inset
 
 -basis as shown in 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "exm:auxiliaryTransformation"
 
 \end_inset
@@ -201,16 +210,19 @@ reference "exm:auxiliaryTransformation"
 \end_inset
 
  from 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "exm:auxiliaryTransformation"
 
 \end_inset
 
-. Computing a 
+.
+ Computing a 
 \begin_inset Formula $(\check{\mathbf{F}}^{\left(2\right)},[8,4,4],\vec{0})$
 \end_inset
 
--basis can be divided to two subproblems. The first subproblem is computing a 
+-basis can be divided to two subproblems.
+ The first subproblem is computing a 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(1\right)},4,\vec{0})$
 \end_inset
 
@@ -219,21 +231,24 @@ reference "exm:auxiliaryTransformation"
 \end_inset
 
 , the Storjohann partial linearized problem in 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "exm:StorjohannTransformation"
 
 \end_inset
 
-. The residual 
+.
+ The residual 
 \begin_inset Formula \[
-\check{\mathbf{F}}^{(2)}\bar{\mathbf{P}}^{(1)}=\left[{\begin{array}{rccccc}
-0 & x^{8} & x^{6}+x^{9} & x^{4}+x^{6}+x^{9} & x^{6}+x^{8}+x^{9}+x^{10} & x^{5}+x^{8}\\
-0 & 0 & x^{5} & x^{4}+x^{6} & x^{4}+x^{6} & x^{5}+x^{6}\\
-0 & x^{4} & x^{5} & x^{5} & x^{4}+x^{5}+x^{6} & x^{4}\end{array}}\right]
-\]
+\check{\mathbf{F}}^{(2)}\bar{\mathbf{P}}^{(1)}=\left[{\begin{array}{rcccccccccc}
+0 & \  & x^{8} & \  & x^{6}+x^{9} & \  & x^{4}+x^{6}+x^{9} & \  & x^{6}+x^{8}+x^{9}+x^{10} & \  & x^{5}+x^{8}\\
+0 &  & 0 &  & x^{5} &  & x^{4}+x^{6} &  & x^{4}+x^{6} &  & x^{5}+x^{6}\\
+0 &  & x^{4} &  & x^{5} &  & x^{5} &  & x^{4}+x^{5}+x^{6} &  & x^{4}\end{array}}\right]\]
+
 \end_inset
 
- is then used as the input matrix for the second subproblem. The shift for the second subprobem 
+ is then used as the input matrix for the second subproblem.
+ The shift for the second subprobem 
 \begin_inset Formula $\vec{t}^{(1)}=[0,1,2,3,3,3]$
 \end_inset
 
@@ -250,12 +265,11 @@ reference "exm:StorjohannTransformation"
 \bar{\mathbf{Q}}^{(2)}=\left[{\begin{array}{cccccc}
 ~1~ & ~0~ & 0 & 0 & 0 & 0\\
 0 & 1 & 0 & 0 & 0 & 0\\
-0 & 0 & 1 &~x^{2}~ & ~x~ & ~1~\\
+0 & 0 & 1 & ~x^{2}~ & ~x~ & ~1~\\
 0 & 0 & 0 & 0 & x & 0\\
 0 & 0 & 1 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 1 & ~x~
-\end{array}}\right]\label{eq:Qbar2},
-\end{equation}
+0 & 0 & 0 & 0 & 1 & ~x~\end{array}}\right],\label{eq:Qbar2}\end{equation}
+
 \end_inset
 
  
@@ -267,27 +281,31 @@ reference "exm:StorjohannTransformation"
 \end_inset
 
 -basis shown in 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "exm:auxiliaryTransformation"
 
 \end_inset
 
-. 
+.
+ 
 \end_layout
 
 \begin_layout Standard
-
-We now show that the dimension of the second subproblem can be significantly reduced. First, the row dimension can be reduced by over a half. Let 
+We now show that the dimension of the second subproblem can be significantly
+ reduced.
+ First, the row dimension can be reduced by over a half.
+ Let 
 \begin_inset Formula $\hat{\mathbf{P}}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
 \end_inset
 
-. 
+.
+ 
 \end_layout
 
 \begin_layout Lemma
-
-
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "lem:simplifySecondSubproblem"
 
 \end_inset
@@ -304,7 +322,6 @@ A
 \end_layout
 
 \begin_layout Proof
-
 This follows because 
 \begin_inset Formula $\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)}$
 \end_inset
@@ -317,16 +334,18 @@ This follows because
 \begin_inset Formula $2\delta^{\left(i-1\right)}$
 \end_inset
 
-. 
+.
+ 
 \end_layout
 
 \begin_layout Standard
-
-The column dimension of the second subproblem can be reduced by disregarding the 
+The column dimension of the second subproblem can be reduced by disregarding
+ the 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i-1\right)}-1}$
 \end_inset
 
--basis already computed. More specifically, after sorting the columns of 
+-basis already computed.
+ More specifically, after sorting the columns of 
 \begin_inset Formula $\bar{\mathbf{P}}^{\left(i-1\right)}$
 \end_inset
 
@@ -346,7 +365,8 @@ The column dimension of the second subproblem can be reduced by disregarding the
 \begin_inset Formula $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}\ge\delta^{\left(i-1\right)}$
 \end_inset
 
-. Then 
+.
+ Then 
 \begin_inset Formula $\hat{\mathbf{P}}_{1}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
 \end_inset
 
@@ -355,12 +375,14 @@ The column dimension of the second subproblem can be reduced by disregarding the
 \end_inset
 
 -basis by 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "lem:linkStorjohanTransform"
 
 \end_inset
 
-. In the second subproblem, the remaining basis elements of a 
+.
+ In the second subproblem, the remaining basis elements of a 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$
 \end_inset
 
@@ -372,7 +394,6 @@ reference "lem:linkStorjohanTransform"
 \end_layout
 
 \begin_layout Standard
-
 Let 
 \begin_inset Formula $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}$
 \end_inset
@@ -401,13 +422,13 @@ Let
 \begin_inset Formula $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
 \end_inset
 
-. Then 
+.
+ Then 
 \end_layout
 
 \begin_layout Lemma
-
-
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "lem:disregardComputedBasisElements"
 
 \end_inset
@@ -417,6 +438,7 @@ name "lem:disregardComputedBasisElements"
 \bar{\mathbf{Q}}^{\left(i\right)}=\left[\begin{array}{cc}
 \mathbf{I}_{k^{\left(i-1\right)}}\\
  & \bar{\mathbf{Q}}_{2}^{\left(i\right)}\end{array}\right]\]
+
 \end_inset
 
  is a 
@@ -431,7 +453,6 @@ name "lem:disregardComputedBasisElements"
 \end_layout
 
 \begin_layout Proof
-
 First note that 
 \begin_inset Formula $\bar{\mathbf{Q}}^{\left(i\right)}$
 \end_inset
@@ -441,7 +462,9 @@ First note that
 \end_inset
 
  as 
-\begin_inset Formula \[\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}=[\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]\equiv0\mod x^{2\delta^{\left(i\right)}}.\]
+\begin_inset Formula \[
+\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}=[\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]\equiv0\mod x^{2\delta^{\left(i\right)}}.\]
+
 \end_inset
 
  In addition, 
@@ -460,7 +483,8 @@ First note that
 \begin_inset Formula $\vec{b}$
 \end_inset
 
--minimal. Hence 
+-minimal.
+ Hence 
 \begin_inset Formula $\bar{\mathbf{Q}}^{\left(i\right)}$
 \end_inset
 
@@ -469,22 +493,21 @@ First note that
 \end_inset
 
 -basis by 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "lem:orderBasisEquivalence"
 
 \end_inset
 
-. 
+.
+ 
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset Note Comment
 status open
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 Alternatively, one can also argue that since 
 \begin_inset Formula $\hat{\mathbf{P}}_{1}^{\left(i-1\right)}$
 \end_inset
@@ -493,7 +516,8 @@ Alternatively, one can also argue that since
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)})$
 \end_inset
 
-, it cannot contribute in any way to and cannot be affected in any way by the computations of a 
+, it cannot contribute in any way to and cannot be affected in any way by
+ the computations of a 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$
 \end_inset
 
@@ -505,7 +529,8 @@ Alternatively, one can also argue that since
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)}\cdot\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$
 \end_inset
 
--basis. 
+-basis.
+ 
 \end_layout
 
 \end_inset
@@ -514,20 +539,19 @@ Alternatively, one can also argue that since
 \end_layout
 
 \begin_layout Standard
-
-
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "lem:disregardComputedBasisElements"
 
 \end_inset
 
- immediately leads to the following. 
+ immediately leads to the following.
+ 
 \end_layout
 
 \begin_layout Lemma
-
-
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "lem:computationAtTopLevel"
 
 \end_inset
@@ -544,7 +568,8 @@ Let
 \begin_inset Formula $\lcoeff(x^{\vec{s}^{\left(i\right)}}\hat{\mathbf{S}})$
 \end_inset
 
-. Then 
+.
+ Then 
 \begin_inset Formula $\hat{\mathbf{S}}_{I}$
 \end_inset
 
@@ -556,9 +581,9 @@ Let
 \end_layout
 
 \begin_layout Proof
-
 From 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "lem:disregardComputedBasisElements"
 
 \end_inset
@@ -579,8 +604,10 @@ reference "lem:disregardComputedBasisElements"
 \begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
 
--basis. Therefore 
-\begin_inset LatexCommand prettyref
+-basis.
+ Therefore 
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "thm:extractingOrderBasis"
 
 \end_inset
@@ -589,13 +616,12 @@ reference "thm:extractingOrderBasis"
 \begin_inset Formula $[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$
 \end_inset
 
-. 
+.
+ 
 \begin_inset Note Comment
 status open
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset Formula $=\mathbf{E}^{\left(i\right)}[\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]$
 \end_inset
 
@@ -608,21 +634,23 @@ status open
 \end_layout
 
 \begin_layout Example
-
 Continuing with 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "exm:StorjohannTransformation"
 
 \end_inset
 
 , 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "exm:auxiliaryTransformation"
 
 \end_inset
 
 , and 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "exm:subproblems"
 
 \end_inset
@@ -631,14 +659,15 @@ reference "exm:subproblems"
 \begin_inset Note Comment
 status open
 
-\begin_layout Standard
-
-notice that after the first subproblem, the second subproblem of computing 
+\begin_layout Plain Layout
+notice that after the first subproblem, the second subproblem of computing
+ 
 \begin_inset Formula $\bar{\mathbf{Q}}^{(2)}$
 \end_inset
 
  in 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "exm:subproblems"
 
 \end_inset
@@ -691,12 +720,14 @@ reference "exm:subproblems"
 \begin_inset Formula $\bar{\mathbf{P}}_{2}^{(1)}$
 \end_inset
 
-. 
+.
+ 
 \end_layout
 
 \end_inset
 
-notice that in the computation of the second subproblem, instead of using 
+notice that in the computation of the second subproblem, instead of using
+ 
 \begin_inset Formula $\check{\mathbf{F}}^{\left(2\right)},$
 \end_inset
 
@@ -760,13 +791,13 @@ notice that in the computation of the second subproblem, instead of using
 \begin_inset Formula $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$
 \end_inset
 
-of lower dimensions. 
+of lower dimensions.
+ 
 \end_layout
 
 \begin_layout Standard
-
-
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "lem:computationAtTopLevel"
 
 \end_inset
@@ -775,7 +806,8 @@ reference "lem:computationAtTopLevel"
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
 \end_inset
 
--basis. We can set 
+-basis.
+ We can set 
 \begin_inset Formula $i$
 \end_inset
 
@@ -795,13 +827,16 @@ reference "lem:computationAtTopLevel"
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$
 \end_inset
 
--basis. By 
-\begin_inset LatexCommand prettyref
+-basis.
+ By 
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "lem:computationAtTopLevel"
 
 \end_inset
 
-, this can be divided into two subproblems. The first produces 
+, this can be divided into two subproblems.
+ The first produces 
 \begin_inset Formula $[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}]=\hat{\mathbf{P}}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
 \end_inset
 
@@ -813,7 +848,8 @@ reference "lem:computationAtTopLevel"
 \begin_inset Formula $\bar{\mathbf{P}}^{\left(i-1\right)}$
 \end_inset
 
-. The second subproblem then computes a 
+.
+ The second subproblem then computes a 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$
 \end_inset
 
@@ -821,15 +857,19 @@ reference "lem:computationAtTopLevel"
 \begin_inset Formula $\bar{\mathbf{Q}}_{2}^{\left(i\right)}$
 \end_inset
 
-. Note the first subproblem of computing a 
+.
+ Note the first subproblem of computing a 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(i-1\right)},\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
 
--basis can again be divided to two subproblems just as before. This can be repeated recursively until we reach the base case with degree parameter 
+-basis can again be divided to two subproblems just as before.
+ This can be repeated recursively until we reach the base case with degree
+ parameter 
 \begin_inset Formula $\delta^{\left(1\right)}=2d$
 \end_inset
 
-. The total levels of recursion is therefore 
+.
+ The total levels of recursion is therefore 
 \begin_inset Formula $\log\left(n/m\right)-1$
 \end_inset
 
@@ -837,34 +877,36 @@ reference "lem:computationAtTopLevel"
 \end_layout
 
 \begin_layout Standard
-
 Notice that the transformed matrix 
 \begin_inset Formula $\check{\mathbf{F}}^{\left(i\right)}$
 \end_inset
 
- is not used explicitly in the computation, even though it is crucial for deriving our results.
+ is not used explicitly in the computation, even though it is crucial for
+ deriving our results.
 \end_layout
 
 \begin_layout Subsection
-
 The Iterative View
 \end_layout
 
 \begin_layout Standard
-
-In this subsection we present our algorithm, which uses an iterative version of the computation discussed above.
+In this subsection we present our algorithm, which uses an iterative version
+ of the computation discussed above.
 \begin_inset Note Comment
 status open
 
-\begin_layout Standard
-
-The recursive top-down approach of the previous subsection is useful for giving an overall picture of the computation process. Algorithm 
-\begin_inset LatexCommand prettyref
+\begin_layout Plain Layout
+The recursive top-down approach of the previous subsection is useful for
+ giving an overall picture of the computation process.
+ Algorithm 
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "alg:mab"
 
 \end_inset
 
- uses an equivalent corresponding bottom-up iterative approach. 
+ uses an equivalent corresponding bottom-up iterative approach.
+ 
 \end_layout
 
 \end_inset
@@ -873,9 +915,9 @@ reference "alg:mab"
 \begin_inset Note Comment
 status open
 
-\begin_layout Standard
-
-, allowing the complexity to be more easily analyzed. 
+\begin_layout Plain Layout
+, allowing the complexity to be more easily analyzed.
+ 
 \end_layout
 
 \end_inset
@@ -884,9 +926,13 @@ status open
 \begin_inset Note Comment
 status open
 
-\begin_layout Standard
-
-. In practice, bottom-up iterative approaches are more efficient than the corresponding top-down recursive approaches. For our purpose, it is also easier to analyze the computational cost of the iterative procedure. 
+\begin_layout Plain Layout
+.
+ In practice, bottom-up iterative approaches are more efficient than the
+ corresponding top-down recursive approaches.
+ For our purpose, it is also easier to analyze the computational cost of
+ the iterative procedure.
+ 
 \end_layout
 
 \end_inset
@@ -895,9 +941,8 @@ status open
 \end_layout
 
 \begin_layout Standard
-
-
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "alg:mab"
 
 \end_inset
@@ -906,15 +951,16 @@ reference "alg:mab"
 \begin_inset Formula $\mab$
 \end_inset
 
-, the algorithm from Giorgi et al. 
-\begin_inset LatexCommand citeyearpar
-after ""
-before ""
+, the algorithm from Giorgi et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand citeyearpar
 key "Giorgi2003"
 
 \end_inset
 
-, for computing order bases with balanced input. Specifically, 
+, for computing order bases with balanced input.
+ Specifically, 
 \begin_inset Formula $\left[\mathbf{Q},\vec{a}\right]=\mab(\mathbf{G},\sigma,\vec{b})$
 \end_inset
 
@@ -930,12 +976,14 @@ key "Giorgi2003"
 \begin_inset Formula $\vec{a}$
 \end_inset
 
-. The other subroutine 
+.
+ The other subroutine 
 \begin_inset Formula $\StorjohannTransform$
 \end_inset
 
  is the transformation described in 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "sub:storjohannTransformation"
 
 \end_inset
@@ -944,14 +992,15 @@ reference "sub:storjohannTransformation"
 \end_layout
 
 \begin_layout Standard
-
-
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "alg:mab"
 
 \end_inset
 
- proceeds as follows. In the first iteration, which is the base case of the recursive approach, we set the degree parameter 
+ proceeds as follows.
+ In the first iteration, which is the base case of the recursive approach,
+ we set the degree parameter 
 \begin_inset Formula $\delta^{\left(1\right)}$
 \end_inset
 
@@ -967,7 +1016,8 @@ reference "alg:mab"
 \begin_inset Formula $l^{\left(1\right)}$
 \end_inset
 
- block rows. Then a 
+ block rows.
+ Then a 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(1\right)},2\delta^{\left(1\right)},\vec{s}^{\left(1\right)})$
 \end_inset
 
@@ -975,15 +1025,21 @@ reference "alg:mab"
 \begin_inset Formula $\bar{\mathbf{P}}^{\left(1\right)}$
 \end_inset
 
- is computed. Note this is in fact the first subproblem of computing a 
+ is computed.
+ Note this is in fact the first subproblem of computing a 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})$
 \end_inset
 
--basis, which is another Storjohann transformed problem and also the problem of the second iteration. Now at the second iteration, we work on a new Storjohann transformed problem with the degree doubled and the number of block rows 
+-basis, which is another Storjohann transformed problem and also the problem
+ of the second iteration.
+ Now at the second iteration, we work on a new Storjohann transformed problem
+ with the degree doubled and the number of block rows 
 \begin_inset Formula $l^{\left(2\right)}=(l^{\left(1\right)}-1)/2$
 \end_inset
 
- reduced by over a half. The column dimension is reduced by using the result from the previous iteration. More specifically, we know that a 
+ reduced by over a half.
+ The column dimension is reduced by using the result from the previous iteration.
+ More specifically, we know that a 
 \begin_inset Formula $\bar{\mathbf{P}}^{\left(1\right)}$
 \end_inset
 
@@ -995,7 +1051,8 @@ reference "alg:mab"
 \begin_inset Formula $\hat{\mathbf{P}}_{1}^{\left(1\right)}$
 \end_inset
 
-, which can be disregarded in the remaining computation. Now the remaining work in the second iteration is to compute a 
+, which can be disregarded in the remaining computation.
+ Now the remaining work in the second iteration is to compute a 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(2\right)}\hat{\mathbf{P}}_{2}^{\left(1\right)},2\delta^{\left(2\right)},\vec{b}^{\left(1\right)})$
 \end_inset
 
@@ -1007,7 +1064,8 @@ reference "alg:mab"
 \begin_inset Formula $\vec{b}^{\left(1\right)}=\deg_{\vec{s}^{\left(1\right)}}\bar{\mathbf{P}}_{2}^{\left(1\right)}$
 \end_inset
 
-, and then to combine it with the result from the previous iteration to form a matrix 
+, and then to combine it with the result from the previous iteration to
+ form a matrix 
 \begin_inset Formula $[\hat{\mathbf{P}}_{1}^{\left(1\right)},\hat{\mathbf{P}}_{2}^{\left(1\right)}\bar{\mathbf{Q}}^{\left(2\right)}]$
 \end_inset
 
@@ -1023,16 +1081,17 @@ reference "alg:mab"
 \end_layout
 
 \begin_layout Standard
-
 With a 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})$
 \end_inset
 
--basis computed, we can repeat the same process to use it for computing a 
+-basis computed, we can repeat the same process to use it for computing
+ a 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(3\right)},2\delta^{\left(3\right)},\vec{s}^{\left(3\right)})$
 \end_inset
 
--basis. Continue, using the computed 
+-basis.
+ Continue, using the computed 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
 
@@ -1052,10 +1111,9 @@ With a
 \end_layout
 
 \begin_layout Standard
-
-
-\begin_inset Include \input{algorithm1.lyx}
-preview false
+\begin_inset CommandInset include
+LatexCommand input
+filename "algorithm1.lyx"
 
 \end_inset
 
@@ -1063,15 +1121,13 @@ preview false
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset Note Comment
 status open
 
 \begin_layout Theorem
-
 Algorithm 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "alg:mab"
 
 \end_inset
@@ -1084,26 +1140,29 @@ reference "alg:mab"
 \end_layout
 
 \begin_layout Proof
-
 This follows from 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "lem:simplifySecondSubproblem"
 
 \end_inset
 
 , 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "lem:disregardComputedBasisElements"
 
 \end_inset
 
 , and 
-\begin_inset LatexCommand prettyref
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "lem:computationAtTopLevel"
 
 \end_inset
 
-. 
+.
+ 
 \end_layout
 
 \end_inset

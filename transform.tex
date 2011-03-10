@@ -81,9 +81,11 @@ of a full, rather than partial, order basis. More generally (as discussed
 in the next section) this transformation provides a link between two
 Storjohann transformed problems constructed using different degree
 parameters. For easier understanding, we first focus on a particular
-case of this transformation. %which extends immediately to the more general results, as discussed
-%towards the end of this section.
+case of this transformation in \prettyref{sub:particularCase}, which
+is then generalized in \prettyref{sub:generalTransform}.
 
+
+\subsection{\label{sub:particularCase}A Particular Case}
 
 Consider the problem of computing a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis.
 We assume $\sigma=4\delta$ %
@@ -116,13 +118,34 @@ actually true for $e\le\min\vec{s}+1$. keeping this $e$ helps to
 show that this hold true in more general situations, while Storjohann
 only used $e=1$. it can be negative as well. 
 \end{comment}
-{}We set $e$ to $0$ in this paper for simplicity (Storjohann used
-$e=1$ in \citep{Storjohann:2006}). In fact, it is quite easy to
-construct a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis from
-a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis, as we show later
-in \prettyref{lem:FtoAbasis}. However, it requires more work to extract
-a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis from a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis,
-which is addressed eventually in \prettyref{cor:extractingFbasisFromGbasis}.
+{} We set $e$ to $0$ in this paper for simplicity%
+\footnote{Storjohann used $e=1$ in \citep{Storjohann:2006}. All results in
+this section still hold for any other $e\le1.$%
+}. %
+\begin{comment}
+In fact, it is quite easy to construct a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+from a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis, as we show
+later in \prettyref{lem:FtoAbasis}. However, it requires more work
+to extract a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis from
+a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis, which is addressed
+eventually in \prettyref{cor:extractingFbasisFromGbasis}. Note that
+although constructing a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+from a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis in \prettyref{lem:FtoAbasis}
+is the reverse of what we want, this well-formed $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+restricts the elements of $\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle$
+to a simple form shown in \prettyref{cor:FtauBasisForm}, which helps
+to establish a close correspondence between a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+and a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis in \prettyref{lem:2delta-1Basis},
+\prettyref{lem:2deltaBasis}, and \prettyref{thm:mainTheorem}.
+\end{comment}
+{}
+
+We first look at the correspondence bettween the elements of $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
+and the elements of $\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle_{\tau}$
+in \prettyref{lem:qToBqOrder} to \prettyref{lem:bqToqOrder}, then
+look at the correspondence between $\left(\mathbf{F},\sigma,\vec{s}\right)$-bases
+and $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-bases in \prettyref{cor:FtauBasisForm}
+to \prettyref{thm:mainTheorem}.. 
 
 Let \[
 \mathbf{B}=\left[\begin{array}{c}
@@ -178,7 +201,7 @@ for any degree bound $\tau\in\mathbb{Z}$ , then\textup{ }$\mathbf{B}\mathbf{q}\i
 \begin{cor}
 \label{cor:linearCombinationOfFirstnRows}Let $\bar{\mathbf{S}}_{\tau}$
 be a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})_{\tau}$-basis and
-$\mathbf{S}_{\tau}$ the top $n$ rows of $\bar{\mathbf{S}}_{\tau}$
+$\mathbf{S}_{\tau}$ be the top $n$ rows of $\bar{\mathbf{S}}_{\tau}$
 for any degree bound $\tau\in\mathbb{Z}$. Then any $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
 is a linear combination of the columns of $\mathbf{S}_{\tau}$.\end{cor}
 \begin{pf}
@@ -199,7 +222,16 @@ The top rows of \[
 \mathbf{q}_{1}\\
 \mathbf{q}_{2}\end{array}\right]=\begin{bmatrix}\mathbf{F}\mathbf{q}_{1}\\
 \check{\mathbf{F}}_{21}\mathbf{q}_{1}+\check{\mathbf{F}}_{22}\mathbf{q}_{2}\end{bmatrix}\equiv\mathbf{0}\mod x^{\vec{\omega}}\]
- gives $\mathbf{F}\mathbf{q}_{1}\equiv\mathbf{0}\mod x^{\sigma}$.\end{pf}
+ give $\mathbf{F}\mathbf{q}_{1}\equiv\mathbf{0}\mod x^{\sigma}$.
+
+The next lemma shows a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+can be constructed from a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis.
+This well-formed $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+restricts the elements of $\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle$
+to a simple form shown in \prettyref{cor:FtauBasisForm}, which helps
+to establish a close correspondence between a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+and a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis in \prettyref{lem:2delta-1Basis},
+\prettyref{lem:2deltaBasis}, and \prettyref{thm:mainTheorem}.\end{pf}
 \begin{lem}
 \label{lem:FtoAbasis}If $\mathbf{P}$ is a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis,
 then \begin{eqnarray*}
@@ -229,22 +261,21 @@ we get \[
  which is still in $\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle$,
 that is, \[
 \check{\mathbf{F}}\check{\mathbf{q}}=\begin{bmatrix}\mathbf{0}\\
-\mathbf{I}_{2m}\mathbf{v}\end{bmatrix}\equiv\mathbf{0}\mod x^{\vec{\omega}},\]
- which requires $\mathbf{v}$ to have order $\left(\mathbf{I}_{2m},2\delta\right)$.
-This forces $\mathbf{v}$ to be a linear combination of the columns
+\mathbf{I}_{2m}\mathbf{v}\end{bmatrix}\equiv\mathbf{0}\mod x^{\vec{\omega}}.\]
+ This forces $\mathbf{v}$ to be a linear combination of the columns
 of $x^{2\delta}\mathbf{I}_{2m}$, the bottom right submatrix of $\bar{\mathbf{T}}$.
 Now $\bar{\mathbf{q}}=\bar{\mathbf{T}}\left[\mathbf{u}^{T},\mathbf{v}^{T}\right]^{T}$
 as required.\end{pf}
 \begin{cor}
-\label{cor:AtauBasisForm}Let $\tau\in\mathbb{Z}$ be any degree bound.
-Let $\mathbf{P}_{\tau}\in\mathbb{K}\left[x\right]^{n\times k}$ be
+\label{cor:FtauBasisForm}Let $\tau\in\mathbb{Z}$ be any degree bound.
+Let $\mathbf{P}_{\tau}\in\mathbb{K}\left[x\right]^{n\times t}$ be
 a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\tau}$-basis. Let $\bar{\mathbf{q}}\in\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle_{\tau}$
 and $\mathbf{q}$ be the top $n$ entries of $\bar{\mathbf{q}}$.
 Then $\bar{\mathbf{q}}$ must have the form \[
 \bar{\mathbf{q}}=\mathbf{B}\mathbf{P}_{\tau}\mathbf{u}+x^{2\delta}\begin{bmatrix}\mathbf{0}\\
 \mathbf{v}\end{bmatrix}=\mathbf{B}\mathbf{q}+x^{2\delta}\begin{bmatrix}\mathbf{0}\\
 \mathbf{v}\end{bmatrix}\]
- for some polynomial vector $\mathbf{u}\in\mathbb{K}\left[x\right]^{k\times1}$
+ for some polynomial vector $\mathbf{u}\in\mathbb{K}\left[x\right]^{t\times1}$
 and $\mathbf{v}\in\mathbb{K}\left[x\right]^{2m\times1}$. In particular,
 if $\deg_{\vec{s'}}\bar{\mathbf{q}}<2\delta$, then $\bar{\mathbf{q}}=\mathbf{B}\mathbf{P}_{\tau}\mathbf{u}=\mathbf{B}\mathbf{q}$. \end{cor}
 \begin{pf}
@@ -253,14 +284,16 @@ restricted to $\tau$.\end{pf}
 \begin{lem}
 \label{lem:2delta-1Basis}If $\bar{\mathbf{S}}^{\left(1\right)}$
 is a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})_{2\delta-1}$-basis,
-then its first $n$ rows $\mathbf{S}^{\left(1\right)}$ is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{2\delta-1}$-basis.\end{lem}
+then the matrix $\mathbf{S}^{\left(1\right)}$ consisting of its first
+$n$ rows is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{2\delta-1}$-basis.\end{lem}
 \begin{pf}
 By \prettyref{lem:bqToqOrder}, $\mathbf{S}^{\left(1\right)}$ has
 order $\left(\mathbf{F},\sigma\right)$. By \prettyref{cor:linearCombinationOfFirstnRows},
 any $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{2\delta-1}$
 is a linear combination of $\mathbf{S}^{\left(1\right)}$. It remains
-to show that $\mathbf{S}^{\left(1\right)}$ is $\vec{s}$-column reduced.
-By \prettyref{cor:AtauBasisForm}, $\bar{\mathbf{S}}^{\left(1\right)}=\mathbf{B}\mathbf{S}^{\left(1\right)}$,
+to show that $\mathbf{S}^{\left(1\right)}$ is $\vec{s}$-column reduced. 
+
+By \prettyref{cor:FtauBasisForm}, $\bar{\mathbf{S}}^{\left(1\right)}=\mathbf{B}\mathbf{S}^{\left(1\right)}$,
 and by \prettyref{lem:bqToqOrder}, the columns of $\mathbf{S}^{\left(1\right)}$
 are in $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{2\delta-1}$,
 hence by \prettyref{lem:qToBqDegree} $\mathbf{S}^{\left(1\right)}$
@@ -274,9 +307,10 @@ with $\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(2\right)}=2\delta$ and
 $\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(1\right)}\le2\delta-1$. Let
 $\mathbf{S}^{\left(12\right)},\mathbf{S}^{\left(1\right)},\mathbf{S}^{\left(2\right)}$
 be the first $n$ rows of $\bar{\mathbf{S}}^{\left(12\right)},\bar{\mathbf{S}}^{\left(1\right)},\bar{\mathbf{S}}^{\left(2\right)}$
-respectively. Let $I$ be the column rank profile (the lowest column
-indices that indicate a full column rank submatrix) of $\mathbf{S}^{\left(12\right)}$,
-which contains all columns of $\mathbf{S}^{\left(1\right)}$ by \prettyref{lem:2delta-1Basis}.
+respectively. Let $I$ be the column rank profile (the lexicographically
+smallest sequence of column indices that indicates a full column rank
+submatrix) of $\mathbf{S}^{\left(12\right)}$, which contains all
+columns of $\mathbf{S}^{\left(1\right)}$ by \prettyref{lem:2delta-1Basis}.
 Then the submatrix\textbf{ $\mathbf{S}_{I}^{\left(12\right)}$ }comprised
 of the columns of $\mathbf{S}^{\left(12\right)}$ indexed by $I$
 is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{2\delta}$-basis. \end{lem}
@@ -315,8 +349,8 @@ for column reduction is\emph{ \begin{eqnarray*}
 \lcoeff\left(\mathbf{A}\right) & = & \left[\lcoeff\left(\mathbf{a}_{1}\right),\dots,\lcoeff\left(\mathbf{a}_{k}\right)\right]\\
  & = & \left[\coeff\left(\mathbf{a}_{1},\deg\left(\mathbf{a}_{1}\right)\right),\dots,\coeff\left(\mathbf{a}_{k},\deg\left(\mathbf{a}_{k}\right)\right)\right].\end{eqnarray*}
  }The column rank profile of $\lcoeff(x^{\vec{s}}\mathbf{S}^{\left(12\right)})$
-can be determined by (the transposed version of) LSP factorization\emph{
-\citep{IbarraMH82}}, which factorizes $\lcoeff(x^{\vec{s}}\mathbf{S}^{\left(12\right)})=PSU$
+can be determined by (the transposed version of) LSP factorization
+\citep{IbarraMH82}, which factorizes $\lcoeff(x^{\vec{s}}\mathbf{S}^{\left(12\right)})=PSU$
 as the product of a permutation matrix $P$, a matrix $S$ with its
 nonzero columns forming a lower triangular submatrix, and an upper
 triangular matrix $U$ with $1$'s on the diagonal. Then the indices
@@ -336,7 +370,7 @@ By \prettyref{lem:bqToqOrder}, $\mathbf{S}$ has order $\left(\mathbf{F},\sigma\r
 and so $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
 also has order $\left(\mathbf{F},\sigma\right)$. By \prettyref{cor:linearCombinationOfFirstnRows},
 any $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
-is a linear combination of columns $\mathbf{S}$, and so $\mathbf{q}$
+is a linear combination of the columns of $\mathbf{S}$, and so $\mathbf{q}$
 is also a linear combination of the columns of $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$.
 It only remains to show that $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
 is $\vec{s}$-column reduced.
@@ -373,11 +407,12 @@ This rank profile $J$ can be determined by LSP factorization on $\lcoeff(x^{\vec
 
 \begin{exmp}
 \label{exm:auxiliaryTransformation}For the problem in \prettyref{exm:StorjohannTransformation},
-\[
-\check{\mathbf{F}}=\left[{\begin{array}{llllrr}
-x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6} & 1+x+x^{5}+x^{6}+x^{7} & 1+x^{2}+x^{6}+x^{7} & 1+x+x^{3}+x^{7} & 0 & 0\\
-1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & 1 & 0\\
-1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & 0 & 1\end{array}}\right],\]
+\begin{align*}
+ & \check{\mathbf{F}}=\\
+ & \left[{\begin{array}{cccccr}
+x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6} & \ 1+x+x^{5}+x^{6}+x^{7}\  & 1+x^{2}+x^{6}+x^{7} & \ 1+x+x^{3}+x^{7}\  & 0\  & 0\\
+1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & 1\  & 0\\
+1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & 0\  & 1\end{array}}\right],\end{align*}
  a $\left(\check{\mathbf{F}},\left[8,4,4\right],\vec{0}\right)$-basis
 is \[
 \left[\begin{array}{rccc|cc}
@@ -392,7 +427,7 @@ submatrix, which is a \textbf{$(\mathbf{F},8,\vec{0})$}-basis.
 \end{exmp}
 The following two lemmas verify Storjohann's result in the case of
 degree parameter $\delta=\sigma/4$. More specifically, we show that
-the top $n$ rows of a $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$-basis
+the matrix of the top $n$ rows of a $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$-basis
 is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$-basis, with
 the Storjohann transformed input matrix \begin{equation}
 \bar{\mathbf{F}}=\left[\begin{array}{l|cr}
@@ -402,7 +437,7 @@ the Storjohann transformed input matrix \begin{equation}
 
 \begin{lem}
 \label{lem:A_delta-1Form}If $\bar{\mathbf{q}}\in\langle(\bar{\mathbf{F}},2\delta,\vec{s'})\rangle_{\delta-1}$
-and $\mathbf{q}$ is the first $n$ entries of $\bar{\mathbf{q}}$,
+and $\mathbf{q}$ consists of the first $n$ entries of $\bar{\mathbf{q}}$,
 then $\bar{\mathbf{q}}$ must have the form \[
 \bar{\mathbf{q}}=\mathbf{B}\mathbf{q}=\left[\begin{array}{r}
 \mathbf{q}\\
@@ -410,8 +445,8 @@ x^{-\delta}\mathbf{F}_{0}\cdot\mathbf{q}\\
 x^{-2\delta}\left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}\right)\cdot\mathbf{q}\end{array}\right]\]
  and $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$.\end{lem}
 \begin{pf}
-Let $\mathbf{q},\mathbf{q}_{2},\mathbf{q}_{3}$ be be the top $n$
-entries, middle $m$ entries, and bottom $m$ entries, respectively,
+Let $\mathbf{q},\mathbf{q}_{2},\mathbf{q}_{3}$ consist of the top
+$n$ entries, middle $m$ entries, and bottom $m$ entries, respectively,
 of $\mathbf{\bar{\mathbf{q}}}$ so that \begin{align}
 \bar{\mathbf{F}}\bar{\mathbf{q}} & \equiv\left[\begin{array}{r}
 \mathbf{F}_{0}\mathbf{q}+x^{\delta}\mathbf{F}_{1}\mathbf{q}\\
@@ -421,7 +456,7 @@ of $\mathbf{\bar{\mathbf{q}}}$ so that \begin{align}
 and $\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}\equiv\mathbf{0}\mod x^{\delta}$,
 which implies \begin{equation}
 \mathbf{F}_{0}\mathbf{q}\equiv x^{\delta}\mathbf{q}_{2}\mod x^{2\delta}.\label{eq:q1q2}\end{equation}
- Similarly, from the second and the third row, we get $\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}+x^{\delta}\mathbf{F}_{2}\mathbf{q}\equiv\mathbf{0}\mod x^{2\delta}$
+ Similarly, from the second and the third rows, we get $\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}+x^{\delta}\mathbf{F}_{2}\mathbf{q}\equiv\mathbf{0}\mod x^{2\delta}$
 and $\mathbf{q}_{3}+\mathbf{F}_{2}\mathbf{q}\equiv\mathbf{0}\mod x^{\delta}$,
 which implies $\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}\equiv x^{\delta}\mathbf{q}_{3}\mod x^{2\delta}$.
 
@@ -434,15 +469,16 @@ we get $\mathbf{F}\mathbf{q}=\mathbf{q}_{3}x^{2\delta}+(\mathbf{F}_{2}\mathbf{q}
 using the bottom block row of \prettyref{eq:Aq}.\end{pf}
 \begin{lem}
 \label{lem:delta-1Basis}If $\bar{\mathbf{S}}_{\delta-1}$ is a $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$-basis,
-then its first $n$ rows $\mathbf{S}_{\delta-1}$ is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$-basis.\end{lem}
+then the matrix of its first $n$ rows $\mathbf{S}_{\delta-1}$ is
+a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$-basis.\end{lem}
 \begin{pf}
 By \prettyref{lem:A_delta-1Form}, $\mathbf{S}_{\delta-1}$ has order
 $\left(\mathbf{F},\sigma\right)$. Following \prettyref{lem:qToBqOrder},
 \prettyref{lem:qToBqDegree}, \prettyref{cor:sToBs}, \prettyref{cor:linearCombinationOfFirstnRows}
 (replacing $\vec{\omega}$ by $2\delta$), we can conclude that any
 $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$
-is a linear combination of $\mathbf{S}_{\delta-1}$. In addition,
-since $\bar{\mathbf{S}}_{\delta-1}=\mathbf{B}\mathbf{S}_{\delta-1}$
+is a linear combination of the columns of $\mathbf{S}_{\delta-1}$.
+In addition, since $\bar{\mathbf{S}}_{\delta-1}=\mathbf{B}\mathbf{S}_{\delta-1}$
 by \prettyref{lem:A_delta-1Form} and $\mathbf{S}_{\delta-1}$ are
 in $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$,
 it follows that $\mathbf{S}_{\delta-1}$ determines the $\vec{s'}$-column
@@ -450,6 +486,9 @@ degrees of $\bar{\mathbf{S}}_{\delta-1}$ by \prettyref{lem:qToBqDegree},
 hence the $\vec{s'}$-column reducedness of $\bar{\mathbf{S}}_{\delta-1}$
 implies that $\mathbf{S}_{\delta-1}$ is $\vec{s}$-column reduced. 
 \end{pf}
+
+\subsection{\label{sub:generalTransform}More General Results}
+
 Let us now consider an immediate extension of the above results. Suppose
 that instead of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 we now want to compute a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis
@@ -467,8 +506,16 @@ the base case is $i=1$ and problem is not to be subdivided
 \end{comment}
 {} and $\log\left(\sigma/d\right)-1$, and a shift $\vec{s}^{\left(i\right)}=[\vec{s},0,\dots,0]$
 (with $m(l^{\left(i\right)}-1)$ 0's), where $l^{\left(i\right)}=\sigma/\delta^{\left(i\right)}-1$
-is the number of block rows. To apply a transformation analogous to
-\prettyref{eq:extendedSTransformTop}, we write each $\mathbf{F}_{j}=\mathbf{F}_{j0}+\mathbf{F}_{j1}\delta^{\left(i-1\right)}$
+is the number of block rows%
+\footnote{Recall that $d=m\sigma/n$ is the average degree of the input matrix
+$\mathbf{F}$ if we treat $\mathbf{F}$ as a square $n\times n$ matrix.
+Also, $i$ starts at $2$ because $i=1$ is our base case in the computation
+of an order basis, which may become more clear in the next section.
+The base case can be computed efficiently using the method of Giorgi
+et al. \citeyearpar{Giorgi2003} directly and does not require the
+transformation discussed in this section.%
+}. To apply a transformation analogous to \prettyref{eq:extendedSTransformTop},
+we write each $\mathbf{F}_{j}=\mathbf{F}_{j0}+\mathbf{F}_{j1}\delta^{\left(i-1\right)}$
 and set \begin{equation}
 \check{\mathbf{F}}^{\left(i\right)}=\left[\begin{array}{l|c}
 \mathbf{F}_{00}+\mathbf{F}_{01}x^{\delta^{\left(i-1\right)}}+\mathbf{F}_{10}x^{2\delta^{\left(i-1\right)}}+\mathbf{F}_{11}x^{3\delta^{\left(i-1\right)}} & ~~\mathbf{0}~~\\
@@ -484,7 +531,8 @@ and set \begin{equation}
 This is not ideal, but no better idea. 
 \end{comment}
 {} and $\vec{\omega}^{\left(i\right)}=\left[\left[[2\delta^{\left(i\right)}]^{m},[\delta^{\left(i\right)}]^{m}\right]^{l^{\left(i\right)}},[\delta^{\left(i\right)}]^{m}\right]$,
-where $\left[\circ\right]^{k}$ represent $\circ$ repeated $k$ times%
+where $\left[\circ\right]^{k}$ represents $\circ$ repeated $k$
+times%
 \begin{comment}
 Not sure if using this notation is a good thing to do, but it saves
 space and makes presentation easier 
@@ -503,10 +551,11 @@ respectively. Let \[
 and hence an overall dimension of $(n+m(l^{\left(i\right)}-1))\times(n+m(l^{\left(i-1\right)}-1))$,
 so $\mathbf{E}^{\left(i\right)}\mathbf{M}$ picks out from $\mathbf{M}$
 the first $n$ rows and the even block rows from the remaining rows
-except the last block row for a matrix $\mathbf{M}$ with $(n+m(l^{\left(i-1\right)}-1))$
+except the last block row for a matrix $\mathbf{M}$ with $n+m(l^{\left(i-1\right)}-1)$
 rows. In particular, if $i=\log\left(n/m\right)-1$, then $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})=(\check{\mathbf{F}},\vec{\omega},\vec{s'})$,
-which gives the problem considered earlier in this section, and $\mathbf{E}^{\left(i\right)}=\left[\mathbf{I}_{n},\mathbf{0}_{n,m},\mathbf{0}_{n,m}\right]$
-is used to pick up the top $n$ rows of a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+which for $d=m\sigma/n$ gives the problem considered earlier in \prettyref{sub:particularCase},
+and $\mathbf{E}^{\left(i\right)}=\left[\mathbf{I}_{n},\mathbf{0}_{n,m},\mathbf{0}_{n,m}\right]$
+is used to select the top $n$ rows of a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
 for a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis to be extracted.
 
 We can now state the analog of \prettyref{cor:extractingFbasisFromGbasis}: 
@@ -532,7 +581,7 @@ to capture Storjohann's transformation with more general degree parameters:
 is a $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})_{\delta^{\left(i-1\right)}-1}$-basis,
 then $\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
 is a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i-1\right)}-1}$-basis
-and the top $n$ rows of $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
+and the matrix of the top $n$ rows of $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
 is a $(\mathbf{F},\sigma,\vec{s})_{\delta^{\left(i-1\right)}-1}$-basis.\end{lem}
 \begin{pf}
 Again, this can be justified in the same way as \prettyref{lem:delta-1Basis}.
