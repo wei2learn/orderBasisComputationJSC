@@ -429,14 +429,14 @@ again, changed from
 \end_inset
 
 -basis can be done by computing a 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
 -basis where 
 \begin_inset Formula \begin{equation}
-\check{\mathbf{F}}=\left[\begin{array}{cc}
+\mathbf{F}'=\left[\begin{array}{cc}
 \mathbf{F} & \mathbf{0}\\
-\check{\mathbf{F}}_{21} & \check{\mathbf{F}}_{22}\end{array}\right]=\left[\begin{array}{l|cr}
+\mathbf{F}'_{21} & \mathbf{F}'_{22}\end{array}\right]=\left[\begin{array}{l|cr}
 \mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\mathbf{F}_{3}x^{3\delta} & \mathbf{0} & \mathbf{0}\\
 \hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & \mathbf{0}\\
 \mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0} & \mathbf{I}_{m}\end{array}\right]\label{eq:extendedSTransformTop}\end{equation}
@@ -673,7 +673,7 @@ We first look at the correspondence bettween the elements of
 \noun default
 \color inherit
 
-\begin_inset Formula $\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle_{\tau}$
+\begin_inset Formula $\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
 \end_inset
 
  in 
@@ -695,7 +695,7 @@ reference "lem:bqToqOrder"
 \end_inset
 
 -bases and 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
 -bases in 
@@ -741,7 +741,7 @@ If
 \end_inset
 
 , then 
-\begin_inset Formula $\mathbf{B}\mathbf{q}\in\langle(\check{\mathbf{F}}\vec{,\omega})\rangle$
+\begin_inset Formula $\mathbf{B}\mathbf{q}\in\langle(\mathbf{F}'\vec{,\omega})\rangle$
 \end_inset
 
 .
@@ -750,7 +750,7 @@ If
 \begin_layout Proof
 The lemma follows from 
 \begin_inset Formula \[
-\check{\mathbf{F}}\mathbf{B}\mathbf{q}=\left[\begin{array}{r}
+\mathbf{F}'\mathbf{B}\mathbf{q}=\left[\begin{array}{r}
 \mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\mathbf{F}_{3}x^{3\delta}\\
 \mathbf{F}_{0}x^{-\delta}+\mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta}\\
 \mathbf{F}_{0}x^{-2\delta}+\mathbf{F}_{1}x^{-\delta}+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta}\end{array}\right]\mathbf{q}\equiv\mathbf{0}\mod x^{\vec{\omega}}.\]
@@ -901,7 +901,7 @@ If
  
 \shape default
 
-\begin_inset Formula $\mathbf{B}\mathbf{q}\in\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle_{\tau}$
+\begin_inset Formula $\mathbf{B}\mathbf{q}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
 \end_inset
 
 
@@ -962,7 +962,7 @@ Let
 \end_inset
 
  be a 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})_{\tau}$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})_{\tau}$
 \end_inset
 
 -basis and 
@@ -1002,7 +1002,7 @@ reference "cor:sToBs"
 \end_inset
 
 , 
-\begin_inset Formula $\mathbf{B}\mathbf{q}\in\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle_{\tau}$
+\begin_inset Formula $\mathbf{B}\mathbf{q}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
 \end_inset
 
 , hence is a linear combination of columns of 
@@ -1038,7 +1038,7 @@ name "lem:bqToqOrder"
 \end_inset
 
 Let 
-\begin_inset Formula $\bar{\mathbf{q}}\in\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle_{\tau}$
+\begin_inset Formula $\bar{\mathbf{q}}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
 \end_inset
 
  for any degree bound 
@@ -1068,12 +1068,12 @@ Let
 \begin_layout Proof
 The top rows of 
 \begin_inset Formula \[
-\check{\mathbf{F}}\mathbf{q}=\left[\begin{array}{cc}
+\mathbf{F}'\mathbf{q}=\left[\begin{array}{cc}
 \mathbf{F} & \mathbf{0}\\
-\check{\mathbf{F}}_{21} & \check{\mathbf{F}}_{22}\end{array}\right]\left[\begin{array}{c}
+\mathbf{F}'_{21} & \mathbf{F}'_{22}\end{array}\right]\left[\begin{array}{c}
 \mathbf{q}_{1}\\
 \mathbf{q}_{2}\end{array}\right]=\begin{bmatrix}\mathbf{F}\mathbf{q}_{1}\\
-\check{\mathbf{F}}_{21}\mathbf{q}_{1}+\check{\mathbf{F}}_{22}\mathbf{q}_{2}\end{bmatrix}\equiv\mathbf{0}\mod x^{\vec{\omega}}\]
+\mathbf{F}'_{21}\mathbf{q}_{1}+\mathbf{F}'_{22}\mathbf{q}_{2}\end{bmatrix}\equiv\mathbf{0}\mod x^{\vec{\omega}}\]
 
 \end_inset
 
@@ -1086,7 +1086,7 @@ The top rows of
 
 \begin_layout Proof
 The next lemma shows a 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
 -basis can be constructed from a 
@@ -1095,11 +1095,11 @@ The next lemma shows a
 
 -basis.
  This well-formed 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
 -basis restricts the elements of 
-\begin_inset Formula $\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle$
+\begin_inset Formula $\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle$
 \end_inset
 
  to a simple form shown in 
@@ -1110,7 +1110,7 @@ reference "cor:FtauBasisForm"
 \end_inset
 
 , which helps to establish a close correspondence between a 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
 -basis and a 
@@ -1168,7 +1168,7 @@ x^{-2\delta}\left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}\right)\cdot\mathbf{P} 
 \end_inset
 
  is a 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
 -basis.
@@ -1187,7 +1187,7 @@ reference "lem:qToBqOrder"
 \end_inset
 
  has order 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega})$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega})$
 \end_inset
 
  and is 
@@ -1215,7 +1215,7 @@ reference "lem:qToBqDegree"
 
 .
  It remains to show that any 
-\begin_inset Formula $\bar{\mathbf{q}}\in\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle$
+\begin_inset Formula $\bar{\mathbf{q}}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle$
 \end_inset
 
  is a linear combination of the columns of 
@@ -1273,19 +1273,19 @@ reference "lem:bqToqOrder"
 
 , we get 
 \begin_inset Formula \[
-\check{\mathbf{q}}=\bar{\mathbf{q}}-\mathbf{B}\mathbf{P}\mathbf{u}=\bar{\mathbf{q}}-\mathbf{B}\mathbf{q}=\left[\begin{array}{c}
+\mathbf{q}'=\bar{\mathbf{q}}-\mathbf{B}\mathbf{P}\mathbf{u}=\bar{\mathbf{q}}-\mathbf{B}\mathbf{q}=\left[\begin{array}{c}
 \mathbf{0}\\
 \mathbf{v}\end{array}\right],\]
 
 \end_inset
 
  which is still in 
-\begin_inset Formula $\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle$
+\begin_inset Formula $\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle$
 \end_inset
 
 , that is, 
 \begin_inset Formula \[
-\check{\mathbf{F}}\check{\mathbf{q}}=\begin{bmatrix}\mathbf{0}\\
+\mathbf{F}'\mathbf{q}'=\begin{bmatrix}\mathbf{0}\\
 \mathbf{I}_{2m}\mathbf{v}\end{bmatrix}\equiv\mathbf{0}\mod x^{\vec{\omega}}.\]
 
 \end_inset
@@ -1332,7 +1332,7 @@ Let
 
 -basis.
  Let 
-\begin_inset Formula $\bar{\mathbf{q}}\in\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle_{\tau}$
+\begin_inset Formula $\bar{\mathbf{q}}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
 \end_inset
 
  and 
@@ -1553,7 +1553,7 @@ Let
 \end_inset
 
  be a 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})_{2\delta}$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})_{2\delta}$
 \end_inset
 
 -basis, with 
@@ -1925,7 +1925,7 @@ Let
 \end_inset
 
  be a 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
 -basis, with 
@@ -2053,7 +2053,7 @@ Let
 \end_inset
 
  be the 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
 -basis constructed from 
@@ -2183,7 +2183,7 @@ Let
 \end_inset
 
  be a 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
 -basis with its columns sorted in an increasing order of their 
@@ -2296,7 +2296,7 @@ x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6} & \ 1+x+x^{5}+x^{6}+x^{7}\  & 1+x^{2}+x^{6}+x^{7
 \end_inset
 
  a 
-\begin_inset Formula $\left(\check{\mathbf{F}},\left[8,4,4\right],\vec{0}\right)$
+\begin_inset Formula $\left(\mathbf{F}',\left[8,4,4\right],\vec{0}\right)$
 \end_inset
 
 -basis is 
@@ -2351,7 +2351,7 @@ The following two lemmas verify Storjohann's result in the case of degree
 \bar{\mathbf{F}}=\left[\begin{array}{l|cr}
 \mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0} & \mathbf{0}\\
 \hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & \mathbf{0}\\
-\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0} & \mathbf{I}_{m}\end{array}\right]\equiv\check{\mathbf{F}}\mod x^{2\delta}.\label{eq:storjohannTransformation4parts}\end{equation}
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0} & \mathbf{I}_{m}\end{array}\right]\equiv\mathbf{F}'\mod x^{2\delta}.\label{eq:storjohannTransformation4parts}\end{equation}
 
 \end_inset
 
@@ -2799,7 +2799,7 @@ reference "eq:extendedSTransformTop"
 
  and set 
 \begin_inset Formula \begin{equation}
-\check{\mathbf{F}}^{\left(i\right)}=\left[\begin{array}{l|c}
+\mathbf{F}'^{\left(i\right)}=\left[\begin{array}{l|c}
 \mathbf{F}_{00}+\mathbf{F}_{01}x^{\delta^{\left(i-1\right)}}+\mathbf{F}_{10}x^{2\delta^{\left(i-1\right)}}+\mathbf{F}_{11}x^{3\delta^{\left(i-1\right)}} & ~~\mathbf{0}~~\\
 \hline \mathbf{F}_{01}+\mathbf{F}_{10}x^{\delta^{\left(i-1\right)}}\\
 \mathbf{F}_{10}+\mathbf{F}_{11}x^{\delta^{\left(i-1\right)}}+\mathbf{F}_{20}x^{2\delta^{\left(i-1\right)}}+\mathbf{F}_{21}x^{3\delta^{\left(i-1\right)}}\\
@@ -2871,7 +2871,7 @@ Not sure if using this notation is a good thing to do, but it saves space
 \end_inset
 
  rows in 
-\begin_inset Formula $\check{\mathbf{F}}^{\left(i\right)}$
+\begin_inset Formula $\mathbf{F}'^{\left(i\right)}$
 \end_inset
 
  respectively.
@@ -2925,7 +2925,7 @@ Not sure if using this notation is a good thing to do, but it saves space
 \end_inset
 
 , then 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})=(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\begin_inset Formula $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})=(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
 , which for 
@@ -2948,7 +2948,7 @@ reference "sub:particularCase"
 \end_inset
 
  rows of a 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
 -basis for a 
@@ -2977,11 +2977,11 @@ name "thm:extractingOrderBasis"
 \end_inset
 
 Let 
-\begin_inset Formula $\check{\mathbf{S}}^{\left(i\right)}$
+\begin_inset Formula $\mathbf{S}'^{\left(i\right)}$
 \end_inset
 
  be a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
+\begin_inset Formula $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
 
 -basis with its columns sorted in an increasing order of their 
@@ -2990,7 +2990,7 @@ Let
 
  degrees.
  Let 
-\begin_inset Formula $\hat{\mathbf{S}}^{\left(i\right)}=\mathbf{E}^{\left(i\right)}\check{\mathbf{S}}^{\left(i\right)}$
+\begin_inset Formula $\hat{\mathbf{S}}^{\left(i\right)}=\mathbf{E}^{\left(i\right)}\mathbf{S}'^{\left(i\right)}$
 \end_inset
 
 .

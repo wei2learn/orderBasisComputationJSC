@@ -38,6 +38,7 @@
 \tracking_changes false
 \output_changes false
 \author "" 
+\author "" 
 \end_header
 
 \begin_body
@@ -86,7 +87,7 @@ reference "sec:transform"
 \end_inset
 
 -basis can be converted to the problem of computing a 
-\begin_inset Formula $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$
+\begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
 -basis and more generally, computing a 
@@ -98,7 +99,7 @@ reference "sec:transform"
 \end_inset
 
 , can be converted to a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
+\begin_inset Formula $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
 
 -basis computation problem.
@@ -107,7 +108,7 @@ reference "sec:transform"
 
 \begin_layout Standard
 The first subproblem is to compute a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
+\begin_inset Formula $(\mathbf{F}'^{\left(i\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
 
 -basis or equivalently a 
@@ -125,7 +126,7 @@ The first subproblem is to compute a
 
 .
  The second subproblem is computing a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
+\begin_inset Formula $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
 \end_inset
 
 -basis 
@@ -133,7 +134,7 @@ The first subproblem is to compute a
 \end_inset
 
  using the residual 
-\begin_inset Formula $\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+\begin_inset Formula $\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
 \end_inset
 
  from the first subproblem along with a degree shift 
@@ -153,7 +154,7 @@ key "BL1997"
 \end_inset
 
  is a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
+\begin_inset Formula $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
 
 -basis and 
@@ -195,7 +196,7 @@ reference "exm:auxiliaryTransformation"
 
 -basis).
  This can be determined by computing a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(2\right)},[8,4,4],\vec{0})$
+\begin_inset Formula $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$
 \end_inset
 
 -basis as shown in 
@@ -206,7 +207,7 @@ reference "exm:auxiliaryTransformation"
 \end_inset
 
  with 
-\begin_inset Formula $\check{\mathbf{F}}^{\left(2\right)}=\check{\mathbf{F}}$
+\begin_inset Formula $\mathbf{F}'^{\left(2\right)}=\mathbf{F}'$
 \end_inset
 
  from 
@@ -218,7 +219,7 @@ reference "exm:auxiliaryTransformation"
 
 .
  Computing a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(2\right)},[8,4,4],\vec{0})$
+\begin_inset Formula $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$
 \end_inset
 
 -basis can be divided to two subproblems.
@@ -240,7 +241,7 @@ reference "exm:StorjohannTransformation"
 .
  The residual 
 \begin_inset Formula \[
-\check{\mathbf{F}}^{(2)}\bar{\mathbf{P}}^{(1)}=\left[{\begin{array}{rcccccccccc}
+\mathbf{F}'^{(2)}\bar{\mathbf{P}}^{(1)}=\left[{\begin{array}{rcccccccccc}
 0 & \  & x^{8} & \  & x^{6}+x^{9} & \  & x^{4}+x^{6}+x^{9} & \  & x^{6}+x^{8}+x^{9}+x^{10} & \  & x^{5}+x^{8}\\
 0 &  & 0 &  & x^{5} &  & x^{4}+x^{6} &  & x^{4}+x^{6} &  & x^{5}+x^{6}\\
 0 &  & x^{4} &  & x^{5} &  & x^{5} &  & x^{4}+x^{5}+x^{6} &  & x^{4}\end{array}}\right]\]
@@ -257,7 +258,7 @@ reference "exm:StorjohannTransformation"
 \end_inset
 
  and so the second subproblem is to compute a 
-\begin_inset Formula $(\check{\mathbf{F}}^{(2)}\bar{\mathbf{P}}^{(1)},\left[8,4,4\right],[0,1,2,3,3,3])$
+\begin_inset Formula $(\mathbf{F}'^{(2)}\bar{\mathbf{P}}^{(1)},\left[8,4,4\right],[0,1,2,3,3,3])$
 \end_inset
 
 -basis, which is 
@@ -277,7 +278,7 @@ reference "exm:StorjohannTransformation"
 \end_inset
 
  then gives the 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(2\right)},[8,4,4],\vec{0})$
+\begin_inset Formula $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$
 \end_inset
 
 -basis shown in 
@@ -315,7 +316,7 @@ A
 \end_inset
 
 -basis is a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
+\begin_inset Formula $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
 \end_inset
 
 -basis.
@@ -327,7 +328,7 @@ This follows because
 \end_inset
 
  is a submatrix of 
-\begin_inset Formula $\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+\begin_inset Formula $\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
 \end_inset
 
  after removing rows already having the correct order 
@@ -411,7 +412,7 @@ Let
 \end_inset
 
 -basis (or equivalently a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{b}^{\left(i-1\right)})$
+\begin_inset Formula $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{b}^{\left(i-1\right)})$
 \end_inset
 
 -basis), and 
@@ -446,7 +447,7 @@ name "lem:disregardComputedBasisElements"
 \end_inset
 
 -basis (equivalently a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
+\begin_inset Formula $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
 \end_inset
 
 -basis).
@@ -593,7 +594,7 @@ reference "lem:disregardComputedBasisElements"
 \end_inset
 
  is a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
+\begin_inset Formula $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$
 \end_inset
 
 -basis and hence 
@@ -601,7 +602,7 @@ reference "lem:disregardComputedBasisElements"
 \end_inset
 
  is a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
+\begin_inset Formula $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
 
 -basis.
@@ -685,7 +686,7 @@ reference "exm:subproblems"
 \end_inset
 
 -basis (or equivalently a 
-\begin_inset Formula $(\check{\mathbf{F}}^{\left(2\right)}\bar{\mathbf{P}}_{2}^{\left(1\right)},[8,4,4],\vec{b}^{\left(1\right)})$
+\begin_inset Formula $(\mathbf{F}'^{\left(2\right)}\bar{\mathbf{P}}_{2}^{\left(1\right)},[8,4,4],\vec{b}^{\left(1\right)})$
 \end_inset
 
 -basis), where 
@@ -728,7 +729,7 @@ reference "exm:subproblems"
 
 notice that in the computation of the second subproblem, instead of using
  
-\begin_inset Formula $\check{\mathbf{F}}^{\left(2\right)},$
+\begin_inset Formula $\mathbf{F}'^{\left(2\right)},$
 \end_inset
 
  
@@ -752,7 +753,7 @@ notice that in the computation of the second subproblem, instead of using
 \end_inset
 
  submatrix of 
-\begin_inset Formula $\check{\mathbf{F}}^{\left(2\right)}$
+\begin_inset Formula $\mathbf{F}'^{\left(2\right)}$
 \end_inset
 
 , 
@@ -878,7 +879,7 @@ reference "lem:computationAtTopLevel"
 
 \begin_layout Standard
 Notice that the transformed matrix 
-\begin_inset Formula $\check{\mathbf{F}}^{\left(i\right)}$
+\begin_inset Formula $\mathbf{F}'^{\left(i\right)}$
 \end_inset
 
  is not used explicitly in the computation, even though it is crucial for
