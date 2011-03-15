@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.6.1 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -113,7 +113,7 @@ Input:
 \begin_inset Formula $\mathbf{F}\in\mathbb{K}\left[x\right]^{m\times n}$
 \end_inset
 
-,
+, 
 \begin_inset Formula $\sigma\in\mathbb{Z}_{\ge0}$
 \end_inset
 
@@ -305,7 +305,35 @@ status open
 \begin_inset Formula $\vec{b}^{\left(0\right)}:=\left[\vec{s},0,\dots,0\right];$
 \end_inset
 
- {{ 
+
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset space \space{}
+\end_inset
+
+// 
 \begin_inset Formula $m(l_{1}-1)$
 \end_inset
 
@@ -313,7 +341,7 @@ status open
 \begin_inset Formula $0$
 \end_inset
 
-'s}}
+'s
 \end_layout
 
 \begin_layout Algorithm (num)
@@ -416,7 +444,7 @@ status collapsed
 \begin_inset Formula $k^{\left(i\right)}:=$
 \end_inset
 
-number of entries of 
+ number of entries of 
 \begin_inset Formula $\vec{a}^{\left(i\right)}$
 \end_inset
 
@@ -601,7 +629,7 @@ name "line:matrixProduct1"
 
 \begin_layout Algorithm (num)
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -626,6 +654,14 @@ status collapsed
 \end_inset
 
  
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\mbox{ // w:=v[k..l] means that w receives a slice of v whose indices range from k to l}$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Algorithm (num)
@@ -819,7 +855,7 @@ status collapsed
 \begin_inset Formula $k^{\left(i\right)}:=$
 \end_inset
 
-number of entries of 
+ number of entries of 
 \begin_inset Formula $\vec{t}^{\left(i\right)}$
 \end_inset
 

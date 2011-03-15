@@ -5,12 +5,16 @@
 
 In this section, we establish a link between two different Storjohann
 transformed problems by dividing the transformed problem from the
-previous section to two subproblems and then simplifying the second
+previous section into two subproblems and then simplifying the second
 subproblem. This leads to a recursive way of computing order bases.
-We then describe our algorithm in the equivalent iterative way.
+We then describe our algorithm in the equivalent iterative way, which
+is usually more efficient in practice, as it uses just one iteration
+in the generic case that has balanced output, whereas the recursive
+method has to go though all the recursion levels to reach the base
+case.
 
 
-\subsection{\label{sub:Dividing-to-Subproblems}Dividing to Subproblems }
+\subsection{\label{sub:Dividing-to-Subproblems}Dividing into Subproblems }
 
 \prettyref{sec:transform} shows that the problem of computing a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 can be converted to the problem of computing a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis
@@ -34,11 +38,11 @@ and $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\m
 \begin{exmp}
 \label{exm:subproblems} Let us continue with \prettyref{exm:StorjohannTransformation}
 and \prettyref{exm:auxiliaryTransformation} to compute a $\left(\mathbf{F},8,\vec{0}\right)$-basis
-( or equivalently a $(\bar{\mathbf{F}}^{\left(2\right)},8,\vec{0})$-basis).
+(or equivalently a $(\bar{\mathbf{F}}^{\left(2\right)},8,\vec{0})$-basis).
 This can be determined by computing a $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
 as shown in \prettyref{exm:auxiliaryTransformation} with $\mathbf{F}'^{\left(2\right)}=\mathbf{F}'$
 from \prettyref{exm:auxiliaryTransformation}. Computing a $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
-can be divided to two subproblems. The first subproblem is computing
+can be divided into two subproblems. The first subproblem is computing
 a $(\bar{\mathbf{F}}^{\left(1\right)},4,\vec{0})$-basis $\bar{\mathbf{P}}^{\left(1\right)}$,
 the Storjohann partial linearized problem in \prettyref{exm:StorjohannTransformation}.
 The residual \[
@@ -47,7 +51,7 @@ The residual \[
 0 &  & 0 &  & x^{5} &  & x^{4}+x^{6} &  & x^{4}+x^{6} &  & x^{5}+x^{6}\\
 0 &  & x^{4} &  & x^{5} &  & x^{5} &  & x^{4}+x^{5}+x^{6} &  & x^{4}\end{array}}\right]\]
  is then used as the input matrix for the second subproblem. The shift
-for the second subprobem $\vec{t}^{(1)}=[0,1,2,3,3,3]$ is the list
+for the second subproblem $\vec{t}^{(1)}=[0,1,2,3,3,3]$ is the list
 of column degrees of $\bar{\mathbf{P}}^{(1)}$ and so the second subproblem
 is to compute a $(\mathbf{F}'^{(2)}\bar{\mathbf{P}}^{(1)},\left[8,4,4\right],[0,1,2,3,3,3])$-basis,
 which is \begin{equation}
@@ -57,8 +61,8 @@ which is \begin{equation}
 0 & 0 & 1 & ~x^{2}~ & ~x~ & ~1~\\
 0 & 0 & 0 & 0 & x & 0\\
 0 & 0 & 1 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 1 & ~x~\end{array}}\right],\label{eq:Qbar2}\end{equation}
- $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$ then gives the $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
+0 & 0 & 0 & 0 & 1 & ~x~\end{array}}\right].\label{eq:Qbar2}\end{equation}
+Then $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$ gives the $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
 shown in \prettyref{exm:auxiliaryTransformation}. 
 \end{exmp}
 We now show that the dimension of the second subproblem can be significantly
@@ -90,7 +94,7 @@ $\vec{b}^{\left(i-1\right)}=\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{2
 $\bar{\mathbf{Q}}_{2}^{\left(i\right)}$ be a $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis
 (or equivalently a $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis),
 and $k^{\left(i-1\right)}$ be the column dimension of $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$.
-Then 
+We then have the following result.
 \begin{lem}
 \label{lem:disregardComputedBasisElements} The matrix \[
 \bar{\mathbf{Q}}^{\left(i\right)}=\left[\begin{array}{cc}
@@ -122,7 +126,7 @@ to compute a $(\bar{\mathbf{F}}^{\left(i\right)}\cdot\hat{\mathbf{P}}_{2}^{\left
 to the following. 
 \begin{lem}
 \label{lem:computationAtTopLevel}Let $\hat{\mathbf{S}}=[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]$,
-$I$ the column rank profile of $\lcoeff(x^{\vec{s}^{\left(i\right)}}\hat{\mathbf{S}})$.
+and let $I$ be the column rank profile of $\lcoeff(x^{\vec{s}^{\left(i\right)}}\hat{\mathbf{S}})$.
 Then $\hat{\mathbf{S}}_{I}$ is a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis.\end{lem}
 \begin{pf}
 From \prettyref{lem:disregardComputedBasisElements}, $\bar{\mathbf{Q}}^{\left(i\right)}$
@@ -166,15 +170,15 @@ to $\log\left(n/m\right)-1$ so that $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^
 and compute a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis.
 By \prettyref{lem:computationAtTopLevel}, this can be divided into
 two subproblems. The first produces $[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}]=\hat{\mathbf{P}}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
-from computing a $(\bar{\mathbf{F}}^{\left(i-1\right)},\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
+from computing a $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
 $\bar{\mathbf{P}}^{\left(i-1\right)}$. The second subproblem then
 computes a $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis
 $\bar{\mathbf{Q}}_{2}^{\left(i\right)}$. Note the first subproblem
-of computing a $(\bar{\mathbf{F}}^{\left(i-1\right)},\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
-can again be divided to two subproblems just as before. This can be
-repeated recursively until we reach the base case with degree parameter
-$\delta^{\left(1\right)}=2d$. The total levels of recursion is therefore
-$\log\left(n/m\right)-1$.
+of computing a $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
+can again be divided into two subproblems just as before. This can
+be repeated recursively until we reach the base case with degree parameter
+$\delta^{\left(1\right)}=2d$. The total number of recursion levels
+is therefore $\log\left(n/m\right)-1$.
 
 Notice that the transformed matrix $\mathbf{F}'^{\left(i\right)}$
 is not used explicitly in the computation, even though it is crucial
@@ -202,7 +206,10 @@ the corresponding top-down recursive approaches. For our purpose,
 it is also easier to analyze the computational cost of the iterative
 procedure. 
 \end{comment}
-{}
+{} The iterative version is usually more efficient in practice, considering
+that the generic case has balanced output that can be computed with
+just one iteration, whereas the recursive method has to go through
+$\log(n/m)-1$ levels of recursion.
 
 \prettyref{alg:mab} uses a subroutine $\mab$, the algorithm from
 Giorgi et al. \citeyearpar{Giorgi2003}, for computing order bases
@@ -213,7 +220,7 @@ is the transformation described in \prettyref{sub:storjohannTransformation}.
 
 \prettyref{alg:mab} proceeds as follows. In the first iteration,
 which is the base case of the recursive approach, we set the degree
-parameter $\delta^{\left(1\right)}$ to be twice of the average degree
+parameter $\delta^{\left(1\right)}$ to be twice the average degree
 $d$ and apply Storjohann's transformation to produce a new input
 matrix $\bar{\mathbf{F}}^{\left(1\right)}$, which has $l^{\left(1\right)}$
 block rows. Then a $(\bar{\mathbf{F}}^{\left(1\right)},2\delta^{\left(1\right)},\vec{s}^{\left(1\right)})$-basis
@@ -225,7 +232,8 @@ new Storjohann transformed problem with the degree doubled and the
 number of block rows $l^{\left(2\right)}=(l^{\left(1\right)}-1)/2$
 reduced by over a half. The column dimension is reduced by using the
 result from the previous iteration. More specifically, we know that
-a $\bar{\mathbf{P}}^{\left(1\right)}$ already provides a $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})_{\delta^{\left(1\right)}-1}$-basis
+the basis $\bar{\mathbf{P}}^{\left(1\right)}$ already provides a
+$(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})_{\delta^{\left(1\right)}-1}$-basis
 $\hat{\mathbf{P}}_{1}^{\left(1\right)}$, which can be disregarded
 in the remaining computation. Now the remaining work in the second
 iteration is to compute a $(\bar{\mathbf{F}}^{\left(2\right)}\hat{\mathbf{P}}_{2}^{\left(1\right)},2\delta^{\left(2\right)},\vec{b}^{\left(1\right)})$-basis

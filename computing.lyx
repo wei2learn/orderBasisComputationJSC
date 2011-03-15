@@ -1,4 +1,4 @@
-#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.6.1 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -60,9 +60,12 @@ name "sec:Order-Basis-Computation"
 \begin_layout Standard
 In this section, we establish a link between two different Storjohann transforme
 d problems by dividing the transformed problem from the previous section
- to two subproblems and then simplifying the second subproblem.
+ into two subproblems and then simplifying the second subproblem.
  This leads to a recursive way of computing order bases.
- We then describe our algorithm in the equivalent iterative way.
+ We then describe our algorithm in the equivalent iterative way, which is
+ usually more efficient in practice, as it uses just one iteration in the
+ generic case that has balanced output, whereas the recursive method has
+ to go though all the recursion levels to reach the base case.
 \end_layout
 
 \begin_layout Subsection
@@ -72,7 +75,7 @@ name "sub:Dividing-to-Subproblems"
 
 \end_inset
 
-Dividing to Subproblems 
+Dividing into Subproblems 
 \end_layout
 
 \begin_layout Standard
@@ -190,7 +193,7 @@ reference "exm:auxiliaryTransformation"
 \begin_inset Formula $\left(\mathbf{F},8,\vec{0}\right)$
 \end_inset
 
--basis ( or equivalently a 
+-basis (or equivalently a 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(2\right)},8,\vec{0})$
 \end_inset
 
@@ -222,7 +225,7 @@ reference "exm:auxiliaryTransformation"
 \begin_inset Formula $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$
 \end_inset
 
--basis can be divided to two subproblems.
+-basis can be divided into two subproblems.
  The first subproblem is computing a 
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(1\right)},4,\vec{0})$
 \end_inset
@@ -249,7 +252,7 @@ reference "exm:StorjohannTransformation"
 \end_inset
 
  is then used as the input matrix for the second subproblem.
- The shift for the second subprobem 
+ The shift for the second subproblem 
 \begin_inset Formula $\vec{t}^{(1)}=[0,1,2,3,3,3]$
 \end_inset
 
@@ -269,15 +272,15 @@ reference "exm:StorjohannTransformation"
 0 & 0 & 1 & ~x^{2}~ & ~x~ & ~1~\\
 0 & 0 & 0 & 0 & x & 0\\
 0 & 0 & 1 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 1 & ~x~\end{array}}\right],\label{eq:Qbar2}\end{equation}
+0 & 0 & 0 & 0 & 1 & ~x~\end{array}}\right].\label{eq:Qbar2}\end{equation}
 
 \end_inset
 
- 
+Then 
 \begin_inset Formula $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$
 \end_inset
 
- then gives the 
+ gives the 
 \begin_inset Formula $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$
 \end_inset
 
@@ -424,7 +427,7 @@ Let
 \end_inset
 
 .
- Then 
+ We then have the following result.
 \end_layout
 
 \begin_layout Lemma
@@ -561,11 +564,11 @@ Let
 \begin_inset Formula $\hat{\mathbf{S}}=[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]$
 \end_inset
 
-, 
+, and let 
 \begin_inset Formula $I$
 \end_inset
 
- the column rank profile of 
+ be the column rank profile of 
 \begin_inset Formula $\lcoeff(x^{\vec{s}^{\left(i\right)}}\hat{\mathbf{S}})$
 \end_inset
 
@@ -620,7 +623,7 @@ reference "thm:extractingOrderBasis"
 .
  
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Formula $=\mathbf{E}^{\left(i\right)}[\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]$
@@ -658,7 +661,7 @@ reference "exm:subproblems"
 
 , 
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 notice that after the first subproblem, the second subproblem of computing
@@ -842,7 +845,7 @@ reference "lem:computationAtTopLevel"
 \end_inset
 
  from computing a 
-\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i-1\right)},\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
 
 -basis 
@@ -860,17 +863,17 @@ reference "lem:computationAtTopLevel"
 
 .
  Note the first subproblem of computing a 
-\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i-1\right)},\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
 
--basis can again be divided to two subproblems just as before.
+-basis can again be divided into two subproblems just as before.
  This can be repeated recursively until we reach the base case with degree
  parameter 
 \begin_inset Formula $\delta^{\left(1\right)}=2d$
 \end_inset
 
 .
- The total levels of recursion is therefore 
+ The total number of recursion levels is therefore 
 \begin_inset Formula $\log\left(n/m\right)-1$
 \end_inset
 
@@ -894,7 +897,7 @@ The Iterative View
 In this subsection we present our algorithm, which uses an iterative version
  of the computation discussed above.
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 The recursive top-down approach of the previous subsection is useful for
@@ -914,7 +917,7 @@ reference "alg:mab"
 
 
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 , allowing the complexity to be more easily analyzed.
@@ -925,7 +928,7 @@ status open
 
 
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Plain Layout
 .
@@ -938,7 +941,13 @@ status open
 
 \end_inset
 
+ The iterative version is usually more efficient in practice, considering
+ that the generic case has balanced output that can be computed with just
+ one iteration, whereas the recursive method has to go through 
+\begin_inset Formula $\log(n/m)-1$
+\end_inset
 
+ levels of recursion.
 \end_layout
 
 \begin_layout Standard
@@ -1005,7 +1014,7 @@ reference "alg:mab"
 \begin_inset Formula $\delta^{\left(1\right)}$
 \end_inset
 
- to be twice of the average degree 
+ to be twice the average degree 
 \begin_inset Formula $d$
 \end_inset
 
@@ -1040,7 +1049,7 @@ reference "alg:mab"
 
  reduced by over a half.
  The column dimension is reduced by using the result from the previous iteration.
- More specifically, we know that a 
+ More specifically, we know that the basis 
 \begin_inset Formula $\bar{\mathbf{P}}^{\left(1\right)}$
 \end_inset
 

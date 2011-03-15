@@ -23,14 +23,14 @@ a total size bounded by $nm\sigma$ which gives hope for efficient
 computation.
 
 In this section, we describe an algorithm for an important special
-case of unbalanced shift -- when the input when the input shift $\vec{s}$
-satisfies the condition:\[
+case of unbalanced shift -- when the input shift $\vec{s}$ satisfies
+the condition:\[
 \sum_{i=1}^{n}(\max(\vec{s})-\vec{s}_{i})\le m\sigma.\]
  For simpler presentation, we use the equivalent condition \begin{equation}
 \vec{s}\le0\mbox{ and }\sum_{i}-\vec{s}_{i}\le m\sigma,\label{con:unbalancedCondition}\end{equation}
  which can always be obtained from the previous condition by using
 $\vec{s}-\max\vec{s}$ as the new shift, as translating every entry
-of the shift by a equal constant does not change the problem.
+of the shift by the same constant does not change the problem.
 
 In the balanced shift case, a central problem is to find a way to
 handle unbalanced column degrees of the output order basis. In this
@@ -75,15 +75,15 @@ q_{i}=\begin{cases}
 1 & \mbox{if }-s_{i}\le\alpha+\beta\\
 1+\left(-s_{i}-\alpha-r_{i}\right)/\beta & \mbox{otherwise}\end{cases}\]
  Then for each $q_{i}>1$, we expand the corresponding $i$th column
-of $\mathbf{f}^{\left(i\right)}$ and shift $a_{i}$ to \begin{eqnarray*}
+$\mathbf{f}_{i}$ of $\mathbf{F}$ and shift $s_{i}$ to \begin{eqnarray*}
 \tilde{\mathbf{F}}^{\left(i\right)} & = & \left[~\mathbf{f}_{i},~x^{r_{i}}\mathbf{f}_{i},~x^{r_{i}+\beta}\mathbf{f}_{i},\dots,~\mathbf{f}_{i},x^{r_{i}+(q_{i}-2)\beta}\mathbf{f}_{i}\right]\\
 \tilde{s}_{i} & = & \left[-\alpha-\beta,\dots,-\alpha-\beta\right]\end{eqnarray*}
- with $q_{i}$ entries in each case. For each $q_{i}=1$, the corresponding
+ with $q_{i}$ entries in each case. When $q_{i}=1$, the corresponding
 shift entry and input column remain the same, that is, $\tilde{s}_{i}=s_{i}$,
 and $\tilde{\mathbf{F}}^{\left(i\right)}=\mathbf{f}_{i}$. Then for
 the transformed problem, the new shift becomes $\bar{s}=[\tilde{s}_{1},\dots,\tilde{s}_{n}]\in\mathbb{Z}_{\le0}^{\bar{n}}$,
 and the new input matrix becomes $\bar{\mathbf{F}}=[\tilde{\mathbf{F}}^{\left(1\right)},\dots,\tilde{\mathbf{F}}^{\left(n\right)}]\in\mathbb{K}\left[x\right]^{m\times\bar{n}}$,
-with the new column dimension being $\bar{n}=\sum_{i=1}^{n}q_{i}$.
+with the new column dimension $\bar{n}$ satisfies $\bar{n}=\sum_{i=1}^{n}q_{i}$.
 Note that every entry of the new shift $\bar{s}$ is an integer from
 $-\alpha-\beta$ to $0$. Let \[
 \mathbf{E}=\left[\begin{array}{ccccc|c|ccccccc}
@@ -125,7 +125,7 @@ we get the transformed input \begin{align*}
  & x^{3}+x^{5}+x^{7}+x^{8}+x^{9}+x^{10},\,1+x+x^{3}+x^{7},\, x+x^{2}+x^{4}+x^{8},\\
  & x^{2}+x^{3}+x^{5}+x^{9},\, x^{3}+x^{4}+x^{6}+x^{10},\, x^{4}+x^{5}+x^{7}+x^{11}]\end{align*}
  and $\bar{s}=[0,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2]$. The transformation
-matrix \[
+matrix is \[
 \mathbf{E}=\left[{\begin{array}{r|rc|rccc|rcccc}
 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
 \hline 0 & 1 & x & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\

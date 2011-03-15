@@ -18,13 +18,14 @@ then a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta^{\left(i\right)}-1}$-basi
 (or equivalently a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i\right)}-1}$-basis)
 computed at iteration $i$ has at least $n-n/2^{i}$ elements, hence
 at most $n/2^{i}$ elements remain to be computed. If the shift $\vec{s}$
-is balanced, the number of remaining basis elements $n^{\left(i\right)}$
+is balanced, that is, $\max\vec{s}\in O(d)$ assuming $\min\vec{s}=0$,
+then the number $n^{\left(i\right)}$ of remaining basis elements
 at iteration $i$ is $O(n/2^{i})$.\end{lem}
 \begin{pf}
 The uniform case follows from the idea of \citet{storjohann-villard:2005}
 on null space basis computation discussed in \prettyref{sub:Unbalanced-Output}.
 For the balanced case, the average column degree is bounded by $cd=cm\sigma/n$
-for some constant $c$. The first iteration $\lambda$ that $\delta^{\left(\lambda\right)}$
+for some constant $c$. The first iteration $\lambda$ such that $\delta^{\left(\lambda\right)}$
 reaches $cd$ is therefore a constant. That is, $\delta^{\left(\lambda\right)}=2^{\lambda}d\ge cd>\delta^{\left(\lambda-1\right)}$
 and hence $\lambda=\left\lceil \log c\right\rceil $. By the same
 argument as in the uniform case, the number of remaining basis elements
@@ -57,7 +58,7 @@ $i$ is $O(n/2^{i})$.
 At each iteration, the four most expensive operations are the multiplications
 at \prettyref{line:matrixProduct1} and \prettyref{line:matrixProduct2},
 the order basis computation at \prettyref{line:orderBasisComputation},
-and extracting basis at \prettyref{line:LSP}.
+and extracting the basis at \prettyref{line:LSP}.
 
 The matrices $\bar{\mathbf{F}}^{\left(i\right)}$ and $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
 have degree $O(2^{i}d)$ and dimensions $O(n/2^{i})\times O\left(n\right)$

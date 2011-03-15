@@ -1,4 +1,4 @@
-#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.6.1 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -151,7 +151,7 @@ reference "lem:size"
 
 \begin_layout Standard
 In this section, we describe an algorithm for an important special case
- of unbalanced shift -- when the input when the input shift 
+ of unbalanced shift -- when the input shift 
 \begin_inset Formula $\vec{s}$
 \end_inset
 
@@ -171,7 +171,7 @@ In this section, we describe an algorithm for an important special case
 \begin_inset Formula $\vec{s}-\max\vec{s}$
 \end_inset
 
- as the new shift, as translating every entry of the shift by a equal constant
+ as the new shift, as translating every entry of the shift by the same constant
  does not change the problem.
 \end_layout
 
@@ -311,12 +311,16 @@ q_{i}=\begin{cases}
 \begin_inset Formula $i$
 \end_inset
 
-th column of 
-\begin_inset Formula $\mathbf{f}^{\left(i\right)}$
+th column 
+\begin_inset Formula $\mathbf{f}_{i}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathbf{F}$
 \end_inset
 
  and shift 
-\begin_inset Formula $a_{i}$
+\begin_inset Formula $s_{i}$
 \end_inset
 
  to 
@@ -331,7 +335,7 @@ th column of
 \end_inset
 
  entries in each case.
- For each 
+ When 
 \begin_inset Formula $q_{i}=1$
 \end_inset
 
@@ -353,7 +357,11 @@ th column of
 \begin_inset Formula $\bar{\mathbf{F}}=[\tilde{\mathbf{F}}^{\left(1\right)},\dots,\tilde{\mathbf{F}}^{\left(n\right)}]\in\mathbb{K}\left[x\right]^{m\times\bar{n}}$
 \end_inset
 
-, with the new column dimension being 
+, with the new column dimension 
+\begin_inset Formula $\bar{n}$
+\end_inset
+
+ satisfies 
 \begin_inset Formula $\bar{n}=\sum_{i=1}^{n}q_{i}$
 \end_inset
 
@@ -558,7 +566,7 @@ reference "exm:StorjohannTransformation"
 \end_inset
 
 .
- The transformation matrix 
+ The transformation matrix is 
 \begin_inset Formula \[
 \mathbf{E}=\left[{\begin{array}{r|rc|rccc|rcccc}
 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
