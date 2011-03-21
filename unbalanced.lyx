@@ -237,6 +237,10 @@ reference "con:unbalancedCondition"
  efficiently for general unbalanced shift.
 \end_layout
 
+\begin_layout Subsection
+Transform to Balanced Shifts
+\end_layout
+
 \begin_layout Standard
 We now describe the transformation for balancing the high degree rows of
  the resulting basis.
@@ -566,6 +570,27 @@ reference "exm:StorjohannTransformation"
 \end_inset
 
 .
+ In this example, 
+\begin_inset Formula $r_{1}=r_{2}=r_{3}=r_{4}=1$
+\end_inset
+
+, 
+\begin_inset Formula $q_{1}=1$
+\end_inset
+
+, 
+\begin_inset Formula $q_{2}=2$
+\end_inset
+
+, 
+\begin_inset Formula $q_{3}=4$
+\end_inset
+
+, 
+\begin_inset Formula $q_{4}=5$
+\end_inset
+
+.
  The transformation matrix is 
 \begin_inset Formula \[
 \mathbf{E}=\left[{\begin{array}{r|rc|rccc|rcccc}
@@ -701,7 +726,7 @@ If we set
 \begin_inset Formula $-\alpha=-2$
 \end_inset
 
-, so guaranteed to produce another element of a 
+, so it is guaranteed to produce another element of a 
 \begin_inset Formula $(\mathbf{F},8,\vec{s})$
 \end_inset
 
@@ -716,12 +741,16 @@ x & x^{2} & 1+x^{3}+x^{4} & x^{2} & x+x^{2} & x^{2} & x^{2} & x^{2} & 1\end{arra
 
 \end_inset
 
- and notice the second column is indeed an element of a 
+ we notice the second column is indeed an element of a 
 \begin_inset Formula $(\mathbf{F},8,\vec{s})$
 \end_inset
 
 -basis.
  
+\end_layout
+
+\begin_layout Subsection
+Correspondence Between the Original Problem and the Transformed Problem
 \end_layout
 
 \begin_layout Standard
@@ -730,28 +759,28 @@ We now work towards establishing the correspondence between the high degree
 \begin_inset Formula $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$
 \end_inset
 
--basis with 
+-basis whose 
 \begin_inset Formula $\bar{s}$
 \end_inset
 
--degrees exceeds 
+-degrees exceed 
 \begin_inset Formula $-\alpha$
 \end_inset
 
- and that of a 
+ and those of a 
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
 \end_inset
 
--basis with 
+-basis whose 
 \begin_inset Formula $\vec{s}$
 \end_inset
 
--degrees exceeds 
+-degrees exceed 
 \begin_inset Formula $-\alpha$
 \end_inset
 
 .
- We first develop some intermediate results.
+ A useful link is provided by the following a matrix .
 \end_layout
 
 \begin_layout Standard
@@ -761,7 +790,7 @@ Set
 -1 & ~~x^{\beta}\\
  & -1 & \ddots\\
  &  & \ddots & ~~x^{\beta}\\
- &  &  & -1\end{bmatrix}_{q_{i}\times(q_{i}-1)}\mbox{ and }\mathbf{A}=\left[\begin{array}{ccc}
+ &  &  & -1\end{bmatrix}_{q_{i}\times(q_{i}-1)}\mbox{ and \qquad}\mathbf{A}=\left[\begin{array}{ccc}
 \mathbf{A}_{1}\\
  & \ddots\\
  &  & \mathbf{A}_{n}\end{array}\right]_{\bar{n}\times(\bar{n}-n)}.\]
@@ -796,12 +825,13 @@ We now show that for any
 \begin_inset Formula $\bar{\mathbf{w}}$
 \end_inset
 
- can be column reduced by 
+ can be transformed by 
 \begin_inset Formula $\mathbf{A}$
 \end_inset
 
  to one of the two forms that correspond to the original problem and transformed
  problem.
+ This is made more precise in the following lemma.
  We then use unimodular equivalence of these two forms to show the equivalence
  between the high degree part of the result from the transformed problem
  and that of the original problem.
@@ -819,7 +849,7 @@ Let
 
 \end_inset
 
- Then there exists a 
+ Then there exists a vector 
 \begin_inset Formula $\mathbf{u}\in\mathbb{K}\left[x\right]^{\left(\bar{n}-n\right)\times1}$
 \end_inset
 
@@ -827,7 +857,7 @@ Let
 \begin_inset Formula $\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}$
 \end_inset
 
- is one of the following two forms.
+ has one of the following two forms.
  
 \end_layout
 
@@ -930,7 +960,7 @@ w_{i,q_{i}-1}\end{bmatrix},\]
 \end_inset
 
 .
- Note that there is no degree restriction placed on 
+ Note that there is no degree restriction on 
 \begin_inset Formula $w_{i,q_{i}-1}$
 \end_inset
 
@@ -1118,7 +1148,7 @@ th entry
 \begin_inset Formula $w_{i}=w_{i,0}$
 \end_inset
 
- and the corresponding shifts 
+ and the corresponding shifts satisfies 
 \begin_inset Formula $s_{i}=\bar{s}_{\ell(i)}$
 \end_inset
 
@@ -1132,7 +1162,7 @@ th entry
 \end_inset
 
 .
- Thus we only need to consider 
+ Thus we only need to consider the case where 
 \begin_inset Formula $q_{i}>1$
 \end_inset
 
@@ -1223,7 +1253,7 @@ reference "eq:wiSeparatedForm"
 \begin_inset Formula $j=q_{i}-1$
 \end_inset
 
-, but the equality always hold for these entries.
+, but the equality always holds for these entries.
  
 \end_layout
 
@@ -1258,7 +1288,7 @@ Notice that the first form
 \end_inset
 
  and 0's everywhere else.
- Then the first form 
+ Then the first form satisfies
 \shape up
  
 \begin_inset Formula $\mathbf{w}^{[1]}=\mathbf{B}\mathbf{E}\bar{\mathbf{w}}$
@@ -1639,7 +1669,7 @@ Any
 \begin_inset Formula $\mathbf{B}\mathbf{P}$
 \end_inset
 
- is occupied by a 
+ has a 
 \begin_inset Formula $-1$
 \end_inset
 
@@ -1653,7 +1683,7 @@ Any
 
 \begin_layout Standard
 \begin_inset Note Comment
-status open
+status collapsed
 
 \begin_layout Lemma
 If 
@@ -1974,11 +2004,19 @@ Let
 \begin_inset Formula $\mathbf{E}\bar{\mathbf{P}}_{2}$
 \end_inset
 
- are the high degree columns of a 
+ is the matrix of the columns of a 
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
 \end_inset
 
--basis.
+-basis whose 
+\begin_inset Formula $\vec{s}$
+\end_inset
+
+-degrees exceed 
+\begin_inset Formula $-\alpha$
+\end_inset
+
+.
  
 \end_layout
 
@@ -2059,7 +2097,7 @@ reference "cor:degreeCorrespondence"
 \begin_inset Formula $\mathbf{P}_{1}$
 \end_inset
 
-, we get 
+, it follows that 
 \begin_inset Formula $\left[\mathbf{P}_{1},\mathbf{E}\bar{\mathbf{P}}_{2}\right]$
 \end_inset
 
@@ -2092,7 +2130,7 @@ It only remains to show that the
 \begin_inset Formula $\tilde{\mathbf{P}}_{2}$
 \end_inset
 
- has some column having lower 
+ has a column having lower 
 \begin_inset Formula $\vec{s}$
 \end_inset
 
@@ -2214,7 +2252,7 @@ In order to reach a contradiction we just need to show that
 \begin_inset Formula $\tilde{\mathbf{P}}_{2}^{[2]}$
 \end_inset
 
- has some column with 
+ has a column with 
 \begin_inset Formula $\bar{s}$
 \end_inset
 
@@ -2346,6 +2384,10 @@ reference "lem:degreeCorrespondence"
  
 \end_layout
 
+\begin_layout Subsection
+Achieving Efficient Computation
+\end_layout
+
 \begin_layout Standard
 \begin_inset CommandInset ref
 LatexCommand prettyref
@@ -2396,7 +2438,7 @@ name "thm:zeroHighShiftEntries"
 
 \end_inset
 
-Suppose without loss of generality the entries of 
+Suppose without loss of generality that the entries of 
 \begin_inset Formula $\vec{s}$
 \end_inset
 
@@ -2537,7 +2579,7 @@ For any
 \begin_inset Formula $i$
 \end_inset
 
-th entry of the shift 
+th entry of the shift satisfies 
 \begin_inset Formula $s_{i}\le-\alpha$
 \end_inset
 
@@ -2740,7 +2782,7 @@ reference "con:unbalancedCondition"
 
 \begin_layout Proof
 Since 
-\begin_inset Formula $d=m\sigma/n\ge-\sum\vec{s}/n$
+\begin_inset Formula $d=m\sigma/n\ge-\sum_{i=1}^{n}s_{i}/n$
 \end_inset
 
  under condition 
@@ -2860,7 +2902,7 @@ We give the following constructive proof.
 \end_inset
 
  with 
-\begin_inset Formula $d=m\sigma/n\ge-\sum\vec{s}/n$
+\begin_inset Formula $d=m\sigma/n\ge-\sum_{i=1}^{n}s_{i}/n$
 \end_inset
 
 .
@@ -2932,7 +2974,7 @@ reference "thm:zeroHighShiftEntries"
 \begin_inset Formula $\mathbf{F}$
 \end_inset
 
- and correspondingly at least half of rows from the output for the remaining
+ and correspondingly at least half of the rows from the output for the remaining
  problem.
  Thus the new input matrix 
 \begin_inset Formula $\mathbf{F}_{2}$
@@ -2973,7 +3015,7 @@ For the second iteration, we set
 
 .
  Since 
-\begin_inset Formula $\alpha_{2}=2m\sigma/n_{2}\ge-2\sum\vec{s}/n_{2}\ge-2\sum\vec{s}^{\left(2\right)}/n_{2}$
+\begin_inset Formula $\alpha_{2}=2m\sigma/n_{2}\ge-2\sum_{i=1}^{n}s_{i}/n_{2}\ge-2\sum_{i=1}^{n_{2}}s_{i}^{\left(2\right)}/n_{2}$
 \end_inset
 
 , this allows us to reduce the dimension 
@@ -3047,7 +3089,7 @@ O^{\sim}\left(n_{i}^{\omega}d_{i}\right)=O^{\sim}\left(n_{i}^{\omega-1}m\sigma\r
 
  Since 
 \begin_inset Formula \[
-\alpha_{i}=2m\sigma/n_{i}\ge-2\sum\vec{s}/n_{i}\ge-2\sum\vec{s}^{\left(i\right)}/n_{i},\]
+\alpha_{i}=2m\sigma/n_{i}\ge-2\sum_{i=1}^{n}s_{i}/n_{i}\ge-2\sum_{i=1}^{n_{i}}s_{i}^{\left(i\right)}/n_{i},\]
 
 \end_inset
 
@@ -3087,7 +3129,7 @@ O^{\sim}\left(n_{i}^{\omega}d_{i}\right)=O^{\sim}\left(n_{i}^{\omega-1}m\sigma\r
 \end_inset
 
 -basis can be computed in at most 
-\begin_inset Formula $\log n/m$
+\begin_inset Formula $\log(n/m)$
 \end_inset
 
  iterations, so the overall cost is 
@@ -3112,11 +3154,11 @@ reference "con:unbalancedCondition"
 \end_inset
 
  is relaxed to 
-\begin_inset Formula $\sum-\vec{s}\in O\left(m\sigma\right)$
+\begin_inset Formula $\sum_{i=1}^{n}-s_{i}\in O\left(m\sigma\right)$
 \end_inset
 
 , so that 
-\begin_inset Formula $\sum-\vec{s}\le cm\sigma$
+\begin_inset Formula $\sum_{i=1}^{n}-s_{i}\le cm\sigma$
 \end_inset
 
  for a constant 
@@ -3145,7 +3187,7 @@ reference "con:unbalancedCondition"
 \end_inset
 
 , and the entire computation still uses at most 
-\begin_inset Formula $\log n/m$
+\begin_inset Formula $\log(n/m)$
 \end_inset
 
  iterations.

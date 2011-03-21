@@ -62,6 +62,9 @@ degree of the result pivot entries. Such an estimate may allow us
 to apply the method given in this section efficiently for general
 unbalanced shift.
 
+
+\subsection{Transform to Balanced Shifts}
+
 We now describe the transformation for balancing the high degree rows
 of the resulting basis. Consider the problem of computing a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis,
 where the input shift $\vec{s}$ satisfies the conditions \eqref{con:unbalancedCondition}.
@@ -124,8 +127,9 @@ we get the transformed input \begin{align*}
  & 1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},\, x+x^{3}+x^{5}+x^{6}+x^{7}+x^{8},\, x^{2}+x^{4}+x^{6}+x^{7}+x^{8}+x^{9},\\
  & x^{3}+x^{5}+x^{7}+x^{8}+x^{9}+x^{10},\,1+x+x^{3}+x^{7},\, x+x^{2}+x^{4}+x^{8},\\
  & x^{2}+x^{3}+x^{5}+x^{9},\, x^{3}+x^{4}+x^{6}+x^{10},\, x^{4}+x^{5}+x^{7}+x^{11}]\end{align*}
- and $\bar{s}=[0,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2]$. The transformation
-matrix is \[
+ and $\bar{s}=[0,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2]$. In this example,
+$r_{1}=r_{2}=r_{3}=r_{4}=1$, $q_{1}=1$, $q_{2}=2$, $q_{3}=4$,
+$q_{4}=5$. The transformation matrix is \[
 \mathbf{E}=\left[{\begin{array}{r|rc|rccc|rcccc}
 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
 \hline 0 & 1 & x & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
@@ -177,28 +181,31 @@ If we set $\alpha=2,\beta=1$, then the new transformed problem gives
 \,0\, & \,0\, & \, x\, & 1+x & 1 & 1 & 1 & 1 & 0\\
 0 & 0 & x & 1 & 0 & 0 & 0 & 0 & 0\end{array}}\right]\]
  with $\bar{s}$-degrees $[-3,-1,-2,-2,-2,-2,-2,-2,0]$. Now the second
-column also has $\bar{s}$-degree exceeding $-\alpha=-2$, so guaranteed
-to produce another element of a $(\mathbf{F},8,\vec{s})$-basis. Computing
-\[
+column also has $\bar{s}$-degree exceeding $-\alpha=-2$, so it is
+guaranteed to produce another element of a $(\mathbf{F},8,\vec{s})$-basis.
+Computing \[
 \mathbf{E}\bar{\mathbf{P}}=\left[{\begin{array}{ccccccccr}
 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
 1 & 0 & 0 & x & 1+x & x & x & x & 0\\
 1 & x^{2}+x^{3}+x^{4} & 1+x+x^{2}+x^{3} & x & 1+x & x & x & x & 1\\
 x & x^{2} & 1+x^{3}+x^{4} & x^{2} & x+x^{2} & x^{2} & x^{2} & x^{2} & 1\end{array}}\right],\]
- and notice the second column is indeed an element of a $(\mathbf{F},8,\vec{s})$-basis. 
+ we notice the second column is indeed an element of a $(\mathbf{F},8,\vec{s})$-basis. 
 \end{exmp}
+
+\subsection{Correspondence Between the Original Problem and the Transformed Problem}
+
 We now work towards establishing the correspondence between the high
 degree columns of a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis
-with $\bar{s}$-degrees exceeds $-\alpha$ and that of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
-with $\vec{s}$-degrees exceeds $-\alpha$. We first develop some
-intermediate results.
+whose $\bar{s}$-degrees exceed $-\alpha$ and those of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+whose $\vec{s}$-degrees exceed $-\alpha$. A useful link is provided
+by the following a matrix .
 
 Set \[
 \mathbf{A}_{i}=\begin{bmatrix}~~x^{r_{i}}\\
 -1 & ~~x^{\beta}\\
  & -1 & \ddots\\
  &  & \ddots & ~~x^{\beta}\\
- &  &  & -1\end{bmatrix}_{q_{i}\times(q_{i}-1)}\mbox{ and }\mathbf{A}=\left[\begin{array}{ccc}
+ &  &  & -1\end{bmatrix}_{q_{i}\times(q_{i}-1)}\mbox{ and \qquad}\mathbf{A}=\left[\begin{array}{ccc}
 \mathbf{A}_{1}\\
  & \ddots\\
  &  & \mathbf{A}_{n}\end{array}\right]_{\bar{n}\times(\bar{n}-n)}.\]
@@ -206,11 +213,12 @@ Set \[
 just adds a zero row and no column in $\mathbf{A}$.
 
 We now show that for any $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $,
-$\bar{\mathbf{w}}$ can be column reduced by $\mathbf{A}$ to one
-of the two forms that correspond to the original problem and transformed
-problem. We then use unimodular equivalence of these two forms to
-show the equivalence between the high degree part of the result from
-the transformed problem and that of the original problem. 
+$\bar{\mathbf{w}}$ can be transformed by $\mathbf{A}$ to one of
+the two forms that correspond to the original problem and transformed
+problem. This is made more precise in the following lemma. We then
+use unimodular equivalence of these two forms to show the equivalence
+between the high degree part of the result from the transformed problem
+and that of the original problem. 
 \begin{lem}
 Let \[
 \bar{\mathbf{w}}=\begin{bmatrix}\bar{\mathbf{w}}_{1}\\
@@ -218,9 +226,9 @@ Let \[
 \bar{\mathbf{w}}_{n}\end{bmatrix}\in\langle(\bar{\mathbf{F}},\sigma,\bar{s})\rangle\mbox{ with }\bar{\mathbf{w}}_{i}=\begin{bmatrix}\bar{w}_{i,0}\\
 \vdots\\
 \bar{w}_{i,q_{i}-1}\end{bmatrix}_{q_{i}\times1}.\]
- Then there exists a $\mathbf{u}\in\mathbb{K}\left[x\right]^{\left(\bar{n}-n\right)\times1}$
-such that $\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}$ is one of the following
-two forms. 
+ Then there exists a vector $\mathbf{u}\in\mathbb{K}\left[x\right]^{\left(\bar{n}-n\right)\times1}$
+such that $\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}$ has one of the
+following two forms. 
 \begin{description}
 \item [{{(a)}}] The first form is \textup{\[
 \mathbf{w}^{[1]}=\begin{bmatrix}\mathbf{w}_{1}^{[1]}\\
@@ -241,7 +249,7 @@ r_{i} & \mbox{if }j=0\\
 \vdots\\
 w_{i,q_{i}-1}\end{bmatrix},\]
  where $\deg w_{i,j}<t_{i,j}\le\beta$ unless $j=q_{i}-1$. Note that
-there is no degree restriction placed on $w_{i,q_{i}-1}$. 
+there is no degree restriction on $w_{i,q_{i}-1}$. 
 \end{description}
 \end{lem}
 \begin{pf}
@@ -289,10 +297,10 @@ or $\deg_{\bar{s}}\mathbf{w}^{[2]}>-\alpha$, then $\deg_{\vec{s}}\mathbf{E}\bar{
 Consider the $i$th entry $w_{i}$ of $\mathbf{E}\bar{\mathbf{w}}$
 and its corresponding entries $\mathbf{w}_{i}^{[2]}=\left[w_{i,0},\dots,w_{i,q_{i}-1}\right]^{T}$
 in $\mathbf{w}^{[2]}$. If $q_{i}=1$, then $w_{i}=w_{i,0}$ and the
-corresponding shifts $s_{i}=\bar{s}_{\ell(i)}$, where $\ell(i)=\sum_{k=1}^{i}q_{k}$.
+corresponding shifts satisfies $s_{i}=\bar{s}_{\ell(i)}$, where $\ell(i)=\sum_{k=1}^{i}q_{k}$.
 Hence $\deg w_{i}+s_{i}=\deg w_{i,0}+\bar{s}_{\ell(i)}$. Thus we
-only need to consider $q_{i}>1$. Write $w_{i}$ as in Equation \prettyref{eq:wiSeparatedForm}.
-Note that $\deg w_{i,q_{i}-1}=\deg w_{i}-r_{i}-\beta\left(q_{i}-2\right)$
+only need to consider the case where $q_{i}>1$. Write $w_{i}$ as
+in Equation \prettyref{eq:wiSeparatedForm}. Note that $\deg w_{i,q_{i}-1}=\deg w_{i}-r_{i}-\beta\left(q_{i}-2\right)$
 and hence $\deg w_{i,q_{i}-1}-\alpha-\beta=\deg w_{i}-r_{i}-\alpha-\beta\left(q_{i}-1\right)$,
 that is, $\deg w_{i,q_{i}-1}+\bar{s}_{\ell(i)}=\deg w_{i}+s_{i}$.
 It follows that \begin{eqnarray*}
@@ -306,14 +314,14 @@ to $\deg_{\bar{s}}\mathbf{w}^{[2]}$ when $\deg_{\bar{s}}\mathbf{w}^{[2]}>-\alpha
 or $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}=\max_{i}(\deg w_{i,q_{i}-1}+\bar{s}_{\ell(i)})>-\alpha$.
 In other words, if one of them exceeds $-\alpha$, then $\deg_{\bar{s}}\mathbf{w}^{[2]}$
 and $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}$ are determined only
-by entries at indices $j=q_{i}-1$, but the equality always hold for
-these entries. \end{pf}
+by entries at indices $j=q_{i}-1$, but the equality always holds
+for these entries. \end{pf}
 \begin{rem}
 Notice that the first form $\mathbf{w}^{\left[1\right]}$ of $\bar{\mathbf{w}}$
 has nonzero entries only at indices $I=[1,q_{1}+1,\dots,\sum_{k=1}^{n-1}q_{k}+1]$.
 Let $\mathbf{B}$ be a $\bar{n}\times n$ matrix with $1$'s at position
 $(\sum_{k=1}^{n-1}q_{k}+1,i)$ and 0's everywhere else. Then the first
-form \textup{ $\mathbf{w}^{[1]}=\mathbf{B}\mathbf{E}\bar{\mathbf{w}}$.}
+form satisfies\textup{ $\mathbf{w}^{[1]}=\mathbf{B}\mathbf{E}\bar{\mathbf{w}}$.}
 Hence \prettyref{lem:degreeCorrespondence} provides the degree correspondence
 between the degrees of the first form $\mathbf{B}\mathbf{E}\bar{\mathbf{w}}$,
 which is just $\mathbf{E}\bar{\mathbf{w}}$ with zero rows added,
@@ -378,8 +386,7 @@ is generated by $\mathbf{P}$. That is, \[
 \bar{\mathbf{w}}=\mathbf{w}^{[1]}-\mathbf{A}\mathbf{u}^{[1]}=\mathbf{B}\mathbf{E}\bar{\mathbf{w}}-\mathbf{A}\mathbf{u}^{[1]}=\mathbf{B}\mathbf{P}\mathbf{v}-\mathbf{A}\mathbf{u}^{[1]}=\left[\mathbf{B}\mathbf{P},\mathbf{A}\right][\mathbf{v},-\mathbf{u}^{[1]}]^{T}.\]
  One can also see that the columns of $\mathbf{A}$ and the columns
 of $\mathbf{B}\mathbf{P}$ are linearly independent, as each zero
-row of $\mathbf{B}\mathbf{P}$ is occupied by a $-1$ from a column
-of $\mathbf{A}$. 
+row of $\mathbf{B}\mathbf{P}$ has a $-1$ from a column of $\mathbf{A}$. 
 \end{pf}
 %
 \begin{comment}
@@ -442,8 +449,9 @@ of the original problem.
 \label{thm:correctHighDegreeElements}Let $\bar{\mathbf{P}}=[\bar{\mathbf{P}}_{1},\bar{\mathbf{P}}_{2}]$
 be a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis, where
 $\deg_{\bar{s}}\bar{\mathbf{P}}_{1}\le-\alpha$ and $\deg_{\bar{s}}\bar{\mathbf{P}}_{2}>-\alpha$.
-Then $\mathbf{E}\bar{\mathbf{P}}_{2}$ are the high degree columns
-of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis. \end{thm}
+Then $\mathbf{E}\bar{\mathbf{P}}_{2}$ is the matrix of the columns
+of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis whose $\vec{s}$-degrees
+exceed $-\alpha$. \end{thm}
 \begin{pf}
 We want to show that $[\mathbf{P}_{1},\mathbf{E}\bar{\mathbf{P}}_{2}]$
 is a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis for any $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$-basis
@@ -453,13 +461,14 @@ and $\bar{\mathbf{P}}$ has order $\left(\bar{\mathbf{F}},\sigma\right)$.
 Also, since $\mathbf{E}\bar{\mathbf{P}}$ generates $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
 by \prettyref{lem:EPgeneration}, and from \prettyref{cor:degreeCorrespondence}
 $\mathbf{E}\bar{\mathbf{P}}_{1}$ has $\vec{s}$-degree bounded by
-$-\alpha$ hence is generated by $\mathbf{P}_{1}$, we get $\left[\mathbf{P}_{1},\mathbf{E}\bar{\mathbf{P}}_{2}\right]$
-generates $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $.
+$-\alpha$ hence is generated by $\mathbf{P}_{1}$, it follows that
+$\left[\mathbf{P}_{1},\mathbf{E}\bar{\mathbf{P}}_{2}\right]$ generates
+$\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $.
 
 It only remains to show that the $\vec{s}$-degrees of $\mathbf{E}\bar{\mathbf{P}}_{2}$
 are minimal. Suppose not, then $[\mathbf{P}_{1},\mathbf{E}\bar{\mathbf{P}}_{2}]$
 can be reduced to $[\mathbf{P}_{1},\tilde{\mathbf{P}}_{2}]$ where
-$\tilde{\mathbf{P}}_{2}$ has some column having lower $\vec{s}$-degree
+$\tilde{\mathbf{P}}_{2}$ has a column having lower $\vec{s}$-degree
 than that of the corresponding column in $\mathbf{E}\bar{\mathbf{P}}_{2}$.
 (That is, assuming the columns of $\tilde{\mathbf{P}}_{2}$ and $\mathbf{E}\bar{\mathbf{P}}_{2}$
 are in non-decreasing $\vec{s}$-degrees order, then we can find the
@@ -479,7 +488,7 @@ columns of $\mathbf{A}$ are generated by the $\left(\bar{\mathbf{F}},\sigma,\bar
 $\bar{\mathbf{P}}_{1}$.
 
 In order to reach a contradiction we just need to show that $\tilde{\mathbf{P}}_{2}^{[2]}$
-has some column with $\bar{s}$-degree less than that of the corresponding
+has a column with $\bar{s}$-degree less than that of the corresponding
 column in $\bar{\mathbf{P}}_{2}$. Let $\tilde{\mathbf{w}}$ be the
 first column of $\tilde{\mathbf{P}}_{2}$ with $\vec{s}$-degree less
 than that of the corresponding column $\mathbf{w}$ in $\mathbf{E}\bar{\mathbf{P}}_{2}$
@@ -498,6 +507,9 @@ is another $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis with
 lower $\bar{s}$-degrees than $\mathbf{\bar{P}}$, contradicting with
 the minimality of $\bar{\mathbf{P}}$. 
 \end{pf}
+
+\subsection{Achieving Efficient Computation}
+
 \prettyref{thm:correctHighDegreeElements} essentially tells us that
 a high degree part of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 can be determined by computing a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis,
@@ -513,8 +525,8 @@ basis elements, we can in fact reduce the dimension of the input $\mathbf{F}$
 by removing some of its columns corresponding to the high shift entries. 
 \begin{thm}
 \label{thm:zeroHighShiftEntries}Suppose without loss of generality
-the entries of $\vec{s}$ are in non-decreasing order. Let $I$ be
-the index set containing the indices of entries $s_{i}$ in $\vec{s}$
+that the entries of $\vec{s}$ are in non-decreasing order. Let $I$
+be the index set containing the indices of entries $s_{i}$ in $\vec{s}$
 such that $s_{i}\le-\alpha$. Let $\mathbf{F}_{I}$ be the columns
 of $\mathbf{F}$ indexed by $I$. Then a $\left(\mathbf{F}_{I},\sigma,\vec{s}\right)_{-\alpha}$-basis
 \textbf{$\mathbf{P}_{1}$} gives a $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$-basis
@@ -527,8 +539,8 @@ $\left[\mathbf{P}_{1}^{T},\mathbf{0}\right]^{T}$.
 
 \begin{pf}
 For any $\mathbf{p}\in\mathbb{K}\left[x\right]^{n\times1}$ and $\deg_{\vec{s}}\mathbf{p}\le-\alpha$,
-note that if the $i$th entry of the shift $s_{i}\le-\alpha$, then
-the corresponding entry $p_{i}$ of $\mathbf{p}$ is zero. %\end{claim}
+note that if the $i$th entry of the shift satisfies $s_{i}\le-\alpha$,
+then the corresponding entry $p_{i}$ of $\mathbf{p}$ is zero. %\end{claim}
 %\begin{pf}
 Otherwise, if $p_{i}\ne0$ then the $\vec{s}$-degree of $\mathbf{p}$
 is at least $s_{i}>-\alpha$, contradicting the assumption that the
@@ -554,7 +566,7 @@ condition \eqref{con:unbalancedCondition} and $c$ is a constant
 greater than or equal to $1$, then a $\left(\mathbf{F},\sigma,\vec{s}\right)_{-cd}$-basis
 has at most $n/c$ basis elements.\end{cor}
 \begin{pf}
-Since $d=m\sigma/n\ge-\sum\vec{s}/n$ under condition \eqref{con:unbalancedCondition},
+Since $d=m\sigma/n\ge-\sum_{i=1}^{n}s_{i}/n$ under condition \eqref{con:unbalancedCondition},
 there cannot be more than $n/c$ entries of $\vec{s}$ less than or
 equal to $-cd$. By \prettyref{thm:zeroHighShiftEntries}, the only
 possible nonzero rows of a $\left(\mathbf{F},\sigma,\vec{s}\right)_{-cd}$-basis
@@ -577,7 +589,7 @@ then a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis can be computed
 with cost $O^{\sim}\left(n^{\omega-1}m\sigma\right)=O^{\sim}\left(n^{\omega}d\right)$. \end{thm}
 \begin{pf}
 We give the following constructive proof. Initially, we set transformation
-parameters $\alpha_{1}=\beta_{1}=2d$ with $d=m\sigma/n\ge-\sum\vec{s}/n$.
+parameters $\alpha_{1}=\beta_{1}=2d$ with $d=m\sigma/n\ge-\sum_{i=1}^{n}s_{i}/n$.
 \prettyref{alg:mab} works efficiently on the transformed problem
 as the shift $\bar{s}^{\left(1\right)}$ is balanced and the dimension
 of $\bar{\mathbf{F}}_{1}$ remains $O\left(n\right)$. By \prettyref{thm:correctHighDegreeElements}
@@ -587,13 +599,13 @@ the number of basis elements remaining to be computed is at most $n/2$,
 hence the number of elements correctly computed is at least $n/2$.
 By \prettyref{thm:zeroHighShiftEntries}, this also allows us to remove
 at least half of the columns from the input $\mathbf{F}$ and correspondingly
-at least half of rows from the output for the remaining problem. Thus
-the new input matrix $\mathbf{F}_{2}$ has a new column dimension
+at least half of the rows from the output for the remaining problem.
+Thus the new input matrix $\mathbf{F}_{2}$ has a new column dimension
 $n_{2}\le n/2$ and the corresponding shift $\vec{s}^{\left(2\right)}$
 has $n_{2}$ entries. The average degree of the new problem is $d_{2}~=~m\sigma/n_{2}$.
 
 For the second iteration, we set $\alpha_{2}$ and $\beta_{2}$ to
-$2d_{2}$. Since $\alpha_{2}=2m\sigma/n_{2}\ge-2\sum\vec{s}/n_{2}\ge-2\sum\vec{s}^{\left(2\right)}/n_{2}$,
+$2d_{2}$. Since $\alpha_{2}=2m\sigma/n_{2}\ge-2\sum_{i=1}^{n}s_{i}/n_{2}\ge-2\sum_{i=1}^{n_{2}}s_{i}^{\left(2\right)}/n_{2}$,
 this allows us to reduce the dimension $n_{3}$ of $\mathbf{F}_{3}$
 to at most $n_{2}/2$ after finishing computing a $\left(\bar{\mathbf{F}}_{2},\sigma,\bar{s}^{\left(2\right)}\right)_{-\alpha_{1}}$-basis.
 Again, this can be done using \prettyref{alg:mab} with a cost of
@@ -606,21 +618,21 @@ So a $\left(\bar{\mathbf{F}}_{i},\sigma,\bar{s}^{\left(i\right)}\right)_{-\alpha
 can be computed with a cost of \[
 O^{\sim}\left(n_{i}^{\omega}d_{i}\right)=O^{\sim}\left(n_{i}^{\omega-1}m\sigma\right)\subset O^{\sim}\left(n^{\omega-1}m\sigma\right)=O^{\sim}\left(n^{\omega}d\right).\]
  Since \[
-\alpha_{i}=2m\sigma/n_{i}\ge-2\sum\vec{s}/n_{i}\ge-2\sum\vec{s}^{\left(i\right)}/n_{i},\]
+\alpha_{i}=2m\sigma/n_{i}\ge-2\sum_{i=1}^{n}s_{i}/n_{i}\ge-2\sum_{i=1}^{n_{i}}s_{i}^{\left(i\right)}/n_{i},\]
  the column dimension $n_{i+1}$ of the next problem can again be
 reduced by a half. After iteration $i$, at most $n/2^{i}$ $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 elements remain to be computed. We can stop this process when the
 column dimension $n_{i}$ of the input matrix $\mathbf{F}_{i}$ reaches
 the row dimension $m$, as an order basis can be efficiently computed
 in such case. Therefore, a complete $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
-can be computed in at most $\log n/m$ iterations, so the overall
+can be computed in at most $\log(n/m)$ iterations, so the overall
 cost is $O^{\sim}\left(n^{\omega}d\right)$.
 \end{pf}
 \input{algorithm2.tex} Finally, we remark that when the condition
-\eqref{con:unbalancedCondition} is relaxed to $\sum-\vec{s}\in O\left(m\sigma\right)$,
-so that $\sum-\vec{s}\le cm\sigma$ for a constant $c$, we can still
-compute a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis with the
-same complexity, by setting $\alpha_{i}=\beta_{i}=2cm\sigma/n_{i}$
+\eqref{con:unbalancedCondition} is relaxed to $\sum_{i=1}^{n}-s_{i}\in O\left(m\sigma\right)$,
+so that $\sum_{i=1}^{n}-s_{i}\le cm\sigma$ for a constant $c$, we
+can still compute a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+with the same complexity, by setting $\alpha_{i}=\beta_{i}=2cm\sigma/n_{i}$
 at each iteration $i$ and following the same procedure as above.
 The cost at each iteration $i$ remains $O^{\sim}\left(n^{\omega}d\right)$,
-and the entire computation still uses at most $\log n/m$ iterations. 
+and the entire computation still uses at most $\log(n/m)$ iterations. 

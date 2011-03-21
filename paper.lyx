@@ -1,4 +1,4 @@
-#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.6.1 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -838,7 +838,7 @@ status collapsed
 
 \end_inset
 
-, 22(1):114-144, 2000.
+, 22(1):114--144, 2000.
 \end_layout
 
 \begin_layout Bibliography
@@ -924,7 +924,7 @@ status collapsed
 
 \end_inset
 
-, 1999.
+,pages 189--196, 1999.
 \end_layout
 
 \begin_layout Bibliography
@@ -1025,7 +1025,7 @@ key "Giorgi2003"
 \begin_inset space ~
 \end_inset
 
-Giorgi, C.P.
+Giorgi, C.-P.
  Jeannerod, and G.
 \begin_inset space ~
 \end_inset
@@ -1484,7 +1484,7 @@ status collapsed
 
 \end_inset
 
-, page 309, 2005.
+, page 309--316, 2005.
  
 \end_layout
 
@@ -1568,6 +1568,83 @@ status collapsed
 \end_inset
 
 , 22:537--561, 1997.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "{Zhou and Labahn(2009)}"
+key "za2009"
+
+\end_inset
+
+ W.
+ Zhou and G.
+ Labahn.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ Efficient computation of order bases.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newblock
+\end_layout
+
+\end_inset
+
+ In 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ Proceedings of ISSAC'09
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+, page 375--382, 2009.
+ 
 \end_layout
 
 \end_body
