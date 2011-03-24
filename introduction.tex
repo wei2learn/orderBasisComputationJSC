@@ -25,11 +25,12 @@ and had their order conditions related to these degree constraints.
 %in terms of $2$ nearby approximants. 
 Additional order problems include vector and matrix versions of rational
 approximation, partial realizations of matrix sequences and vector
-rational reconstruction just to name a few. As an example, the factorization
-of differential operators algorithm of \citet{vanHoeij} makes use
-of vector Hermite-Padé approximation to reconstruct differential factorizations
-over rational functions from factorizations of differential operators
-over power series domains.
+rational reconstruction just to name a few (cf. the references in
+\citet{BL1997}). As an example, the factorization of differential
+operators algorithm of \citet{vanHoeij} makes use of vector Hermite-Padé
+approximation to reconstruct differential factorizations over rational
+functions from factorizations of differential operators over power
+series domains.
 
 The set of all such order $\left(\mathbf{F},\sigma\right)$ approximations
 forms a module over $\mathbb{K}\left[x\right]$. An {\em order basis}
@@ -47,8 +48,8 @@ of structured matrices \citep{La92}, normal forms of matrix polynomials
 polynomial arithmetic including matrix inversion, determinant and
 nullspace computation \citep{Giorgi2003,storjohann-villard:2005}.
 In our case we also allow the minimal degree property to include a
-shift $\vec{s}$. Such a shift is important for matrix normal form
-problems \citep{BLV:1999,BLV:jsc06}.
+shift $\vec{s}$. Such a shift is important, for example, for matrix
+normal form problems \citep{BLV:1999,BLV:jsc06}.
 
 In this paper we focus on the efficient computation of order basis.
 Algorithms for fast computation of order basis include that of \citet{BeLa94}
@@ -90,24 +91,25 @@ for example, in the case of inversion of structured block matrices
 where one needs only precisely the minbasis \citep{La92}. However,
 in other applications, such as those arising in matrix polynomial
 arithmetic, one needs a complete basis which specifies all solutions
-of a given order, not just those within a particular degree bound.
+of a given order, not just those within a particular degree bound
+(cf. \citet{BL1997}).
 
 In this paper we present two algorithms which compute an entire order
 basis with a cost of $O^{\sim}\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\right)$
-field operations. The two algorithms differ depending on the nature
+field operations. This work extends the previous results first reported
+in \citet{za2009}. The two algorithms differ depending on the nature
 of the degree shift required for the reduced order basis. In the first
 case we use a transformation that can be considered as an extension
 of Storjohann's transformation. This new transformation provides a
-way to extend the results from one Storjohann's transformed problem
-to another Storjohann's transformed problem of a higher degree. This
-enables us to use an idea from the null space basis algorithm of Storjohann
-and Villard \citep{storjohann-villard:2005} in order to achieve efficient
-computation. At each iteration, basis elements within a specified
-degree bound are computed via a Storjohann transformed problem. Then
-the partial result is used to simplify the next Storjohann transformed
-problem of a higher degree, allowing basis elements within a higher
-degree bound to be computed efficiently. This is repeated until all
-basis elements are computed.
+way to extend the results from one transformed problem to another
+transformed problem of a higher degree. This enables us to use an
+idea from the null space basis algorithm found in \citep{storjohann-villard:2005}
+in order to achieve efficient computation. At each iteration, basis
+elements within a specified degree bound are computed via a Storjohann
+transformed problem. Then the partial result is used to simplify the
+next Storjohann transformed problem of a higher degree, allowing basis
+elements within a higher degree bound to be computed efficiently.
+This is repeated until all basis elements are computed.
 
 In order to compute an order basis efficiently, the first algorithm
 requires that the degree shifts are balanced. In the case where the

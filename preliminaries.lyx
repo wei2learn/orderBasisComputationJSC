@@ -1,10 +1,9 @@
-#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
-\lyxformat 345
+#LyX file created by tex2lyx 1.6.8
+\lyxformat 264
 \begin_document
 \begin_header
 \textclass elsart
 \options amsthm,seceqn,secthm
-\use_default_options false
 \language english
 \inputencoding latin9
 \font_roman default
@@ -15,11 +14,9 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
-
 \graphics default
 \paperfontsize default
 \spacing single
-\use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 2
@@ -37,19 +34,19 @@
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
-\author "" 
-\author "" 
 \end_header
 
 \begin_body
 
 \begin_layout Section
+
 Preliminaries
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "sec:Background"
 
 \end_inset
@@ -58,33 +55,30 @@ name "sec:Background"
 \end_layout
 
 \begin_layout Standard
-In this section, we provide some of the background needed in order to understand
- the basic concepts and tools needed for order basis computation.
- We give the basic definitions and look at the size of the input and the
- output for computing such bases.
+
+In this section, we provide some of the background needed in order to understand the basic concepts and tools needed for order basis computation. This includes basic definitions and a look at the size of the input and the output for computing such bases.
 \begin_inset Note Comment
 status open
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 , which provide lower bounds for the computational cost 
 \end_layout
 
 \end_inset
 
- We point out the challenges of balancing input and handling unbalanced
- output.
- We review the construction by 
-\begin_inset CommandInset citation
-LatexCommand citet
+ The challenges of balancing input and handling unbalanced output are discussed along with the techniques which we plan to use to overcome the difficulties. We review the construction by 
+\begin_inset LatexCommand citet
+after ""
+before ""
 key "Storjohann:2006"
 
 \end_inset
 
- which transforms the inputs to those having dimensions and degree balance
- better suited for fast computation.
- We then discuss an idea from 
-\begin_inset CommandInset citation
-LatexCommand citet
+ which transforms the inputs to those having dimensions and degree balance better suited for fast computation and discuss an idea from 
+\begin_inset LatexCommand citet
+after ""
+before ""
 key "storjohann-villard:2005"
 
 \end_inset
@@ -93,10 +87,12 @@ key "storjohann-villard:2005"
 \end_layout
 
 \begin_layout Subsection
+
 Order Basis
 \end_layout
 
 \begin_layout Standard
+
 Let 
 \begin_inset Formula $\mathbb{K}$
 \end_inset
@@ -109,11 +105,11 @@ Let
 \begin_inset Formula $\vec{\sigma}=\left[\sigma_{1},\dots,\sigma_{m}\right]$
 \end_inset
 
- a vector of non-negative integers.
- 
+ a vector of non-negative integers. 
 \end_layout
 
 \begin_layout Definition
+
 A vector of polynomials 
 \begin_inset Formula $\mathbf{p}\in\mathbb{K}\left[x\right]^{n\times1}$
 \end_inset
@@ -147,15 +143,13 @@ order
 \mathbf{F}\cdot\mathbf{p} & = & x^{\vec{\sigma}}\mathbf{r}=\begin{bmatrix}x^{\sigma_{1}}\\
  & \ddots\\
  &  & x^{\sigma_{m}}\end{bmatrix}\mathbf{r}\end{eqnarray*}
-
 \end_inset
 
  for some 
 \begin_inset Formula $\mathbf{r}\in\mathbb{K}\left[\left[x\right]\right]^{m\times1}$
 \end_inset
 
-.
- If 
+. If 
 \begin_inset Formula $\vec{\sigma}=\left[\sigma,\dots,\sigma\right]$
 \end_inset
 
@@ -171,7 +165,8 @@ order
 \begin_inset Note Comment
 status open
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 The vector of power series 
 \begin_inset Formula $\mathbf{r}$
 \end_inset
@@ -188,8 +183,7 @@ The vector of power series
 
 
 \series default
-.
- 
+. 
 \end_layout
 
 \end_inset
@@ -206,11 +200,11 @@ The vector of power series
 \begin_inset Formula $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \begin_layout Standard
+
 An order basis for 
 \begin_inset Formula $\mathbf{F}$
 \end_inset
@@ -223,20 +217,18 @@ An order basis for
 \begin_inset Formula $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
 \end_inset
 
-.
- In this paper we compute those order bases having a type of minimality
- degree condition (also referred to as a reduced order basis in 
-\begin_inset CommandInset citation
-LatexCommand citep
+. In this paper we compute those order bases having a type of minimality degree condition (also referred to as a reduced order basis in 
+\begin_inset LatexCommand citep
+after ""
+before ""
 key "BL1997"
 
 \end_inset
 
-).
- While minimality is often given in terms of the degrees alone it is sometimes
- important to consider this in terms of shifted degrees 
-\begin_inset CommandInset citation
-LatexCommand citep
+). While minimality is often given in terms of the degrees alone it is sometimes important to consider this in terms of shifted degrees 
+\begin_inset LatexCommand citep
+after ""
+before ""
 key "BLV:jsc06"
 
 \end_inset
@@ -245,6 +237,7 @@ key "BLV:jsc06"
 \end_layout
 
 \begin_layout Standard
+
 The shifted column degree of a column polynomial vector 
 \begin_inset Formula $\mathbf{p}$
 \end_inset
@@ -256,7 +249,6 @@ The shifted column degree of a column polynomial vector
  is given by 
 \begin_inset Formula \[
 \deg_{\vec{s}}\mathbf{p}=\max_{1\le i\le n}[\deg p^{\left(i\right)}+s_{i}]=\deg(x^{\vec{s}}\cdot\mathbf{p}).\]
-
 \end_inset
 
  We call this the 
@@ -279,20 +271,18 @@ The shifted column degree of a column polynomial vector
 \begin_inset Formula $\mathbf{p}$
 \end_inset
 
-.
- A shifted column degree defined this way is equivalent to the notion of
- 
+. A shifted column degree defined this way is equivalent to the notion of 
 \emph on
 defect
 \emph default
- commonly used in the literature.
- It is also equivalent to the notion of 
+ commonly used in the literature. It is also equivalent to the notion of 
 \begin_inset Formula $\mathbf{H}$
 \end_inset
 
 -degree from 
-\begin_inset CommandInset citation
-LatexCommand citep
+\begin_inset LatexCommand citep
+after ""
+before ""
 key "BL1997"
 
 \end_inset
@@ -301,8 +291,7 @@ key "BL1997"
 \begin_inset Formula $\mathbf{H}=x^{\vec{s}}$
 \end_inset
 
-.
- As in the uniform shift case, we say a matrix is 
+. As in the uniform shift case, we say a matrix is 
 \emph on
 
 \begin_inset Formula $\vec{s}$
@@ -322,8 +311,7 @@ key "BL1997"
 \begin_inset Formula $\vec{s}$
 \end_inset
 
--degrees cannot be lowered by column operations.
- Note that a matrix 
+-degrees cannot be lowered by column operations. Note that a matrix 
 \begin_inset Formula $\mathbf{P}$
 \end_inset
 
@@ -335,8 +323,7 @@ key "BL1997"
 \begin_inset Formula $x^{\vec{s}}\cdot\mathbf{P}$
 \end_inset
 
- is column reduced.
- Similarly, 
+ is column reduced. Similarly, 
 \begin_inset Formula $\mathbf{P}$
 \end_inset
 
@@ -348,13 +335,13 @@ key "BL1997"
 \begin_inset Formula $x^{\vec{s}}\cdot\mathbf{P}$
 \end_inset
 
- is in Popov form.
- 
+ is in Popov form. 
 \end_layout
 
 \begin_layout Definition
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "def:orderBasis"
 
 \end_inset
@@ -364,8 +351,9 @@ name "def:orderBasis"
 order basis
 \emph default
  
-\begin_inset CommandInset citation
-LatexCommand citep
+\begin_inset LatexCommand citep
+after ""
+before ""
 key "BeLa94,BL1997"
 
 \end_inset
@@ -398,10 +386,11 @@ key "BeLa94,BL1997"
 \begin_inset Note Comment
 status open
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
+
 \begin_inset Formula \[
 \left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle =\{\mathbf{p}\in\mathbb{K}\left[x\right]^{n\times1}\|\mathbf{F}\cdot\mathbf{p}=x^{\vec{\sigma}}\mathbf{r},\mathbf{r}\in\mathbb{K}[[x]]^{m\times1}\}\]
-
 \end_inset
 
 
@@ -413,8 +402,7 @@ status open
 \begin_inset Formula $\vec{s}$
 \end_inset
 
--column degrees.
- If 
+-column degrees. If 
 \begin_inset Formula $\vec{\sigma}=\left[\sigma,\dots,\sigma\right]$
 \end_inset
 
@@ -422,15 +410,17 @@ status open
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
 \end_inset
 
--basis.
- 
+-basis. 
 \end_layout
 
 \begin_layout Standard
+
+
 \begin_inset Note Comment
 status open
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 Note that the module 
 \begin_inset Formula $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
 \end_inset
@@ -439,8 +429,7 @@ Note that the module
 \begin_inset Formula $\vec{s}$
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \end_inset
@@ -449,16 +438,12 @@ Note that the module
 \end_layout
 
 \begin_layout Standard
-Although we allow different orders for each row in this definition, we focus
- on order basis computation problem with uniform order.
- However special cases of non-uniform order problems are still needed in
- our analysis.
- We also assume 
+
+Although we allow different orders for each row in this definition, we focus on order basis computation problems having uniform order. However special cases of non-uniform order problems are still needed in our analysis. We also assume 
 \begin_inset Formula $m\le n$
 \end_inset
 
- for simplicity.
- The case of 
+ for simplicity. The case of 
 \begin_inset Formula $m>n$
 \end_inset
 
@@ -467,14 +452,14 @@ Although we allow different orders for each row in this definition, we focus
 \end_inset
 
  by compression 
-\begin_inset CommandInset citation
-LatexCommand citep
+\begin_inset LatexCommand citep
+after ""
+before ""
 key "storjohann-villard:2005"
 
 \end_inset
 
-.
- We further assume without loss of generality that 
+. We further assume, without any loss of generality, that 
 \begin_inset Formula $n/m$
 \end_inset
 
@@ -482,8 +467,7 @@ key "storjohann-villard:2005"
 \begin_inset Formula $\sigma$
 \end_inset
 
- are powers of two, which can be achieved by padding zero rows to the input
- matrix and multiplying it by some power of 
+ are powers of two. This can be achieved by padding zero rows to the input matrix and multiplying it by some power of 
 \begin_inset Formula $x$
 \end_inset
 
@@ -491,20 +475,22 @@ key "storjohann-villard:2005"
 \end_layout
 
 \begin_layout Standard
+
 From 
-\begin_inset CommandInset citation
-LatexCommand citep
+\begin_inset LatexCommand citep
+after ""
+before ""
 key "BL1997"
 
 \end_inset
 
- we have the following two lemmas.
- 
+ we have the following two lemmas. 
 \end_layout
 
 \begin_layout Lemma
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "lem:orderBasisProperty"
 
 \end_inset
@@ -522,6 +508,8 @@ name "lem:orderBasisProperty"
 
 \begin_deeper
 \begin_layout Enumerate
+
+
 \begin_inset Formula $\mathbf{P}$
 \end_inset
 
@@ -537,11 +525,12 @@ name "lem:orderBasisProperty"
 \begin_inset Formula $n\times n$
 \end_inset
 
- matrix.
- 
+ matrix. 
 \end_layout
 
 \begin_layout Enumerate
+
+
 \begin_inset Formula $\mathbf{P}$
 \end_inset
 
@@ -549,11 +538,12 @@ name "lem:orderBasisProperty"
 \begin_inset Formula $\vec{s}$
 \end_inset
 
--column reduced.
- 
+-column reduced. 
 \end_layout
 
 \begin_layout Enumerate
+
+
 \begin_inset Formula $\mathbf{P}$
 \end_inset
 
@@ -569,11 +559,11 @@ name "lem:orderBasisProperty"
 \begin_inset Formula $\left\langle (\mathbf{F},\vec{\sigma})\right\rangle $
 \end_inset
 
-).
- 
+). 
 \end_layout
 
 \begin_layout Enumerate
+
 Any 
 \begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
 \end_inset
@@ -586,14 +576,14 @@ Any
 \begin_inset Formula $\mathbf{P}^{-1}\mathbf{q}$
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \end_deeper
 \begin_layout Lemma
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "lem:orderBasisEquivalence"
 
 \end_inset
@@ -611,6 +601,8 @@ The following are equivalent for a polynomial matrix
 
 \begin_deeper
 \begin_layout Enumerate
+
+
 \begin_inset Formula $\mathbf{P}$
 \end_inset
 
@@ -618,11 +610,12 @@ The following are equivalent for a polynomial matrix
 \begin_inset Formula $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$
 \end_inset
 
--basis.
- 
+-basis. 
 \end_layout
 
 \begin_layout Enumerate
+
+
 \begin_inset Formula $\mathbf{P}$
 \end_inset
 
@@ -634,18 +627,17 @@ The following are equivalent for a polynomial matrix
 \begin_inset Formula $\vec{s}$
 \end_inset
 
--degree polynomial vectors that are linearly independent and each having
- order 
+-degree polynomial vectors that are linearly independent and each having order 
 \begin_inset Formula $\left(\mathbf{F},\vec{\sigma}\right)$
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "enu:reduced+generator"
 
 \end_inset
@@ -670,14 +662,13 @@ name "enu:reduced+generator"
 \begin_inset Formula $\mathbf{P}$
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \end_deeper
 \begin_layout Standard
-In some cases an entire order basis is unnecessary and instead one looks
- for a minimal basis that generates only the elements of 
+
+In some cases an entire order basis is unnecessary and instead one looks for a minimal basis that generates only the elements of 
 \begin_inset Formula $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
 \end_inset
 
@@ -689,8 +680,7 @@ In some cases an entire order basis is unnecessary and instead one looks
 \begin_inset Formula $\delta$
 \end_inset
 
-.
- Such minimal basis is a partial 
+. Such minimal basis is a partial 
 \begin_inset Formula $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$
 \end_inset
 
@@ -706,25 +696,25 @@ In some cases an entire order basis is unnecessary and instead one looks
 \begin_inset Formula $\delta$
 \end_inset
 
-.
- This is called a 
+. This is called a 
 \emph on
 minbasis
 \emph default
  in 
-\begin_inset CommandInset citation
-LatexCommand citet
+\begin_inset LatexCommand citet
+after ""
+before ""
 key "Storjohann:2006"
 
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \begin_layout Definition
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "def:genset"
 
 \end_inset
@@ -745,8 +735,7 @@ name "def:genset"
 \begin_inset Formula $\delta$
 \end_inset
 
-.
- A 
+. A 
 \begin_inset Formula $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)_{\delta}$
 \end_inset
 
@@ -759,6 +748,8 @@ name "def:genset"
 
 \begin_deeper
 \begin_layout Enumerate
+
+
 \begin_inset Formula $\mathbf{P}$
 \end_inset
 
@@ -770,6 +761,7 @@ name "def:genset"
 \end_layout
 
 \begin_layout Enumerate
+
 Any element of 
 \begin_inset Formula $\left\langle \left(\mathbf{F},\vec{\sigma},\vec{s}\right)\right\rangle _{\delta}$
 \end_inset
@@ -778,11 +770,12 @@ Any element of
 \begin_inset Formula $\mathbf{P}$
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \begin_layout Enumerate
+
+
 \begin_inset Formula $\mathbf{P}$
 \end_inset
 
@@ -790,18 +783,19 @@ Any element of
 \begin_inset Formula $\vec{s}$
 \end_inset
 
--column reduced.
- 
+-column reduced. 
 \end_layout
 
 \end_deeper
 \begin_layout Standard
+
+
 \begin_inset Note Comment
 status open
 
-\begin_layout Plain Layout
-As before, the linear combination here is in fact unique.
- 
+\begin_layout Standard
+
+As before, the linear combination here is in fact unique. 
 \end_layout
 
 \end_inset
@@ -818,7 +812,7 @@ A
 \begin_inset Formula $n$
 \end_inset
 
- basis elements making it a complete 
+ basis elements in which case it is a complete 
 \begin_inset Formula $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$
 \end_inset
 
@@ -826,12 +820,14 @@ A
 \end_layout
 
 \begin_layout Subsection
+
 Balancing Input with Storjohann's Transformation
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "sub:storjohannTransformation"
 
 \end_inset
@@ -840,6 +836,7 @@ name "sub:storjohannTransformation"
 \end_layout
 
 \begin_layout Standard
+
 For computing a 
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
 \end_inset
@@ -864,16 +861,14 @@ For computing a
 \begin_inset Formula $\sigma-1$
 \end_inset
 
-, as higher order terms are not needed in the computation.
- As such the total input size of an order basis problem is 
+, as higher order terms are not needed in the computation. As such the total input size of an order basis problem is 
 \begin_inset Formula $mn\sigma$
 \end_inset
 
- coefficients.
- One can apply the method of Giorgi et al.
- 
-\begin_inset CommandInset citation
-LatexCommand citeyearpar
+ coefficients. One can apply the method of Giorgi et al. 
+\begin_inset LatexCommand citeyearpar
+after ""
+before ""
 key "Giorgi2003"
 
 \end_inset
@@ -882,8 +877,7 @@ key "Giorgi2003"
 \begin_inset Formula $O\left(\MM\left(n,\sigma\right)\log\sigma\right)\subset O^{\sim}\left(\MM\left(n,\sigma\right)\right)$
 \end_inset
 
- field operations, close to the cost of multiplying two matrices with dimension
- 
+ field operations, close to the cost of multiplying two matrices with dimension 
 \begin_inset Formula $n$
 \end_inset
 
@@ -891,14 +885,11 @@ key "Giorgi2003"
 \begin_inset Formula $\sigma$
 \end_inset
 
-.
- Note that this cost is independent of the degree shift.
- This is very efficient if 
+. Note that this cost is independent of the degree shift. This is very efficient if 
 \begin_inset Formula $m\in\Theta\left(n\right)$
 \end_inset
 
-.
- However, for small 
+. However, for small 
 \begin_inset Formula $m$
 \end_inset
 
@@ -910,34 +901,26 @@ key "Giorgi2003"
 \begin_inset Formula $n\sigma$
 \end_inset
 
- coefficients.
- Matrix multiplication cannot be used effectively on a such vector input.
+ coefficients. Matrix multiplication cannot be used effectively on a such vector input.
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset citation
-LatexCommand citet
+
+
+\begin_inset LatexCommand citet
+after ""
+before ""
 key "Storjohann:2006"
 
 \end_inset
 
- provides a novel way to transform an order basis problem with small row
- dimension to a problem with higher row dimension and lower degree to take
- advantage of Giorgi et al.'s algorithm.
- We provide a quick overview of a slightly modified version of Storjohann's
- method.
- Our small modification allows a nonuniform degree shift for the input and
- provides a slightly simpler degree shift, degree, and order for the transformed
- problem.
- The proof of its correctness is provided in 
-\begin_inset CommandInset ref
-LatexCommand prettyref
+ provides a novel way to transform an order basis problem with small row dimension to a problem with higher row dimension and lower degree to take advantage of Giorgi et al.'s algorithm. We provide a quick overview of a slightly modified version of Storjohann's method. Our small modification allows a nonuniform degree shift for the input and provides a slightly simpler degree shift, degree, and order for the transformed problem. The proof of its correctness is provided in 
+\begin_inset LatexCommand prettyref
 reference "sec:transform"
 
 \end_inset
 
-.
- In order to compute a 
+. In order to compute a 
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
 \end_inset
 
@@ -948,7 +931,6 @@ reference "sec:transform"
 , we first write 
 \begin_inset Formula \[
 \mathbf{F}=\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\cdots+\mathbf{F}_{l}x^{l\delta},\]
-
 \end_inset
 
  with 
@@ -957,9 +939,10 @@ reference "sec:transform"
 
 
 \begin_inset Note Comment
-status collapsed
+status open
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 I used 
 \begin_inset Formula $\deg\mathbf{F}_{i}\le\delta-1$
 \end_inset
@@ -968,13 +951,11 @@ I used
 \begin_inset Formula $\deg\mathbf{F}_{i}<\delta$
 \end_inset
 
- and said it's slightly easier to read.
- A reason to use 
+ and said it's slightly easier to read. A reason to use 
 \begin_inset Formula $\le$
 \end_inset
 
- is to make it consistent with the definition of minbasis.
- For example, 
+ is to make it consistent with the definition of minbasis. For example, 
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$
 \end_inset
 
@@ -982,13 +963,11 @@ I used
 \begin_inset Formula $\delta-1$
 \end_inset
 
-.
- I still prefer to use 
+. I still prefer to use 
 \begin_inset Formula $\le$
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \end_inset
@@ -1001,19 +980,19 @@ I used
 \begin_inset Formula $\sigma=\left(l+1\right)\delta$
 \end_inset
 
-.
- Set 
+. Set 
 \begin_inset Formula \[
-{\bar{\mathbf{F}}}=\left[\begin{array}{c|c}
-\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0}_{m,m\left(l-1\right)}\\
-\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta}\\
-\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{I}_{m\left(l-1\right)}\\
-\vdots\\
-\mathbf{F}_{l-1}+\mathbf{F}_{l}x^{\delta}\end{array}\right]_{ml\times(n+m(l-1))}.\]
-
+{\bar{\mathbf{F}}}=\left[\begin{array}{c|cccc}
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & 0 & 0 & \cdots & 0 \\
+\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_m & 0 & & \\
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & 0 & \mathbf{I}_m & & \\ 
+\vdots & & & \ddots & \\
+\mathbf{F}_{l-1}+\mathbf{F}_{l}x^{\delta} & & & & \mathbf{I}_m
+\end{array}\right]_{ml\times(n+m(l-1))}.
+\]
 \end_inset
 
- Note that each block 
+ Each block 
 \begin_inset Formula $\mathbf{F}_{i}+\mathbf{F}_{i+1}x^{\delta}$
 \end_inset
 
@@ -1021,7 +1000,7 @@ I used
 \begin_inset Formula $m\times n$
 \end_inset
 
- and 
+ while 
 \begin_inset Formula $\bar{\mathbf{F}}$
 \end_inset
 
@@ -1029,8 +1008,7 @@ I used
 \begin_inset Formula $ml\times(n+m(l-1))$
 \end_inset
 
-.
- Set 
+. Set 
 \begin_inset Formula $\vec{s'}=\left[\vec{s},0,\dots,0\right]$
 \end_inset
 
@@ -1046,12 +1024,11 @@ I used
 \begin_inset Formula $0$
 \end_inset
 
-'s).
- A 
+'s). A 
 \begin_inset Formula $({\bar{\mathbf{F}}},2\delta,\vec{s'})$
 \end_inset
 
--basis can then be computed by Giorgi et al.'s method with a cost of 
+-basis can then be computed by the method of Giorgi et al. with a cost of 
 \begin_inset Formula $O^{\sim}\left(\MM\left(n,\delta\right)\right)$
 \end_inset
 
@@ -1059,9 +1036,7 @@ I used
 \begin_inset Formula $\delta\ge\left\lceil m\sigma/n\right\rceil $
 \end_inset
 
-.
- This transformation of Storjohann can be viewed as a partial linearization
- of the original problem, where 
+. This transformation of Storjohann can be viewed as a partial linearization of the original problem, where 
 \begin_inset Formula $\bar{\mathbf{F}}$
 \end_inset
 
@@ -1069,8 +1044,7 @@ I used
 \begin_inset Formula $\mathbf{F}$
 \end_inset
 
-.
- Note that 
+. Note that 
 \begin_inset Formula $\bar{\mathbf{F}}$
 \end_inset
 
@@ -1082,8 +1056,7 @@ I used
 \begin_inset Formula $m$
 \end_inset
 
- rows.
- We continue to use each block row to represent 
+ rows. We continue to use each block row to represent 
 \begin_inset Formula $m$
 \end_inset
 
@@ -1091,6 +1064,7 @@ I used
 \end_layout
 
 \begin_layout Standard
+
 Clearly a 
 \begin_inset Formula $(\bar{\mathbf{F}},2\delta,\vec{s'})$
 \end_inset
@@ -1107,8 +1081,7 @@ Clearly a
 \begin_inset Formula $\bar{\mathbf{P}}$
 \end_inset
 
- has a higher dimension and lower degree.
- However, the first 
+ has a higher dimension and lower degree. However, the first 
 \begin_inset Formula $n$
 \end_inset
 
@@ -1128,6 +1101,7 @@ Clearly a
 \end_layout
 
 \begin_layout Standard
+
 Note that there is no need to set the degree parameter 
 \begin_inset Formula $\delta$
 \end_inset
@@ -1136,13 +1110,11 @@ Note that there is no need to set the degree parameter
 \begin_inset Formula $\left\lceil m\sigma/n\right\rceil $
 \end_inset
 
-, as this produces fewer basis elements without a better cost.
- The lowest cost is achieved when 
+, as this produces fewer basis elements without a better cost. The lowest cost is achieved when 
 \begin_inset Formula $\bar{\mathbf{F}}$
 \end_inset
 
- is close to square so matrix multiplication can be used most effectively.
- This requires the number of block rows 
+ is close to square so matrix multiplication can be used most effectively. This requires the number of block rows 
 \begin_inset Formula $l$
 \end_inset
 
@@ -1158,8 +1130,7 @@ Note that there is no need to set the degree parameter
 \begin_inset Formula $\delta=\Theta\left(\left\lceil m\sigma/n\right\rceil \right)$
 \end_inset
 
-.
- Recall that 
+. Recall that 
 \begin_inset Formula $mn\sigma$
 \end_inset
 
@@ -1179,8 +1150,7 @@ Note that there is no need to set the degree parameter
 \begin_inset Formula $\mathbf{F}$
 \end_inset
 
- as square.
- Choosing 
+ as square. Choosing 
 \begin_inset Formula $\delta=\Theta\left(\left\lceil d\right\rceil \right)$
 \end_inset
 
@@ -1192,18 +1162,31 @@ Note that there is no need to set the degree parameter
 \begin_inset Formula $O^{\sim}\left(\MM\left(n,d\right)\right)=O^{\sim}\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\right)$
 \end_inset
 
-.
- The ceiling function here is used to take care of the case of 
+. The ceiling function here is used to take care of the case of 
 \begin_inset Formula $m\sigma<n$
 \end_inset
 
-.
- For the remainder of the paper, we assume that 
+. For the remainder of the paper, we assume that 
 \begin_inset Formula $m\sigma\ge n$
 \end_inset
 
- to avoid this case for simplicity.
- Together with the assumption that 
+ in order to avoid the need for the ceiling function and so simplify the presentation. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% avoid this case for simplicity. 
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+Together with the assumption that 
 \begin_inset Formula $\sigma$
 \end_inset
 
@@ -1219,16 +1202,18 @@ Note that there is no need to set the degree parameter
 \end_layout
 
 \begin_layout Standard
+
+
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
-%Let us now look at a concrete example that illustrate Storjohann's method.
- 
+%Let us now look at a concrete example that illustrate Storjohann's method. 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 
 \end_layout
 
@@ -1238,8 +1223,9 @@ status collapsed
 \end_layout
 
 \begin_layout Example
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "exm:StorjohannTransformation"
 
 \end_inset
@@ -1258,17 +1244,19 @@ Let
 
  and 
 \begin_inset Formula \[
-\mathbf{F}=[x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},1+x+x^{5}+x^{6}+x^{7},1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},1+x+x^{3}+x^{7}]_{1\times4}.\]
-
+\mathbf{F}=[x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},~ 1+x+x^{5}+x^{6}+x^{7},~ 1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},~1+x+x^{3}+x^{7}]\]
 \end_inset
 
-Then 
+ of size 
+\begin_inset Formula $1 \times 4$
+\end_inset
+
+. Then 
 \begin_inset Formula \[
 \bar{\mathbf{F}}=\left[{\begin{array}{cccccc}
 x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
 1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & ~~1~ & ~0~\\
 1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]_{3\times6}\]
-
 \end_inset
 
  and a 
@@ -1284,7 +1272,6 @@ x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
 1 & 0 & 0 & 0 & 0 & 0\\
 \hline 0 & 1 & 1 & 0 & x^{2} & x+x^{2}+x^{3}\\
 0 & 1 & 1+x^{2} & 0 & x^{2} & x+x^{2}\end{array}}\right].\]
-
 \end_inset
 
  The first two columns of 
@@ -1303,8 +1290,7 @@ x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
 \begin_inset Formula $\left(\mathbf{F},8,\vec{0}\right)_{1}$
 \end_inset
 
--basis.
- This is a low degree part of the
+-basis. This is a low degree part of the
 \series bold
  
 \begin_inset Formula $(\mathbf{F},8,\vec{0})$
@@ -1318,7 +1304,6 @@ x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
 0 & 1 & x^{2}+x^{3} & 0\\
 1 & 1+x & x & x^{3}+x^{4}\\
 1 & 0 & 0 & 0\end{bmatrix}.\]
-
 \end_inset
 
  Note that if 
@@ -1329,13 +1314,13 @@ x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
 \begin_inset Formula $\sigma/2=4$
 \end_inset
 
-, then the transformed problem is the same as the original problem.
- 
+, then the transformed problem is the same as the original problem. 
 \end_layout
 
 \begin_layout Subsection
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "sub:Unbalanced-Output"
 
 \end_inset
@@ -1344,6 +1329,7 @@ Unbalanced Output
 \end_layout
 
 \begin_layout Standard
+
 Storjohann's transformation can be used to efficiently compute a 
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$
 \end_inset
@@ -1356,8 +1342,7 @@ Storjohann's transformation can be used to efficiently compute a
 \begin_inset Formula $d=m\sigma/n$
 \end_inset
 
-.
- However, if 
+. However, if 
 \begin_inset Formula $\delta$
 \end_inset
 
@@ -1377,13 +1362,12 @@ Storjohann's transformation can be used to efficiently compute a
 \end_layout
 
 \begin_layout Standard
-The underlying difficulty with computing a complete order basis is that
- the basis can have degree up to 
+
+The underlying difficulty with computing a complete order basis is that the basis can have degree up to 
 \begin_inset Formula $\sigma$
 \end_inset
 
-.
- As the output of this problem has dimension 
+. As the output of this problem has dimension 
 \begin_inset Formula $n\times n$
 \end_inset
 
@@ -1395,19 +1379,17 @@ The underlying difficulty with computing a complete order basis is that
 \begin_inset Formula $O^{\sim}\left(\MM\left(n,\sigma\right)\right)$
 \end_inset
 
- is about the best that can be done.
- However, the total size of the output can still be bounded by 
+ is about the best that can be done. However, the total size of the output can still be bounded by 
 \begin_inset Formula $O\left(mn\sigma\right)$
 \end_inset
 
-, the same as the size of the input.
- This gives some hope for a more efficient method.
- 
+, the same as the size of the input. This gives some hope for a more efficient method. 
 \end_layout
 
 \begin_layout Lemma
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "lem:size"
 
 \end_inset
@@ -1424,8 +1406,7 @@ Let
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
 \end_inset
 
--basis.
- Then 
+-basis. Then 
 \begin_inset Formula $\sum_{i}\left(\vec{t}_{i}-\vec{s}_{i}\right)~\le~m\sigma$
 \end_inset
 
@@ -1437,8 +1418,7 @@ Let
 
 
 \shape default
-.
- In addition, the total size of any 
+. In addition, the total size of any 
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
 \end_inset
 
@@ -1450,41 +1430,38 @@ Let
 \begin_inset Formula $nm\sigma$
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \begin_layout Proof
-This can be shown by considering the sizes of the pivots in the iterative
- order basis computation given in 
-\begin_inset CommandInset citation
-LatexCommand citep
+
+This can be shown by considering the sizes of the pivots in the iterative order basis computation given in 
+\begin_inset LatexCommand citep
+after ""
+before ""
 key "BeLa94,Giorgi2003"
 
 \end_inset
 
-.
- 
+. 
 \begin_inset Note Comment
-status collapsed
+status open
 
-\begin_layout Plain Layout
-Consider the degree of pivot entries in the iterative order basis computation
- from 
-\begin_inset CommandInset citation
-LatexCommand citet
+\begin_layout Standard
+
+Consider the degree of pivot entries in the iterative order basis computation from 
+\begin_inset LatexCommand citet
+after ""
+before ""
 key "BeLa94"
 
 \end_inset
 
-.
- Starting at order zero, for each order increasing by one, the sum of the
- degrees of all the pivot entries is increased by at most 
+. Starting at order zero, for each order increasing by one, the sum of the degrees of all the pivot entries is increased by at most 
 \begin_inset Formula $m$
 \end_inset
 
-.
- Hence the sum is at most 
+. Hence the sum is at most 
 \begin_inset Formula $m\sigma$
 \end_inset
 
@@ -1496,16 +1473,11 @@ key "BeLa94"
 \begin_inset Formula $\sigma$
 \end_inset
 
- order basis.
- Now consider any particular column of the basis.
- Each entry in the column has degree bounded by the corresponding pivot
- entry of the row, so the total degree of the entries in the column is bounded
- by 
+ order basis. Now consider any particular column of the basis. Each entry in the column has degree bounded by the corresponding pivot entry of the row, so the total degree of the entries in the column is bounded by 
 \begin_inset Formula $m\sigma$
 \end_inset
 
-.
- Therefore, the size of any order 
+. Therefore, the size of any order 
 \begin_inset Formula $\sigma$
 \end_inset
 
@@ -1517,8 +1489,7 @@ key "BeLa94"
 \begin_inset Formula $nm\sigma$
 \end_inset
 
- coefficients.
- 
+ coefficients. 
 \end_layout
 
 \end_inset
@@ -1527,17 +1498,18 @@ key "BeLa94"
 \end_layout
 
 \begin_layout Standard
+
+
 \begin_inset Note Comment
 status open
 
-\begin_layout Plain Layout
-As a result, the average degree of the entries of the output matrix can
- be also bounded by 
+\begin_layout Standard
+
+As a result, the average degree of the entries of the output matrix can be also bounded by 
 \begin_inset Formula $d=m\sigma/n$
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \end_inset
@@ -1546,9 +1518,8 @@ As a result, the average degree of the entries of the output matrix can
 \end_layout
 
 \begin_layout Standard
-Let us now look at the average column degree of the output.
- In the first part of this paper, we assume without loss of generality that
- 
+
+Let us now look at the average column degree of the output. In the first part of this paper, we assume without loss of generality that 
 \begin_inset Formula $\min\left(\vec{s}\right)=0$
 \end_inset
 
@@ -1560,8 +1531,7 @@ Let us now look at the average column degree of the output.
 \begin_inset Formula $\mathbf{q}\in\mathbb{K}\left[x\right]^{n}$
 \end_inset
 
-.
- The situation is simpler if the shift 
+. The situation is simpler if the shift 
 \begin_inset Formula $\vec{s}$
 \end_inset
 
@@ -1570,8 +1540,7 @@ Let us now look at the average column degree of the output.
 \end_inset
 
  by 
-\begin_inset CommandInset ref
-LatexCommand prettyref
+\begin_inset LatexCommand prettyref
 reference "lem:size"
 
 \end_inset
@@ -1580,9 +1549,7 @@ reference "lem:size"
 \begin_inset Formula $d=m\sigma/n$
 \end_inset
 
-.
- In the first part of this paper, we consider a slightly more general case,
- when the shift 
+. In the first part of this paper, we consider a slightly more general case, when the shift 
 \begin_inset Formula $\vec{s}$
 \end_inset
 
@@ -1590,11 +1557,11 @@ reference "lem:size"
 \emph on
 balanced
 \emph default
-, which is defined as follows.
- 
+, which is defined as follows. 
 \end_layout
 
 \begin_layout Definition
+
 A shift 
 \begin_inset Formula $\vec{s}$
 \end_inset
@@ -1603,11 +1570,11 @@ A shift
 \begin_inset Formula $\max\vec{s}-\min\vec{s}\in O(d)=O(m\sigma/n)$
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \begin_layout Standard
+
 By assuming 
 \begin_inset Formula $\min\vec{s}=0$
 \end_inset
@@ -1620,10 +1587,8 @@ By assuming
 \begin_inset Formula $\max\vec{s}\in O(d)$
 \end_inset
 
-.
- In this case, 
-\begin_inset CommandInset ref
-LatexCommand prettyref
+. In this case, 
+\begin_inset LatexCommand prettyref
 reference "lem:size"
 
 \end_inset
@@ -1632,8 +1597,7 @@ reference "lem:size"
 \begin_inset Formula $\sum_{i}\left(\vec{t}_{i}\right)\le m\sigma+\sum_{i}\left(\vec{s}_{i}\right)\in O\left(m\sigma+nd\right)=O\left(m\sigma\right)$
 \end_inset
 
-.
- Hence the average column degree of the output basis remains 
+. Hence the average column degree of the output basis remains 
 \begin_inset Formula $O\left(d\right)$
 \end_inset
 
@@ -1641,15 +1605,18 @@ reference "lem:size"
 \end_layout
 
 \begin_layout Standard
+
+
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 %From the iterative algorithms for computing order basis, computing
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 
 \end_layout
 
@@ -1659,7 +1626,7 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 %a order basis to order $
 \backslash
@@ -1668,7 +1635,8 @@ sigma$ requires up to $
 sigma$ iterations,
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 
 \end_layout
 
@@ -1678,12 +1646,13 @@ sigma$ iterations,
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 %each iteration increases the sum of column degrees of the order basis
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 
 \end_layout
 
@@ -1693,13 +1662,13 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
-%by at most $m$.
- Therefore, the sum of column degrees of an order
+%by at most $m$. Therefore, the sum of column degrees of an order
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 
 \end_layout
 
@@ -1709,7 +1678,7 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 %$
 \backslash
@@ -1718,7 +1687,8 @@ sigma$ order basis is at most $m
 sigma$.
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 
 \end_layout
 
@@ -1728,10 +1698,13 @@ sigma$.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Comment
-status collapsed
 
-\begin_layout Plain Layout
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Standard
+
 In fact, if 
 \begin_inset Formula $\mathbf{F}\left(0\right)$
 \end_inset
@@ -1752,8 +1725,7 @@ In fact, if
 \begin_inset Formula $m$
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \end_inset
@@ -1762,6 +1734,7 @@ In fact, if
 \end_layout
 
 \begin_layout Standard
+
 The fact that a 
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
 \end_inset
@@ -1774,17 +1747,14 @@ The fact that a
 \begin_inset Formula $O\left(m\sigma/n\right)$
 \end_inset
 
- implies that an order basis can have quite unbalanced column degrees, especiall
-y if 
+ implies that an order basis can have quite unbalanced column degrees, especially if 
 \begin_inset Formula $m$
 \end_inset
 
- is small.
- A similar problem with unbalanced output is encountered in null space basis
- computation.
- 
-\begin_inset CommandInset citation
-LatexCommand citet
+ is small. A similar problem with unbalanced output is encountered in null space basis computation. 
+\begin_inset LatexCommand citet
+after ""
+before ""
 key "storjohann-villard:2005"
 
 \end_inset
@@ -1793,12 +1763,12 @@ key "storjohann-villard:2005"
 \end_layout
 
 \begin_layout Standard
+
 Let 
 \begin_inset Formula $d$
 \end_inset
 
- be the average column degree of the output.
- Set the degree parameter 
+ be the average column degree of the output. Set the degree parameter 
 \begin_inset Formula $\delta$
 \end_inset
 
@@ -1806,21 +1776,15 @@ Let
 \begin_inset Formula $d$
 \end_inset
 
-.
- This allows one to compute at least half the columns of a basis (since
- the number of columns with degree at least 
+. This allows one to compute at least half the columns of a basis (since the number of columns with degree at least 
 \begin_inset Formula $\delta$
 \end_inset
 
- must be at most a half of the total number of columns).
- One can then simplify the problem, so that the computed basis elements
- are completely removed from the problem.
- This reduces the dimension of the problem by at least a factor of 
+ must be at most a half of the total number of columns). One can then simplify the problem, so that the computed basis elements are completely removed from the problem. This reduces the dimension of the problem by at least a factor of 
 \begin_inset Formula $2$
 \end_inset
 
-.
- One then doubles the degree bound 
+. One then doubles the degree bound 
 \begin_inset Formula $\delta$
 \end_inset
 
@@ -1828,8 +1792,7 @@ Let
 \begin_inset Formula $3/4$
 \end_inset
 
- of the basis elements computed.
- Repeating this, at iteration 
+ of the basis elements computed. Repeating this, at iteration 
 \begin_inset Formula $i$
 \end_inset
 
@@ -1837,8 +1800,7 @@ Let
 \begin_inset Formula $1/2^{i}$
 \end_inset
 
- of the basis elements are remaining.
- Therefore, no more than 
+ of the basis elements are remaining. Therefore, no more than 
 \begin_inset Formula $\log n$
 \end_inset
 
@@ -1846,16 +1808,18 @@ Let
 \end_layout
 
 \begin_layout Standard
+
+
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
-%We now have two ideas for efficient computation.
- Storjohann's transformation
+%We now have two ideas for efficient computation. Storjohann's transformation
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 
 \end_layout
 
@@ -1865,12 +1829,13 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 %for balancing the input and Storjohann and Villard's method for handling
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 
 \end_layout
 
@@ -1880,13 +1845,13 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
-%unbalanced output.
- 
+%unbalanced output. 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 
 \end_layout
 
@@ -1896,12 +1861,13 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 %In this paper, we discuss a way to compute order basis involving the
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 
 \end_layout
 
@@ -1911,17 +1877,17 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 %ideas of 
 \backslash
 citep{storjohann-villard:2005} and 
 \backslash
-citep{Storjohann:2006}.
- 
+citep{Storjohann:2006}. 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
 
 \end_layout
 

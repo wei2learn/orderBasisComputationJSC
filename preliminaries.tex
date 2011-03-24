@@ -5,16 +5,18 @@
 
 In this section, we provide some of the background needed in order
 to understand the basic concepts and tools needed for order basis
-computation. We give the basic definitions and look at the size of
-the input and the output for computing such bases.%
+computation. This includes basic definitions and a look at the size
+of the input and the output for computing such bases.%
 \begin{comment}
 , which provide lower bounds for the computational cost 
 \end{comment}
-{} We point out the challenges of balancing input and handling unbalanced
-output. We review the construction by \citet{Storjohann:2006} which
-transforms the inputs to those having dimensions and degree balance
-better suited for fast computation. We then discuss an idea from \citet{storjohann-villard:2005}
-for handling the case where the output degree is unbalanced.
+{} The challenges of balancing input and handling unbalanced output
+are discussed along with the techniques which we plan to use to overcome
+the difficulties. We review the construction by \citet{Storjohann:2006}
+which transforms the inputs to those having dimensions and degree
+balance better suited for fast computation and discuss an idea from
+\citet{storjohann-villard:2005} for handling the case where the output
+degree is unbalanced.
 
 
 \subsection{Order Basis}
@@ -85,13 +87,14 @@ does not depend on the shift $\vec{s}$.
 {}
 
 Although we allow different orders for each row in this definition,
-we focus on order basis computation problem with uniform order. However
-special cases of non-uniform order problems are still needed in our
-analysis. We also assume $m\le n$ for simplicity. The case of $m>n$
-can be transformed to the case of $m\le n$ by compression \citep{storjohann-villard:2005}.
-We further assume without loss of generality that $n/m$ and $\sigma$
-are powers of two, which can be achieved by padding zero rows to the
-input matrix and multiplying it by some power of $x$.
+we focus on order basis computation problems having uniform order.
+However special cases of non-uniform order problems are still needed
+in our analysis. We also assume $m\le n$ for simplicity. The case
+of $m>n$ can be transformed to the case of $m\le n$ by compression
+\citep{storjohann-villard:2005}. We further assume, without any loss
+of generality, that $n/m$ and $\sigma$ are powers of two. This can
+be achieved by padding zero rows to the input matrix and multiplying
+it by some power of $x$.
 
 From \citep{BL1997} we have the following two lemmas. 
 \begin{lem}
@@ -146,7 +149,7 @@ As before, the linear combination here is in fact unique.
 \end{comment}
 {}A $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)_{\delta}$-basis is,
 in general, not square unless $\delta$ is large enough to contain
-all $n$ basis elements making it a complete $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis.
+all $n$ basis elements in which case it is a complete $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis.
 
 
 \subsection{Balancing Input with Storjohann's Transformation}
@@ -190,23 +193,23 @@ use $\le$.
 \end{comment}
 {} for a positive integer $\delta$, and where we assume (again without
 loss of generality) that $\sigma=\left(l+1\right)\delta$. Set \[
-{\bar{\mathbf{F}}}=\left[\begin{array}{c|c}
-\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0}_{m,m\left(l-1\right)}\\
-\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta}\\
-\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{I}_{m\left(l-1\right)}\\
-\vdots\\
-\mathbf{F}_{l-1}+\mathbf{F}_{l}x^{\delta}\end{array}\right]_{ml\times(n+m(l-1))}.\]
- Note that each block $\mathbf{F}_{i}+\mathbf{F}_{i+1}x^{\delta}$
-has dimension $m\times n$ and $\bar{\mathbf{F}}$ has dimension $ml\times(n+m(l-1))$.
+{\bar{\mathbf{F}}}=\left[\begin{array}{c|cccc}
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & 0 & 0 & \cdots & 0\\
+\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & 0\\
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & 0 & \mathbf{I}_{m}\\
+\vdots &  &  & \ddots\\
+\mathbf{F}_{l-1}+\mathbf{F}_{l}x^{\delta} &  &  &  & \mathbf{I}_{m}\end{array}\right]_{ml\times(n+m(l-1))}.\]
+ Each block $\mathbf{F}_{i}+\mathbf{F}_{i+1}x^{\delta}$ has dimension
+$m\times n$ while $\bar{\mathbf{F}}$ has dimension $ml\times(n+m(l-1))$.
 Set $\vec{s'}=\left[\vec{s},0,\dots,0\right]$ ($\vec{s}$ followed
 by $m\left(l-1\right)$ $0$'s). A $({\bar{\mathbf{F}}},2\delta,\vec{s'})$-basis
-can then be computed by Giorgi et al.'s method with a cost of $O^{\sim}\left(\MM\left(n,\delta\right)\right)$
-for $\delta\ge\left\lceil m\sigma/n\right\rceil $. This transformation
-of Storjohann can be viewed as a partial linearization of the original
-problem, where $\bar{\mathbf{F}}$ is analogous to the coefficient
-matrix of $\mathbf{F}$. Note that $\bar{\mathbf{F}}$ has $l$ block
-rows each containing $m$ rows. We continue to use each block row
-to represent $m$ rows for the remainder of the paper.
+can then be computed by the method of Giorgi et al. with a cost of
+$O^{\sim}\left(\MM\left(n,\delta\right)\right)$ for $\delta\ge\left\lceil m\sigma/n\right\rceil $.
+This transformation of Storjohann can be viewed as a partial linearization
+of the original problem, where $\bar{\mathbf{F}}$ is analogous to
+the coefficient matrix of $\mathbf{F}$. Note that $\bar{\mathbf{F}}$
+has $l$ block rows each containing $m$ rows. We continue to use
+each block row to represent $m$ rows for the remainder of the paper.
 
 Clearly a $(\bar{\mathbf{F}},2\delta,\vec{s'})$-basis $\bar{\mathbf{P}}$
 of the transformed problem is not a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
@@ -228,18 +231,19 @@ $\delta=\Theta\left(\left\lceil d\right\rceil \right)$, the cost
 of computing a $({\bar{\mathbf{F}}},2\delta,\vec{s'})$-basis is then
 $O^{\sim}\left(\MM\left(n,d\right)\right)=O^{\sim}\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\right)$.
 The ceiling function here is used to take care of the case of $m\sigma<n$.
-For the remainder of the paper, we assume that $m\sigma\ge n$ to
-avoid this case for simplicity. Together with the assumption that
-$\sigma$ and $n/m$ are both powers of two, $m\sigma/n$ is then
-always a positive integer in this paper.
+For the remainder of the paper, we assume that $m\sigma\ge n$ in
+order to avoid the need for the ceiling function and so simplify the
+presentation. % avoid this case for simplicity. 
+Together with the assumption that $\sigma$ and $n/m$ are both powers
+of two, $m\sigma/n$ is then always a positive integer in this paper.
 
 %Let us now look at a concrete example that illustrate Storjohann's method. 
 
 \begin{exmp}
 \label{exm:StorjohannTransformation}Let $\mathbb{K}=\mathbb{Z}_{2}$,
 $\sigma=8$, $\delta=2$ and \[
-\mathbf{F}=[x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},1+x+x^{5}+x^{6}+x^{7},1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},1+x+x^{3}+x^{7}]_{1\times4}.\]
-Then \[
+\mathbf{F}=[x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},~1+x+x^{5}+x^{6}+x^{7},~1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},~1+x+x^{3}+x^{7}]\]
+ of size $1\times4$. Then \[
 \bar{\mathbf{F}}=\left[{\begin{array}{cccccc}
 x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
 1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & ~~1~ & ~0~\\
