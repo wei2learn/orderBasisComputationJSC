@@ -38,7 +38,6 @@
 \tracking_changes false
 \output_changes false
 \author "" 
-\author "" 
 \end_header
 
 \begin_body
@@ -344,7 +343,7 @@ reference "sub:particularCase"
 
 \end_inset
 
-, which is then generalized in 
+ and then generalize this in 
 \begin_inset CommandInset ref
 LatexCommand prettyref
 reference "sub:generalTransform"
@@ -376,7 +375,7 @@ Consider the problem of computing a
 
  
 \begin_inset Note Comment
-status collapsed
+status open
 
 \begin_layout Plain Layout
 (The results below hold for any positive integer great than one, but 4 is
@@ -390,11 +389,7 @@ for a positive integer
 \begin_inset Formula $\delta$
 \end_inset
 
- and write the input matrix 
-\begin_inset Formula $\mathbf{F}$
-\end_inset
-
- as 
+ and write the input matrix polynomial as 
 \begin_inset Formula $\mathbf{F}=\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\mathbf{F}_{3}x^{3\delta}$
 \end_inset
 
@@ -404,7 +399,7 @@ for a positive integer
 
 .
 \begin_inset Note Comment
-status collapsed
+status open
 
 \begin_layout Plain Layout
 again, changed from 
@@ -436,7 +431,7 @@ again, changed from
 \begin_inset Formula \begin{equation}
 \mathbf{F}'=\left[\begin{array}{cc}
 \mathbf{F} & \mathbf{0}\\
-\mathbf{F}'_{21} & \mathbf{F}'_{22}\end{array}\right]=\left[\begin{array}{l|cr}
+\mathbf{F}'_{21} & \mathbf{F}'_{22}\end{array}\right]=\left[\begin{array}{c|cr}
 \mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\mathbf{F}_{3}x^{3\delta} & \mathbf{0} & \mathbf{0}\\
 \hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & \mathbf{0}\\
 \mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0} & \mathbf{I}_{m}\end{array}\right]\label{eq:extendedSTransformTop}\end{equation}
@@ -486,7 +481,7 @@ again, changed from
 .
  
 \begin_inset Note Comment
-status collapsed
+status open
 
 \begin_layout Plain Layout
 actually true for 
@@ -547,7 +542,7 @@ key "Storjohann:2006"
 .
  
 \begin_inset Note Comment
-status collapsed
+status open
 
 \begin_layout Plain Layout
 In fact, it is quite easy to construct a 
@@ -642,6 +637,7 @@ reference "thm:mainTheorem"
 \end_inset
 
 .
+ 
 \end_layout
 
 \end_inset
@@ -651,28 +647,10 @@ reference "thm:mainTheorem"
 
 \begin_layout Standard
 We first look at the correspondence bettween the elements of 
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\noun off
-\color none
-
 \begin_inset Formula $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
 \end_inset
 
  and the elements of 
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\bar default
-\noun default
-\color inherit
-
 \begin_inset Formula $\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
 \end_inset
 
@@ -690,7 +668,8 @@ reference "lem:bqToqOrder"
 
 \end_inset
 
-, then look at the correspondence between 
+.
+ The correspondence between 
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
 \end_inset
 
@@ -698,7 +677,7 @@ reference "lem:bqToqOrder"
 \begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
--bases in 
+-bases is then considered in 
 \begin_inset CommandInset ref
 LatexCommand prettyref
 reference "cor:FtauBasisForm"
@@ -712,8 +691,7 @@ reference "thm:mainTheorem"
 
 \end_inset
 
-..
- 
+.
 \end_layout
 
 \begin_layout Standard
@@ -766,7 +744,7 @@ The lemma follows from
 \begin_inset Formula $\mathbf{B}\mathbf{q}$
 \end_inset
 
- is a polynomial vector as 
+ is a polynomial vector since 
 \begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma\right)\right\rangle $
 \end_inset
 
@@ -811,14 +789,10 @@ If
 \begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
 \end_inset
 
- 
-\shape up
-for any degree bound 
+ for any degree bound 
 \begin_inset Formula $\tau\in\mathbb{Z}$
 \end_inset
 
-
-\shape default
 , then 
 \begin_inset Formula $\deg_{\vec{s'}}\mathbf{B}\mathbf{q}=\deg_{\vec{s}}\mathbf{q}$
 \end_inset
@@ -839,11 +813,11 @@ By assumption
 \begin_inset Formula $2m$
 \end_inset
 
- entries 
+ entries, 
 \begin_inset Formula $\mathbf{q}_{2},\mathbf{q}_{3}$
 \end_inset
 
- of 
+, of 
 \begin_inset Formula \[
 \begin{bmatrix}\mathbf{q}\\
 \mathbf{q}_{2}\\
@@ -907,6 +881,9 @@ If
 
 \shape up
 .
+
+\shape default
+ 
 \end_layout
 
 \begin_layout Standard
@@ -977,7 +954,7 @@ Let
 \begin_inset Formula $\bar{\mathbf{S}}_{\tau}$
 \end_inset
 
- for any degree bound 
+ for any bound 
 \begin_inset Formula $\tau\in\mathbb{Z}$
 \end_inset
 
@@ -1005,7 +982,7 @@ reference "cor:sToBs"
 \begin_inset Formula $\mathbf{B}\mathbf{q}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
 \end_inset
 
-, hence is a linear combination of columns of 
+, and so is a linear combination of columns of 
 \begin_inset Formula $\bar{\mathbf{S}}_{\tau}$
 \end_inset
 
@@ -1082,9 +1059,10 @@ The top rows of
 \end_inset
 
 .
+ 
 \end_layout
 
-\begin_layout Proof
+\begin_layout Standard
 The next lemma shows a 
 \begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
@@ -1109,7 +1087,8 @@ reference "cor:FtauBasisForm"
 
 \end_inset
 
-, which helps to establish a close correspondence between a 
+.
+ This in turn helps to establish a close correspondence between a 
 \begin_inset Formula $(\mathbf{F}',\vec{\omega},\vec{s'})$
 \end_inset
 
@@ -1139,6 +1118,7 @@ reference "thm:mainTheorem"
 \end_inset
 
 .
+ 
 \end_layout
 
 \begin_layout Lemma
@@ -1159,9 +1139,9 @@ If
 -basis, then 
 \begin_inset Formula \begin{eqnarray*}
 \bar{\mathbf{T}} & = & \left[\mathbf{B}\mathbf{P}~\begin{array}{|c}
-\mathbf{0}_{n,2m}\\
+\mathbf{0}_{n\times2m}\\
 x^{2\delta}\mathbf{I}_{2m}\end{array}\right]=\left[\begin{array}{r|cc}
-\mathbf{P} & \mathbf{0}_{n,m} & \mathbf{0}_{n,m}\\
+\mathbf{P} & \mathbf{0}_{n\times m} & \mathbf{0}_{n\times m}\\
 \hline x^{-\delta}\mathbf{F}_{0}\cdot\mathbf{P} & x^{2\delta}\mathbf{I}_{m} & \mathbf{0}_{m}\\
 x^{-2\delta}\left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}\right)\cdot\mathbf{P} & \mathbf{0}_{m} & x^{2\delta}\mathbf{I}_{m}\end{array}\right]\end{eqnarray*}
 
@@ -1472,7 +1452,6 @@ reference "cor:linearCombinationOfFirstnRows"
 \end_inset
 
 -column reduced.
- 
 \end_layout
 
 \begin_layout Proof
@@ -1502,14 +1481,15 @@ reference "lem:bqToqOrder"
 \begin_inset Formula $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{2\delta-1}$
 \end_inset
 
-, hence by 
+.
+ Thus, by 
 \begin_inset CommandInset ref
 LatexCommand prettyref
 reference "lem:qToBqDegree"
 
 \end_inset
 
- 
+, 
 \begin_inset Formula $\mathbf{S}^{\left(1\right)}$
 \end_inset
 
@@ -1522,15 +1502,15 @@ reference "lem:qToBqDegree"
 \end_inset
 
 .
- Therefore, the 
-\begin_inset Formula $\vec{s'}$
-\end_inset
-
--column reducedness of 
+ Therefore, 
 \begin_inset Formula $\bar{\mathbf{S}}^{\left(1\right)}$
 \end_inset
 
- implies that 
+ being 
+\begin_inset Formula $\vec{s'}$
+\end_inset
+
+-column reduced implies that 
 \begin_inset Formula $\mathbf{S}^{\left(1\right)}$
 \end_inset
 
@@ -1548,7 +1528,7 @@ name "lem:2deltaBasis"
 
 \end_inset
 
-Let 
+ Let 
 \begin_inset Formula $\bar{\mathbf{S}}^{\left(12\right)}=[\bar{\mathbf{S}}^{\left(1\right)},\bar{\mathbf{S}}^{\left(2\right)}]$
 \end_inset
 
@@ -1557,19 +1537,18 @@ Let
 \end_inset
 
 -basis, with 
-\begin_inset Formula $\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(2\right)}=2\delta$
-\end_inset
-
- and 
 \begin_inset Formula $\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(1\right)}\le2\delta-1$
 \end_inset
 
-.
- Let 
+ and 
+\begin_inset Formula $\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(2\right)}=2\delta$
+\end_inset
+
+, and 
 \begin_inset Formula $\mathbf{S}^{\left(12\right)},\mathbf{S}^{\left(1\right)},\mathbf{S}^{\left(2\right)}$
 \end_inset
 
- be the first 
+ the first 
 \begin_inset Formula $n$
 \end_inset
 
@@ -1577,7 +1556,7 @@ Let
 \begin_inset Formula $\bar{\mathbf{S}}^{\left(12\right)},\bar{\mathbf{S}}^{\left(1\right)},\bar{\mathbf{S}}^{\left(2\right)}$
 \end_inset
 
- respectively.
+, respectively.
  Let 
 \begin_inset Formula $I$
 \end_inset
@@ -1587,19 +1566,31 @@ Let
 \begin_inset Formula $\mathbf{S}^{\left(12\right)}$
 \end_inset
 
-, which contains all columns of 
-\begin_inset Formula $\mathbf{S}^{\left(1\right)}$
-\end_inset
-
- by 
-\begin_inset CommandInset ref
-LatexCommand prettyref
-reference "lem:2delta-1Basis"
-
-\end_inset
-
 .
- Then the submatrix
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%which contains all columns of $
+\backslash
+mathbf{S}^{
+\backslash
+left(1
+\backslash
+right)}$ by 
+\backslash
+prettyref{lem:2delta-1Basis}.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Then the submatrix
 \series bold
  
 \begin_inset Formula $\mathbf{S}_{I}^{\left(12\right)}$
@@ -1640,7 +1631,7 @@ reference "lem:2delta-1Basis"
 
 \end_inset
 
-, we already know that 
+, we know that 
 \begin_inset Formula $\mathbf{S}^{\left(1\right)}$
 \end_inset
 
@@ -1745,7 +1736,8 @@ reference "lem:bqToqOrder"
 
 \end_inset
 
-, and by 
+.
+ From 
 \begin_inset CommandInset ref
 LatexCommand prettyref
 reference "cor:linearCombinationOfFirstnRows"
@@ -1893,15 +1885,15 @@ key "IbarraMH82"
 \end_inset
 
 's on the diagonal.
- Then the indices 
+ The indices, 
 \begin_inset Formula $I$
 \end_inset
 
- of the nonzero columns of 
+, of the nonzero columns of 
 \begin_inset Formula $S$
 \end_inset
 
- give 
+ then give 
 \begin_inset Formula $\mathbf{S}_{I}^{\left(12\right)}$
 \end_inset
 
@@ -1936,12 +1928,11 @@ Let
 \begin_inset Formula $\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(3\right)}\ge2\delta+1$
 \end_inset
 
-.
- Let 
+, and 
 \begin_inset Formula $\mathbf{S},\mathbf{S}^{\left(12\right)},\mathbf{S}^{\left(3\right)}$
 \end_inset
 
- be the first 
+ the first 
 \begin_inset Formula $n$
 \end_inset
 
@@ -1949,17 +1940,16 @@ Let
 \begin_inset Formula $\bar{\mathbf{S}},\bar{\mathbf{S}}^{\left(12\right)},\bar{\mathbf{S}}^{\left(3\right)}$
 \end_inset
 
- respectively.
- Let 
+, respectively.
+ If 
 \begin_inset Formula $I$
 \end_inset
 
- be the column rank profile of 
+ is the column rank profile of 
 \begin_inset Formula $\mathbf{S}^{\left(12\right)}$
 \end_inset
 
-.
- Then the submatrix
+, then the submatrix 
 \series bold
  
 \begin_inset Formula $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
@@ -2120,8 +2110,8 @@ reference "lem:FtoAbasis"
 \begin_inset Formula $\vec{s'}$
 \end_inset
 
--degrees respectively.
- Then we have 
+-degrees, respectively.
+ Then 
 \begin_inset Formula $\deg_{\vec{s}}\mathbf{S}^{\left(3\right)}\le\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(3\right)}=\deg_{\vec{s'}}\bar{\mathbf{T}}^{\left(3\right)}=\deg_{\vec{s}}\mathbf{P}^{\left(3\right)}$
 \end_inset
 
@@ -2203,16 +2193,15 @@ Let
 \end_inset
 
 .
- Let 
+ If 
 \begin_inset Formula $J$
 \end_inset
 
- be the column rank profile of 
+ is the column rank profile of 
 \begin_inset Formula $\lcoeff(x^{\vec{s}}\mathbf{S})$
 \end_inset
 
-.
- Then the submatrix 
+, then the submatrix 
 \begin_inset Formula $\mathbf{S}_{J}$
 \end_inset
 
@@ -2286,8 +2275,11 @@ reference "exm:StorjohannTransformation"
 \end_inset
 
 , 
+\begin_inset Formula $\check{\mathbf{F}}$
+\end_inset
+
+ is given by 
 \begin_inset Formula \begin{align*}
- & \check{\mathbf{F}}=\\
  & \left[{\begin{array}{cccccr}
 x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6} & \ 1+x+x^{5}+x^{6}+x^{7}\  & 1+x^{2}+x^{6}+x^{7} & \ 1+x+x^{3}+x^{7}\  & 0\  & 0\\
 1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & 1\  & 0\\
@@ -2295,11 +2287,11 @@ x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6} & \ 1+x+x^{5}+x^{6}+x^{7}\  & 1+x^{2}+x^{6}+x^{7
 
 \end_inset
 
- a 
+ and a 
 \begin_inset Formula $\left(\mathbf{F}',\left[8,4,4\right],\vec{0}\right)$
 \end_inset
 
--basis is 
+-basis is given as 
 \begin_inset Formula \[
 \left[\begin{array}{rccc|cc}
 1 & x & 1 & x^{2} & x^{2}+x^{4} & 1+x^{2}+x^{3}+x^{4}\\
@@ -2311,7 +2303,7 @@ x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6} & \ 1+x+x^{5}+x^{6}+x^{7}\  & 1+x^{2}+x^{6}+x^{7
 
 \end_inset
 
- A column reduction on the top 4 rows gives the top left 
+ Column reduction on the top 4 rows gives the top left 
 \begin_inset Formula $4\times4$
 \end_inset
 
@@ -2346,7 +2338,7 @@ The following two lemmas verify Storjohann's result in the case of degree
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$
 \end_inset
 
--basis, with the Storjohann transformed input matrix 
+-basis, with the transformed input matrix 
 \begin_inset Formula \begin{equation}
 \bar{\mathbf{F}}=\left[\begin{array}{l|cr}
 \mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0} & \mathbf{0}\\
@@ -2373,7 +2365,7 @@ If
 \begin_inset Formula $\mathbf{q}$
 \end_inset
 
- consists of the first 
+ denotes the first 
 \begin_inset Formula $n$
 \end_inset
 
@@ -2519,7 +2511,7 @@ name "lem:delta-1Basis"
 
 \end_inset
 
-If 
+ If 
 \begin_inset Formula $\bar{\mathbf{S}}_{\delta-1}$
 \end_inset
 
@@ -2531,11 +2523,11 @@ If
 \begin_inset Formula $n$
 \end_inset
 
- rows 
+ rows, 
 \begin_inset Formula $\mathbf{S}_{\delta-1}$
 \end_inset
 
- is a 
+, is a 
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$
 \end_inset
 
@@ -2559,30 +2551,30 @@ reference "lem:A_delta-1Form"
 \end_inset
 
 .
- Following 
+ Following Lemmas 
 \begin_inset CommandInset ref
-LatexCommand prettyref
+LatexCommand ref
 reference "lem:qToBqOrder"
 
 \end_inset
 
-, 
+ and 
 \begin_inset CommandInset ref
-LatexCommand prettyref
+LatexCommand ref
 reference "lem:qToBqDegree"
 
 \end_inset
 
-, 
+ and Corollaries 
 \begin_inset CommandInset ref
-LatexCommand prettyref
+LatexCommand ref
 reference "cor:sToBs"
 
 \end_inset
 
-, 
+ and 
 \begin_inset CommandInset ref
-LatexCommand prettyref
+LatexCommand ref
 reference "cor:linearCombinationOfFirstnRows"
 
 \end_inset
@@ -2595,7 +2587,7 @@ reference "cor:linearCombinationOfFirstnRows"
 \begin_inset Formula $2\delta$
 \end_inset
 
-), we can conclude that any 
+), we conclude that any 
 \begin_inset Formula $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$
 \end_inset
 
@@ -2615,7 +2607,7 @@ reference "lem:A_delta-1Form"
 
 \end_inset
 
- and 
+ and the columns of 
 \begin_inset Formula $\mathbf{S}_{\delta-1}$
 \end_inset
 
@@ -2642,15 +2634,16 @@ reference "lem:qToBqDegree"
 
 \end_inset
 
-, hence the 
-\begin_inset Formula $\vec{s'}$
-\end_inset
-
--column reducedness of 
+.
+ Hence 
 \begin_inset Formula $\bar{\mathbf{S}}_{\delta-1}$
 \end_inset
 
- implies that 
+ 
+\begin_inset Formula $\vec{s'}$
+\end_inset
+
+-column reduced implies that 
 \begin_inset Formula $\mathbf{S}_{\delta-1}$
 \end_inset
 
@@ -2684,12 +2677,12 @@ Let us now consider an immediate extension of the above results.
 
 -basis with a Storjohann transformed input matrix 
 \begin_inset Formula \[
-\bar{\mathbf{F}}^{\left(i\right)}=\left[\begin{array}{c|c}
-\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta^{\left(i\right)}} & \mathbf{0}_{n,m\left(l^{\left(i\right)}-1\right)}\\
-\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta^{\left(i\right)}}\\
-\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta^{\left(i\right)}} & \mathbf{I}_{m\left(l^{\left(i\right)}-1\right)}\\
-\vdots\\
-\mathbf{F}_{l^{\left(i\right)}-1}+\mathbf{F}_{l^{\left(i\right)}}x^{\delta^{\left(i\right)}}\end{array}\right]\]
+\bar{\mathbf{F}}^{\left(i\right)}=\left[\begin{array}{c|cccc}
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta^{\left(i\right)}} & \mathbf{0}_{m} & \cdots & \mathbf{\cdots} & \mathbf{0}_{m}\\
+\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta^{\left(i\right)}} & \mathbf{I}_{m}\\
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta^{\left(i\right)}} &  & \mathbf{I}_{m}\\
+\vdots &  &  & \ddots\\
+\mathbf{F}_{l^{\left(i\right)}-1}+\mathbf{F}_{l^{\left(i\right)}}x^{\delta^{\left(i\right)}} &  &  &  & \mathbf{I}_{m}\end{array}\right]_{ml^{(i)}\times(n+m(l^{(i)}-1))}\]
 
 \end_inset
 
@@ -2707,7 +2700,7 @@ Let us now consider an immediate extension of the above results.
 
 
 \begin_inset Note Comment
-status collapsed
+status open
 
 \begin_layout Plain Layout
 the base case is 
@@ -2737,7 +2730,7 @@ the base case is
 
  is the number of block rows
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Recall that 
@@ -2813,7 +2806,7 @@ reference "eq:extendedSTransformTop"
 
  
 \begin_inset Note Comment
-status collapsed
+status open
 
 \begin_layout Plain Layout
 This is not ideal, but no better idea.
@@ -2840,7 +2833,7 @@ This is not ideal, but no better idea.
 
  times
 \begin_inset Note Comment
-status collapsed
+status open
 
 \begin_layout Plain Layout
 Not sure if using this notation is a good thing to do, but it saves space
@@ -2878,7 +2871,7 @@ Not sure if using this notation is a good thing to do, but it saves space
  Let 
 \begin_inset Formula \[
 \mathbf{E}^{\left(i\right)}=\left[\begin{array}{c||cc|cc|cc|cc||cc}
-\mathbf{I}_{n} &  &  &  &  &  &  &  &  & \mathbf{0}_{n,m} & \mathbf{0}_{n,m}\\
+\mathbf{I}_{n} &  &  &  &  &  &  &  &  & \mathbf{0}_{n\times m} & \mathbf{0}_{n\times m}\\
 \hline\hline  & \mathbf{0}_{m} & \mathbf{I}_{m} &  &  &  &  &  &  & \ \\
 \hline  &  &  & \mathbf{0}_{m} & \mathbf{I}_{m} &  &  &  &  & \ \\
 \hline  &  &  &  &  & \ddots & \ddots &  &  & \ \\
@@ -2898,7 +2891,8 @@ Not sure if using this notation is a good thing to do, but it saves space
 \begin_inset Formula $(n+m(l^{\left(i\right)}-1))\times(n+m(l^{\left(i-1\right)}-1))$
 \end_inset
 
-, so 
+.
+ Thus 
 \begin_inset Formula $\mathbf{E}^{\left(i\right)}\mathbf{M}$
 \end_inset
 
@@ -2940,7 +2934,7 @@ reference "sub:particularCase"
 \end_inset
 
 , and 
-\begin_inset Formula $\mathbf{E}^{\left(i\right)}=\left[\mathbf{I}_{n},\mathbf{0}_{n,m},\mathbf{0}_{n,m}\right]$
+\begin_inset Formula $\mathbf{E}^{\left(i\right)}=\left[\mathbf{I}_{n},\mathbf{0}_{n\times m},\mathbf{0}_{n\times m}\right]$
 \end_inset
 
  is used to select the top 
@@ -3103,7 +3097,7 @@ If
 \end_layout
 
 \begin_layout Proof
-Again, this can be justified in the same way as 
+Again, this can be justified as done in 
 \begin_inset CommandInset ref
 LatexCommand prettyref
 reference "lem:delta-1Basis"

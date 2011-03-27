@@ -194,13 +194,15 @@ use $\le$.
 {} for a positive integer $\delta$, and where we assume (again without
 loss of generality) that $\sigma=\left(l+1\right)\delta$. Set \[
 {\bar{\mathbf{F}}}=\left[\begin{array}{c|cccc}
-\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & 0 & 0 & \cdots & 0\\
-\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & 0\\
-\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & 0 & \mathbf{I}_{m}\\
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0}_{m} & \mathbf{0}_{m} & \cdots & \mathbf{0}_{m}\\
+\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & \mathbf{0}_{m}\\
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0}_{m} & \mathbf{I}_{m}\\
 \vdots &  &  & \ddots\\
 \mathbf{F}_{l-1}+\mathbf{F}_{l}x^{\delta} &  &  &  & \mathbf{I}_{m}\end{array}\right]_{ml\times(n+m(l-1))}.\]
- Each block $\mathbf{F}_{i}+\mathbf{F}_{i+1}x^{\delta}$ has dimension
-$m\times n$ while $\bar{\mathbf{F}}$ has dimension $ml\times(n+m(l-1))$.
+On the left side of $\bar{\mathbf{F}}$, each block $\mathbf{F}_{i}+\mathbf{F}_{i+1}x^{\delta}$
+has dimension $m\times n$. On the right side, there are $l\times(l-1)$
+blocks of $\mathbf{0}_{m}$'s or $\mathbf{I}_{m}$'s each has dimension
+$m\times m$. The overall dimension of $\bar{\mathbf{F}}$ is $ml\times(n+m(l-1))$.
 Set $\vec{s'}=\left[\vec{s},0,\dots,0\right]$ ($\vec{s}$ followed
 by $m\left(l-1\right)$ $0$'s). A $({\bar{\mathbf{F}}},2\delta,\vec{s'})$-basis
 can then be computed by the method of Giorgi et al. with a cost of
