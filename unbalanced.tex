@@ -29,8 +29,8 @@ the condition:\[
  For simpler presentation, we use the equivalent condition \begin{equation}
 \vec{s}\le0\mbox{ and }\sum_{i}-\vec{s}_{i}\le m\sigma,\label{con:unbalancedCondition}\end{equation}
  which can always be obtained from the previous condition by using
-$\vec{s}-\max\vec{s}$ as the new shift, as translating every entry
-of the shift by the same constant does not change the problem.
+$\vec{s}-\max\vec{s}$ as the new shift. Note that translating every
+entry of the shift by the same constant does not change the problem.
 
 In the balanced shift case, a central problem is to find a way to
 handle unbalanced column degrees of the output order basis. In this
@@ -44,8 +44,9 @@ in \prettyref{sub:storjohannTransformation}. The transformed problem
 can then be computed efficiently using \prettyref{alg:mab}. After
 the computation, rows can then be combined appropriately to form a
 basis of the original problem. The method is computationally efficient.
-However, the bases computed this way are not minimal and hence do
-not produce our reduced order bases in general. In the following,
+
+Unfortunately, the bases computed this way are not minimal and hence
+do not in general produce our reduced order bases. In the following,
 we describe a transformation that incorporates Storjohann's second
 transformation and guarantees the minimality of some columns of the
 output, hence providing a partial order basis. We can then work on
@@ -60,7 +61,7 @@ section does not work directly. This suggests that one possible future
 direction to pursue is to find an effective way to estimate the row
 degree of the result pivot entries. Such an estimate may allow us
 to apply the method given in this section efficiently for general
-unbalanced shift.
+unbalanced shifts.
 
 
 \subsection{Transform to Balanced Shifts}
@@ -72,15 +73,15 @@ Let $\alpha,\beta\in\mathbb{Z}_{>0}$ be two parameters. For each
 shift entry $s_{i}$ in $\vec{s}$ with $-s_{i}>\alpha+\beta$, let
 \[
 r_{i}=\mbox{rem}\left(-s_{i}-\alpha-1,\beta\right)+1\]
- be the remainder when $-s_{i}-\alpha$ is divided by $\beta$ and
-$\beta$ in the case of the remainder is $0$ and set \[
+ be the remainder when $-s_{i}-\alpha$ is divided by $\beta$, and
+where $r_{i}=\beta$ in the case where the remainder is $0$, and
+set \[
 q_{i}=\begin{cases}
 1 & \mbox{if }-s_{i}\le\alpha+\beta\\
 1+\left(-s_{i}-\alpha-r_{i}\right)/\beta & \mbox{otherwise}\end{cases}\]
- Then for each $q_{i}>1$, we expand the corresponding $i$th column
+ Then, for each $q_{i}>1$, we expand the corresponding $i$th column
 $\mathbf{f}_{i}$ of $\mathbf{F}$ and shift $s_{i}$ to \begin{eqnarray*}
-\tilde{\mathbf{F}}^{\left(i\right)} & = & \left[~\mathbf{f}_{i},~x^{r_{i}}\mathbf{f}_{i},~x^{r_{i}+\beta}\mathbf{f}_{i},\dots,~\mathbf{f}_{i},x^{r_{i}+(q_{i}-2)\beta}\mathbf{f}_{i}\right]\\
-\tilde{s}_{i} & = & \left[-\alpha-\beta,\dots,-\alpha-\beta\right]\end{eqnarray*}
+\tilde{\mathbf{F}}^{\left(i\right)} & = & \left[~\mathbf{f}_{i},~x^{r_{i}}\mathbf{f}_{i},~x^{r_{i}+\beta}\mathbf{f}_{i},~\dots~,~x^{r_{i}+(q_{i}-2)\beta}\mathbf{f}_{i}\right],~~\tilde{s}_{i}=\left[-\alpha-\beta,~\dots~,-\alpha-\beta\right]\end{eqnarray*}
  with $q_{i}$ entries in each case. When $q_{i}=1$, the corresponding
 shift entry and input column remain the same, that is, $\tilde{s}_{i}=s_{i}$,
 and $\tilde{\mathbf{F}}^{\left(i\right)}=\mathbf{f}_{i}$. Then for
@@ -89,20 +90,21 @@ and the new input matrix becomes $\bar{\mathbf{F}}=[\tilde{\mathbf{F}}^{\left(1\
 with the new column dimension $\bar{n}$ satisfies $\bar{n}=\sum_{i=1}^{n}q_{i}$.
 Note that every entry of the new shift $\bar{s}$ is an integer from
 $-\alpha-\beta$ to $0$. Let \[
-\mathbf{E}=\left[\begin{array}{ccccc|c|ccccccc}
-1 & x^{r_{1}} & x^{r_{1}+\beta} & \cdots & x^{r_{1}+(q_{1}-2)\beta} & \\
-\hline  &  &  &  &  & \ddots\\
-\hline  &  &  &  &  &  & 1 & x^{r_{n}} & x^{r_{n}+\beta} & \cdots & x^{r_{n}+(q_{n}-2)\beta}\end{array}\right]_{n\times\bar{n}}.\]
+\mathbf{E}=\left[\begin{array}{ccccc|ccc|ccccccc}
+1 & x^{r_{1}} & x^{r_{1}+\beta} & \cdots & x^{r_{1}+(q_{1}-2)\beta} &  &  & \\
+\hline  &  &  &  &  & \ddots &  & \\
+ &  &  &  &  &  & \  & \ddots\\
+\hline  &  &  &  &  &  &  &  & 1 & x^{r_{n}} & x^{r_{n}+\beta} & \cdots & x^{r_{n}+(q_{n}-2)\beta}\end{array}\right]_{n\times\bar{n}}.\]
  Then $\bar{\mathbf{F}}=\mathbf{F}\mathbf{E}$. Storjohann's second
 transformation is determined by setting $\alpha=-1$, a value not
-allowed for in our transformation (we show later in \prettyref{thm:correctHighDegreeElements}
+allowed in our transformation (we show later in \prettyref{thm:correctHighDegreeElements}
 that this value is not useful in our case). One can verify that the
 new dimension \[
 \bar{n}=\sum_{i=1}^{n}q_{i}\le n+\sum_{i=1}^{n}-s_{i}/\beta\le m\sigma/\beta+n.\]
  Thus by setting $\beta\in\Theta\left(m\sigma/n\right)=\Theta\left(d\right)$,
 we can make $\bar{n}\in\Theta\left(n\right)$. Furthermore, by also
 setting $\alpha\in\Theta\left(d\right)$, we have a balanced shift
-problem as \[
+problem since \[
 \max\bar{s}-\min\bar{s}\le-\min\bar{s}\le\alpha+\beta\in\Theta(d).\]
  Hence \prettyref{alg:mab} can compute a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis
 with cost $O^{\sim}\left(n^{\omega}d\right)$ in this case.
@@ -120,18 +122,18 @@ are exactly the columns of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 whose $\vec{s}$-degrees exceed $-\alpha$. We have therefore correctly
 computed a partial $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis. 
 \begin{exmp}
-\label{exm:unbalancedShift} Use the same input as in \prettyref{exm:StorjohannTransformation},
-but with shift $\vec{s}=[0,-3,-5,-6]$, and also parameters $\alpha=\beta=1$,
-we get the transformed input \begin{align*}
-\bar{\mathbf{F}}=[ & x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},\,1+x+x^{5}+x^{6}+x^{7},x+x^{2}+x^{6}+x^{7}+x^{8},\\
- & 1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},\, x+x^{3}+x^{5}+x^{6}+x^{7}+x^{8},\, x^{2}+x^{4}+x^{6}+x^{7}+x^{8}+x^{9},\\
- & x^{3}+x^{5}+x^{7}+x^{8}+x^{9}+x^{10},\,1+x+x^{3}+x^{7},\, x+x^{2}+x^{4}+x^{8},\\
- & x^{2}+x^{3}+x^{5}+x^{9},\, x^{3}+x^{4}+x^{6}+x^{10},\, x^{4}+x^{5}+x^{7}+x^{11}]\end{align*}
- and $\bar{s}=[0,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2]$. In this example,
-$r_{1}=r_{2}=r_{3}=r_{4}=1$, $q_{1}=1$, $q_{2}=2$, $q_{3}=4$,
-$q_{4}=5$. The transformation matrix is \[
-\mathbf{E}=\left[{\begin{array}{r|rc|rccc|rcccc}
-1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+\label{exm:unbalancedShift} Let us use the same input as in \prettyref{exm:StorjohannTransformation},
+but with shift $\vec{s}=[0,-3,-5,-6]$, and parameters $\alpha=\beta=1$.
+Then we get the transformed input \begin{align*}
+\bar{\mathbf{F}}=[ & x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},\,~1+x+x^{5}+x^{6}+x^{7},\,~x+x^{2}+x^{6}+x^{7}+x^{8},\\
+ & 1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},\,~x+x^{3}+x^{5}+x^{6}+x^{7}+x^{8},\,~x^{2}+x^{4}+x^{6}+x^{7}+x^{8}+x^{9},\\
+ & x^{3}+x^{5}+x^{7}+x^{8}+x^{9}+x^{10},\,~1+x+x^{3}+x^{7},\,~x+x^{2}+x^{4}+x^{8},\\
+ & x^{2}+x^{3}+x^{5}+x^{9},\,~x^{3}+x^{4}+x^{6}+x^{10},\,~x^{4}+x^{5}+x^{7}+x^{11}]\end{align*}
+ having $12$ components, and $\bar{s}=[0,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2]$.
+In this case $r_{1}=r_{2}=r_{3}=r_{4}=1$, $q_{1}=1$, $q_{2}=2$,
+$q_{3}=4$, $q_{4}=5$ and the transformation matrix is \[
+\mathbf{E}=\left[{\begin{array}{c|cc|cccc|ccccc}
+~1~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~\\
 \hline 0 & 1 & x & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
 \hline 0 & 0 & 0 & 1 & x & x^{2} & x^{3} & 0 & 0 & 0 & 0 & 0\\
 \hline 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & x & x^{2} & x^{3} & x^{4}\end{array}}\right].\]
@@ -151,27 +153,27 @@ $q_{4}=5$. The transformation matrix is \[
 0 & 0 & 0 & 1 & 0 & ~x~ & 1 & 1 & 1 & 1 & 0 & 0\\
 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\end{array}}\right]\]
  with $\bar{s}$-degrees $[-1,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0]$.
-Only the last column has $\bar{s}$-degree exceeding $-\alpha=-1$.
-So the last column is the only column guaranteed to give a correct
-$(\mathbf{F},8,\vec{s})$-basis. Comparing \[
-\mathbf{E}\bar{\mathbf{P}}=\left[{\begin{array}{ccccccccccrr}
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+Only the last column has $\bar{s}$-degree exceeding $-\alpha=-1$
+and so is the only column guaranteed to give a correct $(\mathbf{F},8,\vec{s})$-basis.
+Comparing \[
+\mathbf{E}\bar{\mathbf{P}}=\left[{\begin{array}{cccccccccccc}
+0 & ~0~ & ~0~ & 0 & ~0~ & 0 & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~1~\\
 x & 1 & x & 0 & 1 & x^{2} & x^{2} & x^{2} & x^{2} & x^{2} & 0 & 0\\
 x+x^{2}+x^{3}+x^{4} & 1 & x & 1+x+x^{2}+x^{3} & 1 & 1+x+x^{3} & x^{2} & x^{2} & x^{2} & x^{2} & 0 & 1\\
 0 & x & x^{2} & 1+x^{3}+x^{4} & x & 1+x^{4} & x^{3} & x^{3} & x^{3} & x^{3} & 0 & 1\end{array}}\right]\]
  to a $(\mathbf{F},8,\vec{s})$-basis \[
-\mathbf{P}=\left[{\begin{array}{cccr}
-0 & 0 & 0 & 1\\
+\mathbf{P}=\left[{\begin{array}{cccc}
+~0~ & 0 & 0 & ~1~\\
 1 & 0 & 0 & 0\\
 1 & x^{2}+x^{3}+x^{4} & 1+x+x^{2}+x^{3} & 1\\
 x & x^{2} & 1+x^{3}+x^{4} & 1\end{array}}\right]\]
- with $\vec{s}$-degrees $[-3,-1,-2,0]$, notice that the last column
+ with $\vec{s}$-degrees $[-3,-1,-2,~0~]$, we see that the last column
 of $\mathbf{E}\bar{\mathbf{P}}$ is a element of a $(\mathbf{F},8,\vec{s})$-basis.
 
 If we set $\alpha=2,\beta=1$, then the new transformed problem gives
 \[
 \bar{\mathbf{P}}=\left[{\begin{array}{ccccccccc}
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~1~\\
 1 & 0 & 0 & x & 1+x & x & x & \, x\, & \,0\,\\
 1 & x^{2} & 1 & x & 1 & x & \, x\, & 0 & 1\\
 0 & x^{2} & 1 & \, x\, & 1 & \, x\, & 0 & 1 & 0\\
@@ -180,15 +182,15 @@ If we set $\alpha=2,\beta=1$, then the new transformed problem gives
 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
 \,0\, & \,0\, & \, x\, & 1+x & 1 & 1 & 1 & 1 & 0\\
 0 & 0 & x & 1 & 0 & 0 & 0 & 0 & 0\end{array}}\right]\]
- with $\bar{s}$-degrees $[-3,-1,-2,-2,-2,-2,-2,-2,0]$. Now the second
-column also has $\bar{s}$-degree exceeding $-\alpha=-2$, so it is
-guaranteed to produce another element of a $(\mathbf{F},8,\vec{s})$-basis.
+ with $\bar{s}$-degrees $[-3,-1,-2,-2,-2,-2,-2,-2,~0~]$. In this
+case the second column also has $\bar{s}$-degree exceeding $-\alpha=-2$,
+and so it is guaranteed to produce another element of a $(\mathbf{F},8,\vec{s})$-basis.
 Computing \[
-\mathbf{E}\bar{\mathbf{P}}=\left[{\begin{array}{ccccccccr}
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+\mathbf{E}\bar{\mathbf{P}}=\left[{\begin{array}{ccccccccc}
+~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~1~\\
 1 & 0 & 0 & x & 1+x & x & x & x & 0\\
 1 & x^{2}+x^{3}+x^{4} & 1+x+x^{2}+x^{3} & x & 1+x & x & x & x & 1\\
-x & x^{2} & 1+x^{3}+x^{4} & x^{2} & x+x^{2} & x^{2} & x^{2} & x^{2} & 1\end{array}}\right],\]
+x & x^{2} & 1+x^{3}+x^{4} & x^{2} & x+x^{2} & ~x^{2} & ~x^{2} & ~x^{2} & 1\end{array}}\right],\]
  we notice the second column is indeed an element of a $(\mathbf{F},8,\vec{s})$-basis. 
 \end{exmp}
 
@@ -230,7 +232,7 @@ Let \[
 such that $\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}$ has one of the
 following two forms. 
 \begin{description}
-\item [{{(a)}}] The first form is \textup{\[
+\item [{{{(a)}}}] The first form is \textup{\[
 \mathbf{w}^{[1]}=\begin{bmatrix}\mathbf{w}_{1}^{[1]}\\
 \vdots\\
 \mathbf{w}_{n}^{[1]}\end{bmatrix}\mbox{ with }\mathbf{w}_{i}^{[1]}=\begin{bmatrix}w_{i}\\
@@ -238,18 +240,15 @@ following two forms.
 \vdots\\
 0\end{bmatrix}_{q_{i}\times1},\]
  } where \textup{$w_{i}=\bar{w}_{i,0}+\bar{w}_{i,1}x^{r_{i}}+\bar{w}_{i,2}x^{r_{i}+\beta}+\cdots+\bar{w}_{i,q_{i}-1}x^{r_{i}+(q_{i}-2)\beta}$.} 
-\item [{{(b)}}] Let \[
-t_{i,j}=\begin{cases}
-r_{i} & \mbox{if }j=0\\
-\beta & \mbox{if }j\in\{1,\dots,q_{i}-2\}\end{cases}.\]
- Then the second form is \[
+\item [{{{(b)}}}] The second form is \[
 \mathbf{w}^{[2]}=\begin{bmatrix}\mathbf{w}_{1}^{[2]}\\
 \vdots\\
 \mathbf{w}_{n}^{[2]}\end{bmatrix}\mbox{ with }\mathbf{w}_{i}^{[2]}=\begin{bmatrix}w_{i,0}\\
 \vdots\\
 w_{i,q_{i}-1}\end{bmatrix},\]
- where $\deg w_{i,j}<t_{i,j}\le\beta$ unless $j=q_{i}-1$. Note that
-there is no degree restriction on $w_{i,q_{i}-1}$. 
+ where $\deg w_{i,j}<r_{i}\le\beta$ when $j=0$ and $\deg w_{i,j}<\beta$
+when $j\in\{1,\dots,q_{i}-2\}$. There is no degree restriction on
+$w_{i,q_{i}-1}$. 
 \end{description}
 \end{lem}
 \begin{pf}
@@ -266,12 +265,15 @@ form. Note that $\mathbf{u}_{i}^{[1]}$ is empty if $q_{i}=1$ and
 $\bar{\mathbf{w}}_{i}=\mathbf{w}_{i}^{[1]}=[\bar{w}_{i,0}]$ is not
 changed by the transformation.
 
-The second form can be obtained based on the first form. Write $w_{i}$
-from the first form as \begin{equation}
+The second form can be obtained based on the first form. Let \[
+t_{i,j}=\begin{cases}
+r_{i} & \mbox{if }j=0\\
+\beta & \mbox{if }j\in\{1,\dots,q_{i}-2\}\end{cases}\]
+ and write $w_{i}$ from the first form as \begin{equation}
 w_{i}=w_{i,0}+w_{i,1}x^{r_{i}}+w_{i,2}x^{r_{i}+\beta}+\cdots+w_{i,q_{i}-1}x^{r_{i}+(q_{i}-2)\beta}\label{eq:wiSeparatedForm}\end{equation}
- with $\deg w_{i,j}<t_{i,j}$ for $j<q_{i}-1$. Note that $w_{i,j}\ne\bar{w}_{i,j}$
-in general, as $\deg\bar{w}_{i,j}$ may not be less than $t_{i,j}$.
-Now set \[
+ with $\deg w_{i,j}<t_{i,j}$ for $j<q_{i}-1$. Note that in general
+$w_{i,j}\ne\bar{w}_{i,j}$, as $\deg\bar{w}_{i,j}$ may not be less
+than $t_{i,j}$. Now set \[
 \mathbf{v}=\begin{bmatrix}\mathbf{v}_{1}\\
 \vdots\\
 \mathbf{v}_{n}\end{bmatrix}\mbox{ with }\mathbf{v}_{i}=\left[\begin{array}{r}
@@ -281,21 +283,23 @@ w_{i,2}+w_{i,3}x^{\beta}+\cdots+w_{i,q_{i}-1}x^{(q_{i}-3)\beta}\\
 w_{i,q_{i}-1}\end{array}\right]\]
  and $\mathbf{u}^{[2]}=\mathbf{u}^{[1]}-\mathbf{v}$, which comes
 from the unimodular transformation \[
-\left[\bar{\mathbf{w}},\mathbf{A}\right]\left[\begin{array}{cc}
+\left[\bar{\mathbf{w}},\mathbf{A}\right]\left[\begin{array}{c|c}
 1\\
-\mathbf{\mathbf{u}}^{[1]} & \mathbf{I}\end{array}\right]\begin{bmatrix}1\\
--\mathbf{v} & \mathbf{I}\end{bmatrix}=\left[\bar{\mathbf{w}},\mathbf{A}\right]\begin{bmatrix}1\\
-\mathbf{u}^{[1]}-\mathbf{v} & \mathbf{I}\end{bmatrix}.\]
+\hline \mathbf{\mathbf{u}}^{[1]} & \mathbf{I}\end{array}\right]\left[\begin{array}{c|c}
+1\\
+\hline -\mathbf{v} & \mathbf{I}\end{array}\right]=\left[\bar{\mathbf{w}},\mathbf{A}\right]\left[\begin{array}{c|c}
+1\\
+\hline \mathbf{u}^{[1]}-\mathbf{v} & \mathbf{I}\end{array}\right].\]
  Then $\mathbf{w}^{[2]}=\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}^{[2]}$
 is in the second form. Again note that $\mathbf{v}_{i}$ and $\mathbf{u}_{i}^{[2]}$
 are empty if $q_{i}=1$ and $\mathbf{w}_{i}^{[2]}=\bar{\mathbf{w}}_{i}=[\bar{w}_{i,0}]$.\end{pf}
 \begin{lem}
 \label{lem:degreeCorrespondence}Let $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $
-and $\mathbf{w}^{[2]}$ be its the second form. If $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}>-\alpha$
+and $\mathbf{w}^{[2]}$ be in the second form. If $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}>-\alpha$
 or $\deg_{\bar{s}}\mathbf{w}^{[2]}>-\alpha$, then $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}=\deg_{\bar{s}}\mathbf{w}^{[2]}$. \end{lem}
 \begin{pf}
 Consider the $i$th entry $w_{i}$ of $\mathbf{E}\bar{\mathbf{w}}$
-and its corresponding entries $\mathbf{w}_{i}^{[2]}=\left[w_{i,0},\dots,w_{i,q_{i}-1}\right]^{T}$
+and the corresponding entries $\mathbf{w}_{i}^{[2]}=\left[w_{i,0},\dots,w_{i,q_{i}-1}\right]^{T}$
 in $\mathbf{w}^{[2]}$. If $q_{i}=1$, then $w_{i}=w_{i,0}$ and the
 corresponding shifts satisfies $s_{i}=\bar{s}_{\ell(i)}$, where $\ell(i)=\sum_{k=1}^{i}q_{k}$.
 Hence $\deg w_{i}+s_{i}=\deg w_{i,0}+\bar{s}_{\ell(i)}$. Thus we
@@ -307,9 +311,9 @@ It follows that \begin{eqnarray*}
 \deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}} & = & \max_{i}(\deg w_{i}+s_{i})=\max_{i}(\deg w_{i,q_{i}-1}+\bar{s}_{\ell(i)})\\
  & \le & \max_{i,j}\left(\deg w_{i,j}+\bar{s}_{\ell(i-1)+j+1}\right)=\deg_{\bar{s}}\mathbf{w}^{[2]}.\end{eqnarray*}
  The only possible indices $j$ where the inequality can be strict
-occur when $j<q_{i}-1$. But since $\deg w_{i,j}<\beta$ for all $j<q_{i}-1$,
+occur when $j<q_{i}-1$. But $\deg w_{i,j}<\beta$ for all $j<q_{i}-1$,
 which implies $\deg w_{i,j}+\bar{s}_{\ell(i-1)+j+1}=\deg w_{i,j}-\alpha-\beta<-\alpha$,
-it follows that the entries at these indices $j$ do not contribute
+and so it follows that the entries at these indices $j$ do not contribute
 to $\deg_{\bar{s}}\mathbf{w}^{[2]}$ when $\deg_{\bar{s}}\mathbf{w}^{[2]}>-\alpha$
 or $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}=\max_{i}(\deg w_{i,q_{i}-1}+\bar{s}_{\ell(i)})>-\alpha$.
 In other words, if one of them exceeds $-\alpha$, then $\deg_{\bar{s}}\mathbf{w}^{[2]}$
@@ -328,7 +332,7 @@ which is just $\mathbf{E}\bar{\mathbf{w}}$ with zero rows added,
 and the second form $\bar{\mathbf{w}}^{[2]}$ of $\bar{\mathbf{w}}$.\end{rem}
 \begin{cor}
 \label{cor:degreeCorrespondence}Let $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $
-and $\mathbf{w}^{[2]}$ be its the second form. Then $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}>-\alpha$
+and $\mathbf{w}^{[2]}$ be its second form. Then $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}>-\alpha$
 if and only if $\deg_{\bar{s}}\mathbf{w}^{[2]}>-\alpha$.\end{cor}
 \begin{pf}
 The proof follows directly from \prettyref{lem:degreeCorrespondence}.\end{pf}
@@ -346,9 +350,9 @@ $w_{i}=\bar{w}_{i,0}+\bar{w}_{i,1}x^{r_{i}}+\bar{w}_{i,2}x^{r_{i}+\beta}+\cdots+
 we get \[
 \deg w_{i}=\max\left\{ \deg\bar{w}_{i,0},\deg\bar{w}_{i,1}+r_{i},\deg\bar{w}_{i,2}+r_{i}+\beta,\dots,\deg\bar{w}_{i,q_{i}-2}+r_{i}+(q_{i}-2)\beta\right\} .\]
  Then \begin{eqnarray*}
- &  & \deg w_{i}+s_{i}\\
- & = & \deg w_{i}-r_{i}-\alpha-\beta(q_{i}-1)\\
- & = & \max\left\{ \deg\bar{w}_{i,0}-r_{i}-\alpha-\beta(q_{i}-1),\deg\bar{w}_{i,1}-\alpha-\beta(q_{i}-1),\dots,\deg\bar{w}_{i,q_{i}-2}-\alpha-\beta\right\} \\
+\deg w_{i}+s_{i} & = & \deg w_{i}-r_{i}-\alpha-\beta(q_{i}-1)\\
+ & = & \max\left\{ \deg\bar{w}_{i,0}-r_{i}-\alpha-\beta(q_{i}-1),~\deg\bar{w}_{i,1}-\alpha-\beta(q_{i}-1),~\dots,\right.\\
+ &  & \left.~~~~~~~~~~~~~~\dots,\deg\bar{w}_{i,q_{i}-2}-\alpha-\beta\right\} \\
  & \le & \max\left\{ \deg\bar{w}_{i,0}-\alpha-\beta,\deg\bar{w}_{i,1}-\alpha-\beta,\dots,\deg\bar{w}_{i,q_{i}-2}-\alpha-\beta\right\} ,\end{eqnarray*}
  and so $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}\le\deg_{\bar{s}}\bar{\mathbf{w}}$.\end{pf}
 \begin{cor}
@@ -470,10 +474,10 @@ are minimal. Suppose not, then $[\mathbf{P}_{1},\mathbf{E}\bar{\mathbf{P}}_{2}]$
 can be reduced to $[\mathbf{P}_{1},\tilde{\mathbf{P}}_{2}]$ where
 $\tilde{\mathbf{P}}_{2}$ has a column having lower $\vec{s}$-degree
 than that of the corresponding column in $\mathbf{E}\bar{\mathbf{P}}_{2}$.
-(That is, assuming the columns of $\tilde{\mathbf{P}}_{2}$ and $\mathbf{E}\bar{\mathbf{P}}_{2}$
+That is, assuming the columns of $\tilde{\mathbf{P}}_{2}$ and $\mathbf{E}\bar{\mathbf{P}}_{2}$
 are in non-decreasing $\vec{s}$-degrees order, then we can find the
 first index $i$ where the $\vec{s}$-degree of $i$th column of $\tilde{\mathbf{P}}_{2}$
-is lower than the $\vec{s}$-degree of the $i$th column of $\mathbf{E}\bar{\mathbf{P}}_{2}$.)
+is lower than the $\vec{s}$-degree of the $i$th column of $\mathbf{E}\bar{\mathbf{P}}_{2}$.
 It follows that $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\mathbf{E}\bar{\mathbf{P}}_{2}]$
 can be reduced to $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\tilde{\mathbf{P}}_{2}]$
 and $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\mathbf{E}\bar{\mathbf{P}}_{2},\mathbf{A}]$
@@ -514,7 +518,7 @@ the minimality of $\bar{\mathbf{P}}$.
 a high degree part of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 can be determined by computing a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis,
 something we know can be done efficiently. Notice the parallel between
-the situation here and in the balanced shift case earlier, where the
+the situation here and in the earlier balanced shift case, where the
 transformed problem also allows us to compute a partial $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis,
 albeit a low degree part, in each iteration.
 
@@ -549,17 +553,17 @@ $\vec{s}$-degree of $\mathbf{p}$ is lower than or equal to $-\alpha$.
 Thus, these zero entries do not need to be considered in the remaining
 problem of computing a $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$-basis.
 As such the corresponding columns from the input matrix $\mathbf{F}$
-can be removed.
+can be removed. 
 \begin{exmp}
-Let us look at \prettyref{exm:unbalancedShift} again. When the parameters
+Let us return to \prettyref{exm:unbalancedShift}. When the parameters
 $\alpha=\beta=1$, after computing an element of a $(\mathbf{F},8,\vec{s})$-basis
-with $\vec{s}$-degree $0$ that exceeds $-\alpha=-1$, since the
-first entry of $\vec{s}=[0,-3,-5,-6]$ is $0>-\alpha$, by \prettyref{thm:zeroHighShiftEntries}
-the first row of any $\left(\mathbf{F},\sigma,\vec{s}\right)_{-1}$-basis
-must be zero, as illustrated by the $(\mathbf{F},8,\vec{s})$-basis
-$\mathbf{P}$ given in \prettyref{exm:unbalancedShift}. This implies
-that the first column of $\mathbf{F}$ is not needed in the subsequent
-computation of the remaining basis elements.\end{exmp}
+with $\vec{s}$-degree $0$ that exceeds $-\alpha=-1$, the first
+row of any $\left(\mathbf{F},\sigma,\vec{s}\right)_{-1}$-basis must
+be zero by \prettyref{thm:zeroHighShiftEntries} (since the first
+entry of $\vec{s}=[0,-3,-5,-6]$ is $0>-\alpha$). This is illustrated
+by the $(\mathbf{F},8,\vec{s})$-basis $\mathbf{P}$ given in \prettyref{exm:unbalancedShift}.
+This implies that the first column of $\mathbf{F}$ is not needed
+in the subsequent computation of the remaining basis elements.\end{exmp}
 \begin{cor}
 \label{cor:numberBasisElements}If the shift $\vec{s}$ satisfies
 condition \eqref{con:unbalancedCondition} and $c$ is a constant
@@ -571,18 +575,18 @@ there cannot be more than $n/c$ entries of $\vec{s}$ less than or
 equal to $-cd$. By \prettyref{thm:zeroHighShiftEntries}, the only
 possible nonzero rows of a $\left(\mathbf{F},\sigma,\vec{s}\right)_{-cd}$-basis
 are the ones corresponding to (with the same indices as) the shift
-entries that are less than or equal to $-cd$, hence there cannot
-be more than $n/c$ nonzero rows. Therefore it can have at most $n/c$
-columns, as the columns are linearly independent. 
+entries that are less than or equal to $-cd$. Hence there cannot
+be more than $n/c$ nonzero rows and at most $n/c$ columns, as the
+columns are linearly independent. 
 \end{pf}
-We now have a situation similar to that in the balanced shift case.
-Namely, for each iteration we transform the problem using appropriate
+We now have a situation similar to that found in the balanced shift
+case. Namely, for each iteration we transform the problem using appropriate
 parameters $\alpha$ and $\beta$ to efficiently compute the basis
 elements with degrees greater than $-\alpha$. Then we can remove
 columns from the input matrix $\mathbf{F}$ corresponding to the shift
 entries that are greater than $-\alpha$. We can then repeat the same
-process again, with a larger $\alpha$ and $\beta$, to compute more
-basis elements. 
+process again, with a larger $\alpha$ and $\beta$, in order to compute
+more basis elements. 
 \begin{thm}
 If the shift $\vec{s}$ satisfies condition \eqref{con:unbalancedCondition},
 then a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis can be computed
@@ -605,8 +609,9 @@ $n_{2}\le n/2$ and the corresponding shift $\vec{s}^{\left(2\right)}$
 has $n_{2}$ entries. The average degree of the new problem is $d_{2}~=~m\sigma/n_{2}$.
 
 For the second iteration, we set $\alpha_{2}$ and $\beta_{2}$ to
-$2d_{2}$. Since $\alpha_{2}=2m\sigma/n_{2}\ge-2\sum_{i=1}^{n}s_{i}/n_{2}\ge-2\sum_{i=1}^{n_{2}}s_{i}^{\left(2\right)}/n_{2}$,
-this allows us to reduce the dimension $n_{3}$ of $\mathbf{F}_{3}$
+$2d_{2}$. Since \[
+\alpha_{2}=2m\sigma/n_{2}\ge-2\sum_{i=1}^{n}s_{i}/n_{2}\ge-2\sum_{i=1}^{n_{2}}s_{i}^{\left(2\right)}/n_{2},\]
+ this allows us to reduce the dimension $n_{3}$ of $\mathbf{F}_{3}$
 to at most $n_{2}/2$ after finishing computing a $\left(\bar{\mathbf{F}}_{2},\sigma,\bar{s}^{\left(2\right)}\right)_{-\alpha_{1}}$-basis.
 Again, this can be done using \prettyref{alg:mab} with a cost of
 $O^{\sim}\left(n_{2}^{\omega}d_{2}\right)=O^{\sim}\left(n^{\omega}d\right)$
@@ -626,7 +631,7 @@ column dimension $n_{i}$ of the input matrix $\mathbf{F}_{i}$ reaches
 the row dimension $m$, as an order basis can be efficiently computed
 in such case. Therefore, a complete $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 can be computed in at most $\log(n/m)$ iterations, so the overall
-cost is $O^{\sim}\left(n^{\omega}d\right)$.
+cost is $O^{\sim}\left(n^{\omega}d\right)$. 
 \end{pf}
 \input{algorithm2.tex} Finally, we remark that when the condition
 \eqref{con:unbalancedCondition} is relaxed to $\sum_{i=1}^{n}-s_{i}\in O\left(m\sigma\right)$,

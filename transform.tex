@@ -539,7 +539,7 @@ in $\vec{\omega}^{\left(i\right)}$ correspond to the degree $2\delta^{\left(i\ri
 degree $\delta^{\left(i\right)}-1$ rows in $\mathbf{F}'^{\left(i\right)}$
 respectively. Let \[
 \mathbf{E}^{\left(i\right)}=\left[\begin{array}{c||cc|cc|cc|cc||cc}
-\mathbf{I}_{n} &  &  &  &  &  &  &  &  & \mathbf{0}_{n,m} & \mathbf{0}_{n,m}\\
+\mathbf{I}_{n} &  &  &  &  &  &  &  &  & \mathbf{0}_{n\times m} & \mathbf{0}_{n\times m}\\
 \hline\hline  & \mathbf{0}_{m} & \mathbf{I}_{m} &  &  &  &  &  &  & \ \\
 \hline  &  &  & \mathbf{0}_{m} & \mathbf{I}_{m} &  &  &  &  & \ \\
 \hline  &  &  &  &  & \ddots & \ddots &  &  & \ \\
@@ -551,7 +551,7 @@ the first $n$ rows and the even block rows from the remaining rows
 except the last block row for a matrix $\mathbf{M}$ with $n+m(l^{\left(i-1\right)}-1)$
 rows. In particular, if $i=\log\left(n/m\right)-1$, then $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})=(\mathbf{F}',\vec{\omega},\vec{s'})$,
 which for $d=m\sigma/n$ gives the problem considered earlier in \prettyref{sub:particularCase},
-and $\mathbf{E}^{\left(i\right)}=\left[\mathbf{I}_{n},\mathbf{0}_{n,m},\mathbf{0}_{n,m}\right]$
+and $\mathbf{E}^{\left(i\right)}=\left[\mathbf{I}_{n},\mathbf{0}_{n\times m},\mathbf{0}_{n\times m}\right]$
 is used to select the top $n$ rows of a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis
 for a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis to be extracted.
 
