@@ -6,7 +6,7 @@
 In this section, we establish a link between two different Storjohann
 transformed problems by dividing the transformed problem from the
 previous section into two subproblems and then simplifying the second
-subproblem. This leads to a recursive way of computing order bases.
+subproblem. This leads to a recursive method for computing order bases.
 We also present an equivalent, iterative method for computing order bases.
 The iterative approach is usually more efficient in practice, as it uses 
 just one iteration in the generic case.
@@ -19,7 +19,7 @@ of computing a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis and, more generally,
 that the computation of a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis,
 a Storjohann transformed problem with degree parameter $\delta^{\left(i\right)}$,
 can be converted to the problem of computing a $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$-basis.
-We now consider dividing the new converted problem to two subproblems.
+We now consider dividing the new converted problem into two subproblems.
 
 The first subproblem is to compute a $(\mathbf{F}'^{\left(i\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
 or equivalently a $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
@@ -35,7 +35,7 @@ and $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\m
 \begin{exmp}
 \label{exm:subproblems} Let us continue with 
 \prettyref{exm:StorjohannTransformation}
-and \prettyref{exm:auxiliaryTransformation} to compute a $\left(\mathbf{F},8,\vec{0}\right)$-basis
+and \prettyref{exm:auxiliaryTransformation} in order to compute a $\left(\mathbf{F},8,\vec{0}\right)$-basis
 (or equivalently a $(\bar{\mathbf{F}}^{\left(2\right)},8,\vec{0})$-basis).
 This can be determined by computing a $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
 as shown in \prettyref{exm:auxiliaryTransformation} where we have $\mathbf{F}'^{\left(2\right)}=\mathbf{F}'$.
@@ -54,7 +54,7 @@ of column degrees of $\bar{\mathbf{P}}^{(1)}$ and so the second subproblem
 is to compute a $(\mathbf{F}'^{(2)}\bar{\mathbf{P}}^{(1)},\left[8,4,4\right],[0,1,2,3,3,3])$-basis,
 which is \begin{equation}
 \bar{\mathbf{Q}}^{(2)}=\left[{\begin{array}{cccccc}
-~1~ & ~0~ & 0 & 0 & 0 & 0\\
+~~1~ & ~~0~ & ~0~ & ~0~ & ~0~ & ~0~\\
 0 & 1 & 0 & 0 & 0 & 0\\
 0 & 0 & 1 & ~x^{2}~ & ~x~ & ~1~\\
 0 & 0 & 0 & 0 & x & 0\\

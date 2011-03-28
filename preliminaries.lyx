@@ -681,7 +681,7 @@ In some cases an entire order basis is unnecessary and instead one looks for a m
 \begin_inset Formula $\delta$
 \end_inset
 
-. Such minimal basis is a partial 
+. Such a minimal basis is a partial 
 \begin_inset Formula $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$
 \end_inset
 
@@ -1015,7 +1015,7 @@ I used
 \begin_inset Formula $\mathbf{I}_{m}$
 \end_inset
 
-'s each has dimension 
+'s each having dimension 
 \begin_inset Formula $m\times m$
 \end_inset
 
@@ -1266,7 +1266,7 @@ Let
 \mathbf{F}=[x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},~1+x+x^{5}+x^{6}+x^{7},~1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},~1+x+x^{3}+x^{7}]\]
 \end_inset
 
- of size 
+ a vector of size 
 \begin_inset Formula $1\times4$
 \end_inset
 
@@ -1275,7 +1275,8 @@ Let
 \bar{\mathbf{F}}=\left[{\begin{array}{cccccc}
 x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
 1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & ~~1~ & ~0~\\
-1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]_{3\times6}\]
+1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]_{3\times6}
+\]
 \end_inset
 
  and a 

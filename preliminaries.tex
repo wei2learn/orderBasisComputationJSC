@@ -127,7 +127,7 @@ can be expressed as a linear combination of the columns of $\mathbf{P}$.
 \end{lem}
 In some cases an entire order basis is unnecessary and instead one
 looks for a minimal basis that generates only the elements of $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
-with $\vec{s}$-degrees bounded by a given $\delta$. Such minimal
+with $\vec{s}$-degrees bounded by a given $\delta$. Such a minimal
 basis is a partial $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis
 comprised of elements of a $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis
 with $\vec{s}$-degrees bounded by $\delta$. This is called a \emph{minbasis}
@@ -203,7 +203,7 @@ loss of generality) that $\sigma=\left(l+1\right)\delta$. Set \[
 \mathbf{F}_{l-1}+\mathbf{F}_{l}x^{\delta} &  &  &  & \mathbf{I}_{m}\end{array}\right]_{ml\times(n+m(l-1))}.\]
 On the left side of $\bar{\mathbf{F}}$, each block $\mathbf{F}_{i}+\mathbf{F}_{i+1}x^{\delta}$
 has dimension $m\times n$. On the right side, there are $l\times(l-1)$
-blocks of $\mathbf{0}_{m}$'s or $\mathbf{I}_{m}$'s each has dimension
+blocks of $\mathbf{0}_{m}$'s or $\mathbf{I}_{m}$'s each having dimension
 $m\times m$. The overall dimension of $\bar{\mathbf{F}}$ is $ml\times(n+m(l-1))$.
 Set $\vec{s'}=\left[\vec{s},0,\dots,0\right]$ ($\vec{s}$ followed
 by $m\left(l-1\right)$ $0$'s). A $({\bar{\mathbf{F}}},2\delta,\vec{s'})$-basis
@@ -247,12 +247,14 @@ of two, $m\sigma/n$ is then always a positive integer in this paper.
 \label{exm:StorjohannTransformation}Let $\mathbb{K}=\mathbb{Z}_{2}$,
 $\sigma=8$, $\delta=2$ and \[
 \mathbf{F}=[x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},~1+x+x^{5}+x^{6}+x^{7},~1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},~1+x+x^{3}+x^{7}]\]
- of size $1\times4$. Then \[
+a vector of size $1\times4$. Then 
+\[
 \bar{\mathbf{F}}=\left[{\begin{array}{cccccc}
 x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
 1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & ~~1~ & ~0~\\
-1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]_{3\times6}\]
- and a $\left(\bar{\mathbf{F}},4,\vec{0}\right)$-basis is given by
+1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]_{3\times6}
+\]
+and a $\left(\bar{\mathbf{F}},4,\vec{0}\right)$-basis is given by
 \[
 \bar{\mathbf{P}}=\left[{\begin{array}{cc|cccc}
 ~1~ & ~x~ & 1 & x^{2}+x^{3} & 0 & x+x^{2}+x^{3}\\

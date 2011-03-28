@@ -10,13 +10,13 @@ In this section, we analyze the computational complexity of \prettyref{alg:mab}.
 in no more than $\log\left(n/m\right)-1$ iterations.\end{lem}
 \begin{pf}
 Each iteration $i$ computes a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis.
-At iteration $\log\left(n/m\right)-1$, the degree parameter is $\sigma/2$
-and $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})=\left(\mathbf{F},\sigma,\vec{s}\right)$.\end{pf}
+At iteration ${i}^*=\log(n/m)-1$, the degree parameter is $\sigma/2$
+and $(\bar{\mathbf{F}}^{\left({i}^*\right)},2\delta^{\left({i}^*\right)},\vec{s}^{\left({i}^*\right)})=\left(\mathbf{F},\sigma,\vec{s}\right)$.\end{pf}
 \begin{lem}
 \label{lem:remainingNumberElements}If the shift $\vec{s}=\left[0,\dots,0\right]$,
 then a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta^{\left(i\right)}-1}$-basis
 (or equivalently a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i\right)}-1}$-basis)
-computed at iteration $i$ has at least $n-n/2^{i}$ elements, hence
+computed at iteration $i$ has at least $n-n/2^{i}$ elements, and hence
 at most $n/2^{i}$ elements remain to be computed. If the shift $\vec{s}$
 is balanced, that is, $\max\vec{s}\in O(d)$ assuming $\min\vec{s}=0$,
 then the number $n^{\left(i\right)}$ of remaining basis elements

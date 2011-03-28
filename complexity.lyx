@@ -1,10 +1,9 @@
-#LyX 1.6.6.1 created this file. For more info see http://www.lyx.org/
-\lyxformat 345
+#LyX file created by tex2lyx 1.6.8
+\lyxformat 264
 \begin_document
 \begin_header
 \textclass elsart
 \options amsthm,seceqn,secthm
-\use_default_options false
 \language english
 \inputencoding latin9
 \font_roman default
@@ -15,11 +14,9 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
-
 \graphics default
 \paperfontsize default
 \spacing single
-\use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 2
@@ -37,19 +34,19 @@
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
-\author "" 
-\author "" 
 \end_header
 
 \begin_body
 
 \begin_layout Section
+
 Computational Complexity
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "sec:complexity"
 
 \end_inset
@@ -58,20 +55,20 @@ name "sec:complexity"
 \end_layout
 
 \begin_layout Standard
+
 In this section, we analyze the computational complexity of 
-\begin_inset CommandInset ref
-LatexCommand prettyref
+\begin_inset LatexCommand prettyref
 reference "alg:mab"
 
 \end_inset
 
 .
-  
 \end_layout
 
 \begin_layout Lemma
-\begin_inset CommandInset ref
-LatexCommand prettyref
+
+
+\begin_inset LatexCommand prettyref
 reference "alg:mab"
 
 \end_inset
@@ -88,6 +85,7 @@ reference "alg:mab"
 \end_layout
 
 \begin_layout Proof
+
 Each iteration 
 \begin_inset Formula $i$
 \end_inset
@@ -96,9 +94,8 @@ Each iteration
 \begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$
 \end_inset
 
--basis.
- At iteration 
-\begin_inset Formula $\log\left(n/m\right)-1$
+-basis. At iteration 
+\begin_inset Formula ${i}^*=\log(n/m)-1$
 \end_inset
 
 , the degree parameter is 
@@ -106,15 +103,16 @@ Each iteration
 \end_inset
 
  and 
-\begin_inset Formula $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})=\left(\mathbf{F},\sigma,\vec{s}\right)$
+\begin_inset Formula $(\bar{\mathbf{F}}^{\left({i}^*\right)},2\delta^{\left({i}^*\right)},\vec{s}^{\left({i}^*\right)})=\left(\mathbf{F},\sigma,\vec{s}\right)$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Lemma
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "lem:remainingNumberElements"
 
 \end_inset
@@ -139,12 +137,11 @@ If the shift
 \begin_inset Formula $n-n/2^{i}$
 \end_inset
 
- elements, hence at most 
+ elements, and hence at most 
 \begin_inset Formula $n/2^{i}$
 \end_inset
 
- elements remain to be computed.
- If the shift 
+ elements remain to be computed. If the shift 
 \begin_inset Formula $\vec{s}$
 \end_inset
 
@@ -172,22 +169,22 @@ If the shift
 \end_layout
 
 \begin_layout Proof
+
 The uniform case follows from the idea of 
-\begin_inset CommandInset citation
-LatexCommand citet
+\begin_inset LatexCommand citet
+after ""
+before ""
 key "storjohann-villard:2005"
 
 \end_inset
 
  on null space basis computation discussed in 
-\begin_inset CommandInset ref
-LatexCommand prettyref
+\begin_inset LatexCommand prettyref
 reference "sub:Unbalanced-Output"
 
 \end_inset
 
-.
- For the balanced case, the average column degree is bounded by 
+. For the balanced case, the average column degree is bounded by 
 \begin_inset Formula $cd=cm\sigma/n$
 \end_inset
 
@@ -195,8 +192,7 @@ reference "sub:Unbalanced-Output"
 \begin_inset Formula $c$
 \end_inset
 
-.
- The first iteration 
+. The first iteration 
 \begin_inset Formula $\lambda$
 \end_inset
 
@@ -208,8 +204,7 @@ reference "sub:Unbalanced-Output"
 \begin_inset Formula $cd$
 \end_inset
 
- is therefore a constant.
- That is, 
+ is therefore a constant. That is, 
 \begin_inset Formula $\delta^{\left(\lambda\right)}=2^{\lambda}d\ge cd>\delta^{\left(\lambda-1\right)}$
 \end_inset
 
@@ -217,9 +212,7 @@ reference "sub:Unbalanced-Output"
 \begin_inset Formula $\lambda=\left\lceil \log c\right\rceil $
 \end_inset
 
-.
- By the same argument as in the uniform case, the number of remaining basis
- elements 
+. By the same argument as in the uniform case, the number of remaining basis elements 
 \begin_inset Formula $n^{\left(i\right)}\le n/2^{i-\lambda}=2^{\lambda}(n/2^{i})\in O(n/2^{i})$
 \end_inset
 
@@ -227,8 +220,7 @@ reference "sub:Unbalanced-Output"
 \begin_inset Formula $i\ge\lambda$
 \end_inset
 
-.
- For iterations 
+. For iterations 
 \begin_inset Formula $i<\lambda$
 \end_inset
 
@@ -240,8 +232,9 @@ reference "sub:Unbalanced-Output"
 \end_layout
 
 \begin_layout Theorem
-\begin_inset CommandInset label
-LatexCommand label
+
+
+\begin_inset LatexCommand label
 name "thm:balancedCost"
 
 \end_inset
@@ -255,8 +248,7 @@ If the shift
 \end_inset
 
 , then 
-\begin_inset CommandInset ref
-LatexCommand prettyref
+\begin_inset LatexCommand prettyref
 reference "alg:mab"
 
 \end_inset
@@ -273,9 +265,8 @@ reference "alg:mab"
 \end_layout
 
 \begin_layout Proof
-The computational cost depends on the degree, the row dimension, and the
- column dimension of the problem at each iteration.
- The degree parameter 
+
+The computational cost depends on the degree, the row dimension, and the column dimension of the problem at each iteration. The degree parameter 
 \begin_inset Formula $\delta^{\left(i\right)}$
 \end_inset
 
@@ -287,8 +278,7 @@ The computational cost depends on the degree, the row dimension, and the
 \begin_inset Formula $i$
 \end_inset
 
-.
- The number of block rows 
+. The number of block rows 
 \begin_inset Formula $l^{\left(i\right)}$
 \end_inset
 
@@ -304,8 +294,7 @@ The computational cost depends on the degree, the row dimension, and the
 \begin_inset Formula $i$
 \end_inset
 
-.
- The row dimension is therefore less than 
+. The row dimension is therefore less than 
 \begin_inset Formula $n/2^{i}$
 \end_inset
 
@@ -317,6 +306,7 @@ The computational cost depends on the degree, the row dimension, and the
 \end_layout
 
 \begin_layout Proof
+
 The column dimension of interest at iteration 
 \begin_inset Formula $i$
 \end_inset
@@ -333,25 +323,21 @@ The column dimension of interest at iteration
 \begin_inset Formula $n^{\left(i-1\right)}+(l^{\left(i-1\right)}-1)m$
 \end_inset
 
-.
- The first component 
+. The first component 
 \begin_inset Formula $n^{\left(i-1\right)}\in O(n/2^{i})$
 \end_inset
 
  by 
-\begin_inset CommandInset ref
-LatexCommand prettyref
+\begin_inset LatexCommand prettyref
 reference "lem:remainingNumberElements"
 
 \end_inset
 
-.
- The second component 
+. The second component 
 \begin_inset Formula $(l^{\left(i-1\right)}-1)m<n/2^{i-1}-m<n/2^{i-1}$
 \end_inset
 
- comes from the size of the identity matrix added in Storjohann's transformation.
- Therefore, the overall column dimension of the problem at iteration 
+ comes from the size of the identity matrix added in Storjohann's transformation. Therefore, the overall column dimension of the problem at iteration 
 \begin_inset Formula $i$
 \end_inset
 
@@ -363,31 +349,27 @@ reference "lem:remainingNumberElements"
 \end_layout
 
 \begin_layout Proof
-At each iteration, the four most expensive operations are the multiplications
- at 
-\begin_inset CommandInset ref
-LatexCommand prettyref
+
+At each iteration, the four most expensive operations are the multiplications at 
+\begin_inset LatexCommand prettyref
 reference "line:matrixProduct1"
 
 \end_inset
 
  and 
-\begin_inset CommandInset ref
-LatexCommand prettyref
+\begin_inset LatexCommand prettyref
 reference "line:matrixProduct2"
 
 \end_inset
 
 , the order basis computation at 
-\begin_inset CommandInset ref
-LatexCommand prettyref
+\begin_inset LatexCommand prettyref
 reference "line:orderBasisComputation"
 
 \end_inset
 
 , and extracting the basis at 
-\begin_inset CommandInset ref
-LatexCommand prettyref
+\begin_inset LatexCommand prettyref
 reference "line:LSP"
 
 \end_inset
@@ -396,6 +378,7 @@ reference "line:LSP"
 \end_layout
 
 \begin_layout Proof
+
 The matrices 
 \begin_inset Formula $\bar{\mathbf{F}}^{\left(i\right)}$
 \end_inset
@@ -416,8 +399,7 @@ The matrices
 \begin_inset Formula $O\left(n\right)\times O(n/2^{i})$
 \end_inset
 
-.
- The multiplication cost is therefore 
+. The multiplication cost is therefore 
 \begin_inset Formula $2^{i}\MM(n/2^{i},2^{i}d)$
 \end_inset
 
@@ -425,8 +407,7 @@ The matrices
 \begin_inset Formula $O^{\sim}\left(\MM\left(n,d\right)\right)$
 \end_inset
 
-.
- The matrices 
+. The matrices 
 \begin_inset Formula $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
 \end_inset
 
@@ -450,8 +431,7 @@ The matrices
 \begin_inset Formula $O^{\sim}\left(\MM\left(n,d\right)\right)$
 \end_inset
 
- field operations.
- The total cost of the multiplications over 
+ field operations. The total cost of the multiplications over 
 \begin_inset Formula $O(\log\left(n/m\right))$
 \end_inset
 
@@ -463,6 +443,7 @@ The matrices
 \end_layout
 
 \begin_layout Proof
+
 The input matrix 
 \begin_inset Formula $\mathbf{G}^{\left(i\right)}=\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
 \end_inset
@@ -479,8 +460,7 @@ The input matrix
 \begin_inset Formula $2\delta^{\left(i\right)}\in O(2^{i}d)$
 \end_inset
 
-.
- Therefore, the cost of the order basis computation at iteration 
+. Therefore, the cost of the order basis computation at iteration 
 \begin_inset Formula $i$
 \end_inset
 
@@ -488,41 +468,21 @@ The input matrix
 \begin_inset Formula $O^{\sim}(\MM(n/2^{i},2^{i}d)\subset O^{\sim}\left(\MM\left(n,d\right)\right)$
 \end_inset
 
-.
- The total cost over 
+. The total cost over 
 \begin_inset Formula $O(\log\left(n/m\right))$
 \end_inset
 
  iterations is then 
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\noun off
-\color none
-
 \begin_inset Formula $O^{\sim}\left(\MM\left(n,d\right)\right)$
 \end_inset
 
-.
-
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\bar default
-\noun default
-\color inherit
- 
+. 
 \begin_inset Note Comment
-status collapsed
+status open
 
-\begin_layout Plain Layout
-not sure if this needs more explanation.
- 
+\begin_layout Standard
+
+not sure if this needs more explanation. 
 \end_layout
 
 \end_inset
@@ -531,17 +491,16 @@ not sure if this needs more explanation.
 \end_layout
 
 \begin_layout Proof
+
 Finally, extracting an order basis by LSP factorization costs 
 \begin_inset Formula $O\left(n^{\omega}\right)$
 \end_inset
 
-, which is dominated by the other costs.
- Combining the above gives 
+, which is dominated by the other costs. Combining the above gives 
 \begin_inset Formula $O^{\sim}(\MM\left(n,d\right))$
 \end_inset
 
- as the total cost of the algorithm.
- 
+ as the total cost of the algorithm. 
 \end_layout
 
 \end_body

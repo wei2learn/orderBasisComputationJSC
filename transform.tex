@@ -267,15 +267,17 @@ of $x^{2\delta}\mathbf{I}_{2m}$, the bottom right submatrix of $\bar{\mathbf{T}}
 Now $\bar{\mathbf{q}}=\bar{\mathbf{T}}\left[\mathbf{u}^{T},\mathbf{v}^{T}\right]^{T}$
 as required.\end{pf}
 \begin{cor}
-\label{cor:FtauBasisForm}Let $\tau\in\mathbb{Z}$ be any degree bound.
-Let $\mathbf{P}_{\tau}\in\mathbb{K}\left[x\right]^{n\times t}$ be
-a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\tau}$-basis. Let $\bar{\mathbf{q}}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
-and $\mathbf{q}$ be the top $n$ entries of $\bar{\mathbf{q}}$.
-Then $\bar{\mathbf{q}}$ must have the form \[
+\label{cor:FtauBasisForm}Let $\tau\in\mathbb{Z}$ be any degree bound
+and $\mathbf{P}_{\tau}\in\mathbb{K}\left[x\right]^{n\times t}$ be
+a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\tau}$-basis. 
+If $\bar{\mathbf{q}}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
+and $\mathbf{q}$ is the top $n$ entries of $\bar{\mathbf{q}}$, then $\bar{\mathbf{q}}$ must have the form 
+\[
 \bar{\mathbf{q}}=\mathbf{B}\mathbf{P}_{\tau}\mathbf{u}+x^{2\delta}\begin{bmatrix}\mathbf{0}\\
 \mathbf{v}\end{bmatrix}=\mathbf{B}\mathbf{q}+x^{2\delta}\begin{bmatrix}\mathbf{0}\\
-\mathbf{v}\end{bmatrix}\]
- for some polynomial vector $\mathbf{u}\in\mathbb{K}\left[x\right]^{t\times1}$
+\mathbf{v}\end{bmatrix}
+\]
+for some polynomial vector $\mathbf{u}\in\mathbb{K}\left[x\right]^{t\times1}$
 and $\mathbf{v}\in\mathbb{K}\left[x\right]^{2m\times1}$. In particular,
 if $\deg_{\vec{s'}}\bar{\mathbf{q}}<2\delta$, then $\bar{\mathbf{q}}=\mathbf{B}\mathbf{P}_{\tau}\mathbf{u}=\mathbf{B}\mathbf{q}$. \end{cor}
 \begin{pf}
@@ -427,11 +429,14 @@ The following two lemmas verify Storjohann's result in the case of
 degree parameter $\delta=\sigma/4$. More specifically, we show that
 the matrix of the top $n$ rows of a $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$-basis
 is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$-basis, with
-the transformed input matrix \begin{equation}
-\bar{\mathbf{F}}=\left[\begin{array}{l|cr}
+the transformed input matrix 
+\begin{equation}
+\bar{\mathbf{F}}=\left[\begin{array}{l|cc}
 \mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0} & \mathbf{0}\\
 \hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & \mathbf{0}\\
-\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0} & \mathbf{I}_{m}\end{array}\right]\equiv\mathbf{F}'\mod x^{2\delta}.\label{eq:storjohannTransformation4parts}\end{equation}
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0} & ~\mathbf{I}_{m}\end{array}\right]
+\equiv\mathbf{F}'\mod x^{2\delta}.\label{eq:storjohannTransformation4parts}
+\end{equation}
 
 \begin{lem}
 \label{lem:A_delta-1Form}If $\bar{\mathbf{q}}\in\langle(\bar{\mathbf{F}},2\delta,\vec{s'})\rangle_{\delta-1}$
@@ -476,17 +481,17 @@ and \ref{lem:qToBqDegree} and Corollaries \ref{cor:sToBs} and \ref{cor:linearCom
 (replacing $\vec{\omega}$ by $2\delta$), we conclude that any $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$
 is a linear combination of the columns of $\mathbf{S}_{\delta-1}$.
 In addition, since $\bar{\mathbf{S}}_{\delta-1}=\mathbf{B}\mathbf{S}_{\delta-1}$
-by \prettyref{lem:A_delta-1Form} and the columns of $\mathbf{S}_{\delta-1}$
+by \prettyref{lem:A_delta-1Form}, and the columns of $\mathbf{S}_{\delta-1}$
 are in $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$,
-it follows that $\mathbf{S}_{\delta-1}$ determines the $\vec{s'}$-column
-degrees of $\bar{\mathbf{S}}_{\delta-1}$ by \prettyref{lem:qToBqDegree}.
+it follows from \prettyref{lem:qToBqDegree} that $\mathbf{S}_{\delta-1}$ determines the $\vec{s'}$-column
+degrees of $\bar{\mathbf{S}}_{\delta-1}$.
 Hence $\bar{\mathbf{S}}_{\delta-1}$ $\vec{s'}$-column reduced implies
 that $\mathbf{S}_{\delta-1}$ is $\vec{s}$-column reduced. 
 \end{pf}
 
 \subsection{\label{sub:generalTransform}More General Results}
 
-Let us now consider an immediate extension of the above results. Suppose
+Let us now consider an immediate extension of the results in the previous subsection. Suppose
 that instead of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 we now want to compute a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis
 with a Storjohann transformed input matrix \[
@@ -496,7 +501,7 @@ with a Storjohann transformed input matrix \[
 \mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta^{\left(i\right)}} &  & \mathbf{I}_{m}\\
 \vdots &  &  & \ddots\\
 \mathbf{F}_{l^{\left(i\right)}-1}+\mathbf{F}_{l^{\left(i\right)}}x^{\delta^{\left(i\right)}} &  &  &  & \mathbf{I}_{m}\end{array}\right]_{ml^{(i)}\times(n+m(l^{(i)}-1))}\]
- constructed with degree parameter $\delta^{\left(i\right)}=2^{i}d$
+made with degree parameter $\delta^{\left(i\right)}=2^{i}d$
 for some integer $i$ between $2$%
 \begin{comment}
 the base case is $i=1$ and problem is not to be subdivided 

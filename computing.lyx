@@ -56,7 +56,7 @@ name "sec:Order-Basis-Computation"
 
 \begin_layout Standard
 
-In this section, we establish a link between two different Storjohann transformed problems by dividing the transformed problem from the previous section into two subproblems and then simplifying the second subproblem. This leads to a recursive way of computing order bases. We also present an equivalent, iterative method for computing order bases. The iterative approach is usually more efficient in practice, as it uses just one iteration in the generic case.
+In this section, we establish a link between two different Storjohann transformed problems by dividing the transformed problem from the previous section into two subproblems and then simplifying the second subproblem. This leads to a recursive method for computing order bases. We also present an equivalent, iterative method for computing order bases. The iterative approach is usually more efficient in practice, as it uses just one iteration in the generic case.
 \end_layout
 
 \begin_layout Subsection
@@ -98,7 +98,7 @@ reference "sec:transform"
 \begin_inset Formula $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$
 \end_inset
 
--basis. We now consider dividing the new converted problem to two subproblems.
+-basis. We now consider dividing the new converted problem into two subproblems.
 \end_layout
 
 \begin_layout Standard
@@ -178,7 +178,7 @@ reference "exm:auxiliaryTransformation"
 
 \end_inset
 
- to compute a 
+ in order to compute a 
 \begin_inset Formula $\left(\mathbf{F},8,\vec{0}\right)$
 \end_inset
 
@@ -241,7 +241,7 @@ reference "exm:StorjohannTransformation"
 -basis, which is 
 \begin_inset Formula \begin{equation}
 \bar{\mathbf{Q}}^{(2)}=\left[{\begin{array}{cccccc}
-~1~ & ~0~ & 0 & 0 & 0 & 0\\
+~~1~ & ~~0~ & ~0~ & ~0~ & ~0~ & ~0~\\
 0 & 1 & 0 & 0 & 0 & 0\\
 0 & 0 & 1 & ~x^{2}~ & ~x~ & ~1~\\
 0 & 0 & 0 & 0 & x & 0\\

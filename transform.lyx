@@ -1296,7 +1296,7 @@ Let
 \begin_inset Formula $\tau\in\mathbb{Z}$
 \end_inset
 
- be any degree bound. Let 
+ be any degree bound and 
 \begin_inset Formula $\mathbf{P}_{\tau}\in\mathbb{K}\left[x\right]^{n\times t}$
 \end_inset
 
@@ -1304,7 +1304,7 @@ Let
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)_{\tau}$
 \end_inset
 
--basis. Let 
+-basis. If 
 \begin_inset Formula $\bar{\mathbf{q}}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
 \end_inset
 
@@ -1312,7 +1312,7 @@ Let
 \begin_inset Formula $\mathbf{q}$
 \end_inset
 
- be the top 
+ is the top 
 \begin_inset Formula $n$
 \end_inset
 
@@ -1320,7 +1320,7 @@ Let
 \begin_inset Formula $\bar{\mathbf{q}}$
 \end_inset
 
-. Then 
+, then 
 \begin_inset Formula $\bar{\mathbf{q}}$
 \end_inset
 
@@ -1328,7 +1328,8 @@ Let
 \begin_inset Formula \[
 \bar{\mathbf{q}}=\mathbf{B}\mathbf{P}_{\tau}\mathbf{u}+x^{2\delta}\begin{bmatrix}\mathbf{0}\\
 \mathbf{v}\end{bmatrix}=\mathbf{B}\mathbf{q}+x^{2\delta}\begin{bmatrix}\mathbf{0}\\
-\mathbf{v}\end{bmatrix}\]
+\mathbf{v}\end{bmatrix}
+\]
 \end_inset
 
  for some polynomial vector 
@@ -2292,10 +2293,12 @@ The following two lemmas verify Storjohann's result in the case of degree parame
 
 -basis, with the transformed input matrix 
 \begin_inset Formula \begin{equation}
-\bar{\mathbf{F}}=\left[\begin{array}{l|cr}
+\bar{\mathbf{F}}=\left[\begin{array}{l|cc}
 \mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0} & \mathbf{0}\\
 \hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & \mathbf{0}\\
-\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0} & \mathbf{I}_{m}\end{array}\right]\equiv\mathbf{F}'\mod x^{2\delta}.\label{eq:storjohannTransformation4parts}\end{equation}
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0} & ~\mathbf{I}_{m}\end{array}\right]
+\equiv\mathbf{F}'\mod x^{2\delta}.\label{eq:storjohannTransformation4parts}
+\end{equation}
 \end_inset
 
 
@@ -2548,7 +2551,7 @@ reference "lem:A_delta-1Form"
 
 \end_inset
 
- and the columns of 
+, and the columns of 
 \begin_inset Formula $\mathbf{S}_{\delta-1}$
 \end_inset
 
@@ -2556,7 +2559,13 @@ reference "lem:A_delta-1Form"
 \begin_inset Formula $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$
 \end_inset
 
-, it follows that 
+, it follows from 
+\begin_inset LatexCommand prettyref
+reference "lem:qToBqDegree"
+
+\end_inset
+
+ that 
 \begin_inset Formula $\mathbf{S}_{\delta-1}$
 \end_inset
 
@@ -2566,12 +2575,6 @@ reference "lem:A_delta-1Form"
 
 -column degrees of 
 \begin_inset Formula $\bar{\mathbf{S}}_{\delta-1}$
-\end_inset
-
- by 
-\begin_inset LatexCommand prettyref
-reference "lem:qToBqDegree"
-
 \end_inset
 
 . Hence 
@@ -2606,7 +2609,7 @@ More General Results
 
 \begin_layout Standard
 
-Let us now consider an immediate extension of the above results. Suppose that instead of a 
+Let us now consider an immediate extension of the results in the previous subsection. Suppose that instead of a 
 \begin_inset Formula $\left(\mathbf{F},\sigma,\vec{s}\right)$
 \end_inset
 
@@ -2624,7 +2627,7 @@ Let us now consider an immediate extension of the above results. Suppose that in
 \mathbf{F}_{l^{\left(i\right)}-1}+\mathbf{F}_{l^{\left(i\right)}}x^{\delta^{\left(i\right)}} &  &  &  & \mathbf{I}_{m}\end{array}\right]_{ml^{(i)}\times(n+m(l^{(i)}-1))}\]
 \end_inset
 
- constructed with degree parameter 
+ made with degree parameter 
 \begin_inset Formula $\delta^{\left(i\right)}=2^{i}d$
 \end_inset
 
