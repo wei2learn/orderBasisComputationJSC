@@ -384,11 +384,15 @@ MACRO {toplas} {"ACM Trans. Prog. Lang. Syst."}
 
 MACRO {tcs} {"Theoretical Comput. Sci."}
 
+%FUNCTION {write.url}
+%{ url empty$
+%    { skip$ }
+%    { "\newline\urlprefix\url{" url * "}" * write$ newline$ }
+%  if$
+%}
 FUNCTION {write.url}
-{ url empty$
+{ 
     { skip$ }
-    { "\newline\urlprefix\url{" url * "}" * write$ newline$ }
-  if$
 }
 
 
