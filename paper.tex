@@ -9,6 +9,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage[authoryear]{natbib}
+\bibliographystyle{elsart-harv.bst}
 
 \makeatletter
 
@@ -24,7 +25,7 @@
  \usepackage{algolyx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
-\usepackage{yjsco}\journal{JournalofSymbolicComputation}
+\usepackage{yjsco}\journal{Journal of Symbolic Computation}
 
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}\renewcommand{\algorithmicensure}{\textbf{Output:}}\renewcommand{\algorithmicensure}{\textbf{if}}\renewcommand{\algorithmicensure}{\textbf{Uses:}}
 
@@ -74,7 +75,8 @@ using $O^{\sim}(\MM(n,\delta))$ field operations for $\delta\ge\lceil m\sigma/n\
 While the first algorithm addresses the case when the column degrees
 of a complete order basis are unbalanced given a balanced input shift,
 it is not efficient in the case when a unbalanced shift results in
-the row degrees also becoming unbalanced. %The column degrees of a complete basis may be unbalanced, which is
+the row degrees also becoming unbalanced. %The column degrees of a 
+%complete basis may be unbalanced, which is
 %a major issue we address in the first algorithm. When the input shift
 %is unbalanced, the row degrees of the basis can also be unbalanced
 %in addition to the unbalanced column degrees. For this, we present
@@ -93,7 +95,8 @@ Many unbalanced shift problems can be in fact converted to problems
 satisfying this condition. 
 \end{comment}
 {} This condition essentially allows us to locate those high degree
-rows that need to be balanced. %
+rows that need to be balanced. This extends the earlier work by the authors 
+from ISSAC'09.%
 \begin{comment}
 In more general unbalanced shift cases, this algorithm may not work
 well directly since we do not know in advance which are the high degree
@@ -117,7 +120,67 @@ effective way of estimating the resulting row degrees.
 
 \input{conclusion.tex} 
 
-\bibliographystyle{elsart-harv}
-\bibliography{paper}
+\begin{thebibliography}{{Zhou and Labahn(2009)}}
+\bibitem[{Baker and Graves-Morris(1996)}]{gravesmorris} G.~Baker
+and P.~Graves-Morris. \newblock {\em Padé Approximants, 2nd edition}.
+\newblock Cambridge, 1996.
+
+\bibitem[{Beckermann and Labahn(1994)}]{BeLa94} B.~Beckermann and
+G.~Labahn. \newblock A uniform approach for fast computation of
+matrix-type {Padé} approximants. \newblock {\em SIAM Journal of Matrix
+Analysis and its Applications}, 15(3), 804--823, 1994.
+
+\bibitem[{Beckermann and Labahn(1997)}]{BL1997} B.~Beckermann and
+G.~Labahn. \newblock Recursiveness in matrix rational interpolation
+problems. \newblock {\em Journal of Computational and Applied Math},
+5-34, 1997.
+
+\bibitem[{Beckermann and Labahn(2000)}]{BL2000} B.~Beckermann and
+G.~Labahn. \newblock Fraction-free Computation of Matrix Rational
+Interpolants and Matrix GCD's. \newblock {\em SIAM Journal of Matrix Analysis
+and Applications}, 22(1), 114--144, 2000.
+
+\bibitem[{Beckermann, Labahn, and Villard(1999)}]{BLV:1999} B.~Beckermann,
+G.~Labahn, and G.~Villard. \newblock Shifted normal forms of polynomial
+matrices. \newblock In {\em Proceedings of ISSAC'99}, ACM Press, pp 189--196, 1999.
+
+\bibitem[{Beckermann, Labahn, and Villard(2006)}]{BLV:jsc06} B.~Beckermann,
+G.~Labahn, and G.~Villard. \newblock Normal forms for general polynomial
+matrices. \newblock {\em Journal of Symbolic Computation}, 41(6), 708--737,
+2006.
+
+\bibitem[{Giorgi, Jeannerod, and Villard(2003)}]{Giorgi2003} P.~Giorgi,
+C.-P. Jeannerod, and G.~Villard. \newblock On the complexity of
+polynomial matrix computations. \newblock In {\em {Proceedings
+of ISSAC'03}}, ACM Press, pp 135--142, 2003.
+
+\bibitem[{Ibarra, Moran, and Hui(1982)}]{IbarraMH82} O.H. Ibarra,
+S.~Moran, and R.~Hui. \newblock A generalization of the fast {LUP}
+matrix decomposition algorithm and applications. \newblock {\em
+Journal of Algorithms}, 3(1), 45--56, 1982.
+
+\bibitem[{Labahn(1992)}]{La92} G.~Labahn. \newblock Inversion components
+for block {Hankel}-like matrices. \newblock {\em Linear Algebra
+and its Applications}, 177, 7--48, 1992.
+
+\bibitem[{Storjohann(2006)}]{Storjohann:2006} A.~Storjohann. \newblock
+Notes on computing minimal approximant bases. \newblock In {\em
+Challenges in Symbolic Computation Software}. Internationales Begegnungs-
+und Forschungszentrum f\"ur Informatik (IBFI), Schloss Dagstuhl, Germany,
+2006.
+
+\bibitem[{Storjohann and Villard(2005)}]{storjohann-villard:2005}
+A.~Storjohann and G.~Villard. \newblock Computing the rank and
+a small nullspace basis of a polynomial matrix. \newblock In {\em
+Proceedings of ISSAC'05}, ACM Press, pp 309--316, 2005. 
+
+\bibitem[{van Hoeij(1997)}]{vanHoeij} M.~van~Hoeij. \newblock
+Factorization of Differential Operators with Rational Function Coefficients.
+\newblock {\em Journal of Symbolic Computation}, 24, 537--561, 1997.
+
+\bibitem[{Zhou and Labahn(2009)}]{za2009} W. Zhou and G. Labahn.
+\newblock Efficient computation of order bases. \newblock In {\em
+Proceedings of ISSAC'09}, ACM Press, pp 375--382, 2009. 
+\end{thebibliography}
 
 \end{document}

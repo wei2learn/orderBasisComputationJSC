@@ -4,7 +4,7 @@
 \begin_header
 \textclass elsart
 \begin_preamble
-\usepackage{yjsco}\journal{JournalofSymbolicComputation}
+\usepackage{yjsco}\journal{Journal of Symbolic Computation}
 
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}\renewcommand{\algorithmicensure}{\textbf{Output:}}\renewcommand{\algorithmicensure}{\textbf{if}}\renewcommand{\algorithmicensure}{\textbf{Uses:}}
 
@@ -416,7 +416,7 @@ In more general unbalanced shift cases, this algorithm may not work well
 
 \end_inset
 
- 
+ This extends the earlier work by the authors from ISSAC'09.
 \end_layout
 
 \begin_layout Standard

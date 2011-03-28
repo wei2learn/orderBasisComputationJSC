@@ -28,10 +28,12 @@ a vector of non-negative integers.
 A vector of polynomials $\mathbf{p}\in\mathbb{K}\left[x\right]^{n\times1}$
 has \emph{order} $\left(\mathbf{F},\vec{\sigma}\right)$ (or \emph{order}
 $\vec{\sigma}$ with respect to $\mathbf{F}$) if $\mathbf{F}\cdot\mathbf{p}\equiv\mathbf{0}\mod x^{\vec{\sigma}}$,
-that is, \begin{eqnarray*}
-\mathbf{F}\cdot\mathbf{p} & = & x^{\vec{\sigma}}\mathbf{r}=\begin{bmatrix}x^{\sigma_{1}}\\
+that is, 
+\[
+\mathbf{F}\cdot\mathbf{p}  =  x^{\vec{\sigma}}\mathbf{r}=\begin{bmatrix}x^{\sigma_{1}}\\
  & \ddots\\
- &  & x^{\sigma_{m}}\end{bmatrix}\mathbf{r}\end{eqnarray*}
+ &  & x^{\sigma_{m}}\end{bmatrix}\mathbf{r}
+\]
  for some $\mathbf{r}\in\mathbb{K}\left[\left[x\right]\right]^{m\times1}$.
 If $\vec{\sigma}=\left[\sigma,\dots,\sigma\right]$ is uniform, then
 we say that $\mathbf{p}$ has order $\left(\mathbf{F},\sigma\right).$
@@ -252,8 +254,8 @@ x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
 1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]_{3\times6}\]
  and a $\left(\bar{\mathbf{F}},4,\vec{0}\right)$-basis is given by
 \[
-\bar{\mathbf{P}}=\left[{\begin{array}{rc|cccc}
-1 & x & 1 & x^{2}+x^{3} & 0 & x+x^{2}+x^{3}\\
+\bar{\mathbf{P}}=\left[{\begin{array}{cc|cccc}
+~1~ & ~x~ & 1 & x^{2}+x^{3} & 0 & x+x^{2}+x^{3}\\
 0 & 1 & 0 & x^{2} & x^{2}+x^{3} & 0\\
 1 & 1+x & x+x^{2} & x^{2} & x^{2} & x^{2}\\
 1 & 0 & 0 & 0 & 0 & 0\\
@@ -317,7 +319,7 @@ can be also bounded by $d=m\sigma/n$.
 {}
 
 Let us now look at the average column degree of the output. In the
-first part of this paper, we assume without loss of generality that
+first part of this paper, we assumed, without loss of generality, that
 $\min\left(\vec{s}\right)=0$ so $\deg\mathbf{q}\le\deg_{\vec{s}}\mathbf{q}$
 for any $\mathbf{q}\in\mathbb{K}\left[x\right]^{n}$. The situation
 is simpler if the shift $\vec{s}$ is uniform since then $\sum_{i}\vec{t}_{i}\le m\sigma$

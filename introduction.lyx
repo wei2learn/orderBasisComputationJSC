@@ -302,7 +302,7 @@ status collapsed
 
 \end_inset
 
- solutions to such problems given particular degree bounds 
+ solutions to such problems given particular degree bounds. They can even be used to show the well known block structure of the Padé and related Rational Interpolation tables 
 \begin_inset LatexCommand citep
 after ""
 before ""
