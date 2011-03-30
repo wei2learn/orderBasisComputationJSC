@@ -83,7 +83,8 @@ reference "alg:mab"
 \begin_inset Formula $\vec{s}$
 \end_inset
 
- is unbalanced, then 
+ is unbalanced (something important for example in normal form computation),
+ then 
 \begin_inset CommandInset ref
 LatexCommand prettyref
 reference "alg:mab"
