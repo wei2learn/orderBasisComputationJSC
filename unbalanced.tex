@@ -5,22 +5,21 @@
 
 \prettyref{sec:complexity} shows that \prettyref{alg:mab} can efficiently
 compute a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis when the
-shift $\vec{s}$ is balanced. When the $\vec{s}$ is unbalanced (something
-important for example in normal form computation), then \prettyref{alg:mab}
-still returns a correct answer but may be less efficient. The possible
-inefficiency results because there may not be enough partial results
-from the intermediate subproblems to sufficiently reduce the column
-dimension of the subsequent subproblem. This is clear from the fact
-that the column degrees of the output can be much larger and no longer
-sum up to $O\left(m\sigma\right)$ as in the balanced shift case.
-The shifted $\vec{s}$-column degrees, however, still behave well.
-In particular, the total $\vec{s}$-degree increase is still bounded
-by $m\sigma$ as stated in \prettyref{lem:size}, while the shifted
-degree of any column can also increase by up to $\sigma$. Recall
-that \prettyref{lem:size} states that for any shift $\vec{s}$, there
-exists a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis still having
-a total size bounded by $nm\sigma$ which gives hope for efficient
-computation.
+shift $\vec{s}$ is balanced. When the $\vec{s}$ is unbalanced, then
+\prettyref{alg:mab} still returns a correct answer but may be less
+efficient. The possible inefficiency results because there may not
+be enough partial results from the intermediate subproblems to sufficiently
+reduce the column dimension of the subsequent subproblem. This is
+clear from the fact that the column degrees of the output can be much
+larger and no longer sum up to $O\left(m\sigma\right)$ as in the
+balanced shift case. The shifted $\vec{s}$-column degrees, however,
+still behave well. In particular, the total $\vec{s}$-degree increase
+is still bounded by $m\sigma$ as stated in \prettyref{lem:size},
+while the shifted degree of any column can also increase by up to
+$\sigma$. Recall that \prettyref{lem:size} states that for any shift
+$\vec{s}$, there exists a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+still having a total size bounded by $nm\sigma$ which gives hope
+for efficient computation.
 
 In this section, we describe an algorithm for an important special
 case of unbalanced shift -- when the input shift $\vec{s}$ satisfies
