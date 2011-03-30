@@ -7,25 +7,26 @@ In this section, we establish a link between two different Storjohann
 transformed problems by dividing the transformed problem from the
 previous section into two subproblems and then simplifying the second
 subproblem. This leads to a recursive method for computing order bases.
-We also present an equivalent, iterative method for computing order bases.
-The iterative approach is usually more efficient in practice, as it uses 
-just one iteration in the generic case.
+We also present an equivalent, iterative method for computing order
+bases. The iterative approach is usually more efficient in practice,
+as it uses just $O(1)$ iterations in the generic case.
+
 
 \subsection{\label{sub:Dividing-to-Subproblems}Dividing into Subproblems }
 
-In \prettyref{sec:transform} we have shown that the problem of computing a 
-$\left(\mathbf{F},\sigma,\vec{s}\right)$-basis can be converted to the problem 
-of computing a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis and, more generally, 
-that the computation of a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis,
+In \prettyref{sec:transform} we have shown that the problem of computing
+a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis can be converted
+to the problem of computing a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis
+and, more generally, that the computation of a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis,
 a Storjohann transformed problem with degree parameter $\delta^{\left(i\right)}$,
 can be converted to the problem of computing a $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$-basis.
 We now consider dividing the new converted problem into two subproblems.
 
 The first subproblem is to compute a $(\mathbf{F}'^{\left(i\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
 or equivalently a $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
-$\bar{\mathbf{P}}^{\left(i-1\right)}$, a Storjohann
-transformed problem with degree parameter $\delta^{\left(i-1\right)}$.
-The second subproblem is computing a $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis
+$\bar{\mathbf{P}}^{\left(i-1\right)}$, a Storjohann transformed problem
+with degree parameter $\delta^{\left(i-1\right)}$. The second subproblem
+is computing a $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis
 $\bar{\mathbf{Q}}^{\left(i\right)}$ using the residual $\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
 from the first subproblem along with a degree shift $\vec{t}^{\left(i-1\right)}=\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}^{\left(i-1\right)}$.
 From Theorem 5.1 in \citep{BL1997} we then know that the product
@@ -33,13 +34,12 @@ $\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$
 is a $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$-basis
 and $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}=\deg_{\vec{t}^{\left(i-1\right)}}\bar{\mathbf{Q}}^{\left(i\right)}$. 
 \begin{exmp}
-\label{exm:subproblems} Let us continue with 
-\prettyref{exm:StorjohannTransformation}
-and \prettyref{exm:auxiliaryTransformation} in order to compute a $\left(\mathbf{F},8,\vec{0}\right)$-basis
-(or equivalently a $(\bar{\mathbf{F}}^{\left(2\right)},8,\vec{0})$-basis).
+\label{exm:subproblems} Let us continue with \prettyref{exm:StorjohannTransformation}
+and \prettyref{exm:auxiliaryTransformation} in order to compute a
+$\left(\mathbf{F},8,\vec{0}\right)$-basis (or equivalently a $(\bar{\mathbf{F}}^{\left(2\right)},8,\vec{0})$-basis).
 This can be determined by computing a $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
-as shown in \prettyref{exm:auxiliaryTransformation} where we have $\mathbf{F}'^{\left(2\right)}=\mathbf{F}'$.
-Computing a $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
+as shown in \prettyref{exm:auxiliaryTransformation} where we have
+$\mathbf{F}'^{\left(2\right)}=\mathbf{F}'$. Computing a $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
 can be divided into two subproblems. The first subproblem is computing
 a $(\bar{\mathbf{F}}^{\left(1\right)},4,\vec{0})$-basis $\bar{\mathbf{P}}^{\left(1\right)}$,
 the Storjohann partial linearized problem in \prettyref{exm:StorjohannTransformation}.
@@ -60,7 +60,7 @@ which is \begin{equation}
 0 & 0 & 0 & 0 & x & 0\\
 0 & 0 & 1 & 0 & 0 & 0\\
 0 & 0 & 0 & 0 & 1 & ~x~\end{array}}\right].\label{eq:Qbar2}\end{equation}
-Then $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$ gives the $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
+ Then $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$ gives the $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
 shown in \prettyref{exm:auxiliaryTransformation}. 
 \end{exmp}
 We now show that the dimension of the second subproblem can be significantly
@@ -70,18 +70,15 @@ $\hat{\mathbf{P}}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}
 \label{lem:simplifySecondSubproblem}A $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis
 is a $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis.\end{lem}
 \begin{pf}
-This follows because 
-$\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)}$
-is a submatrix of 
-$\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
-after removing rows which already have the correct order 
-$2\delta^{\left(i-1\right)}$. 
+This follows because $\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)}$
+is a submatrix of $\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+after removing rows which already have the correct order $2\delta^{\left(i-1\right)}$. 
 \end{pf}
 The column dimension of the second subproblem can be reduced by disregarding
 the $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i-1\right)}-1}$-basis
-which has already been computed. More specifically, after sorting the columns of
-$\bar{\mathbf{P}}^{\left(i-1\right)}$ in an increasing order of their
-$\vec{s}^{\left(i-1\right)}$-degrees, let $[\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{P}}_{2}^{\left(i-1\right)}]=\bar{\mathbf{P}}^{\left(i-1\right)}$
+which has already been computed. More specifically, after sorting
+the columns of $\bar{\mathbf{P}}^{\left(i-1\right)}$ in an increasing
+order of their $\vec{s}^{\left(i-1\right)}$-degrees, let $[\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{P}}_{2}^{\left(i-1\right)}]=\bar{\mathbf{P}}^{\left(i-1\right)}$
 be such that $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{1}^{\left(i-1\right)}\le\delta^{\left(i-1\right)}-1$
 and $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}\ge\delta^{\left(i-1\right)}$.
 Then $\hat{\mathbf{P}}_{1}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
@@ -95,7 +92,7 @@ $\vec{b}^{\left(i-1\right)}=\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{2
 $\bar{\mathbf{Q}}_{2}^{\left(i\right)}$ be a $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis
 (or equivalently a $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis),
 and $k^{\left(i-1\right)}$ be the column dimension of $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$.
-We then have the following result.
+We then have the following result. 
 \begin{lem}
 \label{lem:disregardComputedBasisElements} The matrix \[
 \bar{\mathbf{Q}}^{\left(i\right)}=\left[\begin{array}{cc}
@@ -109,9 +106,8 @@ as \[
 \bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}=[\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]\equiv0\mod x^{2\delta^{\left(i\right)}}.\]
  In addition, $\bar{\mathbf{Q}}^{\left(i\right)}$ has minimal $\vec{t}^{\left(i-1\right)}$
 degrees as $\bar{\mathbf{Q}}_{2}^{\left(i\right)}$ is $\vec{b}$-minimal.
-Hence, by \prettyref{lem:orderBasisEquivalence}, 
-$\bar{\mathbf{Q}}^{\left(i\right)}$ is a 
-$(\bar{\mathbf{F}}^{\left(i\right)}\cdot\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis.
+Hence, by \prettyref{lem:orderBasisEquivalence}, $\bar{\mathbf{Q}}^{\left(i\right)}$
+is a $(\bar{\mathbf{F}}^{\left(i\right)}\cdot\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis. 
 \end{pf}
 %
 \begin{comment}
@@ -136,8 +132,7 @@ is a $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\ome
 and hence $\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$
 is a $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$-basis.
 Since $[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$,
-the result follows from \prettyref{thm:extractingOrderBasis}. 
-%
+the result follows from \prettyref{thm:extractingOrderBasis}. %
 \begin{comment}
 $=\mathbf{E}^{\left(i\right)}[\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]$ 
 \end{comment}
@@ -230,16 +225,15 @@ block rows. Then a $(\bar{\mathbf{F}}^{\left(1\right)},2\delta^{\left(1\right)},
 $\bar{\mathbf{P}}^{\left(1\right)}$ is computed. Note this is in
 fact the first subproblem of computing a $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})$-basis,
 which is another Storjohann transformed problem and also the problem
-of the second iteration. At the second iteration, we work on a
-new Storjohann transformed problem with the degree doubled and the
-number of block rows $l^{\left(2\right)}=(l^{\left(1\right)}-1)/2$
-reduced by over a half. The column dimension is reduced by using the
-result from the previous iteration. More specifically, we know that
-the basis $\bar{\mathbf{P}}^{\left(1\right)}$ already provides a
-$(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})_{\delta^{\left(1\right)}-1}$-basis
+of the second iteration. At the second iteration, we work on a new
+Storjohann transformed problem with the degree doubled and the number
+of block rows $l^{\left(2\right)}=(l^{\left(1\right)}-1)/2$ reduced
+by over a half. The column dimension is reduced by using the result
+from the previous iteration. More specifically, we know that the basis
+$\bar{\mathbf{P}}^{\left(1\right)}$ already provides a $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})_{\delta^{\left(1\right)}-1}$-basis
 $\hat{\mathbf{P}}_{1}^{\left(1\right)}$, which can be disregarded
-in the remaining computation. The remaining work in the second
-iteration is to compute a $(\bar{\mathbf{F}}^{\left(2\right)}\hat{\mathbf{P}}_{2}^{\left(1\right)},2\delta^{\left(2\right)},\vec{b}^{\left(1\right)})$-basis
+in the remaining computation. The remaining work in the second iteration
+is to compute a $(\bar{\mathbf{F}}^{\left(2\right)}\hat{\mathbf{P}}_{2}^{\left(1\right)},2\delta^{\left(2\right)},\vec{b}^{\left(1\right)})$-basis
 $\bar{\mathbf{Q}}^{\left(2\right)}$, where $\vec{b}^{\left(1\right)}=\deg_{\vec{s}^{\left(1\right)}}\bar{\mathbf{P}}_{2}^{\left(1\right)}$,
 and then to combine it with the result from the previous iteration
 to form a matrix $[\hat{\mathbf{P}}_{1}^{\left(1\right)},\hat{\mathbf{P}}_{2}^{\left(1\right)}\bar{\mathbf{Q}}^{\left(2\right)}]$
