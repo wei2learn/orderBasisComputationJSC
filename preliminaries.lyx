@@ -87,16 +87,16 @@ The computational cost in this paper is analysed by bounding the number
 \end_inset
 
 .
- We define 
-\begin_inset Formula $\M'(d)=d\log d\log\log d$
+ We define a cost function 
+\begin_inset Formula $\bar{\M}(d)=d\log d\log\log d$
 \end_inset
 
 , then 
-\begin_inset Formula $\M'(ab)\subset O\left(\M'(a)\M'(b)\right)$
+\begin_inset Formula $\bar{\M}(ab)\subset O\left(\bar{\M}(a)\bar{\M}(b)\right)$
 \end_inset
 
  and 
-\begin_inset Formula $\M'(t)\in O(n^{\omega-1})$
+\begin_inset Formula $\bar{\M}(t)\in O(n^{\omega-1})$
 \end_inset
 
 .
@@ -125,8 +125,9 @@ key "vonzurgathen"
 \end_layout
 
 \begin_layout Standard
-In this section, we provide some of the background needed in order to understand
- the basic concepts and tools needed for order basis computation.
+In the remaining of this section, we provide some of the background needed
+ in order to understand the basic concepts and tools needed for order basis
+ computation.
  This includes basic definitions and a look at the size of the input and
  the output for computing such bases.
 \begin_inset Note Comment
@@ -995,7 +996,7 @@ key "Giorgi2003"
 \subset & O\left(\sum_{i=0}^{\log\sigma}2^{-i}n^{\omega}\sigma2^{i}\log2^{i}\log\log2^{i}\right)\\
 = & O\left(n^{\omega}\sigma\sum_{i=0}^{\log\sigma}i\log i\right)\\
 \subset & O\left(n^{\omega}\sigma\sum_{i=0}^{\log\sigma}\log\sigma\log\log\sigma\right)\\
-= & O\left(n^{\omega}\sigma\log^{2}\sigma\log\log\sigma\right)=O(n^{\omega}\M'(\sigma)\log\sigma)\end{align*}
+= & O\left(n^{\omega}\sigma\log^{2}\sigma\log\log\sigma\right)=O(n^{\omega}\bar{\M}(\sigma)\log\sigma)\end{align*}
 
 \end_inset
 
@@ -1034,7 +1035,7 @@ field operations, close to the cost of multiplying two matrices with dimension
 \begin_layout Standard
 \begin_inset CommandInset citation
 LatexCommand citet
-key "storjohann:2006"
+key "Storjohann:2006"
 
 \end_inset
 

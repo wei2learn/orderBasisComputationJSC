@@ -34,7 +34,7 @@ $n^{\left(i\right)}\le n<2^{\lambda}(n/2^{i})\in O(n/2^{i})$.\end{pf}
 \begin{thm}
 \label{thm:balancedCost}If the shift $\vec{s}$ is balanced with
 $\min\left(\vec{s}\right)=0$, then \prettyref{alg:mab} computes
-a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis with a cost of $O\left(n^{\omega}\M'(d)\log\sigma)\right)=O\left(n^{\omega}d\log d\log\log d\log\sigma)\right)\subset O^{\sim}\left(n^{\omega}d\right)$
+a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis with a cost of $O\left(n^{\omega}\bar{\M}(d)\log\sigma)\right)=O\left(n^{\omega}d\log d\log\log d\log\sigma)\right)\subset O^{\sim}\left(n^{\omega}d\right)$
 field operations. \end{thm}
 \begin{pf}
 The computational cost depends on the degree, the row dimension, and
@@ -64,19 +64,19 @@ have degree $O(2^{i}d)$ and dimensions $O(n/2^{i})\times O\left(n\right)$
 and $O\left(n\right)\times O(n/2^{i})$. The multiplication cost is
 therefore $2^{i}\MM(n/2^{i},2^{i}d)$ field operations, which is bounded
 by\begin{align}
-2^{i}\MM(n/2^{i},2^{i}d) & \in O\left(2^{i}\left(n/2^{i}\right)^{\omega}\M'(2^{i}d)\right)\label{eq:MMtoM}\\
- & \subset O\left(n^{\omega}\left(2^{i}\right)^{1-\omega}\M'\left(2^{i}\right)\M'(d)\right)\label{eq:separateMultiplication}\\
- & \subset O\left(n^{\omega}\left(2^{i}\right)^{1-\omega}\left(2^{i}\right)^{\omega-1}\M'(d)\right)\label{eq:MultiplicationToExponent}\\
- & \subset O\left(n^{\omega}\M'(d)\right).\nonumber \end{align}
- Line \ref{eq:separateMultiplication} follows from $\M'(ab)\le\M'(a)\M'(b)$.
-Line \ref{eq:MultiplicationToExponent} follows from $\M(t)\in O(t^{\omega-1})$.
+2^{i}\MM(n/2^{i},2^{i}d) & \in O\left(2^{i}\left(n/2^{i}\right)^{\omega}\bar{\M}(2^{i}d)\right)\label{eq:MMtoM}\\
+ & \subset O\left(n^{\omega}\left(2^{i}\right)^{1-\omega}\bar{\M}\left(2^{i}\right)\bar{\M}(d)\right)\label{eq:separateMultiplication}\\
+ & \subset O\left(n^{\omega}\left(2^{i}\right)^{1-\omega}\left(2^{i}\right)^{\omega-1}\bar{\M}(d)\right)\label{eq:MultiplicationToExponent}\\
+ & \subset O\left(n^{\omega}\bar{\M}(d)\right).\nonumber \end{align}
+ Line \ref{eq:separateMultiplication} follows from $\bar{\M}(ab)\le\bar{\M}(a)\bar{\M}(b)$.
+Line \ref{eq:MultiplicationToExponent} follows from $\bar{\M}(t)\in O(t^{\omega-1})$.
 
 The matrices $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$ and $\bar{\mathbf{Q}}^{\left(i\right)}$
 of the second multiplication have the same degree $O(2^{i}d)$ and
 dimensions $O\left(n\right)\times O(n/2^{i})$ and $O(n/2^{i})\times O(n/2^{i})$
-and can also be multiplied with a cost of $O\left(n^{\omega}\M'(d)\right)$
+and can also be multiplied with a cost of $O\left(n^{\omega}\bar{\M}(d)\right)$
 field operations. The total cost of the multiplications over $O(\log\left(n/m\right))$
-iterations is therefore $O\left(n^{\omega}\M'(d)\log(n/m)\right)$.
+iterations is therefore $O\left(n^{\omega}\bar{\M}(d)\log(n/m)\right)$.
 
 The input matrix $\mathbf{G}^{\left(i\right)}=\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
 of the order basis computation problem at iteration $i$ has dimension
@@ -85,15 +85,15 @@ Therefore, the cost of the order basis computation at iteration $i$
 is $O\left(\left(n/2^{i}\right)^{\omega}\M'\left(2^{i}d\right)\log\left(2^{i}d\right)\right)$.
 The total cost over $O(\log\left(n/m\right))$ iterations is bounded
 by \begin{align*}
- & O\left(\sum_{i=1}^{\infty}\left(\left(n/2^{i}\right)^{\omega}\M'\left(2^{i}d\right)\log\left(2^{i}d\right)\right)\right)\\
-\subset & O\left(\sum_{i=1}^{\infty}\left(\left(n/2^{i}\right)^{\omega}\M'\left(2^{i}\right)\log\left(2^{i}\right)\M'\left(d\right)\log\left(d\right)\right)\right)\\
-\subset & O\left(\sum_{i=1}^{\infty}\left(n^{\omega}\left(2^{i}\right)^{-\omega}\left(2^{i}\right)^{\omega-1}\M'\left(d\right)\log\left(d\right)\right)\right)\\
-\subset & O\left(n^{\omega}\M'\left(d\right)\log\left(d\right)\sum_{i=1}^{\infty}\left(2^{-i}\right)\right)\\
-\subset & O\left(n^{\omega}\M'\left(d\right)\log\left(d\right)\right).\end{align*}
+ & O\left(\sum_{i=1}^{\infty}\left(\left(n/2^{i}\right)^{\omega}\bar{\M}\left(2^{i}d\right)\log\left(2^{i}d\right)\right)\right)\\
+\subset & O\left(\sum_{i=1}^{\infty}\left(\left(n/2^{i}\right)^{\omega}\bar{\M}\left(2^{i}\right)\log\left(2^{i}\right)\bar{\M}\left(d\right)\log\left(d\right)\right)\right)\\
+\subset & O\left(\sum_{i=1}^{\infty}\left(n^{\omega}\left(2^{i}\right)^{-\omega}\left(2^{i}\right)^{\omega-1}\bar{\M}\left(d\right)\log\left(d\right)\right)\right)\\
+\subset & O\left(n^{\omega}\bar{\M}\left(d\right)\log\left(d\right)\sum_{i=1}^{\infty}\left(2^{-i}\right)\right)\\
+\subset & O\left(n^{\omega}\bar{\M}\left(d\right)\log\left(d\right)\right).\end{align*}
 
 
 Finally, extracting an order basis by LSP factorization costs $O\left(n^{\omega}\right)$,
-which is dominated by the other costs. Combining the above gives $O\left(n^{\omega}\M'\left(d\right)\log(n/m)+n^{\omega}\M'\left(d\right)\log d\right)=O\left(n^{\omega}\M'\left(d\right)\log\sigma)\right)$
+which is dominated by the other costs. Combining the above gives $O\left(n^{\omega}\bar{\M}\left(d\right)\log(n/m)+n^{\omega}\bar{\M}\left(d\right)\log d\right)=O\left(n^{\omega}\bar{\M}\left(d\right)\log\sigma)\right)$
 as the total cost of the algorithm. 
 \end{pf}
 
