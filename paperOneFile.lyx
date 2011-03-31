@@ -8990,6 +8990,20 @@ reference "con:unbalancedCondition"
  effective way to estimate the row degree of the result pivot entries.
  Such an estimate may allow us to apply the method given in this section
  efficiently for general unbalanced shifts.
+ An example of the case not covered by Condition 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "con:unbalancedCondition"
+
+\end_inset
+
+ is when the shift 
+\begin_inset Formula $\vec{s}=[0,-n\sigma,-2n\sigma,\dots,-(n-1)n\sigma]$
+\end_inset
+
+.
+ This shift makes the result basis close to Hermite normal form but with
+ possibly higher degree non-pivot entries.
  
 \end_layout
 

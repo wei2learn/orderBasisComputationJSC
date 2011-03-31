@@ -1740,7 +1740,10 @@ section does not work directly. This suggests that one possible future
 direction to pursue is to find an effective way to estimate the row
 degree of the result pivot entries. Such an estimate may allow us
 to apply the method given in this section efficiently for general
-unbalanced shifts. 
+unbalanced shifts. An example of the case not covered by Condition
+\eqref{con:unbalancedCondition} is when the shift $\vec{s}=[0,-n\sigma,-2n\sigma,\dots,-(n-1)n\sigma]$.
+This shift makes the result basis close to Hermite normal form but
+with possibly higher degree non-pivot entries. 
 
 
 \subsection{Transform to Balanced Shifts}
