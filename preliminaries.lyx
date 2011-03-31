@@ -92,7 +92,7 @@ The computational cost in this paper is analysed by bounding the number
 \end_inset
 
 , then 
-\begin_inset Formula $\bar{\M}(ab)\subset O\left(\bar{\M}(a)\bar{\M}(b)\right)$
+\begin_inset Formula $\bar{\M}(ab)\in O\left(\bar{\M}(a)\bar{\M}(b)\right)$
 \end_inset
 
  and 
