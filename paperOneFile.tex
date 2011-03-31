@@ -1,0 +1,2392 @@
+%% LyX 1.6.8 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english,amsthm,seceqn,secthm]{elsart}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{verbatim}
+\usepackage{prettyref}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[authoryear]{natbib}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\floatstyle{ruled}
+\newfloat{algorithm}{tbp}{loa}
+\floatname{algorithm}{Algorithm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+ \let\AND\relax 
+ \usepackage{algorithmic}
+ \usepackage{algolyx}
+ \usepackage{algolyx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{yjsco}\journal{Journal of Symbolic Computation}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}\renewcommand{\algorithmicensure}{\textbf{Output:}}\renewcommand{\algorithmicensure}{\textbf{if}}\renewcommand{\algorithmicensure}{\textbf{Uses:}}
+
+\def\diag{\mbox{diag}}\def\cdeg{\qopname\relax n{cdeg}}\keycomment{\{\{}{\}\}}\def\MM{\qopname\relax n{MM}}\def\M{\qopname\relax n{M}}\def\ord{\qopname\relax n{ord}}
+
+\def\StorjohannTransform{\qopname\relax n{StorjohannTransform}}\def\TransformUnbalanced{\qopname\relax n{TransformUnbalanced}}\def\rowDimension{\qopname\relax n{rowDimension}}\def\columnDimension{\qopname\relax n{columnDimension}}\DeclareMathOperator{\re}{rem}\DeclareMathOperator{\coeff}{coeff}\DeclareMathOperator{\lcoeff}{lcoeff}\def\mab{\qopname\relax n{OrderBasis}}\def\mmab{\qopname\relax n{FastBasis}}\def\umab{\qopname\relax n{UnbalancedFastBasis}}\newcommand{\bb}{\\}
+
+\makeatother
+
+\makeatother
+
+\usepackage{babel}
+
+\begin{document}
+\begin{frontmatter}
+
+\title{Efficient Algorithms for Order Bases Computation}
+
+
+\author{Wei Zhou and George Labahn}
+
+
+\address{{Cheriton School of Computer Science}\\
+ {University of Waterloo},\\
+ {Waterloo, Ontario, Canada}}
+
+
+\ead{\{w2zhou,glabahn\}@uwaterloo.ca }
+\begin{abstract}
+In this paper we present two algorithms for the computation of a shifted
+order basis of an $m\times n$ matrix of power series over a field
+$\mathbb{K}$ with $m\le n$. For a given order $\sigma$ and balanced
+shift $\vec{s}$ the first algorithm determines an order basis with
+a cost of $O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$ field operations
+in $\mathbb{K}$, where $\omega$ is the exponent of matrix multiplication.
+Here an input shift is balanced when $\max(\vec{s})-\min(\vec{s})\in O(m\sigma/n)$.
+%Here $O^{\sim}$
+%is just $O$ with log factors omitted and 
+%$\MM\left(n,d\right)$ denotes
+%the cost of multiplying two polynomial matrices with dimension $n$
+%and degree $d$. 
+This extends earlier work of Storjohann which only determines a subset
+of an order basis that is within a specified degree bound $\delta$
+using $O^{\sim}(n^{\omega}\delta)$ field operations for $\delta\ge\lceil m\sigma/n\rceil$.
+
+While the first algorithm addresses the case when the column degrees
+of a complete order basis are unbalanced given a balanced input shift,
+it is not efficient in the case when an unbalanced shift results in
+the row degrees also becoming unbalanced. %The column degrees of a complete basis may be unbalanced, which is
+%a major issue we address in the first algorithm. When the input shift
+%is unbalanced, the row degrees of the basis can also be unbalanced
+%in addition to the unbalanced column degrees. For this, we present
+We present a second algorithm which balances the high degree rows
+and computes an order basis also using $O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$
+field operations in the case that the shift is unbalanced but satisfies
+the condition $\sum_{i=1}^{n}(\max(\vec{s})-\vec{s}_{i})\le m\sigma$.%
+\begin{comment}
+Every problem with any unbalanced shift can be in fact reduced to
+a problem with a shift that satisfying this condition if the degrees
+of a resulting order basis is known. 
+\end{comment}
+{} %
+\begin{comment}
+Many unbalanced shift problems can be in fact converted to problems
+satisfying this condition. 
+\end{comment}
+{} This condition essentially allows us to locate those high degree
+rows that need to be balanced. %
+\begin{comment}
+In more general unbalanced shift cases, this algorithm may not work
+well directly since we do not know in advance which are the high degree
+rows need to be balanced. But it may work efficiently if we have an
+effective way of estimating the resulting row degrees. 
+\end{comment}
+{} This extends the earlier work by the authors from ISSAC'09.
+\end{abstract}
+\end{frontmatter}
+
+\section{Introduction}
+
+%
+\begin{comment}
+remove all soft O notation and always write logs explicitly? 
+\end{comment}
+{}Let $\mathbf{F}\in\mathbb{K}\left[\left[x\right]\right]^{m\times n}$
+be a matrix of power series over a field $\mathbb{K}$ with $m\le n$.
+Given a nonnegative integer $\sigma$, we say a vector $\mathbf{p}\in\mathbb{K}\left[x\right]^{n\times1}$
+of polynomials gives an \emph{order} $\sigma$ approximation of $\mathbf{F}$,
+or $\mathbf{p}$ has order $\left(\mathbf{F},\sigma\right)$, if \[
+\mathbf{F}\cdot\mathbf{p}\equiv\mathbf{0}\mod x^{\sigma},\]
+ that is, the first $\sigma$ terms of $\mathbf{F}\cdot\mathbf{p}$
+are zero. Historically such problems date back to their use in Hermite's
+proof of the transcendence of $e$ in 1873. In 1893 Padé, a student
+of Hermite, formalized the concepts introduced by Hermite and defined
+what is now known as Hermite-Padé approximants (where $m=1$), Padé
+approximants (where $m=1,n=2$) and simultaneous Padé approximants
+(where $\mathbf{F}$ has a special structure). Such rational approximations
+also specified degree constraints on the polynomials $\mathbf{p}$
+and had their order conditions related to these degree constraints.
+%Pad\'e also introduced the notion of a Pad\'e
+%table for the case $m=1,n=2$ which described all Pad\'e approximants 
+%in terms of $2$ nearby approximants. 
+Additional order problems include vector and matrix versions of rational
+approximation, partial realizations of matrix sequences and vector
+rational reconstruction just to name a few (cf. the references in
+\citet{BL1997}). As an example, the factorization of differential
+operators algorithm of \citet{vanHoeij} makes use of vector Hermite-Padé
+approximation to reconstruct differential factorizations over rational
+functions from factorizations of differential operators over power
+series domains.
+
+The set of all such order $\left(\mathbf{F},\sigma\right)$ approximations
+forms a module over $\mathbb{K}\left[x\right]$. An {\em order basis}
+- or minimal approximant basis or $\sigma$-basis - is a basis of
+this module having a type of minimal degree property (called reduced
+order basis in \citep{BL1997}). The minimal degree property parameterizes
+solutions to an order problem by the degrees of the columns of the
+order basis. In the case of rational approximation, order bases can
+be viewed as a natural generalization of the Padé table of a power
+series \citep{gravesmorris} since they are able to describe {\em
+all} solutions to such problems given particular degree bounds. They
+can even be used to show the well known block structure of the Padé
+and related Rational Interpolation tables \citep{BL1997}. Order bases
+are used in such diverse applications as the inversion of structured
+matrices \citep{La92}, normal forms of matrix polynomials \citep{BLV:1999,BLV:jsc06},
+and other important problems in matrix polynomial arithmetic including
+matrix inversion, determinant and nullspace computation \citep{Giorgi2003,storjohann-villard:2005}.
+In our case we also allow the minimal degree property to include a
+shift $\vec{s}$. Such a shift is important, for example, for matrix
+normal form problems \citep{BLV:1999,BLV:jsc06}.
+
+In this paper we focus on the efficient computation of order basis.
+Algorithms for fast computation of order basis include that of \citet{BeLa94}
+which converts the matrix problem into a vector problem of higher
+order (which they called the Power Hermite-Padé problem). Their divide
+and conquer algorithm has complexity of $O^{\sim}(n^{2}m\sigma+nm^{2}\sigma)$
+field operations. As usual, the soft-$O$ notation $O^{\sim}$ is
+simply Big-$O$ with polylogarithmic factors $(\log(nm\sigma))^{O(1)}$
+ommited. By working more directly on the input $m\times n$ input
+matrix, \citet{Giorgi2003} give a divide and conquer method with
+cost $O^{\sim}\left(n^{\omega}\sigma\right)$ arithmetic operations.
+Their method is very efficient if $m$ is close to the size of $n$
+but can be improved if $m$ is small.
+
+In a novel construction, \citet{Storjohann:2006} effectively reverses
+the approach of Beckermann and Labahn. Namely, rather than convert
+a high dimension matrix order problem into a lower dimension vector
+problem of higher order, Storjohann converts a low dimension problem
+to a high dimension problem with lower order. For example, computing
+an order basis for a $1\times n$ vector input $\mathbf{f}$ and order
+$\sigma$ can be converted to a problem of order basis computation
+with an $O\left(n\right)\times O\left(n\right)$ input matrix and
+an order $O\left(\left\lceil \sigma/n\right\rceil \right)$. Combining
+this conversion with the method of Giorgi et al. can then be used
+effectively for problems with small row dimensions to achieve a cost
+of $O^{\sim}\left(n^{\omega}\left\lceil m\sigma/n\right\rceil \right)$.
+
+However, while order bases of the original problem can have degree
+up to $\sigma$, the nature of Storjohann's conversion limits the
+degree of an order basis of the converted problem to $O\left(\left\lceil m\sigma/n\right\rceil \right)$
+in order to be computationally efficient. In other words, this approach
+does not in general compute a complete order basis. Rather, in order
+to achieve efficiency, it only computes a partial order basis containing
+basis elements with degrees within $O\left(\left\lceil m\sigma/n\right\rceil \right)$,
+referred to by Storjohann as a {\em minbasis}. Fast methods for
+computing a minbasis are particularly useful for certain problems,
+for example, in the case of inversion of structured block matrices
+where one needs only precisely the minbasis \citep{La92}. However,
+in other applications, such as those arising in matrix polynomial
+arithmetic, one needs a complete basis which specifies all solutions
+of a given order, not just those within a particular degree bound
+(cf. \citet{BL1997}).
+
+In this paper we present two algorithms which compute an entire order
+basis with a cost of $O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$
+field operations. This work extends the previous results first reported
+in \citet{za2009}. The two algorithms differ depending on the nature
+of the degree shift required for the reduced order basis. In the first
+case we use a transformation that can be considered as an extension
+of Storjohann's transformation. This new transformation provides a
+way to extend the results from one transformed problem to another
+transformed problem of a higher degree. This enables us to use an
+idea from the null space basis algorithm found in \citep{storjohann-villard:2005}
+in order to achieve efficient computation. At each iteration, basis
+elements within a specified degree bound are computed via a Storjohann
+transformed problem. Then the partial result is used to simplify the
+next Storjohann transformed problem of a higher degree, allowing basis
+elements within a higher degree bound to be computed efficiently.
+This is repeated until all basis elements are computed.
+
+In order to compute an order basis efficiently, the first algorithm
+requires that the degree shifts are balanced. In the case where the
+shift is not balanced, the row degrees of the basis can also become
+unbalanced in addition to the unbalanced column degrees. We give a
+second algorithm that balances the high degree rows and uses $O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$
+field operations when the shift $\vec{s}$ is unbalanced but satisfies
+the condition $\sum_{i=1}^{n}(\max(\vec{s})-\vec{s}_{i})\le m\sigma$.
+This condition essentially allows us to locate the high degree unbalanced
+rows that need to be balanced. %
+\begin{comment}
+In fact, every problem with any unbalanced shift can be reformulated
+to a problem with a shift satisfying this condition if the degrees
+of the resulting order basis is known. 
+\end{comment}
+{} The algorithm converts a problem of unbalanced shift to one with
+balanced shift, based on a second idea from \citep{Storjohann:2006}.
+Then the first algorithm is used to efficiently compute the elements
+of an order basis whose shifted degrees exceed a specified parameter.
+The problem is then reduced to one where we remove the computed elements.
+This results in a new problem with smaller dimension and higher degree.
+The same process is repeated again on this new problem in order to
+compute the elements with the next highest shifted degrees.
+
+The remaining paper is structured as follows. Basic definitions and
+properties of order bases are given in the next section. \prettyref{sec:transform}
+provides an extension to Storjohann's transformation to allow higher
+degree basis elements to be computed. Based on this new transformation,
+\prettyref{sec:Order-Basis-Computation} establishes a link between
+two Storjohann transformed problems of different degrees, from which
+an recursive method and then an iterative algorithm are derived. The
+time complexity is analyzed in the next section. After this, \prettyref{sec:Unbalanced-Shift}
+describes an algorithm which handles problems with a type of unbalanced
+shift. This is followed by a conclusion along with a description for
+topics for future research. 
+
+
+\section{Preliminaries}
+
+\label{sec:Background}
+
+The computational cost in this paper is analysed by bounding the number
+of arithmetic operations (additions, subtractions, multiplications,
+and divisions) in the coefficient field $\mathbb{K}$ on an algebraic
+random access machine. We use $\MM(n,d)$ to denote the cost of multiplying
+two polynomial matrices with dimension $n$ and degree $d$, and $\M(n)$
+to denote the cost of multiplying two polynomials with degree $d$.
+We define a cost function $\bar{\M}(d)=d\log d\log\log d$, then $\bar{\M}(ab)\in O\left(\bar{\M}(a)\bar{\M}(b)\right)$
+and $\bar{\M}(t)\in O(n^{\omega-1})$. We take $\MM(n,d)\in O\left(n^{\omega}\M(d)\right)\subset O(n^{\omega}\M'(d))$,
+where the multiplication exponent $\omega$ is assumed to satisfy
+$2<\omega\le3$. We refer to the book by \citet{vonzurgathen} for
+more details and reference about the cost of polynomial multiplication
+and matrix multiplication.
+
+In the remaining of this section, we provide some of the background
+needed in order to understand the basic concepts and tools needed
+for order basis computation. This includes basic definitions and a
+look at the size of the input and the output for computing such bases.%
+\begin{comment}
+, which provide lower bounds for the computational cost 
+\end{comment}
+{} The challenges of balancing input and handling unbalanced output
+are discussed along with the techniques which we plan to use to overcome
+the difficulties. We review the construction by \citet{Storjohann:2006}
+which transforms the inputs to those having dimensions and degree
+balance better suited for fast computation and discuss an idea from
+\citet{storjohann-villard:2005} for handling the case where the output
+degree is unbalanced.
+
+
+\subsection{Order Basis}
+
+Let $\mathbb{K}$ be a field, $\mathbf{F}\in\mathbb{K}\left[\left[x\right]\right]^{m\times n}$
+a matrix of power series and $\vec{\sigma}=\left[\sigma_{1},\dots,\sigma_{m}\right]$
+a vector of non-negative integers. 
+\begin{defn}
+A vector of polynomials $\mathbf{p}\in\mathbb{K}\left[x\right]^{n\times1}$
+has \emph{order} $\left(\mathbf{F},\vec{\sigma}\right)$ (or \emph{order}
+$\vec{\sigma}$ with respect to $\mathbf{F}$) if $\mathbf{F}\cdot\mathbf{p}\equiv\mathbf{0}\mod x^{\vec{\sigma}}$,
+that is, \[
+\mathbf{F}\cdot\mathbf{p}=x^{\vec{\sigma}}\mathbf{r}=\begin{bmatrix}x^{\sigma_{1}}\\
+ & \ddots\\
+ &  & x^{\sigma_{m}}\end{bmatrix}\mathbf{r}\]
+ for some $\mathbf{r}\in\mathbb{K}\left[\left[x\right]\right]^{m\times1}$.
+If $\vec{\sigma}=\left[\sigma,\dots,\sigma\right]$ is uniform, then
+we say that $\mathbf{p}$ has order $\left(\mathbf{F},\sigma\right).$
+%
+\begin{comment}
+The vector of power series $\mathbf{r}$ is called the order $\left(\mathbf{F},\sigma\right)$-residual
+of \textbf{$\mathbf{p}$}. 
+\end{comment}
+{} The set of all order $\left(\mathbf{F},\vec{\sigma}\right)$ vectors
+is a $\mathbb{K}\left[x\right]$-module denoted by $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $. 
+\end{defn}
+An order basis for $\mathbf{F}$ and $\vec{\sigma}$ is simply a basis
+for the module $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $.
+In this paper we compute those order bases having a type of minimality
+degree condition (also referred to as a reduced order basis in \citep{BL1997}).
+While minimality is often given in terms of the degrees alone it is
+sometimes important to consider this in terms of shifted degrees \citep{BLV:jsc06}.
+
+The shifted column degree of a column polynomial vector $\mathbf{p}$
+with shift $\vec{s}=\left[s_{1},\dots,s_{n}\right]\in\mathbb{Z}^{n}$
+is given by \[
+\deg_{\vec{s}}\mathbf{p}=\max_{1\le i\le n}[\deg p^{\left(i\right)}+s_{i}]=\deg(x^{\vec{s}}\cdot\mathbf{p}).\]
+ We call this the \emph{$\vec{s}$-column degree}, or simply the \emph{$\vec{s}$-degree}
+of $\mathbf{p}$. A shifted column degree defined this way is equivalent
+to the notion of \emph{defect} commonly used in the literature. Our
+definition of $\vec{s}$-degree is also equivalent to the notion of
+$\mathbf{H}$-degree from \citep{BL1997} for $\mathbf{H}=x^{\vec{s}}$.
+As in the uniform shift case, we say a matrix is \emph{$\vec{s}$-column
+reduced} or \emph{$\vec{s}$-reduced} if its $\vec{s}$-degrees cannot
+be decreased by unimodular column operations. More precisely, if $\mathbf{P}$
+is a $\vec{s}$-column reduced and $[d_{1},\dots,d_{n}]$ are the
+$\vec{s}$-degrees of columns of $\mathbf{P}$ sorted in nondecreasing
+order, then $[d_{1},\dots,d_{n}]$ is lexicographically minimal among
+all matrices right equivalent to $\mathbf{P}$. Note that a matrix
+$\mathbf{P}$ is $\vec{s}$-column reduced if and only if $x^{\vec{s}}\cdot\mathbf{P}$
+is column reduced. Similarly, $\mathbf{P}$ is in $\vec{s}$-Popov
+form if $x^{\vec{s}}\cdot\mathbf{P}$ is in Popov form \citep{BLV:1999,BLV:jsc06}. 
+
+An \emph{order basis} \citep{BeLa94,BL1997} $\mathbf{P}$ of $\mathbf{F}$
+with order $\vec{\sigma}$ and shift $\vec{s}$, or simply an $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis,
+is a basis for the module $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
+%
+\begin{comment}
+\[
+\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle =\{\mathbf{p}\in\mathbb{K}\left[x\right]^{n\times1}\|\mathbf{F}\cdot\mathbf{p}=x^{\vec{\sigma}}\mathbf{r},\mathbf{r}\in\mathbb{K}[[x]]^{m\times1}\}\]
+
+\end{comment}
+{} having minimal $\vec{s}$-column degrees. If $\vec{\sigma}=\left[\sigma,\dots,\sigma\right]$
+are constant vectors then we simply write $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis.
+The precise definition of an $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis
+is as follows.
+\begin{defn}
+A polynomial matrix $\mathbf{P}$ is an order basis of $\mathbf{F}$
+of order $\sigma$ and shift $\vec{s}$, denoted by $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis,
+if the following properties hold:
+\begin{enumerate}
+\item $\mathbf{P}$ is a nonsigular matrix of dimension $n$.
+\item $\mathbf{P}$ is $\vec{s}$-column reduced. 
+\item $\mathbf{P}$ has order $\left(\mathbf{F},\vec{\sigma}\right)$ (or
+equivalently, each column of $\mathbf{P}$ is in $\left\langle (\mathbf{F},\vec{\sigma})\right\rangle $). 
+\item Any $\mathbf{q}\in\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
+can be expressed as a linear combination of the columns of $\mathbf{P}$,
+given by $\mathbf{P}^{-1}\mathbf{q}$. 
+\end{enumerate}
+\end{defn}
+%
+\begin{comment}
+Note that the module $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
+does not depend on the shift $\vec{s}$. 
+\end{comment}
+{}
+
+Although we allow different orders for each row in this definition,
+we focus on order basis computation problems having uniform order.
+However special cases of non-uniform order problems are still needed
+in our analysis. We also assume $m\le n$ for simplicity. The case
+of $m>n$ can be transformed to the case of $m\le n$ by compression
+\citep{storjohann-villard:2005}. We further assume, without any loss
+of generality, that $n/m$ and $\sigma$ are powers of two. This can
+be achieved by padding zero rows to the input matrix and multiplying
+it by some power of $x$.
+
+From \citep{BL1997} we have the following lemma. 
+\begin{lem}
+\label{lem:orderBasisProperty} 
+
+\label{lem:orderBasisEquivalence}The following are equivalent for
+a polynomial matrix \textbf{$\mathbf{P}$}: 
+\begin{enumerate}
+\item $\mathbf{P}$ is a $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis. 
+\item $\mathbf{P}$ is comprised of a set of $n$ minimal $\vec{s}$-degree
+polynomial vectors that are linearly independent and each having order
+$\left(\mathbf{F},\vec{\sigma}\right)$. 
+\item \label{enu:reduced+generator}$\mathbf{P}$ does not contain a zero
+column, has order $\left(\mathbf{F},\vec{\sigma}\right)$, is $\vec{s}$-column
+reduced, and any $\mathbf{q}\in\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
+can be expressed as a linear combination of the columns of $\mathbf{P}$. 
+\end{enumerate}
+\end{lem}
+In some cases an entire order basis is unnecessary and instead one
+looks for a minimal basis that generates only the elements of $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
+with $\vec{s}$-degrees bounded by a given $\delta$. Such a minimal
+basis is a partial $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis
+comprised of elements of a $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis
+with $\vec{s}$-degrees bounded by $\delta$. This is called a \emph{minbasis}
+in \citet{Storjohann:2006}. 
+\begin{defn}
+\label{def:genset} Let $\left\langle \left(\mathbf{F},\vec{\sigma},\vec{s}\right)\right\rangle _{\delta}\subset\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
+denote the set of order $\left(\mathbf{F},\vec{\sigma}\right)$ polynomial
+vectors with $\vec{s}$-degree bounded by $\delta$. A $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)_{\delta}$-basis
+is a polynomial matrix $\mathbf{P}$ not containing a zero column
+and satisfying: 
+\begin{enumerate}
+\item $\mathbf{P}$ has order $\left(\mathbf{F},\vec{\sigma}\right).$ 
+\item Any element of $\left\langle \left(\mathbf{F},\vec{\sigma},\vec{s}\right)\right\rangle _{\delta}$
+can be expressed as a linear combination of the columns of $\mathbf{P}$. 
+\item $\mathbf{P}$ is $\vec{s}$-column reduced. 
+\end{enumerate}
+\end{defn}
+%
+\begin{comment}
+As before, the linear combination here is in fact unique. 
+\end{comment}
+{}A $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)_{\delta}$-basis is,
+in general, not square unless $\delta$ is large enough to contain
+all $n$ basis elements in which case it is a complete $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis.
+
+
+\subsection{Balancing Input with Storjohann's Transformation}
+
+\label{sub:storjohannTransformation}
+
+For computing a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis with
+input matrix $\mathbf{F}\in\mathbb{K}\left[\left[x\right]\right]^{m\times n}$,
+shift $\vec{s}$ and order $\sigma$ one can view $\mathbf{F}$ as
+a polynomial matrix with degree $\sigma-1$, as higher order terms
+are not needed in the computation. As such the total input size of
+an order basis problem is $mn\sigma$ coefficients. One can apply
+the method of \citet{Giorgi2003} directly, which gives a cost of
+\begin{align*}
+\sum_{i=0}^{\log\sigma}2^{i}\MM(n,2^{-i}\sigma)= & \sum_{i=0}^{\log\sigma}2^{-i}\sigma\MM(n,2^{i})\\
+\subset & O\left(\sum_{i=0}^{\log\sigma}2^{-i}n^{\omega}\sigma2^{i}\log2^{i}\log\log2^{i}\right)\\
+= & O\left(n^{\omega}\sigma\sum_{i=0}^{\log\sigma}i\log i\right)\\
+\subset & O\left(n^{\omega}\sigma\sum_{i=0}^{\log\sigma}\log\sigma\log\log\sigma\right)\\
+= & O\left(n^{\omega}\sigma\log^{2}\sigma\log\log\sigma\right)=O(n^{\omega}\bar{\M}(\sigma)\log\sigma),\end{align*}
+ close to the cost of multiplying two matrices with dimension $n$
+and degree $\sigma$. Note that this cost is independent of the degree
+shift. This is very efficient if $m\in\Theta\left(n\right)$. However,
+for small $m$, say $m=1$ as in Hermite Padé approximation, the total
+input size is only $n\sigma$ coefficients. Matrix multiplication
+cannot be used effectively on a such vector input.
+
+\citet{Storjohann:2006} provides a novel way to transform an order
+basis problem with small row dimension to a problem with higher row
+dimension and possibly lower degree to take advantage of \citet{Giorgi2003}'s
+algorithm. We provide a quick overview of a slightly modified version
+of Storjohann's method. Our small modification allows a nonuniform
+degree shift for the input and provides a slightly simpler degree
+shift, degree, and order for the transformed problem. The proof of
+its correctness is provided in \prettyref{sec:transform}. In order
+to compute a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis, assuming
+without loss of generality that $\min\left(\vec{s}\right)=0$, we
+first write \[
+\mathbf{F}=\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\cdots+\mathbf{F}_{l}x^{l\delta},\]
+ with $\deg\mathbf{F}_{i}<\delta$%
+\begin{comment}
+I used $\deg\mathbf{F}_{i}\le\delta-1$ before, but the reviewer suggested
+changing to $\deg\mathbf{F}_{i}<\delta$ and said it's slightly easier
+to read. A reason to use $\le$ is to make it consistent with the
+definition of minbasis. For example, $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$-basis
+indicates that the degree bound is $\delta-1$. I still prefer to
+use $\le$. 
+\end{comment}
+{} for a positive integer $\delta$, and where we assume (again without
+loss of generality) that $\sigma=\left(l+1\right)\delta$. Set \[
+{\bar{\mathbf{F}}}=\left[\begin{array}{c|cccc}
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0}_{m} & \mathbf{0}_{m} & \cdots & \mathbf{0}_{m}\\
+\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & \mathbf{0}_{m}\\
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0}_{m} & \mathbf{I}_{m}\\
+\vdots &  &  & \ddots\\
+\mathbf{F}_{l-1}+\mathbf{F}_{l}x^{\delta} &  &  &  & \mathbf{I}_{m}\end{array}\right]_{ml\times(n+m(l-1))}.\]
+ On the left side of $\bar{\mathbf{F}}$, each block $\mathbf{F}_{i}+\mathbf{F}_{i+1}x^{\delta}$
+has dimension $m\times n$. On the right side, there are $l\times(l-1)$
+blocks of $\mathbf{0}_{m}$'s or $\mathbf{I}_{m}$'s each having dimension
+$m\times m$. The overall dimension of $\bar{\mathbf{F}}$ is $ml\times(n+m(l-1))$.
+Set $\vec{s'}=\left[\vec{s},0,\dots,0\right]$ ($\vec{s}$ followed
+by $m\left(l-1\right)$ $0$'s). A $({\bar{\mathbf{F}}},2\delta,\vec{s'})$-basis
+can then be computed by the method of Giorgi et al. with a cost of
+$O^{\sim}\left(n^{\omega}\delta\right)$ for $\delta\ge\left\lceil m\sigma/n\right\rceil $.
+This transformation of Storjohann can be viewed as a partial linearization
+of the original problem, where $\bar{\mathbf{F}}$ is analogous to
+the coefficient matrix of $\mathbf{F}$. Note that $\bar{\mathbf{F}}$
+has $l$ block rows each containing $m$ rows. We continue to use
+each block row to represent $m$ rows for the remainder of the paper.
+
+Clearly a $(\bar{\mathbf{F}},2\delta,\vec{s'})$-basis $\bar{\mathbf{P}}$
+of the transformed problem is not a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+of the original problem, as $\bar{\mathbf{P}}$ has a higher dimension
+and lower degree. However, the first $n$ rows of the $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$-basis
+contained in $\bar{\mathbf{P}}$ is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$-basis.
+
+Note that there is no need to set the degree parameter $\delta$ to
+less than $\left\lceil m\sigma/n\right\rceil $, as this produces
+fewer basis elements without a better cost. The lowest cost is achieved
+when $\bar{\mathbf{F}}$ is close to square so matrix multiplication
+can be used most effectively. This requires the number of block rows
+$l$ of $\bar{\mathbf{F}}$ to be close to $n/m$, which requires
+$\delta=\Theta\left(\left\lceil m\sigma/n\right\rceil \right)$. Recall
+that $mn\sigma$ is the total size of the original $m\times n$ input
+matrix $\mathbf{F}$, hence $d=mn\sigma/n^{2}=m\sigma/n$ is the average
+degree of each entry of $\mathbf{F}$ if the $m$ rows of $\mathbf{F}$
+are spread out over $n$ rows. Choosing $\delta=\Theta\left(\left\lceil d\right\rceil \right)$,
+the cost of computing a $({\bar{\mathbf{F}}},2\delta,\vec{s'})$-basis
+is then $O^{\sim}\left(n^{\omega}\left\lceil d\right\rceil \right)=O^{\sim}\left(n^{\omega}\left\lceil m\sigma/n\right\rceil \right)$.
+The ceiling function here is used to take care of the case of $m\sigma<n$.
+For the remainder of the paper, we assume that $m\sigma\ge n$ in
+order to avoid the need for the ceiling function and so simplify the
+presentation. % avoid this case for simplicity. 
+Together with the assumption that $\sigma$ and $n/m$ are both powers
+of two, $m\sigma/n$ is then always a positive integer in this paper.
+
+%Let us now look at a concrete example that illustrate Storjohann's method. 
+
+\begin{exmp}
+\label{exm:StorjohannTransformation}Let $\mathbb{K}=\mathbb{Z}_{2}$,
+$\sigma=8$, $\delta=2$ and \[
+\mathbf{F}=[x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},~1+x+x^{5}+x^{6}+x^{7},~1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},~1+x+x^{3}+x^{7}]\]
+ a vector of size $1\times4$. Then \[
+\bar{\mathbf{F}}=\left[{\begin{array}{cccc|cc}
+x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
+\hline 1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & ~~1~ & ~0~\\
+1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]_{3\times6}\]
+ and a $\left(\bar{\mathbf{F}},4,\vec{0}\right)$-basis is given by
+\[
+\bar{\mathbf{P}}=\left[{\begin{array}{cc|cccc}
+~1~ & ~x~ & 1 & x^{2}+x^{3} & 0 & x+x^{2}+x^{3}\\
+0 & 1 & 0 & x^{2} & x^{2}+x^{3} & 0\\
+1 & 1+x & x+x^{2} & x^{2} & x^{2} & x^{2}\\
+1 & 0 & 0 & 0 & 0 & 0\\
+\hline 0 & 1 & 1 & 0 & x^{2} & x+x^{2}+x^{3}\\
+0 & 1 & 1+x^{2} & 0 & x^{2} & x+x^{2}\end{array}}\right].\]
+ The first two columns of $\bar{\mathbf{P}}$ have degree less than
+$2$, hence its top left $4\times2$ submatrix is a $\left(\mathbf{F},8,\vec{0}\right)_{1}$-basis.
+This is a low degree part of the\textbf{ $(\mathbf{F},8,\vec{0})$}-basis\[
+\mathbf{P}=\begin{bmatrix}1 & x & 1 & x^{2}\\
+0 & 1 & x^{2}+x^{3} & 0\\
+1 & 1+x & x & x^{3}+x^{4}\\
+1 & 0 & 0 & 0\end{bmatrix}.\]
+ Note that if $\delta$ is set to $\sigma/2=4$, then the transformed
+problem is the same as the original problem. 
+\end{exmp}
+
+\subsection{\label{sub:Unbalanced-Output}Unbalanced Output }
+
+Storjohann's transformation can be used to efficiently compute a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$-basis
+if the degree parameter $\delta$ is close to the average degree $d=m\sigma/n$.
+However, if $\delta$ is large, say $\delta=\Theta\left(\sigma\right)$,
+or if we want to compute a complete $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis,
+then the current analysis for the computation still gives the cost
+estimate of  $O^{\sim}\left(n^{\omega}\sigma\right)$.
+
+The underlying difficulty with computing a complete order basis is
+that the basis can have degree up to $\sigma$. As the output of this
+problem has dimension $n\times n$ and degree up to $\Theta\left(\sigma\right)$,
+this may seem to suggest $O^{\sim}\left(n^{\omega}\sigma\right)$
+is about the best that can be done. However, the total size of the
+output, that is, the total number of coefficients of all $n^{2}$
+polynomial entries can still be bounded by $O\left(mn\sigma\right)$,
+the same as the size of the input. This gives some hope for a more
+efficient method. 
+\begin{lem}
+\label{lem:size}Let $\vec{t}$ be the $\vec{s}$-column degrees of
+a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis. Then $\sum_{i}\left(\vec{t}_{i}-\vec{s}_{i}\right)~\le~m\sigma$%
+\begin{comment}
+ and $\max_{i}\left(\vec{t}_{i}-\vec{s}_{i}\right)\le\sigma$
+\end{comment}
+{}\textup{}%
+\begin{comment}
+need to permute the columns to put the pivots on the diagonal.
+\end{comment}
+{}. In addition, the total size of any $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+in $\vec{s}$-Popov form is bounded by $nm\sigma$. \end{lem}
+\begin{pf}
+This can be shown by considering the sizes of the pivots in the iterative
+order basis computation given in \citep{BeLa94,Giorgi2003}. %
+\begin{comment}
+Consider the degree of pivot entries in the iterative order basis
+computation from \citet{BeLa94}. Starting at order zero, for each
+order increasing by one, the sum of the degrees of all the pivot entries
+is increased by at most $m$. Hence the sum is at most $m\sigma$
+after $\sigma$ increases for an order $\sigma$ order basis. Now
+consider any particular column of the basis. Each entry in the column
+has degree bounded by the corresponding pivot entry of the row, so
+the total degree of the entries in the column is bounded by $m\sigma$.
+Therefore, the size of any order $\sigma$ basis with $n$ columns
+is bounded by $nm\sigma$ coefficients. 
+\end{comment}
+{} 
+\end{pf}
+%
+\begin{comment}
+As a result, the average degree of the entries of the output matrix
+can be also bounded by $d=m\sigma/n$. 
+\end{comment}
+{}
+
+Let us now look at the average column degree of the output. In the
+first part of this paper, we assumed, without loss of generality,
+that $\min\left(\vec{s}\right)=0$ so $\deg\mathbf{q}\le\deg_{\vec{s}}\mathbf{q}$
+for any $\mathbf{q}\in\mathbb{K}\left[x\right]^{n}$. The situation
+is simpler if the shift $\vec{s}$ is uniform since then $\sum_{i}\vec{t}_{i}\le m\sigma$
+by \prettyref{lem:size} and the average column degree is therefore
+bounded by $d=m\sigma/n$. In the first part of this paper, we consider
+a slightly more general case, when the shift $\vec{s}$ is \emph{balanced},
+which is defined as follows. 
+\begin{defn}
+A shift $\vec{s}$ is balanced if $\max\vec{s}-\min\vec{s}\in O(d)=O(m\sigma/n)$. 
+\end{defn}
+By assuming $\min\vec{s}=0$, $\vec{s}$ is balanced if $\max\vec{s}\in O(d)$.
+In this case, \prettyref{lem:size} implies $\sum_{i}\left(\vec{t}_{i}\right)\le m\sigma+\sum_{i}\left(\vec{s}_{i}\right)\in O\left(m\sigma+nd\right)=O\left(m\sigma\right)$.
+Hence the average column degree of the output basis remains $O\left(d\right)$.
+
+%From the iterative algorithms for computing order basis, computing
+%a order basis to order $\sigma$ requires up to $\sigma$ iterations,
+%each iteration increases the sum of column degrees of the order basis
+%by at most $m$. Therefore, the sum of column degrees of an order
+%$\sigma$ order basis is at most $m\sigma$.
+
+
+%
+\begin{comment}
+In fact, if $\mathbf{F}\left(0\right)$ is full rank, the sum of column
+degrees of an order $\sigma$ order basis is exactly $m\sigma$, as
+we need exactly $\sigma$ iterations, each increases the sum of the
+column degrees by exactly $m$. 
+\end{comment}
+{}
+
+The fact that a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis can
+have degree up to $\sigma$ while its average column degree is $O\left(m\sigma/n\right)$
+implies that an order basis can have quite unbalanced column degrees,
+especially if $m$ is small. A similar problem with unbalanced output
+is encountered in null space basis computation. \citet{storjohann-villard:2005}
+deal with this in the following way.
+
+Let $d$ be the average column degree of the output. Set the degree
+parameter $\delta$ to twice that of $d$. This allows one to compute
+at least half the columns of a basis (since the number of columns
+with degree at least $\delta$ must be at most a half of the total
+number of columns). One can then simplify the problem, so that the
+computed basis elements are completely removed from the problem. This
+reduces the dimension of the problem by at least a factor of $2$.
+One then doubles the degree bound $\delta$ in order to have at least
+$3/4$ of the basis elements computed. Repeating this, at iteration
+$i$, at most $1/2^{i}$ of the basis elements are remaining. Therefore,
+no more than $\log n$ iterations are needed to compute all basis
+elements.
+
+%We now have two ideas for efficient computation. Storjohann's transformation
+%for balancing the input and Storjohann and Villard's method for handling
+%unbalanced output. 
+%In this paper, we discuss a way to compute order basis involving the
+%ideas of \citep{storjohann-villard:2005} and \citep{Storjohann:2006}. 
+
+
+
+\section{Extending Storjohann's Transformation}
+
+\label{sec:transform}
+
+%
+\begin{comment}
+notations: 
+\begin{itemize}
+\item Matrices
+
+\begin{itemize}
+\item Polynomial matrices: bold capital $\mathbf{A,B,F,G,P,R}$
+
+\begin{itemize}
+\item $\mathbf{F}$: input matrix,
+
+\begin{itemize}
+\item $\bar{\mathbf{F}}$: Storjohann transformed matrix, 
+\item $\check{\mathbf{F}}$: the transformation that extends $\bar{\mathbf{F}}$. 
+\end{itemize}
+\item $\mathbf{G}$: input matrix for the second subproblem. 
+\end{itemize}
+\item scalar matrices: non-bold Capital, used to distinguish coefficient
+matrix 
+\item Identity matrix: $\mathbf{I}$ this is to be consistent with polynomial
+matrices, as identity is considered as an important element of polynomial
+matrices. 
+\end{itemize}
+\item order
+
+\begin{itemize}
+\item $\sigma,\omega$ 
+\end{itemize}
+\item vectors
+
+\begin{itemize}
+\item polynomial vectors: $\mathbf{p,q,r,s,t}$ 
+\item $\mathbf{p}$: element in basis $\mathbf{P}$ 
+\item $\mathbf{q}:$ some test element in $\left\langle \left(\mathbf{F},\sigma\right)\right\rangle $ 
+\item $\bar{\mathbf{t}}$: test element in $\left\langle \left(\check{\mathbf{F}},\vec{\omega}\right)\right\rangle $ 
+\end{itemize}
+\item shifts:
+
+\begin{itemize}
+\item $\vec{e}$: uniform 0 shift used for transformation. 
+\item $\vec{s}$: original input shift 
+\item $\vec{t}$: output shifted degrees of the current basis, with result
+from previous subproblems included. i.e., $\left[\vec{s},0,\dots,0\right]$-degrees
+of the current basis. 
+\item $\vec{b},\vec{a}$: input shift and output shifted degrees for each
+reduced subproblem that calls OrderBasis. In the iterative computational
+process, input shift $\vec{b}^{\left(i-1\right)}$ corresponds to
+input shift $\vec{a}^{\left(i\right)}$. The high degree entries of
+$\vec{a}^{\left(i\right)}$ at iteration $i$ is then used as the
+input shift $\vec{b}^{\left(i\right)}$ for iteration $i$. 
+\end{itemize}
+\item dimension:
+
+\begin{itemize}
+\item $m,n$: row, column dimension 
+\item $k$: number of columns with $\left[\vec{s},0,\dots,0\right]$-degrees
+less than degree bound 
+\item $l$: number of block rows 
+\end{itemize}
+\item degrees, order:
+
+\begin{itemize}
+\item $\sigma$: order 
+\item $\delta$: degree bound 
+\item $d$: average degree (=$m\sigma/n$) 
+\end{itemize}
+\end{itemize}
+
+\end{comment}
+{}
+
+In this section, we introduce a transformation that can be viewed
+as an extension of Storjohann's transformation which allows for computation
+of a full, rather than partial, order basis. More generally (as discussed
+in the next section) this transformation provides a link between two
+Storjohann transformed problems constructed using different degree
+parameters. For easier understanding, we first focus on a particular
+case of this transformation in \prettyref{sub:particularCase} and
+then generalize this in \prettyref{sub:generalTransform}.
+
+
+\subsection{\label{sub:particularCase}A Particular Case}
+
+Consider the problem of computing a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis.
+We assume $\sigma=4\delta$ %
+\begin{comment}
+(The results below hold for any positive integer great than one, but
+4 is used for simplicity. ) 
+\end{comment}
+{}for a positive integer $\delta$ and write the input matrix polynomial
+as $\mathbf{F}=\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\mathbf{F}_{3}x^{3\delta}$
+with $\deg\mathbf{F}_{i}<\delta$.%
+\begin{comment}
+again, changed from $\deg\mathbf{F}_{i}\le\delta-1$ to $\deg\mathbf{F}_{i}<\delta$
+even though I prefer $\le$ 
+\end{comment}
+{} In the following, we show that computing a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+can be done by computing a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis
+where \begin{equation}
+\mathbf{F}'=\left[\begin{array}{cc}
+\mathbf{F} & \mathbf{0}\\
+\mathbf{F}'_{21} & \mathbf{F}'_{22}\end{array}\right]=\left[\begin{array}{c|cr}
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\mathbf{F}_{3}x^{3\delta} & \mathbf{0} & \mathbf{0}\\
+\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & \mathbf{0}\\
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0} & \mathbf{I}_{m}\end{array}\right]\label{eq:extendedSTransformTop}\end{equation}
+ with order $\vec{\omega}=\left[4\delta,\dots,4\delta,2\delta,\dots,2\delta\right]$
+(with $m$ $4\delta$'s and $2m$ $2\delta$'s) and degree shift $\vec{s'}=\left[\vec{s},e,\dots,e\right]$
+(with $2m$ $e$'s), where $e$ is an integer less than or equal to
+$1$. %
+\begin{comment}
+actually true for $e\le\min\vec{s}+1$. keeping this $e$ helps to
+show that this hold true in more general situations, while Storjohann
+only used $e=1$. it can be negative as well. 
+\end{comment}
+{} We set $e$ to $0$ in this paper for simplicity%
+\footnote{Storjohann used $e=1$ in \citep{Storjohann:2006}. All results in
+this section still hold for any other $e\le1.$%
+}. %
+\begin{comment}
+In fact, it is quite easy to construct a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+from a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis, as we show
+later in \prettyref{lem:FtoAbasis}. However, it requires more work
+to extract a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis from
+a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis, which is addressed
+eventually in \prettyref{cor:extractingFbasisFromGbasis}. Note that
+although constructing a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+from a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis in \prettyref{lem:FtoAbasis}
+is the reverse of what we want, this well-formed $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+restricts the elements of $\langle(\check{\mathbf{F}},\vec{\omega},\vec{s'})\rangle$
+to a simple form shown in \prettyref{cor:FtauBasisForm}, which helps
+to establish a close correspondence between a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})$-basis
+and a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis in \prettyref{lem:2delta-1Basis},
+\prettyref{lem:2deltaBasis}, and \prettyref{thm:mainTheorem}. 
+\end{comment}
+{}
+
+We first look at the correspondence bettween the elements of $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
+and the elements of $\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
+in \prettyref{lem:qToBqOrder} to \prettyref{lem:bqToqOrder}. The
+correspondence between $\left(\mathbf{F},\sigma,\vec{s}\right)$-bases
+and $(\mathbf{F}',\vec{\omega},\vec{s'})$-bases is then considered
+in \prettyref{cor:FtauBasisForm} to \prettyref{thm:mainTheorem}.
+
+Let \[
+\mathbf{B}=\left[\begin{array}{c}
+\mathbf{I}_{n}\\
+x^{-\delta}\mathbf{F}_{0}\\
+x^{-2\delta}\left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}\right)\end{array}\right].\]
+
+\begin{lem}
+\label{lem:qToBqOrder}If $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma\right)\right\rangle $,
+then $\mathbf{B}\mathbf{q}\in\langle(\mathbf{F}'\vec{,\omega})\rangle$.\end{lem}
+\begin{pf}
+The lemma follows from \[
+\mathbf{F}'\mathbf{B}\mathbf{q}=\left[\begin{array}{r}
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\mathbf{F}_{3}x^{3\delta}\\
+\mathbf{F}_{0}x^{-\delta}+\mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta}\\
+\mathbf{F}_{0}x^{-2\delta}+\mathbf{F}_{1}x^{-\delta}+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta}\end{array}\right]\mathbf{q}\equiv\mathbf{0}\mod x^{\vec{\omega}}.\]
+ Note that the bottom rows of $\mathbf{B}$ may not be polynomials.
+However, $\mathbf{B}\mathbf{q}$ is a polynomial vector since $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma\right)\right\rangle $
+implies $\mathbf{q}\in\left\langle \left(\mathbf{F}_{0},\delta\right)\right\rangle $
+and $\mathbf{q}\in\left\langle \left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta},2\delta\right)\right\rangle $. 
+\end{pf}
+\noindent The following lemma shows that the condition $e\le1$ forces
+$\deg_{\vec{s'}}\mathbf{B}\mathbf{q}$ to be determined by $\mathbf{q}$. 
+\begin{lem}
+\label{lem:qToBqDegree}If $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
+for any degree bound $\tau\in\mathbb{Z}$, then $\deg_{\vec{s'}}\mathbf{B}\mathbf{q}=\deg_{\vec{s}}\mathbf{q}$.\end{lem}
+\begin{pf}
+By assumption $s_{i}\ge0$, so $\deg\mathbf{q}\le\deg_{\vec{s}}\mathbf{q}.$
+Now consider the degree of the bottom $2m$ entries, $\mathbf{q}_{2},\mathbf{q}_{3}$,
+of \[
+\begin{bmatrix}\mathbf{q}\\
+\mathbf{q}_{2}\\
+\mathbf{q}_{3}\end{bmatrix}=\mathbf{B}\mathbf{q}=\left[\begin{array}{r}
+\mathbf{q}\\
+x^{-\delta}\mathbf{F}_{0}\cdot\mathbf{q}\\
+x^{-2\delta}\left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}\right)\cdot\mathbf{q}\end{array}\right].\]
+ Our goal is to show $\deg_{\vec{e}}\left[\mathbf{q}_{2}^{T},\mathbf{q}_{3}^{T}\right]^{T}\le\deg_{\vec{s}}\mathbf{q}$.
+Note that \[
+\deg\mathbf{q}_{2}=\deg\left(\mathbf{F}_{0}\mathbf{q}/x^{\delta}\right)\le\deg\mathbf{q}+\delta-1-\delta\le\deg_{\vec{s}}\mathbf{q}-1,\]
+ and similarly $\deg\mathbf{q}_{3}\le\deg_{\vec{s}}\mathbf{q}-1$.
+Therefore \[
+\deg_{\vec{e}}\begin{bmatrix}\mathbf{q}_{2}\\
+\mathbf{q}_{3}\end{bmatrix}=\deg\begin{bmatrix}\mathbf{q}_{2}\\
+\mathbf{q}_{3}\end{bmatrix}+e\le\deg_{\vec{s}}\mathbf{q}-1+e\le\deg_{\vec{s}}\mathbf{q}.\]
+ \end{pf}
+\begin{cor}
+\label{cor:sToBs}If $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
+for any degree bound $\tau\in\mathbb{Z}$ , then\textup{ }$\mathbf{B}\mathbf{q}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$\textup{.} 
+\end{cor}
+%\begin{pf}
+%This follows from \prettyref{lem:qToBqOrder} and \prettyref{lem:qToBqDegree}.\end{pf}
+
+\begin{cor}
+\label{cor:linearCombinationOfFirstnRows}Let $\bar{\mathbf{S}}_{\tau}$
+be a $(\mathbf{F}',\vec{\omega},\vec{s'})_{\tau}$-basis and $\mathbf{S}_{\tau}$
+be the top $n$ rows of $\bar{\mathbf{S}}_{\tau}$ for any bound $\tau\in\mathbb{Z}$.
+Then any $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$
+is a linear combination of the columns of $\mathbf{S}_{\tau}$.\end{cor}
+\begin{pf}
+By \prettyref{cor:sToBs}, $\mathbf{B}\mathbf{q}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$,
+and so is a linear combination of columns of $\bar{\mathbf{S}}_{\tau}$.
+That is, there exists a polynomial vector $\mathbf{u}$ such that
+$\mathbf{B}\mathbf{q}=\bar{\mathbf{S}}_{\tau}\mathbf{u}$. This remains
+true if we restrict the equation to the top $n$ rows, that is, $\mathbf{q}=\left[\mathbf{I}_{n},\mathbf{0}\right]\mathbf{B}\mathbf{q}=\left[\mathbf{I}_{n},\mathbf{0}\right]\bar{\mathbf{S}}_{\tau}\mathbf{u}=\mathbf{S}_{\tau}\mathbf{u}$.\end{pf}
+\begin{lem}
+\label{lem:bqToqOrder}Let $\bar{\mathbf{q}}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
+for any degree bound $\tau\in\mathbb{Z}$, and $\mathbf{q}_{1}$ the
+first $n$ entries of $\mathbf{\bar{q}}$. Then $\mathbf{q}_{1}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\tau}$.\end{lem}
+\begin{pf}
+The top rows of \[
+\mathbf{F}'\mathbf{q}=\left[\begin{array}{cc}
+\mathbf{F} & \mathbf{0}\\
+\mathbf{F}'_{21} & \mathbf{F}'_{22}\end{array}\right]\left[\begin{array}{c}
+\mathbf{q}_{1}\\
+\mathbf{q}_{2}\end{array}\right]=\begin{bmatrix}\mathbf{F}\mathbf{q}_{1}\\
+\mathbf{F}'_{21}\mathbf{q}_{1}+\mathbf{F}'_{22}\mathbf{q}_{2}\end{bmatrix}\equiv\mathbf{0}\mod x^{\vec{\omega}}\]
+ give $\mathbf{F}\mathbf{q}_{1}\equiv\mathbf{0}\mod x^{\sigma}$. 
+\end{pf}
+The next lemma shows a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis
+can be constructed from a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis.
+This well-formed $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis restricts
+the elements of $\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle$
+to a simple form shown in \prettyref{cor:FtauBasisForm}. This in
+turn helps to establish a close correspondence between a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis
+and a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis in \prettyref{lem:2delta-1Basis},
+\prettyref{lem:2deltaBasis}, and \prettyref{thm:mainTheorem}. 
+\begin{lem}
+\label{lem:FtoAbasis}If $\mathbf{P}$ is a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis,
+then \begin{eqnarray*}
+\bar{\mathbf{T}} & = & \left[\mathbf{B}\mathbf{P}~\begin{array}{|c}
+\mathbf{0}_{n\times2m}\\
+x^{2\delta}\mathbf{I}_{2m}\end{array}\right]=\left[\begin{array}{r|cc}
+\mathbf{P} & \mathbf{0}_{n\times m} & \mathbf{0}_{n\times m}\\
+\hline x^{-\delta}\mathbf{F}_{0}\cdot\mathbf{P} & x^{2\delta}\mathbf{I}_{m} & \mathbf{0}_{m}\\
+x^{-2\delta}\left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}\right)\cdot\mathbf{P} & \mathbf{0}_{m} & x^{2\delta}\mathbf{I}_{m}\end{array}\right]\end{eqnarray*}
+ is a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis.\end{lem}
+\begin{pf}
+By \prettyref{lem:qToBqOrder}, $\bar{\mathbf{T}}$ has order $(\mathbf{F}',\vec{\omega})$
+and is $\vec{s'}$-column reduced since $\mathbf{P}$ dominates the
+$\vec{s'}$-degrees of $\bar{\mathbf{T}}$ on the left side by \prettyref{lem:qToBqDegree}.
+It remains to show that any $\bar{\mathbf{q}}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle$
+is a linear combination of the columns of $\mathbf{\bar{\mathbf{T}}}$.
+
+Let $\mathbf{q}$ be the top $n$ entries of $\bar{\mathbf{q}}$.
+Then by \prettyref{lem:bqToqOrder}, $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $,
+hence is a linear combination of the columns of $\mathbf{P}$, that
+is $\mathbf{q}=\mathbf{P}\mathbf{u}$ with $\mathbf{u}=\mathbf{P}^{-1}\mathbf{q}\in\mathbb{K}\left[x\right]^{n\times1}$.
+Subtracting the contribution of $\mathbf{P}$ from $\bar{\mathbf{q}}$,
+we get \[
+\mathbf{q}'=\bar{\mathbf{q}}-\mathbf{B}\mathbf{P}\mathbf{u}=\bar{\mathbf{q}}-\mathbf{B}\mathbf{q}=\left[\begin{array}{c}
+\mathbf{0}\\
+\mathbf{v}\end{array}\right],\]
+ which is still in $\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle$,
+that is, \[
+\mathbf{F}'\mathbf{q}'=\begin{bmatrix}\mathbf{0}\\
+\mathbf{I}_{2m}\mathbf{v}\end{bmatrix}\equiv\mathbf{0}\mod x^{\vec{\omega}}.\]
+ This forces $\mathbf{v}$ to be a linear combination of the columns
+of $x^{2\delta}\mathbf{I}_{2m}$, the bottom right submatrix of $\bar{\mathbf{T}}$.
+Now $\bar{\mathbf{q}}=\bar{\mathbf{T}}\left[\mathbf{u}^{T},\mathbf{v}^{T}\right]^{T}$
+as required.\end{pf}
+\begin{cor}
+\label{cor:FtauBasisForm}Let $\tau\in\mathbb{Z}$ be any degree bound
+and $\mathbf{P}_{\tau}\in\mathbb{K}\left[x\right]^{n\times t}$ be
+a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\tau}$-basis. If $\bar{\mathbf{q}}\in\langle(\mathbf{F}',\vec{\omega},\vec{s'})\rangle_{\tau}$
+and $\mathbf{q}$ is the top $n$ entries of $\bar{\mathbf{q}}$,
+then $\bar{\mathbf{q}}$ must have the form \[
+\bar{\mathbf{q}}=\mathbf{B}\mathbf{P}_{\tau}\mathbf{u}+x^{2\delta}\begin{bmatrix}\mathbf{0}\\
+\mathbf{v}\end{bmatrix}=\mathbf{B}\mathbf{q}+x^{2\delta}\begin{bmatrix}\mathbf{0}\\
+\mathbf{v}\end{bmatrix}\]
+ for some polynomial vector $\mathbf{u}\in\mathbb{K}\left[x\right]^{t\times1}$
+and $\mathbf{v}\in\mathbb{K}\left[x\right]^{2m\times1}$. In particular,
+if $\deg_{\vec{s'}}\bar{\mathbf{q}}<2\delta$, then $\bar{\mathbf{q}}=\mathbf{B}\mathbf{P}_{\tau}\mathbf{u}=\mathbf{B}\mathbf{q}$. \end{cor}
+\begin{pf}
+This follows directly from \prettyref{lem:FtoAbasis} with $\vec{s'}$-degrees
+restricted to $\tau$.\end{pf}
+\begin{lem}
+\label{lem:2delta-1Basis}If $\bar{\mathbf{S}}^{\left(1\right)}$
+is a $(\check{\mathbf{F}},\vec{\omega},\vec{s'})_{2\delta-1}$-basis,
+then the matrix $\mathbf{S}^{\left(1\right)}$ consisting of its first
+$n$ rows is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{2\delta-1}$-basis.\end{lem}
+\begin{pf}
+By \prettyref{lem:bqToqOrder}, $\mathbf{S}^{\left(1\right)}$ has
+order $\left(\mathbf{F},\sigma\right)$. By \prettyref{cor:linearCombinationOfFirstnRows},
+any $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{2\delta-1}$
+is a linear combination of $\mathbf{S}^{\left(1\right)}$. It remains
+to show that $\mathbf{S}^{\left(1\right)}$ is $\vec{s}$-column reduced.
+
+By \prettyref{cor:FtauBasisForm}, $\bar{\mathbf{S}}^{\left(1\right)}=\mathbf{B}\mathbf{S}^{\left(1\right)}$,
+and by \prettyref{lem:bqToqOrder}, the columns of $\mathbf{S}^{\left(1\right)}$
+are in $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{2\delta-1}$.
+Thus, by \prettyref{lem:qToBqDegree}, $\mathbf{S}^{\left(1\right)}$
+determines the $\vec{s'}$-column degrees of $\mathbf{S}^{\left(1\right)}$.
+Therefore, $\bar{\mathbf{S}}^{\left(1\right)}$ being $\vec{s'}$-column
+reduced implies that $\mathbf{S}^{\left(1\right)}$ is $\vec{s}$-column
+reduced.\end{pf}
+\begin{lem}
+\label{lem:2deltaBasis} Let $\bar{\mathbf{S}}^{\left(12\right)}=[\bar{\mathbf{S}}^{\left(1\right)},\bar{\mathbf{S}}^{\left(2\right)}]$
+be a $(\mathbf{F}',\vec{\omega},\vec{s'})_{2\delta}$-basis, with
+$\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(1\right)}\le2\delta-1$ and
+$\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(2\right)}=2\delta$, and $\mathbf{S}^{\left(12\right)},\mathbf{S}^{\left(1\right)},\mathbf{S}^{\left(2\right)}$
+the first $n$ rows of $\bar{\mathbf{S}}^{\left(12\right)},\bar{\mathbf{S}}^{\left(1\right)},\bar{\mathbf{S}}^{\left(2\right)}$,
+respectively. Let $I$ be the column rank profile (the lexicographically
+smallest sequence of column indices that indicates a full column rank
+submatrix) of $\mathbf{S}^{\left(12\right)}$. %which contains all columns of $\mathbf{S}^{\left(1\right)}$ by \prettyref{lem:2delta-1Basis}.
+Then the submatrix\textbf{ $\mathbf{S}_{I}^{\left(12\right)}$ }comprised
+of the columns of $\mathbf{S}^{\left(12\right)}$ indexed by $I$
+is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{2\delta}$-basis. \end{lem}
+\begin{pf}
+Consider doing $\vec{s}$-column reduction on $\mathbf{S}^{\left(12\right)}$.
+From \prettyref{lem:2delta-1Basis}, we know that $\mathbf{S}^{\left(1\right)}$
+is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{2\delta-1}$-basis.
+Therefore, only $\mathbf{S}^{\left(2\right)}$ may be $\vec{s}$-reduced.
+If a column $\mathbf{c}$ of $\mathbf{S}^{\left(2\right)}$ can be
+further $\vec{s}$-reduced, then it becomes an element of $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{2\delta-1}$,
+which is generated by $\mathbf{S}^{\left(1\right)}$. Thus $\mathbf{c}$
+must be reduced to zero by $\mathbf{S}^{\left(1\right)}$. The only
+nonzero columns of $\mathbf{S}^{\left(12\right)}$ remaining after
+$\vec{s}$-column reduction are therefore the columns that cannot
+be $\vec{s}$-reduced. Hence $\mathbf{S}^{\left(12\right)}$ $\vec{s}$-reduces
+to \textbf{$\mathbf{S}_{I}^{\left(12\right)}$}. In addition, \textbf{$\mathbf{S}_{I}^{\left(12\right)}$}
+has order $\left(\mathbf{F},\sigma\right)$ as $\mathbf{S}^{\left(12\right)}$
+has order $\left(\mathbf{F},\sigma\right)$ by \prettyref{lem:bqToqOrder}.
+From \prettyref{cor:linearCombinationOfFirstnRows} any $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{2\delta}$
+is a linear combination of $\mathbf{S}^{\left(12\right)}$ and hence
+is also a linear combination of $\mathbf{S}_{I}^{\left(12\right)}$. 
+\end{pf}
+To extract $\mathbf{S}_{I}^{\left(12\right)}$ from $\mathbf{S}^{\left(12\right)}$,
+note that doing $\vec{s}$-column reduction on $\mathbf{S}^{\left(12\right)}$
+is equivalent to the more familiar problem of doing column reduction
+on $x^{\vec{s}}\mathbf{S}^{\left(12\right)}$. As $\mathbf{S}^{\left(12\right)}$
+$\vec{s}$-column reduces to \textbf{$\mathbf{S}_{I}^{\left(12\right)}$},
+this corresponds to determining the column rank profile of the\emph{
+leading column coefficient matrix }of\emph{ }\textbf{$x^{\vec{s}}\mathbf{S}^{\left(12\right)}$}%
+\begin{comment}
+\emph{ }$S^{\left(12\right)}=\lcoeff(x^{\vec{s}}\cdot\mathbf{S}^{\left(12\right)})$ 
+\end{comment}
+{}\emph{. }Recall that the leading column coefficient matrix of a matrix
+$\mathbf{A}=\left[\mathbf{a}_{1},\dots,\mathbf{a}_{k}\right]$ used
+for column reduction is\emph{ \begin{eqnarray*}
+\lcoeff\left(\mathbf{A}\right) & = & \left[\lcoeff\left(\mathbf{a}_{1}\right),\dots,\lcoeff\left(\mathbf{a}_{k}\right)\right]\\
+ & = & \left[\coeff\left(\mathbf{a}_{1},\deg\left(\mathbf{a}_{1}\right)\right),\dots,\coeff\left(\mathbf{a}_{k},\deg\left(\mathbf{a}_{k}\right)\right)\right].\end{eqnarray*}
+ }The column rank profile of $\lcoeff(x^{\vec{s}}\mathbf{S}^{\left(12\right)})$
+can be determined by (the transposed version of) LSP factorization
+\citep{IbarraMH82}, which factorizes $\lcoeff(x^{\vec{s}}\mathbf{S}^{\left(12\right)})=PSU$
+as the product of a permutation matrix $P$, a matrix $S$ with its
+nonzero columns forming a lower triangular submatrix, and an upper
+triangular matrix $U$ with $1$'s on the diagonal. The indices, $I$,
+of the nonzero columns of $S$ then give $\mathbf{S}_{I}^{\left(12\right)}$
+in $\mathbf{S}^{\left(12\right)}$. 
+\begin{thm}
+\label{thm:mainTheorem}Let $\bar{\mathbf{S}}=[\bar{\mathbf{S}}^{\left(12\right)},\bar{\mathbf{S}}^{\left(3\right)}]$
+be a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis, with $\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(12\right)}\le2\delta$
+and $\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(3\right)}\ge2\delta+1$,
+and $\mathbf{S},\mathbf{S}^{\left(12\right)},\mathbf{S}^{\left(3\right)}$
+the first $n$ rows of $\bar{\mathbf{S}},\bar{\mathbf{S}}^{\left(12\right)},\bar{\mathbf{S}}^{\left(3\right)}$,
+respectively. If $I$ is the column rank profile of $\mathbf{S}^{\left(12\right)}$,
+then the submatrix \textbf{ $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
+}of $\mathbf{S}$ is a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis. \end{thm}
+\begin{pf}
+By \prettyref{lem:bqToqOrder}, $\mathbf{S}$ has order $\left(\mathbf{F},\sigma\right)$,
+and so $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
+also has order $\left(\mathbf{F},\sigma\right)$. By \prettyref{cor:linearCombinationOfFirstnRows},
+any $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+is a linear combination of the columns of $\mathbf{S}$, and so $\mathbf{q}$
+is also a linear combination of the columns of $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$.
+It only remains to show that $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
+is $\vec{s}$-column reduced.
+
+Let $\mathbf{P}$ be a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+and $\mathbf{\bar{\mathbf{T}}}$ be the $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis
+constructed from $\mathbf{P}$ as in \prettyref{lem:FtoAbasis}. Let
+$\bar{\mathbf{T}}^{\left(3\right)}$ be the columns of $\bar{\mathbf{T}}$
+with $\vec{s'}$-degrees greater than $2\delta,$ and $\mathbf{P}^{\left(3\right)}$
+be the columns of $\mathbf{P}$ with $\vec{s}$-degrees greater than
+$2\delta.$ Assume without loss of generality that $\mathbf{S},$
+$\mathbf{P}$, and $\bar{\mathbf{T}}$ have their columns sorted according
+to their $\vec{s}$-degrees and $\vec{s'}$-degrees, respectively.
+Then $\deg_{\vec{s}}\mathbf{S}^{\left(3\right)}\le\deg_{\vec{s'}}\bar{\mathbf{S}}^{\left(3\right)}=\deg_{\vec{s'}}\bar{\mathbf{T}}^{\left(3\right)}=\deg_{\vec{s}}\mathbf{P}^{\left(3\right)}$.
+Combining this with the $\vec{s}$-minimality of $\mathbf{S}_{I}^{\left(12\right)}$
+from \prettyref{lem:2deltaBasis}, it follows that $\deg_{\vec{s}}[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]\le\deg_{\vec{s}}\mathbf{P}$.
+This combined with the fact that $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
+still generates $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+implies that $\deg_{\vec{s}}[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]=\deg_{\vec{s}}\mathbf{P}$.
+Therefore, $[\mathbf{S}_{I}^{\left(12\right)},\mathbf{S}^{\left(3\right)}]$
+is a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis. \end{pf}
+\begin{cor}
+\label{cor:extractingFbasisFromGbasis}Let $\bar{\mathbf{S}}$ be
+a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis with its columns sorted
+in an increasing order of their $\vec{s'}$ degrees, and $\mathbf{S}$
+the first $n$ rows of $\bar{\mathbf{S}}$. If $J$ is the column
+rank profile of $\lcoeff(x^{\vec{s}}\mathbf{S})$, then the submatrix
+$\mathbf{S}_{J}$ of $\mathbf{S}$ indexed by $J$ is a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis.\end{cor}
+\begin{pf}
+This follows directly from \prettyref{thm:mainTheorem}. 
+\end{pf}
+This rank profile $J$ can be determined by LSP factorization on $\lcoeff(x^{\vec{s}}\cdot\mathbf{S}^{\left(12\right)})$.
+%as discussed before.
+
+\begin{exmp}
+\label{exm:auxiliaryTransformation}For the problem in \prettyref{exm:StorjohannTransformation},
+$\check{\mathbf{F}}$ is given by \begin{align*}
+ & \left[{\begin{array}{cccccr}
+x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6} & \ 1+x+x^{5}+x^{6}+x^{7}\  & 1+x^{2}+x^{6}+x^{7} & \ 1+x+x^{3}+x^{7}\  & 0\  & 0\\
+1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & 1\  & 0\\
+1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & 0\  & 1\end{array}}\right],\end{align*}
+ and a $\left(\mathbf{F}',\left[8,4,4\right],\vec{0}\right)$-basis
+is given as \[
+\left[\begin{array}{cccc|cc}
+~1~ & x & 1 & x^{2} & x^{2}+x^{4} & 1+x^{2}+x^{3}+x^{4}\\
+0 & 1 & x^{2}+x^{3} & 0 & x^{3} & 0\\
+1 & 1+x & x & x^{3}+x^{4} & 0 & x+x^{2}+x^{3}\\
+1 & 0 & 0 & 0 & 0 & 0\\
+\hline 0 & 1 & 1+x^{2} & x^{2} & x^{2}+x^{3} & 1+x^{2}+x^{3}+x^{4}\\
+0 & 1 & 1 & x^{2}+x^{4} & x^{2}+x^{3} & 1+x^{3}\end{array}\right].\]
+ Column reduction on the top 4 rows gives the top left $4\times4$
+submatrix, which is a \textbf{$(\mathbf{F},8,\vec{0})$}-basis. 
+\end{exmp}
+The following two lemmas verify Storjohann's result in the case of
+degree parameter $\delta=\sigma/4$. More specifically, we show that
+the matrix of the top $n$ rows of a $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$-basis
+is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$-basis, with
+the transformed input matrix \begin{equation}
+\bar{\mathbf{F}}=\left[\begin{array}{l|cc}
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta} & \mathbf{0} & \mathbf{0}\\
+\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta} & \mathbf{I}_{m} & \mathbf{0}\\
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0} & ~\mathbf{I}_{m}\end{array}\right]\equiv\mathbf{F}'\mod x^{2\delta}.\label{eq:storjohannTransformation4parts}\end{equation}
+
+\begin{lem}
+\label{lem:A_delta-1Form}If $\bar{\mathbf{q}}\in\langle(\bar{\mathbf{F}},2\delta,\vec{s'})\rangle_{\delta-1}$
+and $\mathbf{q}$ denotes the first $n$ entries of $\bar{\mathbf{q}}$,
+then $\bar{\mathbf{q}}$ must have the form \[
+\bar{\mathbf{q}}=\mathbf{B}\mathbf{q}=\left[\begin{array}{r}
+\mathbf{q}\\
+x^{-\delta}\mathbf{F}_{0}\cdot\mathbf{q}\\
+x^{-2\delta}\left(\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}\right)\cdot\mathbf{q}\end{array}\right]\]
+ and $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$.\end{lem}
+\begin{pf}
+Let $\mathbf{q},\mathbf{q}_{2},\mathbf{q}_{3}$ consist of the top
+$n$ entries, middle $m$ entries, and bottom $m$ entries, respectively,
+of $\mathbf{\bar{\mathbf{q}}}$ so that \begin{align}
+\bar{\mathbf{F}}\bar{\mathbf{q}} & \equiv\left[\begin{array}{r}
+\mathbf{F}_{0}\mathbf{q}+x^{\delta}\mathbf{F}_{1}\mathbf{q}\\
+\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}+x^{\delta}\mathbf{F}_{2}\mathbf{q}\\
+\mathbf{q}_{3}+\mathbf{F}_{2}\mathbf{q}+x^{\delta}\mathbf{F}_{3}\mathbf{q}\end{array}\right]\equiv\mathbf{0}\mod x^{2\delta}.\label{eq:Aq}\end{align}
+ From the first and second block rows, we get $\mathbf{F}_{0}\mathbf{q}+x^{\delta}\mathbf{F}_{1}\mathbf{q}\equiv\mathbf{0}\mod x^{2\delta}$
+and $\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}\equiv\mathbf{0}\mod x^{\delta}$,
+which implies \begin{equation}
+\mathbf{F}_{0}\mathbf{q}\equiv x^{\delta}\mathbf{q}_{2}\mod x^{2\delta}.\label{eq:q1q2}\end{equation}
+ Similarly, from the second and third rows, we get $\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}+x^{\delta}\mathbf{F}_{2}\mathbf{q}\equiv\mathbf{0}\mod x^{2\delta}$
+and $\mathbf{q}_{3}+\mathbf{F}_{2}\mathbf{q}\equiv\mathbf{0}\mod x^{\delta}$,
+which implies $\mathbf{q}_{2}+\mathbf{F}_{1}\mathbf{q}\equiv x^{\delta}\mathbf{q}_{3}\mod x^{2\delta}$.
+
+Since $\deg\mathbf{q}\le\deg_{\vec{s}}\mathbf{q}=\delta-1$, we have
+$\deg\mathbf{F}_{0}\mathbf{q}\le2\delta-2$, hence from \prettyref{eq:q1q2}
+$\deg\mathbf{q}_{2}\le\delta-2$ and $\mathbf{q}_{2}x^{\delta}=\mathbf{F}_{0}\mathbf{q}$.
+Similarly, $\deg\mathbf{q}_{3}\le\delta-2$ and $\mathbf{q}_{3}x^{2\delta}=\mathbf{q}_{2}x^{\delta}+\mathbf{F}_{1}\mathbf{q}x^{\delta}=\mathbf{F}_{0}\mathbf{q}+\mathbf{F}_{1}\mathbf{q}x^{\delta}$.
+Substituting this to $\mathbf{F}\mathbf{q}=(\mathbf{F}_{0}\mathbf{q}+\mathbf{F}_{1}\mathbf{q}x^{\delta})+(\mathbf{F}_{2}\mathbf{q}x^{2\delta}+\mathbf{F}_{3}\mathbf{q}x^{3\delta})$,
+we get $\mathbf{F}\mathbf{q}=\mathbf{q}_{3}x^{2\delta}+(\mathbf{F}_{2}\mathbf{q}x^{2\delta}+\mathbf{F}_{3}\mathbf{q}x^{3\delta})\equiv\mathbf{0}\mod x^{4\delta}$
+using the bottom block row of \prettyref{eq:Aq}.\end{pf}
+\begin{lem}
+\label{lem:delta-1Basis} If $\bar{\mathbf{S}}_{\delta-1}$ is a $(\bar{\mathbf{F}},2\delta,\vec{s'})_{\delta-1}$-basis,
+then the matrix of its first $n$ rows, $\mathbf{S}_{\delta-1}$,
+is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta-1}$-basis.\end{lem}
+\begin{pf}
+By \prettyref{lem:A_delta-1Form}, $\mathbf{S}_{\delta-1}$ has order
+$\left(\mathbf{F},\sigma\right)$. Following Lemmas \ref{lem:qToBqOrder}
+and \ref{lem:qToBqDegree} and Corollaries \ref{cor:sToBs} and \ref{cor:linearCombinationOfFirstnRows}
+(replacing $\vec{\omega}$ by $2\delta$), we conclude that any $\mathbf{q}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$
+is a linear combination of the columns of $\mathbf{S}_{\delta-1}$.
+In addition, since $\bar{\mathbf{S}}_{\delta-1}=\mathbf{B}\mathbf{S}_{\delta-1}$
+by \prettyref{lem:A_delta-1Form}, and the columns of $\mathbf{S}_{\delta-1}$
+are in $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{\delta-1}$,
+it follows from \prettyref{lem:qToBqDegree} that $\mathbf{S}_{\delta-1}$
+determines the $\vec{s'}$-column degrees of $\bar{\mathbf{S}}_{\delta-1}$.
+Hence $\bar{\mathbf{S}}_{\delta-1}$ $\vec{s'}$-column reduced implies
+that $\mathbf{S}_{\delta-1}$ is $\vec{s}$-column reduced. 
+\end{pf}
+
+\subsection{\label{sub:generalTransform}More General Results}
+
+Let us now consider an immediate extension of the results in the previous
+subsection. Suppose that instead of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+we now want to compute a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis
+with a Storjohann transformed input matrix \[
+\bar{\mathbf{F}}^{\left(i\right)}=\left[\begin{array}{c|cccc}
+\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta^{\left(i\right)}} & \mathbf{0}_{m} & \cdots & \mathbf{\cdots} & \mathbf{0}_{m}\\
+\hline \mathbf{F}_{1}+\mathbf{F}_{2}x^{\delta^{\left(i\right)}} & \mathbf{I}_{m}\\
+\mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta^{\left(i\right)}} &  & \mathbf{I}_{m}\\
+\vdots &  &  & \ddots\\
+\mathbf{F}_{l^{\left(i\right)}-1}+\mathbf{F}_{l^{\left(i\right)}}x^{\delta^{\left(i\right)}} &  &  &  & \mathbf{I}_{m}\end{array}\right]_{ml^{(i)}\times(n+m(l^{(i)}-1))}\]
+ made with degree parameter $\delta^{\left(i\right)}=2^{i}d$ for
+some integer $i$ between $2$%
+\begin{comment}
+the base case is $i=1$ and problem is not to be subdivided 
+\end{comment}
+{} and $\log\left(\sigma/d\right)-1$, and a shift $\vec{s}^{\left(i\right)}=[\vec{s},0,\dots,0]$
+(with $m(l^{\left(i\right)}-1)$ 0's), where $l^{\left(i\right)}=\sigma/\delta^{\left(i\right)}-1$
+is the number of block rows%
+\footnote{Recall that $d=m\sigma/n$ is the average degree of the input matrix
+$\mathbf{F}$ if we treat $\mathbf{F}$ as a square $n\times n$ matrix.
+Also, $i$ starts at $2$ because $i=1$ is our base case in the computation
+of an order basis, which may become more clear in the next section.
+The base case can be computed efficiently using the method of Giorgi
+et al. \citeyearpar{Giorgi2003} directly and does not require the
+transformation discussed in this section.%
+}. To apply a transformation analogous to \prettyref{eq:extendedSTransformTop},
+we write each $\mathbf{F}_{j}=\mathbf{F}_{j0}+\mathbf{F}_{j1}\delta^{\left(i-1\right)}$
+and set \begin{equation}
+\mathbf{F}'^{\left(i\right)}=\left[\begin{array}{l|c}
+\mathbf{F}_{00}+\mathbf{F}_{01}x^{\delta^{\left(i-1\right)}}+\mathbf{F}_{10}x^{2\delta^{\left(i-1\right)}}+\mathbf{F}_{11}x^{3\delta^{\left(i-1\right)}} & ~~\mathbf{0}~~\\
+\hline \mathbf{F}_{01}+\mathbf{F}_{10}x^{\delta^{\left(i-1\right)}}\\
+\mathbf{F}_{10}+\mathbf{F}_{11}x^{\delta^{\left(i-1\right)}}+\mathbf{F}_{20}x^{2\delta^{\left(i-1\right)}}+\mathbf{F}_{21}x^{3\delta^{\left(i-1\right)}}\\
+\mathbf{F}_{11}+\mathbf{F}_{20}x^{\delta^{\left(i-1\right)}}\\
+\vdots & ~~\mathbf{I}~~\\
+\mathbf{F}_{\left(l^{\left(i\right)}-1\right)0}+\mathbf{F}_{\left(l^{\left(i\right)}-1\right)1}x^{\delta^{\left(i-1\right)}}+\mathbf{F}_{l^{\left(i\right)}0}x^{2\delta^{\left(i-1\right)}}+\mathbf{F}_{l^{\left(i\right)}1}x^{3\delta^{\left(i-1\right)}}\\
+\mathbf{F}_{\left(l^{\left(i\right)}-1\right)1}+\mathbf{F}_{l^{\left(i\right)}0}x^{\delta^{\left(i-1\right)}}\\
+\mathbf{F}_{l^{\left(i\right)}0}+\mathbf{F}_{l^{\left(i\right)}1}x^{\delta^{\left(i-1\right)}}\end{array}\right],\label{eq:extendedStorjohannTransform}\end{equation}
+ %
+\begin{comment}
+This is not ideal, but no better idea. 
+\end{comment}
+{} and $\vec{\omega}^{\left(i\right)}=\left[\left[[2\delta^{\left(i\right)}]^{m},[\delta^{\left(i\right)}]^{m}\right]^{l^{\left(i\right)}},[\delta^{\left(i\right)}]^{m}\right]$,
+where $\left[\circ\right]^{k}$ represents $\circ$ repeated $k$
+times%
+\begin{comment}
+Not sure if using this notation is a good thing to do, but it saves
+space and makes presentation easier 
+\end{comment}
+{}. The order entries $2\delta^{\left(i\right)}$, $\delta^{\left(i\right)}$
+in $\vec{\omega}^{\left(i\right)}$ correspond to the degree $2\delta^{\left(i\right)}-1$,
+degree $\delta^{\left(i\right)}-1$ rows in $\mathbf{F}'^{\left(i\right)}$
+respectively. Let \[
+\mathbf{E}^{\left(i\right)}=\left[\begin{array}{c||cc|cc|cc|cc||cc}
+\mathbf{I}_{n} &  &  &  &  &  &  &  &  & \mathbf{0}_{n\times m} & \mathbf{0}_{n\times m}\\
+\hline\hline  & \mathbf{0}_{m} & \mathbf{I}_{m} &  &  &  &  &  &  & \ \\
+\hline  &  &  & \mathbf{0}_{m} & \mathbf{I}_{m} &  &  &  &  & \ \\
+\hline  &  &  &  &  & \ddots & \ddots &  &  & \ \\
+\hline  &  &  &  &  &  &  & \mathbf{0}_{m} & \mathbf{I}_{m}\end{array}\right]\]
+ with $l^{\left(i\right)}-1$ blocks of $\left[\mathbf{0}_{m},\mathbf{I}_{m}\right]$
+and hence an overall dimension of $(n+m(l^{\left(i\right)}-1))\times(n+m(l^{\left(i-1\right)}-1))$.
+Thus $\mathbf{E}^{\left(i\right)}\mathbf{M}$ picks out from $\mathbf{M}$
+the first $n$ rows and the even block rows from the remaining rows
+except the last block row for a matrix $\mathbf{M}$ with $n+m(l^{\left(i-1\right)}-1)$
+rows. In particular, if $i=\log\left(n/m\right)-1$, then $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})=(\mathbf{F}',\vec{\omega},\vec{s'})$,
+which for $d=m\sigma/n$ gives the problem considered earlier in \prettyref{sub:particularCase},
+and $\mathbf{E}^{\left(i\right)}=\left[\mathbf{I}_{n},\mathbf{0}_{n\times m},\mathbf{0}_{n\times m}\right]$
+is used to select the top $n$ rows of a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis
+for a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis to be extracted.
+
+We can now state the analog of \prettyref{cor:extractingFbasisFromGbasis}: 
+\begin{thm}
+\label{thm:extractingOrderBasis}Let $\mathbf{S}'^{\left(i\right)}$
+be a $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$-basis
+with its columns sorted in an increasing order of their $\vec{s}^{\left(i-1\right)}$
+degrees. Let $\hat{\mathbf{S}}^{\left(i\right)}=\mathbf{E}^{\left(i\right)}\mathbf{S}'^{\left(i\right)}$.
+Let $J$ be the column rank profile of $\lcoeff(x^{\vec{s}^{\left(i\right)}}\hat{\mathbf{S}}^{\left(i\right)})$.
+Then $\hat{\mathbf{S}}_{J}^{\left(i\right)}$ is a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis.\end{thm}
+\begin{pf}
+One can follow the same arguments used before from \prettyref{lem:qToBqOrder}
+to \prettyref{cor:extractingFbasisFromGbasis}. Alternatively, this
+can be derived from \prettyref{cor:extractingFbasisFromGbasis} by
+noticing the redundant block rows that can be disregarded after applying
+transformation \prettyref{eq:extendedSTransformTop} directly to the
+input matrix $\bar{\mathbf{F}}^{\left(i\right)}$. 
+\end{pf}
+\prettyref{lem:delta-1Basis} can also be extended in the same way
+to capture Storjohann's transformation with more general degree parameters: 
+\begin{lem}
+\label{lem:linkStorjohanTransform}If $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
+is a $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})_{\delta^{\left(i-1\right)}-1}$-basis,
+then $\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
+is a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i-1\right)}-1}$-basis
+and the matrix of the top $n$ rows of $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
+is a $(\mathbf{F},\sigma,\vec{s})_{\delta^{\left(i-1\right)}-1}$-basis.\end{lem}
+\begin{pf}
+Again, this can be justified as done in \prettyref{lem:delta-1Basis}.
+Alternatively, one can apply Storjohann's transformation with degree
+parameter $\delta^{\left(i-1\right)}$ to $\bar{\mathbf{F}}^{\left(i\right)}$
+as in \prettyref{eq:storjohannTransformation4parts}. The lemma then
+follows from \prettyref{lem:delta-1Basis} after noticing the redundant
+block rows that can be disregarded. 
+\end{pf}
+Notice that if $i=\log\left(n/m\right)-1,$ then \prettyref{thm:extractingOrderBasis}
+and \prettyref{lem:linkStorjohanTransform} specialize to \prettyref{cor:extractingFbasisFromGbasis}
+and \prettyref{lem:delta-1Basis}. 
+
+
+\section{Computation of Order Bases}
+
+\label{sec:Order-Basis-Computation}
+
+In this section, we establish a link between two different Storjohann
+transformed problems by dividing the transformed problem from the
+previous section into two subproblems and then simplifying the second
+subproblem. This leads to a recursive method for computing order bases.
+We also present an equivalent, iterative method for computing order
+bases. The iterative approach is usually more efficient in practice,
+as it uses just $O(1)$ iterations in the generic case.
+
+
+\subsection{\label{sub:Dividing-to-Subproblems}Dividing into Subproblems }
+
+In \prettyref{sec:transform} we have shown that the problem of computing
+a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis can be converted
+to the problem of computing a $(\mathbf{F}',\vec{\omega},\vec{s'})$-basis
+and, more generally, that the computation of a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis,
+a Storjohann transformed problem with degree parameter $\delta^{\left(i\right)}$,
+can be converted to the problem of computing a $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$-basis.
+We now consider dividing the new converted problem into two subproblems.
+
+The first subproblem is to compute a $(\mathbf{F}'^{\left(i\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
+or equivalently a $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
+$\bar{\mathbf{P}}^{\left(i-1\right)}$, a Storjohann transformed problem
+with degree parameter $\delta^{\left(i-1\right)}$. The second subproblem
+is computing a $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis
+$\bar{\mathbf{Q}}^{\left(i\right)}$ using the residual $\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+from the first subproblem along with a degree shift $\vec{t}^{\left(i-1\right)}=\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}^{\left(i-1\right)}$.
+From Theorem 5.1 in \citep{BL1997} we then know that the product
+$\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$
+is a $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$-basis
+and $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}=\deg_{\vec{t}^{\left(i-1\right)}}\bar{\mathbf{Q}}^{\left(i\right)}$. 
+\begin{exmp}
+\label{exm:subproblems} Let us continue with \prettyref{exm:StorjohannTransformation}
+and \prettyref{exm:auxiliaryTransformation} in order to compute a
+$\left(\mathbf{F},8,\vec{0}\right)$-basis (or equivalently a $(\bar{\mathbf{F}}^{\left(2\right)},8,\vec{0})$-basis).
+This can be determined by computing a $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
+as shown in \prettyref{exm:auxiliaryTransformation} where we have
+$\mathbf{F}'^{\left(2\right)}=\mathbf{F}'$. Computing a $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
+can be divided into two subproblems. The first subproblem is computing
+a $(\bar{\mathbf{F}}^{\left(1\right)},4,\vec{0})$-basis $\bar{\mathbf{P}}^{\left(1\right)}$,
+the Storjohann partial linearized problem in \prettyref{exm:StorjohannTransformation}.
+The residual \[
+\mathbf{F}'^{(2)}\bar{\mathbf{P}}^{(1)}=\left[{\begin{array}{rcccccccccc}
+0 & \  & x^{8} & \  & x^{6}+x^{9} & \  & x^{4}+x^{6}+x^{9} & \  & x^{6}+x^{8}+x^{9}+x^{10} & \  & x^{5}+x^{8}\\
+0 &  & 0 &  & x^{5} &  & x^{4}+x^{6} &  & x^{4}+x^{6} &  & x^{5}+x^{6}\\
+0 &  & x^{4} &  & x^{5} &  & x^{5} &  & x^{4}+x^{5}+x^{6} &  & x^{4}\end{array}}\right]\]
+ is then used as the input matrix for the second subproblem. The shift
+for the second subproblem $\vec{t}^{(1)}=[0,1,2,3,3,3]$ is the list
+of column degrees of $\bar{\mathbf{P}}^{(1)}$ and so the second subproblem
+is to compute a $(\mathbf{F}'^{(2)}\bar{\mathbf{P}}^{(1)},\left[8,4,4\right],[0,1,2,3,3,3])$-basis,
+which is \begin{equation}
+\bar{\mathbf{Q}}^{(2)}=\left[{\begin{array}{cccccc}
+~~1~ & ~~0~ & ~0~ & ~0~ & ~0~ & ~0~\\
+0 & 1 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & ~x^{2}~ & ~x~ & ~1~\\
+0 & 0 & 0 & 0 & x & 0\\
+0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 1 & ~x~\end{array}}\right].\label{eq:Qbar2}\end{equation}
+ Then $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$ gives the $(\mathbf{F}'^{\left(2\right)},[8,4,4],\vec{0})$-basis
+shown in \prettyref{exm:auxiliaryTransformation}. 
+\end{exmp}
+We now show that the dimension of the second subproblem can be significantly
+reduced. First, the row dimension can be reduced by over a half. Let
+$\hat{\mathbf{P}}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$. 
+\begin{lem}
+\label{lem:simplifySecondSubproblem}A $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis
+is a $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis.\end{lem}
+\begin{pf}
+This follows because $\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)}$
+is a submatrix of $\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+after removing rows which already have the correct order $2\delta^{\left(i-1\right)}$. 
+\end{pf}
+The column dimension of the second subproblem can be reduced by disregarding
+the $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i-1\right)}-1}$-basis
+which has already been computed. More specifically, after sorting
+the columns of $\bar{\mathbf{P}}^{\left(i-1\right)}$ in an increasing
+order of their $\vec{s}^{\left(i-1\right)}$-degrees, let $[\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{P}}_{2}^{\left(i-1\right)}]=\bar{\mathbf{P}}^{\left(i-1\right)}$
+be such that $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{1}^{\left(i-1\right)}\le\delta^{\left(i-1\right)}-1$
+and $\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}\ge\delta^{\left(i-1\right)}$.
+Then $\hat{\mathbf{P}}_{1}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$
+is a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i-1\right)}-1}$-basis
+by \prettyref{lem:linkStorjohanTransform}. In the second subproblem,
+the remaining basis elements of a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis
+can then be computed without $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$.
+
+Let $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}$,
+$\vec{b}^{\left(i-1\right)}=\deg_{\vec{s}^{\left(i-1\right)}}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}$,
+$\bar{\mathbf{Q}}_{2}^{\left(i\right)}$ be a $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis
+(or equivalently a $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis),
+and $k^{\left(i-1\right)}$ be the column dimension of $\bar{\mathbf{P}}_{1}^{\left(i-1\right)}$.
+We then have the following result. 
+\begin{lem}
+\label{lem:disregardComputedBasisElements} The matrix \[
+\bar{\mathbf{Q}}^{\left(i\right)}=\left[\begin{array}{cc}
+\mathbf{I}_{k^{\left(i-1\right)}}\\
+ & \bar{\mathbf{Q}}_{2}^{\left(i\right)}\end{array}\right]\]
+ is a $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis
+(equivalently a $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis).\end{lem}
+\begin{pf}
+First note that $\bar{\mathbf{Q}}^{\left(i\right)}$ has order $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)})$
+as \[
+\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}=[\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]\equiv0\mod x^{2\delta^{\left(i\right)}}.\]
+ In addition, $\bar{\mathbf{Q}}^{\left(i\right)}$ has minimal $\vec{t}^{\left(i-1\right)}$
+degrees as $\bar{\mathbf{Q}}_{2}^{\left(i\right)}$ is $\vec{b}$-minimal.
+Hence, by \prettyref{lem:orderBasisEquivalence}, $\bar{\mathbf{Q}}^{\left(i\right)}$
+is a $(\bar{\mathbf{F}}^{\left(i\right)}\cdot\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis. 
+\end{pf}
+%
+\begin{comment}
+Alternatively, one can also argue that since $\hat{\mathbf{P}}_{1}^{\left(i-1\right)}$
+already has order $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)})$,
+it cannot contribute in any way to and cannot be affected in any way
+by the computations of a $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis,
+hence it is sufficient to just use $\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
+to compute a $(\bar{\mathbf{F}}^{\left(i\right)}\cdot\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis. 
+\end{comment}
+{}
+
+\prettyref{lem:disregardComputedBasisElements} immediately leads
+to the following. 
+\begin{lem}
+\label{lem:computationAtTopLevel}Let $\hat{\mathbf{S}}=[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]$,
+and let $I$ be the column rank profile of $\lcoeff(x^{\vec{s}^{\left(i\right)}}\hat{\mathbf{S}})$.
+Then $\hat{\mathbf{S}}_{I}$ is a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis.\end{lem}
+\begin{pf}
+From \prettyref{lem:disregardComputedBasisElements}, $\bar{\mathbf{Q}}^{\left(i\right)}$
+is a $(\mathbf{F}'^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)},\vec{\omega}^{\left(i\right)},\vec{t}^{\left(i-1\right)})$-basis
+and hence $\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$
+is a $(\mathbf{F}'^{\left(i\right)},\vec{\omega}^{\left(i\right)},\vec{s}^{\left(i-1\right)})$-basis.
+Since $[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}\bar{\mathbf{Q}}^{\left(i\right)}$,
+the result follows from \prettyref{thm:extractingOrderBasis}. %
+\begin{comment}
+$=\mathbf{E}^{\left(i\right)}[\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\bar{\mathbf{P}}_{2}^{\left(i-1\right)}\bar{\mathbf{Q}}_{2}^{\left(i\right)}]$ 
+\end{comment}
+{}\end{pf}
+\begin{exmp}
+Continuing with \prettyref{exm:StorjohannTransformation}, \prettyref{exm:auxiliaryTransformation},
+and \prettyref{exm:subproblems}, %
+\begin{comment}
+notice that after the first subproblem, the second subproblem of computing
+$\bar{\mathbf{Q}}^{(2)}$ in \prettyref{exm:subproblems} is really
+a smaller problem of computing the lower right $4\times4$ submatrix
+$\bar{\mathbf{Q}}_{2}^{(2)}$, which is a $(\bar{\mathbf{F}}^{\left(2\right)}\hat{\mathbf{P}}_{2}^{\left(1\right)},8,\vec{b}^{\left(1\right)})$-basis
+(or equivalently a $(\mathbf{F}'^{\left(2\right)}\bar{\mathbf{P}}_{2}^{\left(1\right)},[8,4,4],\vec{b}^{\left(1\right)})$-basis),
+where $\bar{\mathbf{P}}_{2}^{\left(1\right)}$ is the last $4$ columns
+of $\bar{\mathbf{P}}^{(1)}$, $\vec{b}^{(1)}=[2,3,3,3]$ is the list
+of column degrees of $\bar{\mathbf{P}}_{2}^{(1)}$, and $\hat{\mathbf{P}}_{2}^{\left(1\right)}$
+is the first $4$ rows of $\bar{\mathbf{P}}_{2}^{(1)}$. 
+\end{comment}
+{}notice that in the computation of the second subproblem, instead of
+using $\mathbf{F}'^{\left(2\right)},$ $\bar{\mathbf{P}}^{\left(1\right)}$,
+$\bar{\mathbf{Q}}^{(2)}$, and $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$,
+the previous lemmas show that we can just use their submatrices, $\bar{\mathbf{F}}^{(2)}$
+the top left $1\times4$ submatrix of $\mathbf{F}'^{\left(2\right)}$,
+$\hat{\mathbf{P}}_{2}^{(1)}$ the top right $4\times4$ submatrix
+of $\bar{\mathbf{P}}^{(1)}$, $\bar{\mathbf{Q}}_{2}^{(2)}$ the bottom
+right $4\times4$ submatrix of $\bar{\mathbf{Q}}^{(2)}$, and $\hat{\mathbf{P}}_{2}^{(1)}\bar{\mathbf{Q}}_{2}^{(2)}$
+the top right $4\times4$ submatrix of $\bar{\mathbf{P}}^{(1)}\bar{\mathbf{Q}}^{(2)}$of
+lower dimensions. 
+\end{exmp}
+\prettyref{lem:computationAtTopLevel} gives us a way of computing
+a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis. We can set $i$
+to $\log\left(n/m\right)-1$ so that $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$=$\left(\mathbf{F},\sigma,\vec{s}\right)$,
+and compute a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis.
+By \prettyref{lem:computationAtTopLevel}, this can be divided into
+two subproblems. The first produces $[\hat{\mathbf{P}}_{1}^{\left(i-1\right)},\hat{\mathbf{P}}_{2}^{\left(i-1\right)}]=\hat{\mathbf{P}}^{\left(i-1\right)}=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}^{\left(i-1\right)}$
+from computing a $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
+$\bar{\mathbf{P}}^{\left(i-1\right)}$. The second subproblem then
+computes a $(\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)})$-basis
+$\bar{\mathbf{Q}}_{2}^{\left(i\right)}$. Note the first subproblem
+of computing a $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
+can again be divided into two subproblems just as before. This can
+be repeated recursively until we reach the base case with degree parameter
+$\delta^{\left(1\right)}=2d$. The total number of recursion levels
+is therefore $\log\left(n/m\right)-1$.
+
+Notice that the transformed matrix $\mathbf{F}'^{\left(i\right)}$
+is not used explicitly in the computation, even though it is crucial
+for deriving our results.
+
+
+\subsection{The Iterative View}
+
+In this subsection we present our algorithm, which uses an iterative
+version of the computation discussed above.%
+\begin{comment}
+The recursive top-down approach of the previous subsection is useful
+for giving an overall picture of the computation process. Algorithm
+\prettyref{alg:mab} uses an equivalent corresponding bottom-up iterative
+approach. 
+\end{comment}
+{}%
+\begin{comment}
+, allowing the complexity to be more easily analyzed. 
+\end{comment}
+{}%
+\begin{comment}
+. In practice, bottom-up iterative approaches are more efficient than
+the corresponding top-down recursive approaches. For our purpose,
+it is also easier to analyze the computational cost of the iterative
+procedure. 
+\end{comment}
+{} The iterative version is usually more efficient in practice, considering
+that the generic case has balanced output that can be computed with
+just one iteration, whereas the recursive method has to go through
+$\log(n/m)-1$ levels of recursion.
+
+\prettyref{alg:mab} uses a subroutine $\mab$, the algorithm from
+Giorgi et al. \citeyearpar{Giorgi2003}, for computing order bases
+with balanced input. Specifically, $\left[\mathbf{Q},\vec{a}\right]=\mab(\mathbf{G},\sigma,\vec{b})$
+computes a $(\mathbf{G},\sigma,\vec{b})$-basis and also returns its
+$\vec{b}$-column degrees $\vec{a}$. The other subroutine $\StorjohannTransform$
+is the transformation described in \prettyref{sub:storjohannTransformation}.
+
+\prettyref{alg:mab} proceeds as follows. In the first iteration,
+which is the base case of the recursive approach, we set the degree
+parameter $\delta^{\left(1\right)}$ to be twice the average degree
+$d$ and apply Storjohann's transformation to produce a new input
+matrix $\bar{\mathbf{F}}^{\left(1\right)}$, which has $l^{\left(1\right)}$
+block rows. Then a $(\bar{\mathbf{F}}^{\left(1\right)},2\delta^{\left(1\right)},\vec{s}^{\left(1\right)})$-basis
+$\bar{\mathbf{P}}^{\left(1\right)}$ is computed. Note this is in
+fact the first subproblem of computing a $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})$-basis,
+which is another Storjohann transformed problem and also the problem
+of the second iteration. At the second iteration, we work on a new
+Storjohann transformed problem with the degree doubled and the number
+of block rows $l^{\left(2\right)}=(l^{\left(1\right)}-1)/2$ reduced
+by over a half. The column dimension is reduced by using the result
+from the previous iteration. More specifically, we know that the basis
+$\bar{\mathbf{P}}^{\left(1\right)}$ already provides a $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})_{\delta^{\left(1\right)}-1}$-basis
+$\hat{\mathbf{P}}_{1}^{\left(1\right)}$, which can be disregarded
+in the remaining computation. The remaining work in the second iteration
+is to compute a $(\bar{\mathbf{F}}^{\left(2\right)}\hat{\mathbf{P}}_{2}^{\left(1\right)},2\delta^{\left(2\right)},\vec{b}^{\left(1\right)})$-basis
+$\bar{\mathbf{Q}}^{\left(2\right)}$, where $\vec{b}^{\left(1\right)}=\deg_{\vec{s}^{\left(1\right)}}\bar{\mathbf{P}}_{2}^{\left(1\right)}$,
+and then to combine it with the result from the previous iteration
+to form a matrix $[\hat{\mathbf{P}}_{1}^{\left(1\right)},\hat{\mathbf{P}}_{2}^{\left(1\right)}\bar{\mathbf{Q}}^{\left(2\right)}]$
+in order to extract a $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})$-basis
+$\bar{\mathbf{P}}^{\left(2\right)}$.
+
+With a $(\bar{\mathbf{F}}^{\left(2\right)},2\delta^{\left(2\right)},\vec{s}^{\left(2\right)})$-basis
+computed, we can repeat the same process to use it for computing a
+$(\bar{\mathbf{F}}^{\left(3\right)},2\delta^{\left(3\right)},\vec{s}^{\left(3\right)})$-basis.
+Continue, using the computed $(\bar{\mathbf{F}}^{\left(i-1\right)},2\delta^{\left(i-1\right)},\vec{s}^{\left(i-1\right)})$-basis
+to compute a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis,
+until all $n$ elements of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+have been determined.
+
+%
+\begin{algorithm}[t]
+\caption{$\mmab\left(\mathbf{F},\sigma,\vec{s}\right)$ }
+
+
+\label{alg:mab} 
+\begin{algor}
+\item [{{*}}] \textbf{Input:} $\mathbf{F}\in\mathbb{K}\left[x\right]^{m\times n}$,
+$\sigma\in\mathbb{Z}_{\ge0}$,$\vec{s}\in\mathbb{Z}^{n}$ satisfying
+$n\ge m,$ $n/m$ and $\sigma$ are powers of 2 and $\min\left(\vec{s}\right)=0$ 
+\item [{{*}}] \textbf{Output:} a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+$\mathbf{P}\in K\left[x\right]^{n\times n}$ and $\deg_{\vec{s}}\mathbf{P}$
+\item [{{*}}]~\end{algor}
+\begin{algor}[1]
+\item [{{*}}] \textbf{if }$2m\ge n$ \textbf{then return} $\mab\left(\mathbf{F},\sigma,\vec{s}\right);$ 
+\item [{{{*}}}] $i:=1;$ $d:=m\sigma/n;$ $\delta^{\left(1\right)}:=2d;$ 
+\item [{{{*}}}] $\bar{\mathbf{F}}^{\left(1\right)}:=\StorjohannTransform(\mathbf{F},\delta^{\left(1\right)});$ 
+\item [{{{*}}}] $l^{\left(1\right)}:=\rowDimension(\bar{\mathbf{F}}^{\left(1\right)})/m;$ 
+\item [{{{*}}}] $\vec{b}^{\left(0\right)}:=\left[\vec{s},0,\dots,0\right];$\ \ \ \ \ \ \ //
+$m(l_{1}-1)$ $0$'s
+\item [{{{*}}}] $[\bar{\mathbf{P}}^{\left(1\right)},\vec{a}^{\left(1\right)}]:=\mab(\bar{\mathbf{F}}^{\left(1\right)},2\delta^{\left(1\right)},\vec{b}^{\left(0\right)});$ 
+\item [{{{*}}}] Sort the columns of $\bar{\mathbf{P}}^{\left(i\right)}$
+and $\vec{a}^{\left(i\right)}$ by the shifted column degrees $\vec{a}^{\left(i\right)}=\deg_{\vec{b}}\bar{\mathbf{P}}^{\left(i\right)}$
+in increasing order; 
+\item [{{*}}] $\vec{t}^{\left(i\right)}:=\vec{a}^{\left(i\right)};$ 
+\item [{{{*}}}] $k^{\left(i\right)}:=$ number of entries of $\vec{a}^{\left(i\right)}$
+less than $\delta^{\left(i\right)}$;
+\item [{{*}}] $[\bar{\mathbf{P}}_{1}^{\left(i\right)},\bar{\mathbf{P}}_{2}^{\left(i\right)}]:=\bar{\mathbf{P}}^{\left(i\right)}$
+with $\bar{\mathbf{P}}_{1}^{\left(i\right)}\in K\left[x\right]^{n\times k^{\left(i\right)}}$;
+\item [{{while}}] $\columnDimension(\bar{\mathbf{P}}_{1}^{\left(i\right)})<n$ 
+\item [{{{*}}}] $i:=i+1;$ $\delta^{\left(i\right)}:=2\delta^{\left(i-1\right)};$
+$l^{\left(i\right)}:=(l^{\left(i-1\right)}-1)/2;$ 
+\item [{{{*}}}] $\bar{\mathbf{F}}^{\left(i\right)}:=\StorjohannTransform(\mathbf{F},\delta^{\left(i\right)});$ 
+\item [{{{*}}}] $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}:=\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{2}^{\left(i-1\right)}$;
+\item [{{{*}}}] \label{line:matrixProduct1}$\mathbf{G}^{\left(i\right)}:=\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)};$ 
+\item [{{{*}}}] $\vec{b}^{\left(i-1\right)}:=\vec{t}^{\left(i-1\right)}[k^{\left(i-1\right)}+1\dots n+m(l^{\left(i-1\right)}-1)];$
+\\
+$\mbox{ // w:=v[k..l] means that w receives a slice of v whose indices range from k to l}$
+\item [{{{*}}}] \label{line:orderBasisComputation}$[\mathbf{Q}^{\left(i\right)},\vec{a}^{\left(i\right)}]:=\mab(\mathbf{G}^{\left(i\right)},2\delta^{\left(i\right)},\vec{b}^{\left(i-1\right)});$ 
+\item [{{{*}}}] Sort the columns of $\mathbf{Q}^{\left(i\right)}$ and
+$\vec{a}^{\left(i\right)}$ by $\vec{a}^{\left(i\right)}=\deg_{\vec{b}^{\left(i-1\right)}}\mathbf{Q}^{\left(i\right)}$
+in increasing order; 
+\item [{{{*}}}] \label{line:matrixProduct2}$\check{\mathbf{P}}^{\left(i\right)}:=\hat{\mathbf{P}}_{2}^{\left(i-1\right)}\mathbf{Q}^{\left(i\right)};$ 
+\item [{{{*}}}] \label{line:LSP}$J:=$ the column rank profile of $\lcoeff(x^{\left[\vec{s},0,\dots,0\right]}[\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\check{\mathbf{P}}^{\left(i\right)}])$; 
+\item [{{*}}] $\bar{\mathbf{P}}^{\left(i\right)}:=[\mathbf{E}^{\left(i\right)}\bar{\mathbf{P}}_{1}^{\left(i-1\right)},\check{\mathbf{P}}^{\left(i\right)}]_{J}$,
+\item [{{*}}] $\vec{t}^{\left(i\right)}:=\deg_{\left[\vec{s},0,\dots,0\right]}\bar{\mathbf{P}}^{\left(i\right)}$; 
+\item [{{{*}}}] $k^{\left(i\right)}:=$ number of entries of $\vec{t}^{\left(i\right)}$
+less than $\delta^{\left(i\right)}$;
+\item [{{*}}] $[\bar{\mathbf{P}}_{1}^{\left(i\right)},\bar{\mathbf{P}}_{2}^{\left(i\right)}]:=\bar{\mathbf{P}}^{\left(i\right)}$
+with $\bar{\mathbf{P}}_{1}^{\left(i\right)}\in K\left[x\right]^{n\times k^{\left(i\right)}}$
+;
+\item [{{endwhile}}] ~ 
+\item [{{{*}}}] \textbf{return} the top $n$ rows of $\bar{\mathbf{P}}_{1}^{\left(i\right)}$,
+$\vec{t}^{\left(i\right)}\left[1..n\right]$; 
+\end{algor}
+
+\end{algorithm}
+
+
+%
+\begin{comment}
+\begin{thm}
+Algorithm \prettyref{alg:mab} computes a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+correctly.\end{thm}
+\begin{pf}
+This follows from \prettyref{lem:simplifySecondSubproblem}, \prettyref{lem:disregardComputedBasisElements},
+and \prettyref{lem:computationAtTopLevel}. 
+\end{pf}
+
+\end{comment}
+{} 
+
+
+\section{Computational Complexity}
+
+\label{sec:complexity}
+
+In this section, we analyze the computational complexity of \prettyref{alg:mab}.
+\begin{lem}
+\prettyref{alg:mab} computes a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+in no more than $\log\left(n/m\right)-1$ iterations.\end{lem}
+\begin{pf}
+Each iteration $i$ computes a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})$-basis.
+At iteration ${i}^{*}=\log(n/m)-1$, the degree parameter is $\sigma/2$
+and $(\bar{\mathbf{F}}^{\left({i}^{*}\right)},2\delta^{\left({i}^{*}\right)},\vec{s}^{\left({i}^{*}\right)})=\left(\mathbf{F},\sigma,\vec{s}\right)$.\end{pf}
+\begin{lem}
+\label{lem:remainingNumberElements}If the shift $\vec{s}=\left[0,\dots,0\right]$,
+then a $\left(\mathbf{F},\sigma,\vec{s}\right)_{\delta^{\left(i\right)}-1}$-basis
+(or equivalently a $(\bar{\mathbf{F}}^{\left(i\right)},2\delta^{\left(i\right)},\vec{s}^{\left(i\right)})_{\delta^{\left(i\right)}-1}$-basis)
+computed at iteration $i$ has at least $n-n/2^{i}$ elements, and
+hence at most $n/2^{i}$ elements remain to be computed. If the shift
+$\vec{s}$ is balanced, that is, $\max\vec{s}\in O(d)$ assuming $\min\vec{s}=0$,
+then the number $n^{\left(i\right)}$ of remaining basis elements
+at iteration $i$ is $O(n/2^{i})$.\end{lem}
+\begin{pf}
+The uniform case follows from the idea of \citet{storjohann-villard:2005}
+on null space basis computation discussed in \prettyref{sub:Unbalanced-Output}.
+For the balanced case, the average column degree is bounded by $cd=cm\sigma/n$
+for some constant $c$. The first iteration $\lambda$ such that $\delta^{\left(\lambda\right)}$
+reaches $cd$ is therefore a constant. That is, $\delta^{\left(\lambda\right)}=2^{\lambda}d\ge cd>\delta^{\left(\lambda-1\right)}$
+and hence $\lambda=\left\lceil \log c\right\rceil $. By the same
+argument as in the uniform case, the number of remaining basis elements
+$n^{\left(i\right)}\le n/2^{i-\lambda}=2^{\lambda}(n/2^{i})\in O(n/2^{i})$
+at iteration $i\ge\lambda$. For iterations $i<\lambda$, certainly
+$n^{\left(i\right)}\le n<2^{\lambda}(n/2^{i})\in O(n/2^{i})$.\end{pf}
+\begin{thm}
+\label{thm:balancedCost}If the shift $\vec{s}$ is balanced with
+$\min\left(\vec{s}\right)=0$, then \prettyref{alg:mab} computes
+a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis with a cost of $O\left(n^{\omega}\bar{\M}(d)\log\sigma)\right)=O\left(n^{\omega}d\log d\log\log d\log\sigma)\right)\subset O^{\sim}\left(n^{\omega}d\right)$
+field operations. \end{thm}
+\begin{pf}
+The computational cost depends on the degree, the row dimension, and
+the column dimension of the problem at each iteration. The degree
+parameter $\delta^{\left(i\right)}$ is $2^{i}d$ at iteration $i$.
+The number of block rows $l^{\left(i\right)}$ is $\sigma/\delta^{\left(i\right)}-1$,
+which is less than $\sigma/(2^{i}d)=n/(2^{i}m)$ at iteration $i$.
+The row dimension is therefore less than $n/2^{i}$ at iteration $i$.
+
+The column dimension of interest at iteration $i$ is the column dimension
+of $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$ (equivalently the column
+dimension of $\bar{\mathbf{P}}_{2}^{\left(i-1\right)}$), which is
+the sum of two components, $n^{\left(i-1\right)}+(l^{\left(i-1\right)}-1)m$.
+The first component $n^{\left(i-1\right)}\in O(n/2^{i})$ by \prettyref{lem:remainingNumberElements}.
+The second component $(l^{\left(i-1\right)}-1)m<n/2^{i-1}-m<n/2^{i-1}$
+comes from the size of the identity matrix added in Storjohann's transformation.
+Therefore, the overall column dimension of the problem at iteration
+$i$ is $O(n/2^{i})$.
+
+At each iteration, the four most expensive operations are the multiplications
+at \prettyref{line:matrixProduct1} and \prettyref{line:matrixProduct2},
+the order basis computation at \prettyref{line:orderBasisComputation},
+and extracting the basis at \prettyref{line:LSP}.
+
+The matrices $\bar{\mathbf{F}}^{\left(i\right)}$ and $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
+have degree $O(2^{i}d)$ and dimensions $O(n/2^{i})\times O\left(n\right)$
+and $O\left(n\right)\times O(n/2^{i})$. The multiplication cost is
+therefore $2^{i}\MM(n/2^{i},2^{i}d)$ field operations, which is bounded
+by\begin{align}
+2^{i}\MM(n/2^{i},2^{i}d) & \in O\left(2^{i}\left(n/2^{i}\right)^{\omega}\bar{\M}(2^{i}d)\right)\nonumber \\
+ & \subset O\left(n^{\omega}\left(2^{i}\right)^{1-\omega}\bar{\M}\left(2^{i}\right)\bar{\M}(d)\right)\label{eq:separateMultiplication}\\
+ & \subset O\left(n^{\omega}\left(2^{i}\right)^{1-\omega}\left(2^{i}\right)^{\omega-1}\bar{\M}(d)\right)\label{eq:MultiplicationToExponent}\\
+ & \subset O\left(n^{\omega}\bar{\M}(d)\right).\nonumber \end{align}
+Equation (\ref{eq:separateMultiplication}) follows from $\bar{\M}(ab)\in O\left(\bar{\M}(a)\bar{\M}(b)\right)$.
+Equation (\ref{eq:MultiplicationToExponent}) follows from $\bar{\M}(t)\in O(t^{\omega-1})$.
+
+The matrices $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$ and $\bar{\mathbf{Q}}^{\left(i\right)}$
+of the second multiplication have the same degree $O(2^{i}d)$ and
+dimensions $O\left(n\right)\times O(n/2^{i})$ and $O(n/2^{i})\times O(n/2^{i})$
+and can also be multiplied with a cost of $O\left(n^{\omega}\bar{\M}(d)\right)$
+field operations. The total cost of the multiplications over $O(\log\left(n/m\right))$
+iterations is therefore $O\left(n^{\omega}\bar{\M}(d)\log(n/m)\right)$.
+
+The input matrix $\mathbf{G}^{\left(i\right)}=\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
+of the order basis computation problem at iteration $i$ has dimension
+$O(n/2^{i})\times O(n/2^{i})$ and the order of the problem is $2\delta^{\left(i\right)}\in O(2^{i}d)$.
+Thus, the cost of the order basis computation at iteration $i$ is
+$O\left(\left(n/2^{i}\right)^{\omega}\bar{\M}\left(2^{i}d\right)\log\left(2^{i}d\right)\right)$.
+The total cost over $O(\log\left(n/m\right))$ iterations is bounded
+by \begin{align*}
+ & O\left(\sum_{i=1}^{\infty}\left(\left(n/2^{i}\right)^{\omega}\bar{\M}\left(2^{i}d\right)\log\left(2^{i}d\right)\right)\right)\\
+\subset & O\left(\sum_{i=1}^{\infty}\left(\left(n/2^{i}\right)^{\omega}\bar{\M}\left(2^{i}\right)\log\left(2^{i}\right)\bar{\M}\left(d\right)\log\left(d\right)\right)\right)\\
+\subset & O\left(\sum_{i=1}^{\infty}\left(n^{\omega}\left(2^{i}\right)^{-\omega}\left(2^{i}\right)^{\omega-1}\bar{\M}\left(d\right)\log\left(d\right)\right)\right)\\
+\subset & O\left(n^{\omega}\bar{\M}\left(d\right)\log\left(d\right)\sum_{i=1}^{\infty}\left(2^{-i}\right)\right)\\
+\subset & O\left(n^{\omega}\bar{\M}\left(d\right)\log\left(d\right)\right).\end{align*}
+
+
+Finally, extracting an order basis by LSP factorization costs $O\left(n^{\omega}\right)$,
+which is dominated by the other costs. Combining the above gives \[
+O\left(n^{\omega}\bar{\M}\left(d\right)\log(n/m)+n^{\omega}\bar{\M}\left(d\right)\log d\right)=O\left(n^{\omega}\bar{\M}\left(d\right)\log\sigma)\right)\]
+ as the total cost of the algorithm. 
+\end{pf}
+
+\section{Unbalanced Shifts}
+
+\label{sec:Unbalanced-Shift}
+
+\prettyref{sec:complexity} shows that \prettyref{alg:mab} can efficiently
+compute a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis when the
+shift $\vec{s}$ is balanced. When the $\vec{s}$ is unbalanced (something
+important for example in normal form computation \citep{BLV:1999,BLV:jsc06}),
+then \prettyref{alg:mab} still returns a correct answer but may be
+less efficient. The possible inefficiency results because there may
+not be enough partial results from the intermediate subproblems to
+sufficiently reduce the column dimension of the subsequent subproblem.
+This is clear from the fact that the column degrees of the output
+can be much larger and no longer sum up to $O\left(m\sigma\right)$
+as in the balanced shift case. The shifted $\vec{s}$-column degrees,
+however, still behave well. In particular, the total $\vec{s}$-degree
+increase is still bounded by $m\sigma$ as stated in \prettyref{lem:size},
+while the shifted degree of any column can also increase by up to
+$\sigma$. Recall that \prettyref{lem:size} states that for any shift
+$\vec{s}$, there exists a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+still having a total size bounded by $nm\sigma$ which gives hope
+for efficient computation.
+
+In this section, we describe an algorithm for an important special
+case of unbalanced shift -- when the input shift $\vec{s}$ satisfies
+the condition:\[
+\sum_{i=1}^{n}(\max(\vec{s})-\vec{s}_{i})\le m\sigma.\]
+ For simpler presentation, we use the equivalent condition \begin{equation}
+\vec{s}\le0\mbox{ and }\sum_{i}-\vec{s}_{i}\le m\sigma,\label{con:unbalancedCondition}\end{equation}
+ which can always be obtained from the previous condition by using
+$\vec{s}-\max\vec{s}$ as the new shift. Note that translating every
+entry of the shift by the same constant does not change the problem.
+
+In the balanced shift case, a central problem is to find a way to
+handle unbalanced column degrees of the output order basis. In this
+section, the unbalanced shift makes row degrees of the output also
+unbalanced, which is a major problem that needs to be resolved. Here
+we note a second transformation by \citet{Storjohann:2006} which
+converts the input in such a way that each high degree row of the
+output becomes multiple rows of lower degrees. We refer to this as
+Storjohann's second transformation to distinguish it from that described
+in \prettyref{sub:storjohannTransformation}. The transformed problem
+can then be computed efficiently using \prettyref{alg:mab}. After
+the computation, rows can then be combined appropriately to form a
+basis of the original problem. The method is computationally efficient.
+
+Unfortunately, the bases computed this way are not minimal and hence
+do not in general produce our reduced order bases. In the following,
+we describe a transformation that incorporates Storjohann's second
+transformation and guarantees the minimality of some columns of the
+output, hence providing a partial order basis. We can then work on
+the remaining columns iteratively as done in the balanced shift case
+to compute a full order basis.
+
+Condition \eqref{con:unbalancedCondition} essentially allows us to
+locate the potential high degree rows that need to be balanced. In
+more general cases, we may not know in advance which are the high
+degree rows that need to be balanced, so our approach given in this
+section does not work directly. This suggests that one possible future
+direction to pursue is to find an effective way to estimate the row
+degree of the result pivot entries. Such an estimate may allow us
+to apply the method given in this section efficiently for general
+unbalanced shifts. 
+
+
+\subsection{Transform to Balanced Shifts}
+
+We now describe the transformation for balancing the high degree rows
+of the resulting basis. Consider the problem of computing a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis,
+where the input shift $\vec{s}$ satisfies the conditions \eqref{con:unbalancedCondition}.
+Let $\alpha,\beta\in\mathbb{Z}_{>0}$ be two parameters. For each
+shift entry $s_{i}$ in $\vec{s}$ with $-s_{i}>\alpha+\beta$, let
+\[
+r_{i}=\mbox{rem}\left(-s_{i}-\alpha-1,\beta\right)+1\]
+ be the remainder when $-s_{i}-\alpha$ is divided by $\beta$, and
+where $r_{i}=\beta$ in the case where the remainder is $0$, and
+set \[
+q_{i}=\begin{cases}
+1 & \mbox{if }-s_{i}\le\alpha+\beta\\
+1+\left(-s_{i}-\alpha-r_{i}\right)/\beta & \mbox{otherwise}\end{cases}\]
+ Then, for each $q_{i}>1$, we expand the corresponding $i$th column
+$\mathbf{f}_{i}$ of $\mathbf{F}$ and shift $s_{i}$ to \begin{eqnarray*}
+\tilde{\mathbf{F}}^{\left(i\right)} & = & \left[~\mathbf{f}_{i},~x^{r_{i}}\mathbf{f}_{i},~x^{r_{i}+\beta}\mathbf{f}_{i},~\dots~,~x^{r_{i}+(q_{i}-2)\beta}\mathbf{f}_{i}\right],~~\tilde{s}_{i}=\left[-\alpha-\beta,~\dots~,-\alpha-\beta\right]\end{eqnarray*}
+ with $q_{i}$ entries in each case. When $q_{i}=1$, the corresponding
+shift entry and input column remain the same, that is, $\tilde{s}_{i}=s_{i}$,
+and $\tilde{\mathbf{F}}^{\left(i\right)}=\mathbf{f}_{i}$. Then for
+the transformed problem, the new shift becomes $\bar{s}=[\tilde{s}_{1},\dots,\tilde{s}_{n}]\in\mathbb{Z}_{\le0}^{\bar{n}}$,
+and the new input matrix becomes $\bar{\mathbf{F}}=[\tilde{\mathbf{F}}^{\left(1\right)},\dots,\tilde{\mathbf{F}}^{\left(n\right)}]\in\mathbb{K}\left[x\right]^{m\times\bar{n}}$,
+with the new column dimension $\bar{n}$ satisfies $\bar{n}=\sum_{i=1}^{n}q_{i}$.
+Note that every entry of the new shift $\bar{s}$ is an integer from
+$-\alpha-\beta$ to $0$. Let \[
+\mathbf{E}=\left[\begin{array}{ccccc|ccc|ccccccc}
+1 & x^{r_{1}} & x^{r_{1}+\beta} & \cdots & x^{r_{1}+(q_{1}-2)\beta} &  &  & \\
+\hline  &  &  &  &  & \ddots &  & \\
+ &  &  &  &  &  & \  & \ddots\\
+\hline  &  &  &  &  &  &  &  & 1 & x^{r_{n}} & x^{r_{n}+\beta} & \cdots & x^{r_{n}+(q_{n}-2)\beta}\end{array}\right]_{n\times\bar{n}}.\]
+ Then $\bar{\mathbf{F}}=\mathbf{F}\mathbf{E}$. Storjohann's second
+transformation is determined by setting $\alpha=-1$, a value not
+allowed in our transformation (we show later in \prettyref{thm:correctHighDegreeElements}
+that this value is not useful in our case). One can verify that the
+new dimension \[
+\bar{n}=\sum_{i=1}^{n}q_{i}\le n+\sum_{i=1}^{n}-s_{i}/\beta\le m\sigma/\beta+n.\]
+ Thus by setting $\beta\in\Theta\left(m\sigma/n\right)=\Theta\left(d\right)$,
+we can make $\bar{n}\in\Theta\left(n\right)$. Furthermore, by also
+setting $\alpha\in\Theta\left(d\right)$, we have a balanced shift
+problem since \[
+\max\bar{s}-\min\bar{s}\le-\min\bar{s}\le\alpha+\beta\in\Theta(d).\]
+ Hence \prettyref{alg:mab} can compute a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis
+with cost $O^{\sim}\left(n^{\omega}d\right)$ in this case.
+
+With a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis $\bar{\mathbf{P}}\in\mathbb{K}\left[x\right]^{\bar{n}\times\bar{n}}$
+computed, let us now consider $\mathbf{E}\bar{\mathbf{P}}\in\mathbb{K}\left[x\right]^{n\times\bar{n}}$.
+While it is easy to see that $\mathbf{E}\bar{\mathbf{P}}$ has order
+$\left(\mathbf{F},\sigma\right)$ since \textbf{$\mathbf{F}\mathbf{E}\bar{\mathbf{P}}=\bar{\mathbf{F}}\bar{\mathbf{P}}\equiv0\mod x^{\sigma}$},
+in general it is not a minimal basis (in fact, $\mathbf{E}\bar{\mathbf{P}}$
+is not even square). However, our transformation does guarantee that
+the highest degree columns of $\mathbf{E}\bar{\mathbf{P}}$ having
+$\vec{s}$-degrees exceed $-\alpha$ are minimal. That is, the columns
+of $\mathbf{E}\bar{\mathbf{P}}$ whose $\vec{s}$-degrees exceed $-\alpha$
+are exactly the columns of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+whose $\vec{s}$-degrees exceed $-\alpha$. We have therefore correctly
+computed a partial $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis. 
+\begin{exmp}
+\label{exm:unbalancedShift} Let us use the same input as in \prettyref{exm:StorjohannTransformation},
+but with shift $\vec{s}=[0,-3,-5,-6]$, and parameters $\alpha=\beta=1$.
+Then we get the transformed input \begin{align*}
+\bar{\mathbf{F}}=[ & x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},\,~1+x+x^{5}+x^{6}+x^{7},\,~x+x^{2}+x^{6}+x^{7}+x^{8},\\
+ & 1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},\,~x+x^{3}+x^{5}+x^{6}+x^{7}+x^{8},\,~x^{2}+x^{4}+x^{6}+x^{7}+x^{8}+x^{9},\\
+ & x^{3}+x^{5}+x^{7}+x^{8}+x^{9}+x^{10},\,~1+x+x^{3}+x^{7},\,~x+x^{2}+x^{4}+x^{8},\\
+ & x^{2}+x^{3}+x^{5}+x^{9},\,~x^{3}+x^{4}+x^{6}+x^{10},\,~x^{4}+x^{5}+x^{7}+x^{11}]\end{align*}
+ having $12$ components, and $\bar{s}=[0,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2]$.
+In this case $r_{1}=r_{2}=r_{3}=r_{4}=1$, $q_{1}=1$, $q_{2}=2$,
+$q_{3}=4$, $q_{4}=5$ and the transformation matrix is \[
+\mathbf{E}=\left[{\begin{array}{c|cc|cccc|ccccc}
+~1~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~\\
+\hline 0 & 1 & x & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 1 & x & x^{2} & x^{3} & 0 & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & x & x^{2} & x^{3} & x^{4}\end{array}}\right].\]
+ Using the earlier algorithm for balanced shift, we compute a $(\bar{\mathbf{F}},8,\bar{s})$-basis
+\[
+\bar{\mathbf{P}}=\left[{\begin{array}{cccccccccccc}
+0 & ~0~ & ~0~ & ~0~ & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+\hline ~x~ & 1 & 0 & 0 & 1 & 0 & ~x~ & 0 & 0 & 0 & ~x~ & ~0~\\
+0 & 0 & 1 & 0 & 0 & ~x~ & 1+~x~ & ~x~ & ~x~ & ~x~ & 1 & 0\\
+\hline ~x~ & 1 & 0 & 1 & 1+x & 1 & ~x~ & 0 & 0 & 0 & 0 & 1\\
+~x~ & 0 & 1 & 1 & 1+x & 1+x & 1 & ~x~ & ~x~ & 0 & 0 & 0\\
+~x~ & 0 & 0 & 1 & 1+x & 1+x & 1 & ~x~ & 0 & 1 & 0 & 0\\
+~x~ & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 1 & ~x~ & 1 & 0 & 0 & 0 & 0 & 0 & 1\\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & ~x~ & 1 & 1 & 1 & 1 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\end{array}}\right]\]
+ with $\bar{s}$-degrees $[-1,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0]$.
+Only the last column has $\bar{s}$-degree exceeding $-\alpha=-1$
+and so is the only column guaranteed to give a correct $(\mathbf{F},8,\vec{s})$-basis
+element. Comparing \[
+\mathbf{E}\bar{\mathbf{P}}=\left[{\begin{array}{cccccccccccc}
+0 & ~0~ & ~0~ & 0 & ~0~ & 0 & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~1~\\
+x & 1 & x & 0 & 1 & x^{2} & x^{2} & x^{2} & x^{2} & x^{2} & 0 & 0\\
+x+x^{2}+x^{3}+x^{4} & 1 & x & 1+x+x^{2}+x^{3} & 1 & 1+x+x^{3} & x^{2} & x^{2} & x^{2} & x^{2} & 0 & 1\\
+0 & x & x^{2} & 1+x^{3}+x^{4} & x & 1+x^{4} & x^{3} & x^{3} & x^{3} & x^{3} & 0 & 1\end{array}}\right]\]
+ to a $(\mathbf{F},8,\vec{s})$-basis \[
+\mathbf{P}=\left[{\begin{array}{cccc}
+~0~ & 0 & 0 & ~1~\\
+1 & 0 & 0 & 0\\
+1 & x^{2}+x^{3}+x^{4} & 1+x+x^{2}+x^{3} & 1\\
+x & x^{2} & 1+x^{3}+x^{4} & 1\end{array}}\right]\]
+ with $\vec{s}$-degrees $[-3,-1,-2,~0~]$, we see that the last column
+of $\mathbf{E}\bar{\mathbf{P}}$ is a element of a $(\mathbf{F},8,\vec{s})$-basis.
+
+If we set $\alpha=2,\beta=1$, then the new transformed problem gives
+\[
+\bar{\mathbf{P}}=\left[{\begin{array}{ccccccccc}
+~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~1~\\
+1 & 0 & 0 & x & 1+x & x & x & \, x\, & \,0\,\\
+1 & x^{2} & 1 & x & 1 & x & \, x\, & 0 & 1\\
+0 & x^{2} & 1 & \, x\, & 1 & \, x\, & 0 & 1 & 0\\
+0 & x^{2} & 1+x & 1 & 0 & 1 & 0 & 0 & 0\\
+0 & x^{2} & 1 & 0 & \, x\, & 0 & 0 & 0 & 1\\
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+\,0\, & \,0\, & \, x\, & 1+x & 1 & 1 & 1 & 1 & 0\\
+0 & 0 & x & 1 & 0 & 0 & 0 & 0 & 0\end{array}}\right]\]
+ with $\bar{s}$-degrees $[-3,-1,-2,-2,-2,-2,-2,-2,~0~]$. In this
+case the second column also has $\bar{s}$-degree exceeding $-\alpha=-2$,
+and so it is guaranteed to produce another element of a $(\mathbf{F},8,\vec{s})$-basis.
+Computing \[
+\mathbf{E}\bar{\mathbf{P}}=\left[{\begin{array}{ccccccccc}
+~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~0~ & ~1~\\
+1 & 0 & 0 & x & 1+x & x & x & x & 0\\
+1 & x^{2}+x^{3}+x^{4} & 1+x+x^{2}+x^{3} & x & 1+x & x & x & x & 1\\
+x & x^{2} & 1+x^{3}+x^{4} & x^{2} & x+x^{2} & ~x^{2} & ~x^{2} & ~x^{2} & 1\end{array}}\right],\]
+ we notice the second column is indeed an element of a $(\mathbf{F},8,\vec{s})$-basis. 
+\end{exmp}
+
+\subsection{Correspondence Between the Original Problem and the Transformed Problem}
+
+We now work towards establishing the correspondence between the high
+degree columns of a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis
+whose $\bar{s}$-degrees exceed $-\alpha$ and those of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+whose $\vec{s}$-degrees exceed $-\alpha$. A useful link is provided
+by the following a matrix .
+
+Set \[
+\mathbf{A}_{i}=\begin{bmatrix}~~x^{r_{i}}\\
+-1 & ~~x^{\beta}\\
+ & -1 & \ddots\\
+ &  & \ddots & ~~x^{\beta}\\
+ &  &  & -1\end{bmatrix}_{q_{i}\times(q_{i}-1)}\mbox{ and \qquad}\mathbf{A}=\left[\begin{array}{ccc}
+\mathbf{A}_{1}\\
+ & \ddots\\
+ &  & \mathbf{A}_{n}\end{array}\right]_{\bar{n}\times(\bar{n}-n)}.\]
+ If $q_{i}=1$, $\mathbf{A}_{i}$ has dimension $1\times0$, which
+just adds a zero row and no column in $\mathbf{A}$.
+
+We now show that for any $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $,
+$\bar{\mathbf{w}}$ can be transformed by $\mathbf{A}$ to one of
+the two forms that correspond to the original problem and transformed
+problem. This is made more precise in the following lemma. We then
+use unimodular equivalence of these two forms to show the equivalence
+between the high degree part of the result from the transformed problem
+and that of the original problem. 
+\begin{lem}
+Let \[
+\bar{\mathbf{w}}=\begin{bmatrix}\bar{\mathbf{w}}_{1}\\
+\vdots\\
+\bar{\mathbf{w}}_{n}\end{bmatrix}\in\langle(\bar{\mathbf{F}},\sigma,\bar{s})\rangle\mbox{ with }\bar{\mathbf{w}}_{i}=\begin{bmatrix}\bar{w}_{i,0}\\
+\vdots\\
+\bar{w}_{i,q_{i}-1}\end{bmatrix}_{q_{i}\times1}.\]
+ Then there exists a vector $\mathbf{u}\in\mathbb{K}\left[x\right]^{\left(\bar{n}-n\right)\times1}$
+such that $\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}$ has one of the
+following two forms. 
+\begin{description}
+\item [{{{{(a)}}}}] The first form is \textup{\[
+\mathbf{w}^{[1]}=\begin{bmatrix}\mathbf{w}_{1}^{[1]}\\
+\vdots\\
+\mathbf{w}_{n}^{[1]}\end{bmatrix}\mbox{ with }\mathbf{w}_{i}^{[1]}=\begin{bmatrix}w_{i}\\
+0\\
+\vdots\\
+0\end{bmatrix}_{q_{i}\times1},\]
+ } where \textup{$w_{i}=\bar{w}_{i,0}+\bar{w}_{i,1}x^{r_{i}}+\bar{w}_{i,2}x^{r_{i}+\beta}+\cdots+\bar{w}_{i,q_{i}-1}x^{r_{i}+(q_{i}-2)\beta}$.} 
+\item [{{{{(b)}}}}] The second form is \[
+\mathbf{w}^{[2]}=\begin{bmatrix}\mathbf{w}_{1}^{[2]}\\
+\vdots\\
+\mathbf{w}_{n}^{[2]}\end{bmatrix}\mbox{ with }\mathbf{w}_{i}^{[2]}=\begin{bmatrix}w_{i,0}\\
+\vdots\\
+w_{i,q_{i}-1}\end{bmatrix},\]
+ where $\deg w_{i,j}<r_{i}\le\beta$ when $j=0$ and $\deg w_{i,j}<\beta$
+when $j\in\{1,\dots,q_{i}-2\}$. There is no degree restriction on
+$w_{i,q_{i}-1}$. 
+\end{description}
+\end{lem}
+\begin{pf}
+The first form is obtained by setting \[
+\mathbf{u}^{[1]}=\begin{bmatrix}\mathbf{u}_{1}^{[1]}\\
+\vdots\\
+\mathbf{u}_{n}^{[1]}\end{bmatrix}\mbox{ with }\mathbf{u}_{i}^{[1]}=\left[\begin{array}{r}
+\bar{w}_{i,1}+\bar{w}_{i,2}x^{\beta}+\bar{w}_{i,3}x^{2\beta}+\cdots+\bar{w}_{i,q_{i}-1}x^{(q_{i}-2)\beta}\\
+\bar{w}_{i,2}+\bar{w}_{i,3}x^{\beta}+\cdots+\bar{w}_{i,q_{i}-1}x^{(q_{i}-3)\beta}\\
+\vdots~~~~~\\
+\bar{w}_{i,q_{i}-1}\end{array}\right].\]
+ Then $\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}^{[1]}$ gives the first
+form. Note that $\mathbf{u}_{i}^{[1]}$ is empty if $q_{i}=1$ and
+$\bar{\mathbf{w}}_{i}=\mathbf{w}_{i}^{[1]}=[\bar{w}_{i,0}]$ is not
+changed by the transformation.
+
+The second form can be obtained based on the first form. Let \[
+t_{i,j}=\begin{cases}
+r_{i} & \mbox{if }j=0\\
+\beta & \mbox{if }j\in\{1,\dots,q_{i}-2\}\end{cases}\]
+ and write $w_{i}$ from the first form as \begin{equation}
+w_{i}=w_{i,0}+w_{i,1}x^{r_{i}}+w_{i,2}x^{r_{i}+\beta}+\cdots+w_{i,q_{i}-1}x^{r_{i}+(q_{i}-2)\beta}\label{eq:wiSeparatedForm}\end{equation}
+ with $\deg w_{i,j}<t_{i,j}$ for $j<q_{i}-1$. Note that in general
+$w_{i,j}\ne\bar{w}_{i,j}$, as $\deg\bar{w}_{i,j}$ may not be less
+than $t_{i,j}$. Now set \[
+\mathbf{v}=\begin{bmatrix}\mathbf{v}_{1}\\
+\vdots\\
+\mathbf{v}_{n}\end{bmatrix}\mbox{ with }\mathbf{v}_{i}=\left[\begin{array}{r}
+w_{i,1}+w_{i,2}x^{\beta}+w_{i,3}x^{2\beta}+\cdots+w_{i,q_{i}-1}x^{(q_{i}-2)\beta}\\
+w_{i,2}+w_{i,3}x^{\beta}+\cdots+w_{i,q_{i}-1}x^{(q_{i}-3)\beta}\\
+\vdots~~~~~\\
+w_{i,q_{i}-1}\end{array}\right]\]
+ and $\mathbf{u}^{[2]}=\mathbf{u}^{[1]}-\mathbf{v}$, which comes
+from the unimodular transformation \[
+\left[\bar{\mathbf{w}},\mathbf{A}\right]\left[\begin{array}{c|c}
+1\\
+\hline \mathbf{\mathbf{u}}^{[1]} & \mathbf{I}\end{array}\right]\left[\begin{array}{c|c}
+1\\
+\hline -\mathbf{v} & \mathbf{I}\end{array}\right]=\left[\bar{\mathbf{w}},\mathbf{A}\right]\left[\begin{array}{c|c}
+1\\
+\hline \mathbf{u}^{[1]}-\mathbf{v} & \mathbf{I}\end{array}\right].\]
+ Then $\mathbf{w}^{[2]}=\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}^{[2]}$
+is in the second form. Again note that $\mathbf{v}_{i}$ and $\mathbf{u}_{i}^{[2]}$
+are empty if $q_{i}=1$ and $\mathbf{w}_{i}^{[2]}=\bar{\mathbf{w}}_{i}=[\bar{w}_{i,0}]$.\end{pf}
+\begin{lem}
+\label{lem:degreeCorrespondence}Let $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $
+and $\mathbf{w}^{[2]}$ be in the second form. If $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}>-\alpha$
+or $\deg_{\bar{s}}\mathbf{w}^{[2]}>-\alpha$, then $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}=\deg_{\bar{s}}\mathbf{w}^{[2]}$. \end{lem}
+\begin{pf}
+Consider the $i$th entry $w_{i}$ of $\mathbf{E}\bar{\mathbf{w}}$
+and the %corresponding 
+entries $\mathbf{w}_{i}^{[2]}=\left[w_{i,0},\dots,w_{i,q_{i}-1}\right]^{T}$
+in $\mathbf{w}^{[2]}$. If $q_{i}=1$, then $w_{i}=w_{i,0}$ and the
+corresponding shifts satisfies $s_{i}=\bar{s}_{\ell(i)}$, where $\ell(i)=\sum_{k=1}^{i}q_{k}$.
+Hence $\deg w_{i}+s_{i}=\deg w_{i,0}+\bar{s}_{\ell(i)}$. Thus we
+only need to consider the case where $q_{i}>1$. Write $w_{i}$ as
+in Equation \prettyref{eq:wiSeparatedForm}. Note that $\deg w_{i,q_{i}-1}=\deg w_{i}-r_{i}-\beta\left(q_{i}-2\right)$
+and hence $\deg w_{i,q_{i}-1}-\alpha-\beta=\deg w_{i}-r_{i}-\alpha-\beta\left(q_{i}-1\right)$,
+that is, $\deg w_{i,q_{i}-1}+\bar{s}_{\ell(i)}=\deg w_{i}+s_{i}$.
+It follows that \begin{eqnarray*}
+\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}} & = & \max_{i}(\deg w_{i}+s_{i})=\max_{i}(\deg w_{i,q_{i}-1}+\bar{s}_{\ell(i)})\\
+ & \le & \max_{i,j}\left(\deg w_{i,j}+\bar{s}_{\ell(i-1)+j+1}\right)=\deg_{\bar{s}}\mathbf{w}^{[2]}.\end{eqnarray*}
+ The only possible indices $j$ where the inequality can be strict
+occur when $j<q_{i}-1$. But $\deg w_{i,j}<\beta$ for all $j<q_{i}-1$,
+which implies $\deg w_{i,j}+\bar{s}_{\ell(i-1)+j+1}=\deg w_{i,j}-\alpha-\beta<-\alpha$,
+and so it follows that the entries at these indices $j$ do not contribute
+to $\deg_{\bar{s}}\mathbf{w}^{[2]}$ when $\deg_{\bar{s}}\mathbf{w}^{[2]}>-\alpha$
+or $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}=\max_{i}(\deg w_{i,q_{i}-1}+\bar{s}_{\ell(i)})>-\alpha$.
+In other words, if one of them exceeds $-\alpha$, then $\deg_{\bar{s}}\mathbf{w}^{[2]}$
+and $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}$ are determined only
+by entries at indices $j=q_{i}-1$, but the equality always holds
+for these entries. \end{pf}
+\begin{rem}
+Notice that the first form $\mathbf{w}^{\left[1\right]}$ of $\bar{\mathbf{w}}$
+has nonzero entries only at indices $I=[1,q_{1}+1,\dots,\sum_{k=1}^{n-1}q_{k}+1]$.
+Let $\mathbf{B}$ be a $\bar{n}\times n$ matrix with $1$'s at position
+$(\sum_{k=1}^{n-1}q_{k}+1,i)$ and 0's everywhere else. Then the first
+form satisfies\textup{ $\mathbf{w}^{[1]}=\mathbf{B}\mathbf{E}\bar{\mathbf{w}}$.}
+Hence \prettyref{lem:degreeCorrespondence} provides the degree correspondence
+between the degrees of the first form $\mathbf{B}\mathbf{E}\bar{\mathbf{w}}$,
+which is just $\mathbf{E}\bar{\mathbf{w}}$ with zero rows added,
+and the second form $\bar{\mathbf{w}}^{[2]}$ of $\bar{\mathbf{w}}$.\end{rem}
+\begin{cor}
+\label{cor:degreeCorrespondence}Let $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $
+and $\mathbf{w}^{[2]}$ be its second form. Then $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}>-\alpha$
+if and only if $\deg_{\bar{s}}\mathbf{w}^{[2]}>-\alpha$.\end{cor}
+\begin{pf}
+The proof follows directly from \prettyref{lem:degreeCorrespondence}.\end{pf}
+\begin{lem}
+\label{lem:degEwLessEqDegw}Let $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $.
+Then $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}\le\deg_{\bar{s}}\bar{\mathbf{w}}$. \end{lem}
+\begin{pf}
+As in \prettyref{lem:degreeCorrespondence}, consider the $i$th entry
+$w_{i}$ of $\mathbf{E}\bar{\mathbf{w}}$ and the corresponding entries
+$\bar{\mathbf{w}}_{i}=\left[\bar{w}_{i,0},\dots,\bar{w}_{i,q_{i}-1}\right]^{T}$
+in $\bar{\mathbf{w}}$. If $q_{i}=1$, then $\deg w_{i}+s_{i}=\deg w_{i,0}+\bar{s}_{\ell(i)}$
+as before. Thus we just need to consider the case $q_{i}>1$, where
+the shifts for $\bar{\mathbf{w}}_{i}$ are $-\alpha-\beta$. Since
+$w_{i}=\bar{w}_{i,0}+\bar{w}_{i,1}x^{r_{i}}+\bar{w}_{i,2}x^{r_{i}+\beta}+\cdots+\bar{w}_{i,q_{i}-1}x^{r_{i}+(q_{i}-2)\beta},$
+we get \[
+\deg w_{i}=\max\left\{ \deg\bar{w}_{i,0},\deg\bar{w}_{i,1}+r_{i},\deg\bar{w}_{i,2}+r_{i}+\beta,\dots,\deg\bar{w}_{i,q_{i}-2}+r_{i}+(q_{i}-2)\beta\right\} .\]
+ Then \begin{eqnarray*}
+\deg w_{i}+s_{i} & = & \deg w_{i}-r_{i}-\alpha-\beta(q_{i}-1)\\
+ & = & \max\left\{ \deg\bar{w}_{i,0}-r_{i}-\alpha-\beta(q_{i}-1),~\deg\bar{w}_{i,1}-\alpha-\beta(q_{i}-1),~\dots,\right.\\
+ &  & \left.~~~~~~~~~~~~~~\dots,\deg\bar{w}_{i,q_{i}-2}-\alpha-\beta\right\} \\
+ & \le & \max\left\{ \deg\bar{w}_{i,0}-\alpha-\beta,\deg\bar{w}_{i,1}-\alpha-\beta,\dots,\deg\bar{w}_{i,q_{i}-2}-\alpha-\beta\right\} ,\end{eqnarray*}
+ and so $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}\le\deg_{\bar{s}}\bar{\mathbf{w}}$.\end{pf}
+\begin{cor}
+\label{cor:P2Degree}Let $\bar{\mathbf{P}}=[\bar{\mathbf{P}}_{1},\bar{\mathbf{P}}_{2}]$
+be a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis, where
+$\deg_{\bar{s}}\bar{\mathbf{P}}_{1}\le-\alpha$ and $\deg_{\bar{s}}\bar{\mathbf{P}}_{2}>-\alpha$.
+Let $\bar{\mathbf{P}}_{2}^{[2]}$ be the second form of $\bar{\mathbf{P}}_{2}$.
+Then $\deg_{\bar{s}}\bar{\mathbf{P}}_{2}=\deg_{\bar{s}}\bar{\mathbf{P}}_{2}^{[2]}=\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{P}}_{2}$.
+Hence $[\bar{\mathbf{P}}_{1},\bar{\mathbf{P}}_{2}^{[2]}]$ is also
+a $(\bar{\mathbf{F}},\sigma,\bar{s})$-basis.\end{cor}
+\begin{pf}
+Since any column $\bar{\mathbf{p}}$ of $\bar{\mathbf{P}}_{2}$ satisfies
+$\deg_{\bar{s}}\bar{\mathbf{p}}>-\alpha,$ from \prettyref{lem:degreeCorrespondence}
+and \prettyref{lem:degEwLessEqDegw}, we get \[
+\deg_{\bar{s}}\bar{\mathbf{p}}^{[2]}=\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{p}}\le\deg_{\bar{s}}\bar{\mathbf{p}}.\]
+ The inequality is in fact an equality, since otherwise, $\bar{\mathbf{p}}$
+in $\bar{\mathbf{P}}$ can be replaced by $\bar{\mathbf{p}}^{[2]}$
+to get a basis of lower degree, contradicting the minimality of $\bar{\mathbf{P}}$.
+Note that $\bar{\mathbf{P}}$ with its column $\bar{\mathbf{p}}$
+replaced by $\bar{\mathbf{p}}^{[2]}$ remains to be a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis,
+since $\bar{\mathbf{p}}^{[2]}=\bar{\mathbf{p}}+\mathbf{A}\mathbf{u}$
+involves column operations with only columns in $\bar{\mathbf{P}}_{1}$
+as $\mathbf{A}$ has $\bar{s}$-degrees bounded by $-\alpha$ and
+hence is generated by $\bar{\mathbf{P}}_{1}$.\end{pf}
+\begin{lem}
+\label{lem:PtoBPA}If $\mathbf{P}$ is a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis,
+then $\left[\mathbf{B}\mathbf{P},\mathbf{A}\right]$ is a basis for
+$\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $.\end{lem}
+\begin{pf}
+Any $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle $
+can be transformed by $\mathbf{A}$ to the first form \[
+\mathbf{w}^{[1]}=\bar{\mathbf{w}}+\mathbf{A}\mathbf{u}^{[1]}=\mathbf{B}\mathbf{E}\bar{\mathbf{w}},\]
+ where $\mathbf{E}\bar{\mathbf{w}}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+is generated by $\mathbf{P}$. That is, \[
+\bar{\mathbf{w}}=\mathbf{w}^{[1]}-\mathbf{A}\mathbf{u}^{[1]}=\mathbf{B}\mathbf{E}\bar{\mathbf{w}}-\mathbf{A}\mathbf{u}^{[1]}=\mathbf{B}\mathbf{P}\mathbf{v}-\mathbf{A}\mathbf{u}^{[1]}=\left[\mathbf{B}\mathbf{P},\mathbf{A}\right][\mathbf{v},-\mathbf{u}^{[1]}]^{T}.\]
+ One can also see that the columns of $\mathbf{A}$ and the columns
+of $\mathbf{B}\mathbf{P}$ are linearly independent, as each zero
+row of $\mathbf{B}\mathbf{P}$ has a $-1$ from a column of $\mathbf{A}$. 
+\end{pf}
+%
+\begin{comment}
+\begin{lem}
+If $\mathbf{P}_{1}$ is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$-basis
+, then $\left[\mathbf{B}\mathbf{P}_{1},\mathbf{A}\right]$ is a basis
+for $\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle _{-\alpha}$.\end{lem}
+\begin{pf}
+We know that if $\bar{\mathbf{w}}$ has order $\left(\bar{\mathbf{F}},\sigma\right)$
+then $\mathbf{E}\bar{\mathbf{w}}$ has order $\left(\vec{\mathbf{F}},\sigma\right)$.
+Also if $\deg_{\bar{s}}\bar{\mathbf{w}}\le-\alpha$, then $\deg_{\vec{s}}\mathbf{E}\bar{\mathbf{w}}\le-\alpha$
+by \prettyref{lem:degEwLessEqDegw}. Therefore, if $\bar{\mathbf{w}}\in\left\langle \left(\bar{\mathbf{F}},\sigma,\bar{s}\right)\right\rangle _{-\alpha}$
+, then $\mathbf{E}\bar{\mathbf{w}}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{-\alpha}$.
+Now apply the same procedure as in \prettyref{lem:PtoBPA}, we get
+$\bar{\mathbf{w}}=\mathbf{w}^{[1]}-\mathbf{A}\mathbf{u}^{[1]}=\mathbf{B}\mathbf{E}\bar{\mathbf{w}}-\mathbf{A}\mathbf{u}^{[1]}=\mathbf{B}\mathbf{P}_{1}\mathbf{v}-\mathbf{A}\mathbf{u}^{[1]}=\left[\mathbf{B}\mathbf{P}_{1},\mathbf{A}\right][\mathbf{v},-\mathbf{u}^{[1]}]^{T}.$
+Also as before, the columns of $\mathbf{A}$ and the columns of $\mathbf{B}\mathbf{P}_{1}$
+are linearly independent. 
+\end{pf}
+
+\end{comment}
+{} 
+\begin{lem}
+\label{lem:EPgeneration}If $\bar{\mathbf{P}}$ is a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis,
+then $\mathbf{E}\bar{\mathbf{P}}$ generates $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $.
+That is, for any $\mathbf{w}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $,
+there is an $\mathbf{u}\in\mathbb{K}\left[x\right]^{\bar{n}\times1}$
+such that $\mathbf{w}=\mathbf{E}\bar{\mathbf{P}}\mathbf{u}$.\end{lem}
+\begin{pf}
+For any $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis $\mathbf{P}$,
+the columns of $\mathbf{B}\mathbf{P}$ are in $\langle(\bar{\mathbf{F}},\sigma,\bar{s})\rangle$
+generated by $\bar{\mathbf{P}}$, that is, $\mathbf{B}\mathbf{P}=\bar{\mathbf{P}}\mathbf{U}$
+for some $\mathbf{U}\in\mathbb{K}[x]^{\bar{n}\times n}$. Hence $\mathbf{E}\mathbf{B}\mathbf{P}=\mathbf{P}$
+is generated by $\mathbf{E}\bar{\mathbf{P}}$. That is, $\mathbf{P}=\mathbf{E}\bar{\mathbf{P}}\mathbf{U}$.
+Then any $\mathbf{w}\in\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $,
+which satisfies $\mathbf{w}=\mathbf{P}\mathbf{v}$ for some $\mathbf{v}\in\mathbb{K}[x]^{n\times1}$,
+satisfies $\mathbf{w}=\mathbf{E}\bar{\mathbf{P}}\mathbf{U}\mathbf{v}$. 
+\end{pf}
+%
+\begin{comment}
+\begin{lem}
+\label{lem:EP1generation}If $\bar{\mathbf{P}}_{1}$ is a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)_{-\alpha}$-basis,
+then $\mathbf{E}\bar{\mathbf{P}}_{1}$ generates $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle _{-\alpha}$. \end{lem}
+\begin{pf}
+Suppose $\mathbf{P}_{1}$ is a $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$-basis,
+then the columns of $\mathbf{B}\mathbf{P}_{1}$ can be transformed
+to the second form with $\bar{s}$-degrees less than or equal to$-\alpha$
+by \prettyref{cor:degreeCorrespondence}, hence generated by $\bar{\mathbf{P}}_{1}$.
+That is, $\mathbf{B}\mathbf{P}_{1}+\mathbf{A}\mathbf{U}$ is generated
+by $\bar{\mathbf{P}}_{1}$. Therefore, $\mathbf{E}(\mathbf{B}\mathbf{P}_{1}+\mathbf{A}\mathbf{U})=\mathbf{E}\mathbf{B}\mathbf{P}_{1}=\mathbf{P}_{1}$
+is generated by $\mathbf{E}\bar{\mathbf{P}}_{1}$. 
+\end{pf}
+
+\end{comment}
+{}
+
+We are now ready to prove the main result on the correspondence between
+a high degree part of a basis of the transformed problem and that
+of the original problem. 
+\begin{thm}
+\label{thm:correctHighDegreeElements}Let $\bar{\mathbf{P}}=[\bar{\mathbf{P}}_{1},\bar{\mathbf{P}}_{2}]$
+be a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis, where
+$\deg_{\bar{s}}\bar{\mathbf{P}}_{1}\le-\alpha$ and $\deg_{\bar{s}}\bar{\mathbf{P}}_{2}>-\alpha$.
+Then $\mathbf{E}\bar{\mathbf{P}}_{2}$ is the matrix of the columns
+of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis whose $\vec{s}$-degrees
+exceed $-\alpha$. \end{thm}
+\begin{pf}
+We want to show that $[\mathbf{P}_{1},\mathbf{E}\bar{\mathbf{P}}_{2}]$
+is a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis for any $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$-basis
+$\mathbf{P}_{1}$. First, $\mathbf{E}\bar{\mathbf{P}}$ has order
+$(\mathbf{F},\sigma)$ since $\bar{\mathbf{F}}\bar{\mathbf{P}}=\mathbf{F}\mathbf{E}\bar{\mathbf{P}}$
+and $\bar{\mathbf{P}}$ has order $\left(\bar{\mathbf{F}},\sigma\right)$.
+Also, since $\mathbf{E}\bar{\mathbf{P}}$ generates $\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $
+by \prettyref{lem:EPgeneration}, and from \prettyref{cor:degreeCorrespondence}
+$\mathbf{E}\bar{\mathbf{P}}_{1}$ has $\vec{s}$-degree bounded by
+$-\alpha$ hence is generated by $\mathbf{P}_{1}$, it follows that
+$\left[\mathbf{P}_{1},\mathbf{E}\bar{\mathbf{P}}_{2}\right]$ generates
+$\left\langle \left(\mathbf{F},\sigma,\vec{s}\right)\right\rangle $.
+
+It only remains to show that the $\vec{s}$-degrees of $\mathbf{E}\bar{\mathbf{P}}_{2}$
+are minimal. Suppose not, then $[\mathbf{P}_{1},\mathbf{E}\bar{\mathbf{P}}_{2}]$
+can be reduced to $[\mathbf{P}_{1},\tilde{\mathbf{P}}_{2}]$ where
+$\tilde{\mathbf{P}}_{2}$ has a column having lower $\vec{s}$-degree
+than that of the corresponding column in $\mathbf{E}\bar{\mathbf{P}}_{2}$.
+That is, assuming the columns of $\tilde{\mathbf{P}}_{2}$ and $\mathbf{E}\bar{\mathbf{P}}_{2}$
+are in non-decreasing $\vec{s}$-degrees order, then we can find the
+first index $i$ where the $\vec{s}$-degree of $i$th column of $\tilde{\mathbf{P}}_{2}$
+is lower than the $\vec{s}$-degree of the $i$th column of $\mathbf{E}\bar{\mathbf{P}}_{2}$.
+It follows that $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\mathbf{E}\bar{\mathbf{P}}_{2}]$
+can be reduced to $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\tilde{\mathbf{P}}_{2}]$
+and $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\mathbf{E}\bar{\mathbf{P}}_{2},\mathbf{A}]$
+can be reduced to $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\tilde{\mathbf{P}}_{2},\mathbf{A}]$.
+Since $[\mathbf{B}\mathbf{P}_{1},\mathbf{B}\tilde{\mathbf{P}}_{2},\mathbf{A}]$
+generates $\langle(\bar{\mathbf{F}},\sigma,\bar{s})\rangle$ by \prettyref{lem:PtoBPA},
+it can be reduced to $\bar{\mathbf{P}}=[\bar{\mathbf{P}}_{1},\bar{\mathbf{P}}_{2}]$.
+But it can also be reduced to $[\bar{\mathbf{P}}_{1},\tilde{\mathbf{P}}_{2}^{[2]},\mathbf{A}]$
+with $\tilde{\mathbf{P}}_{2}^{[2]}$ the second form of $\mathbf{B}\tilde{\mathbf{P}}_{2}$,
+and to $[\bar{\mathbf{P}}_{1},\tilde{\mathbf{P}}_{2}^{[2]}]$ as the
+columns of $\mathbf{A}$ are generated by the $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)_{-\alpha}$-basis
+$\bar{\mathbf{P}}_{1}$.
+
+In order to reach a contradiction we just need to show that $\tilde{\mathbf{P}}_{2}^{[2]}$
+has a column with $\bar{s}$-degree less than that of the corresponding
+column in $\bar{\mathbf{P}}_{2}$. Let $\tilde{\mathbf{w}}$ be the
+first column of $\tilde{\mathbf{P}}_{2}$ with $\vec{s}$-degree less
+than that of the corresponding column $\mathbf{w}$ in $\mathbf{E}\bar{\mathbf{P}}_{2}$
+and let $\bar{\mathbf{w}}$ be the corresponding column in $\bar{\mathbf{P}}_{2}$.
+By \prettyref{cor:P2Degree} $\deg_{\vec{s}}\mathbf{w}=\deg_{\bar{s}}\bar{\mathbf{w}}$.
+Let $\tilde{\mathbf{w}}^{[2]}$ be the second form of $\mathbf{B}\tilde{\mathbf{w}}$,
+which is a column in $\tilde{\mathbf{P}}_{2}^{[2]}$ corresponding
+to the column $\bar{\mathbf{w}}$ in $\bar{\mathbf{P}}_{2}$. We know
+that either $\deg_{\bar{s}}\tilde{\mathbf{w}}^{[2]}\le-\alpha$ or
+$\deg_{\bar{s}}\tilde{\mathbf{w}}^{[2]}=\deg_{\vec{s}}\tilde{\mathbf{w}}$
+by \prettyref{lem:degreeCorrespondence}, as $\mathbf{E}\tilde{\mathbf{w}}^{[2]}=\mathbf{E}(\mathbf{B}\tilde{\mathbf{w}}+\mathbf{A}\mathbf{u})=\tilde{\mathbf{w}}$.
+In either case, $\deg_{\bar{s}}\tilde{\mathbf{w}}^{[2]}<\deg_{\bar{s}}\bar{\mathbf{w}}$,
+as $\deg_{\bar{s}}\bar{\mathbf{w}}$ is greater than both $-\alpha$
+and $\deg_{\vec{s}}\tilde{\mathbf{w}}$. Hence we have $[\bar{\mathbf{P}}_{1},\tilde{\mathbf{P}}_{2}^{[2]}]$
+is another $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis with
+lower $\bar{s}$-degrees than $\mathbf{\bar{P}}$, contradicting with
+the minimality of $\bar{\mathbf{P}}$. 
+\end{pf}
+
+\subsection{Achieving Efficient Computation}
+
+\prettyref{thm:correctHighDegreeElements} essentially tells us that
+a high degree part of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+can be determined by computing a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis,
+something we know can be done efficiently. Notice the parallel between
+the situation here and in the earlier balanced shift case, where the
+transformed problem also allows us to compute a partial $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis,
+albeit a low degree part, in each iteration.
+
+After a $\left(\bar{\mathbf{F}},\sigma,\bar{s}\right)$-basis, or
+equivalently a high degree part of a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis,
+is computed, for the remaining problem of computing the remaining
+basis elements, we can in fact reduce the dimension of the input $\mathbf{F}$
+by removing some of its columns corresponding to the high shift entries. 
+\begin{thm}
+\label{thm:zeroHighShiftEntries}Suppose without loss of generality
+that the entries of $\vec{s}$ are in non-decreasing order. Let $I$
+be the index set containing the indices of entries $s_{i}$ in $\vec{s}$
+such that $s_{i}\le-\alpha$. Let $\mathbf{F}_{I}$ be the columns
+of $\mathbf{F}$ indexed by $I$. Then a $\left(\mathbf{F}_{I},\sigma,\vec{s}\right)_{-\alpha}$-basis
+\textbf{$\mathbf{P}_{1}$} gives a $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$-basis
+$\left[\mathbf{P}_{1}^{T},\mathbf{0}\right]^{T}$. 
+\end{thm}
+%The theorem follows from the following claim.
+%\end{pf}
+%\begin{claim}
+%\label{cla:zeroHighShiftEntries}
+
+\begin{pf}
+For any $\mathbf{p}\in\mathbb{K}\left[x\right]^{n\times1}$ and $\deg_{\vec{s}}\mathbf{p}\le-\alpha$,
+note that if the $i$th entry of the shift satisfies $s_{i}\le-\alpha$,
+then the corresponding entry $p_{i}$ of $\mathbf{p}$ is zero. %\end{claim}
+%\begin{pf}
+Otherwise, if $p_{i}\ne0$ then the $\vec{s}$-degree of $\mathbf{p}$
+is at least $s_{i}>-\alpha$, contradicting the assumption that the
+$\vec{s}$-degree of $\mathbf{p}$ is lower than or equal to $-\alpha$. 
+\end{pf}
+Thus, these zero entries do not need to be considered in the remaining
+problem of computing a $\left(\mathbf{F},\sigma,\vec{s}\right)_{-\alpha}$-basis.
+As such the corresponding columns from the input matrix $\mathbf{F}$
+can be removed. 
+\begin{exmp}
+Let us return to \prettyref{exm:unbalancedShift}. When the parameters
+$\alpha=\beta=1$, after computing an element of a $(\mathbf{F},8,\vec{s})$-basis
+with $\vec{s}$-degree $0$ that exceeds $-\alpha=-1$, the first
+row of any $\left(\mathbf{F},\sigma,\vec{s}\right)_{-1}$-basis must
+be zero by \prettyref{thm:zeroHighShiftEntries} (since the first
+entry of $\vec{s}=[0,-3,-5,-6]$ is $0>-\alpha$). This is illustrated
+by the $(\mathbf{F},8,\vec{s})$-basis $\mathbf{P}$ given in \prettyref{exm:unbalancedShift}.
+This implies that the first column of $\mathbf{F}$ is not needed
+in the subsequent computation of the remaining basis elements.\end{exmp}
+\begin{cor}
+\label{cor:numberBasisElements}If the shift $\vec{s}$ satisfies
+condition \eqref{con:unbalancedCondition} and $c$ is a constant
+greater than or equal to $1$, then a $\left(\mathbf{F},\sigma,\vec{s}\right)_{-cd}$-basis
+has at most $n/c$ basis elements.\end{cor}
+\begin{pf}
+Since $d=m\sigma/n\ge-\sum_{i=1}^{n}s_{i}/n$ under condition \eqref{con:unbalancedCondition},
+there cannot be more than $n/c$ entries of $\vec{s}$ less than or
+equal to $-cd$. By \prettyref{thm:zeroHighShiftEntries}, the only
+possible nonzero rows of a $\left(\mathbf{F},\sigma,\vec{s}\right)_{-cd}$-basis
+are the ones corresponding to (with the same indices as) the shift
+entries that are less than or equal to $-cd$. Hence there cannot
+be more than $n/c$ nonzero rows and at most $n/c$ columns, as the
+columns are linearly independent. 
+\end{pf}
+We now have a situation similar to that found in the balanced shift
+case. Namely, for each iteration we transform the problem using appropriate
+parameters $\alpha$ and $\beta$ to efficiently compute the basis
+elements with degrees greater than $-\alpha$. Then we can remove
+columns from the input matrix $\mathbf{F}$ corresponding to the shift
+entries that are greater than $-\alpha$. We can then repeat the same
+process again, with a larger $\alpha$ and $\beta$, in order to compute
+more basis elements. 
+\begin{thm}
+If the shift $\vec{s}$ satisfies condition \eqref{con:unbalancedCondition},
+then a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis can be computed
+with cost $O\left(n^{\omega}\bar{\M}(d)\log\sigma\right)=O(n^{\omega}d\log d\log\log d\log\sigma)\subset O^{\sim}(n^{\omega}d)$. \end{thm}
+\begin{pf}
+We give the following constructive proof. Initially, we set transformation
+parameters $\alpha_{1}=\beta_{1}=2d$ with $d=m\sigma/n\ge-\sum_{i=1}^{n}s_{i}/n$.
+\prettyref{alg:mab} works efficiently on the transformed problem
+as the shift $\bar{s}^{\left(1\right)}$ is balanced and the dimension
+of $\bar{\mathbf{F}}_{1}$ remains $O\left(n\right)$. By \prettyref{thm:correctHighDegreeElements}
+this gives the basis elements of $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+with $\vec{s}$-degree exceeding $-\alpha_{1}=-2d$. By \prettyref{cor:numberBasisElements},
+the number of basis elements remaining to be computed is at most $n/2$,
+hence the number of elements correctly computed is at least $n/2$.
+By \prettyref{thm:zeroHighShiftEntries}, this also allows us to remove
+at least half of the columns from the input $\mathbf{F}$ and correspondingly
+at least half of the rows from the output for the remaining problem.
+Thus the new input matrix $\mathbf{F}_{2}$ has a new column dimension
+$n_{2}\le n/2$ and the corresponding shift $\vec{s}^{\left(2\right)}$
+has $n_{2}$ entries. The average degree of the new problem is $d_{2}~=~m\sigma/n_{2}$.
+
+For the second iteration, we set $\alpha_{2}$ and $\beta_{2}$ to
+$2d_{2}$. Since \[
+\alpha_{2}=2m\sigma/n_{2}\ge-2\sum_{i=1}^{n}s_{i}/n_{2}\ge-2\sum_{i=1}^{n_{2}}s_{i}^{\left(2\right)}/n_{2},\]
+ this allows us to reduce the dimension $n_{3}$ of $\mathbf{F}_{3}$
+to at most $n_{2}/2$ after finishing computing a $\left(\bar{\mathbf{F}}_{2},\sigma,\bar{s}^{\left(2\right)}\right)_{-\alpha_{1}}$-basis.
+Again, this can be done using \prettyref{alg:mab} with a cost of
+$O\left(n_{2}^{\omega}\bar{\M}(d_{2})\log\sigma\right)$ as the shift
+$\bar{a}_{2}$ is balanced and the dimension of $\bar{\mathbf{F}}_{2}$
+is $O\left(n_{2}\right)$. Repeating this process, at iteration $i$,
+we set $\alpha_{i}=\beta_{i}=2d_{i}=2m\sigma/n_{i}$. The transformed
+problem has a balanced shift $\bar{a}_{i}$ and column dimension $O\left(n_{i}\right)$.
+So a $\left(\bar{\mathbf{F}}_{i},\sigma,\bar{s}^{\left(i\right)}\right)_{-\alpha_{i-1}}$-basis
+can be computed with a cost of \[
+O\left(n_{i}^{\omega}\bar{\M}\left(d_{i}\right)\log\sigma\right)\subset O\left(\left(2^{-i}n\right)^{\omega}\bar{\M}\left(2^{i}d\right)\log\sigma\right)\subset O\left(2^{-i}n^{\omega}\bar{\M}(d)\log\sigma\right).\]
+ Since \[
+\alpha_{i}=2m\sigma/n_{i}\ge-2\sum_{i=1}^{n}s_{i}/n_{i}\ge-2\sum_{i=1}^{n_{i}}s_{i}^{\left(i\right)}/n_{i},\]
+ the column dimension $n_{i+1}$ of the next problem can again be
+reduced by a half. After iteration $i$, at most $n/2^{i}$ $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+elements remain to be computed. We can stop this process when the
+column dimension $n_{i}$ of the input matrix $\mathbf{F}_{i}$ reaches
+the row dimension $m$, as an order basis can be efficiently computed
+in such case. Therefore, a complete $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+can be computed in at most $\log(n/m)$ iterations, so the overall
+cost is \[
+O\left(\sum_{i=1}^{\log(n/m)}\left(2^{-i}n^{\omega}\bar{\M}(d)\log\sigma\right)\right)=O\left(n^{\omega}\bar{\M}(d)\log\sigma\sum_{i=1}^{\log(n/m)}2^{-i}\right)\subset O\left(n^{\omega}\bar{\M}(d)\log\sigma\right)\]
+ field operations. 
+\end{pf}
+%
+\begin{algorithm}
+\caption{$\umab\left(\mathbf{F},\sigma,\vec{s}\right)$ }
+
+
+\label{alg:umab} 
+\begin{algor}
+\item [{{{*}}}] Input: $\mathbf{F}\in K\left[x\right]^{m\times n}$,
+$\sigma\in\mathbb{Z}_{\ge0}$, $\vec{s}$ satisfies condition \eqref{con:unbalancedCondition}.
+\item [{{{*}}}] Output: $\mathbf{P}\in K\left[x\right]^{n\times n}$,
+an $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis.
+\item [{{{*}}}] Uses:
+\item [{{*}}] (a) $\TransformUnbalanced$ : converts an unbalanced shift
+problem to a balanced one using the transformation described in \prettyref{sec:Unbalanced-Shift}.
+Returns transformed input matrix, transformed shift, and transformation
+matrix.
+\item [{{*}}] (b) %{\em OrderBasis} 
+$\mmab$ : computes order basis with balanced shift. 
+\item [{{*}}]~\end{algor}
+\begin{algor}[1]
+\item [{{{*}}}] $i:=1;$ $\mathbf{P}=[\,]$;
+\item [{{{*}}}] $\mathbf{F}^{\left(i\right)}:=\mathbf{F}$, $\vec{s}^{\left(i\right)}:=\vec{s}$;
+\item [{{while}}] $\columnDimension(\mathbf{P})\ne n$
+\item [{{{*}}}] $d_{i}=\left\lceil m\sigma/\columnDimension(\mathbf{F}^{\left(i\right)})\right\rceil $;
+\item [{{{*}}}] $\alpha_{i}:=\beta_{i}:=2d_{i};$
+\item [{{{*}}}] $\left[\bar{\mathbf{F}}^{\left(i\right)},\bar{s}^{\left(i\right)},\mathbf{E}\right]:=\TransformUnbalanced\left(\mathbf{F}^{\left(i\right)},\vec{s}^{\left(i\right)},\alpha_{i},\beta_{i}\right)$;
+\item [{{{*}}}] $\bar{\mathbf{P}}^{\left(i\right)}:=\mmab\left(\bar{\mathbf{F}}^{\left(i\right)},\sigma,\bar{s}^{\left(i\right)}\right)$;
+\item [{{{*}}}] Set $\mathbf{P}^{\left(i\right)}$ to be the columns
+of $\mathbf{E}\bar{\mathbf{P}}^{\left(i\right)}$ with $\bar{s}_{i}$-column
+degrees in $(-\alpha_{i},-\alpha_{i-1}]$;
+\item [{{{*}}}] $\mathbf{P}:=\left[\mathbf{P}^{\left(i\right)},\mathbf{P}\right]$;
+\item [{{{*}}}] Set $I$ as the set of indices $i$ satisfying $s_{i}\le-\alpha_{i}$;
+\item [{{{*}}}] $\mathbf{F}^{\left(i+1\right)}:=\mathbf{F}_{I}^{\left(i\right)}$,
+$\vec{s}^{\left(i+1\right)}:=\vec{s}_{I}^{\left(i\right)}$;
+\item [{{{*}}}] $i:=i+1$;
+\item [{{endwhile}}] ~
+\item [{{{*}}}] return $\mathbf{P}$ ; 
+\end{algor}
+
+\end{algorithm}
+Finally, we remark that when the condition \eqref{con:unbalancedCondition}
+is relaxed to $\sum_{i=1}^{n}-s_{i}\in O\left(m\sigma\right)$, so
+that $\sum_{i=1}^{n}-s_{i}\le cm\sigma$ for a constant $c$, we can
+still compute a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis with
+the same complexity, by setting $\alpha_{i}=\beta_{i}=2cm\sigma/n_{i}$
+at each iteration $i$ and following the same procedure as above.
+The cost at each iteration $i$ remains $O^{\sim}\left(n^{\omega}d\right)$,
+and the entire computation still uses at most $\log(n/m)$ iterations. 
+
+
+\section{Future Research\label{sec:Future-Research}}
+
+The algorithms in this paper give fast procedures for efficiently
+computing a large class of order basis problems, including those without
+shift, those with a balanced shift or with a restricted unbalanced
+shift. However a number of problems remain to be solved. In particular,
+the efficient computation of order basis with a general unbalanced
+shift remains an open problem. In addition, order bases are closely
+related to many other problems in polynomial matrix computation, for
+example nullspace basis and matrix normal forms. We are interested
+in seeing how our tools can be used to solve these problems more efficiently.
+Our work assumes that we are working with polynomials and power series
+represented in standard bases. We would like to obtain efficient methods
+for computation of order bases represented in arbitrary bases, particularly
+those associated to interpolation bases. Finally, the constructions
+used in this paper assume exact arithmetic where coefficient growth
+is not an issue. We are interested in determining how our tools can
+be used with methods such as fraction-free or modular construction
+of order bases, particularly combining the constructions found in
+\citep{BL2000}.
+
+\bibliographystyle{elsart-harv}
+\bibliography{paper}
+
+\end{document}
