@@ -64,12 +64,12 @@ have degree $O(2^{i}d)$ and dimensions $O(n/2^{i})\times O\left(n\right)$
 and $O\left(n\right)\times O(n/2^{i})$. The multiplication cost is
 therefore $2^{i}\MM(n/2^{i},2^{i}d)$ field operations, which is bounded
 by\begin{align}
-2^{i}\MM(n/2^{i},2^{i}d) & \in O\left(2^{i}\left(n/2^{i}\right)^{\omega}\bar{\M}(2^{i}d)\right)\label{eq:MMtoM}\\
+2^{i}\MM(n/2^{i},2^{i}d) & \in O\left(2^{i}\left(n/2^{i}\right)^{\omega}\bar{\M}(2^{i}d)\right)\nonumber \\
  & \subset O\left(n^{\omega}\left(2^{i}\right)^{1-\omega}\bar{\M}\left(2^{i}\right)\bar{\M}(d)\right)\label{eq:separateMultiplication}\\
  & \subset O\left(n^{\omega}\left(2^{i}\right)^{1-\omega}\left(2^{i}\right)^{\omega-1}\bar{\M}(d)\right)\label{eq:MultiplicationToExponent}\\
  & \subset O\left(n^{\omega}\bar{\M}(d)\right).\nonumber \end{align}
- Line \ref{eq:separateMultiplication} follows from $\bar{\M}(ab)\le\bar{\M}(a)\bar{\M}(b)$.
-Line \ref{eq:MultiplicationToExponent} follows from $\bar{\M}(t)\in O(t^{\omega-1})$.
+Equation (\ref{eq:separateMultiplication}) follows from $\bar{\M}(ab)\in O\left(\bar{\M}(a)\bar{\M}(b)\right)$.
+Equation (\ref{eq:MultiplicationToExponent}) follows from $\bar{\M}(t)\in O(t^{\omega-1})$.
 
 The matrices $\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$ and $\bar{\mathbf{Q}}^{\left(i\right)}$
 of the second multiplication have the same degree $O(2^{i}d)$ and
@@ -81,8 +81,8 @@ iterations is therefore $O\left(n^{\omega}\bar{\M}(d)\log(n/m)\right)$.
 The input matrix $\mathbf{G}^{\left(i\right)}=\bar{\mathbf{F}}^{\left(i\right)}\hat{\mathbf{P}}_{2}^{\left(i-1\right)}$
 of the order basis computation problem at iteration $i$ has dimension
 $O(n/2^{i})\times O(n/2^{i})$ and the order of the problem is $2\delta^{\left(i\right)}\in O(2^{i}d)$.
-Therefore, the cost of the order basis computation at iteration $i$
-is $O\left(\left(n/2^{i}\right)^{\omega}\M'\left(2^{i}d\right)\log\left(2^{i}d\right)\right)$.
+Thus, the cost of the order basis computation at iteration $i$ is
+$O\left(\left(n/2^{i}\right)^{\omega}\bar{\M}\left(2^{i}d\right)\log\left(2^{i}d\right)\right)$.
 The total cost over $O(\log\left(n/m\right))$ iterations is bounded
 by \begin{align*}
  & O\left(\sum_{i=1}^{\infty}\left(\left(n/2^{i}\right)^{\omega}\bar{\M}\left(2^{i}d\right)\log\left(2^{i}d\right)\right)\right)\\
@@ -93,7 +93,8 @@ by \begin{align*}
 
 
 Finally, extracting an order basis by LSP factorization costs $O\left(n^{\omega}\right)$,
-which is dominated by the other costs. Combining the above gives $O\left(n^{\omega}\bar{\M}\left(d\right)\log(n/m)+n^{\omega}\bar{\M}\left(d\right)\log d\right)=O\left(n^{\omega}\bar{\M}\left(d\right)\log\sigma)\right)$
-as the total cost of the algorithm. 
+which is dominated by the other costs. Combining the above gives \[
+O\left(n^{\omega}\bar{\M}\left(d\right)\log(n/m)+n^{\omega}\bar{\M}\left(d\right)\log d\right)=O\left(n^{\omega}\bar{\M}\left(d\right)\log\sigma)\right)\]
+ as the total cost of the algorithm. 
 \end{pf}
 

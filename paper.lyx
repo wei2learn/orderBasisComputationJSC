@@ -178,7 +178,11 @@ In this paper we present two algorithms for the computation of a shifted
 \begin_inset Formula $\mathbb{K}$
 \end_inset
 
-.
+, where 
+\begin_inset Formula $\omega$
+\end_inset
+
+ is the exponent of matrix multiplication.
  Here an input shift is balanced when 
 \begin_inset Formula $\max(\vec{s})-\min(\vec{s})\in O(m\sigma/n)$
 \end_inset

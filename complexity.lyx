@@ -423,33 +423,33 @@ The matrices
 
  field operations, which is bounded by
 \begin_inset Formula \begin{align}
-2^{i}\MM(n/2^{i},2^{i}d) & \in O\left(2^{i}\left(n/2^{i}\right)^{\omega}\bar{\M}(2^{i}d)\right)\label{eq:MMtoM}\\
+2^{i}\MM(n/2^{i},2^{i}d) & \in O\left(2^{i}\left(n/2^{i}\right)^{\omega}\bar{\M}(2^{i}d)\right)\nonumber \\
  & \subset O\left(n^{\omega}\left(2^{i}\right)^{1-\omega}\bar{\M}\left(2^{i}\right)\bar{\M}(d)\right)\label{eq:separateMultiplication}\\
  & \subset O\left(n^{\omega}\left(2^{i}\right)^{1-\omega}\left(2^{i}\right)^{\omega-1}\bar{\M}(d)\right)\label{eq:MultiplicationToExponent}\\
  & \subset O\left(n^{\omega}\bar{\M}(d)\right).\nonumber \end{align}
 
 \end_inset
 
- Line 
+Equation (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:separateMultiplication"
 
 \end_inset
 
- follows from 
-\begin_inset Formula $\bar{\M}(ab)\le\bar{\M}(a)\bar{\M}(b)$
+) follows from 
+\begin_inset Formula $\bar{\M}(ab)\in O\left(\bar{\M}(a)\bar{\M}(b)\right)$
 \end_inset
 
 .
- Line 
+ Equation (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:MultiplicationToExponent"
 
 \end_inset
 
- follows from 
+) follows from 
 \begin_inset Formula $\bar{\M}(t)\in O(t^{\omega-1})$
 \end_inset
 
@@ -511,12 +511,12 @@ The input matrix
 \end_inset
 
 .
- Therefore, the cost of the order basis computation at iteration 
+ Thus, the cost of the order basis computation at iteration 
 \begin_inset Formula $i$
 \end_inset
 
  is 
-\begin_inset Formula $O\left(\left(n/2^{i}\right)^{\omega}\M'\left(2^{i}d\right)\log\left(2^{i}d\right)\right)$
+\begin_inset Formula $O\left(\left(n/2^{i}\right)^{\omega}\bar{\M}\left(2^{i}d\right)\log\left(2^{i}d\right)\right)$
 \end_inset
 
 .
@@ -544,7 +544,9 @@ Finally, extracting an order basis by LSP factorization costs
 
 , which is dominated by the other costs.
  Combining the above gives 
-\begin_inset Formula $O\left(n^{\omega}\bar{\M}\left(d\right)\log(n/m)+n^{\omega}\bar{\M}\left(d\right)\log d\right)=O\left(n^{\omega}\bar{\M}\left(d\right)\log\sigma)\right)$
+\begin_inset Formula \[
+O\left(n^{\omega}\bar{\M}\left(d\right)\log(n/m)+n^{\omega}\bar{\M}\left(d\right)\log d\right)=O\left(n^{\omega}\bar{\M}\left(d\right)\log\sigma)\right)\]
+
 \end_inset
 
  as the total cost of the algorithm.

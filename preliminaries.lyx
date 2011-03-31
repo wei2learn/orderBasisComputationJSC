@@ -996,12 +996,11 @@ key "Giorgi2003"
 \subset & O\left(\sum_{i=0}^{\log\sigma}2^{-i}n^{\omega}\sigma2^{i}\log2^{i}\log\log2^{i}\right)\\
 = & O\left(n^{\omega}\sigma\sum_{i=0}^{\log\sigma}i\log i\right)\\
 \subset & O\left(n^{\omega}\sigma\sum_{i=0}^{\log\sigma}\log\sigma\log\log\sigma\right)\\
-= & O\left(n^{\omega}\sigma\log^{2}\sigma\log\log\sigma\right)=O(n^{\omega}\bar{\M}(\sigma)\log\sigma)\end{align*}
+= & O\left(n^{\omega}\sigma\log^{2}\sigma\log\log\sigma\right)=O(n^{\omega}\bar{\M}(\sigma)\log\sigma),\end{align*}
 
 \end_inset
 
-field operations, close to the cost of multiplying two matrices with dimension
- 
+ close to the cost of multiplying two matrices with dimension 
 \begin_inset Formula $n$
 \end_inset
 

@@ -189,12 +189,12 @@ the method of \citet{Giorgi2003} directly, which gives a cost of
 \subset & O\left(\sum_{i=0}^{\log\sigma}2^{-i}n^{\omega}\sigma2^{i}\log2^{i}\log\log2^{i}\right)\\
 = & O\left(n^{\omega}\sigma\sum_{i=0}^{\log\sigma}i\log i\right)\\
 \subset & O\left(n^{\omega}\sigma\sum_{i=0}^{\log\sigma}\log\sigma\log\log\sigma\right)\\
-= & O\left(n^{\omega}\sigma\log^{2}\sigma\log\log\sigma\right)=O(n^{\omega}\bar{\M}(\sigma)\log\sigma)\end{align*}
-field operations, close to the cost of multiplying two matrices with
-dimension $n$ and degree $\sigma$. Note that this cost is independent
-of the degree shift. This is very efficient if $m\in\Theta\left(n\right)$.
-However, for small $m$, say $m=1$ as in Hermite Padé approximation,
-the total input size is only $n\sigma$ coefficients. Matrix multiplication
+= & O\left(n^{\omega}\sigma\log^{2}\sigma\log\log\sigma\right)=O(n^{\omega}\bar{\M}(\sigma)\log\sigma),\end{align*}
+ close to the cost of multiplying two matrices with dimension $n$
+and degree $\sigma$. Note that this cost is independent of the degree
+shift. This is very efficient if $m\in\Theta\left(n\right)$. However,
+for small $m$, say $m=1$ as in Hermite Padé approximation, the total
+input size is only $n\sigma$ coefficients. Matrix multiplication
 cannot be used effectively on a such vector input.
 
 \citet{Storjohann:2006} provides a novel way to transform an order
