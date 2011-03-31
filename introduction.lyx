@@ -1,9 +1,10 @@
-#LyX file created by tex2lyx 1.6.8
-\lyxformat 264
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
 \begin_document
 \begin_header
 \textclass elsart
 \options amsthm,seceqn,secthm
+\use_default_options false
 \language english
 \inputencoding latin9
 \font_roman default
@@ -14,9 +15,11 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \paperfontsize default
 \spacing single
+\use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 2
@@ -34,23 +37,21 @@
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
+\author "" 
+\author "" 
 \end_header
 
 \begin_body
 
 \begin_layout Section
-
 Introduction
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset Note Comment
-status open
+status collapsed
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 remove all soft O notation and always write logs explicitly? 
 \end_layout
 
@@ -68,7 +69,8 @@ Let
 \begin_inset Formula $m\le n$
 \end_inset
 
-. Given a non-negative integer 
+.
+ Given a nonnegative integer 
 \begin_inset Formula $\sigma$
 \end_inset
 
@@ -99,6 +101,7 @@ order
 , if 
 \begin_inset Formula \[
 \mathbf{F}\cdot\mathbf{p}\equiv\mathbf{0}\mod x^{\sigma},\]
+
 \end_inset
 
  that is, the first 
@@ -109,11 +112,16 @@ order
 \begin_inset Formula $\mathbf{F}\cdot\mathbf{p}$
 \end_inset
 
- are zero. Historically such problems date back to their use in Hermite's proof of the transcendence of 
+ are zero.
+ Historically such problems date back to their use in Hermite's proof of
+ the transcendence of 
 \begin_inset Formula $e$
 \end_inset
 
- in 1873. In 1893 Padé, a student of Hermite, formalized the concepts introduced by Hermite and defined what is now known as Hermite-Padé approximants (where 
+ in 1873.
+ In 1893 Padé, a student of Hermite, formalized the concepts introduced
+ by Hermite and defined what is now known as Hermite-Padé approximants (where
+ 
 \begin_inset Formula $m=1$
 \end_inset
 
@@ -125,15 +133,18 @@ order
 \begin_inset Formula $\mathbf{F}$
 \end_inset
 
- has a special structure). Such rational approximations also specified degree constraints on the polynomials 
+ has a special structure).
+ Such rational approximations also specified degree constraints on the polynomia
+ls 
 \begin_inset Formula $\mathbf{p}$
 \end_inset
 
- and had their order conditions related to these degree constraints. 
+ and had their order conditions related to these degree constraints.
+ 
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 %Pad
 \backslash
@@ -142,8 +153,7 @@ status collapsed
 'e
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -153,15 +163,14 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 %table for the case $m=1,n=2$ which described all Pad
 \backslash
 'e approximants 
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -171,39 +180,43 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
-%in terms of $2$ nearby approximants. 
+%in terms of $2$ nearby approximants.
+ 
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
 \end_inset
 
-Additional order problems include vector and matrix versions of rational approximation, partial realizations of matrix sequences and vector rational reconstruction just to name a few (cf. the references in 
-\begin_inset LatexCommand citet
-after ""
-before ""
+Additional order problems include vector and matrix versions of rational
+ approximation, partial realizations of matrix sequences and vector rational
+ reconstruction just to name a few (cf.
+ the references in 
+\begin_inset CommandInset citation
+LatexCommand citet
 key "BL1997"
 
 \end_inset
 
-). As an example, the factorization of differential operators algorithm of 
-\begin_inset LatexCommand citet
-after ""
-before ""
+).
+ As an example, the factorization of differential operators algorithm of
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
 key "vanHoeij"
 
 \end_inset
 
- makes use of vector Hermite-Padé approximation to reconstruct differential factorizations over rational functions from factorizations of differential operators over power series domains.
+ makes use of vector Hermite-Padé approximation to reconstruct differential
+ factorizations over rational functions from factorizations of differential
+ operators over power series domains.
 \end_layout
 
 \begin_layout Standard
-
 The set of all such order 
 \begin_inset Formula $\left(\mathbf{F},\sigma\right)$
 \end_inset
@@ -212,11 +225,12 @@ The set of all such order
 \begin_inset Formula $\mathbb{K}\left[x\right]$
 \end_inset
 
-. An 
+.
+ An 
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 {
 \end_layout
@@ -227,7 +241,7 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -240,7 +254,7 @@ em
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 }
 \end_layout
@@ -251,18 +265,21 @@ status collapsed
 \begin_inset Formula $\sigma$
 \end_inset
 
--basis - is a basis of this module having a type of minimal degree property (called reduced order basis in 
-\begin_inset LatexCommand citep
-after ""
-before ""
+-basis - is a basis of this module having a type of minimal degree property
+ (called reduced order basis in 
+\begin_inset CommandInset citation
+LatexCommand citep
 key "BL1997"
 
 \end_inset
 
-). The minimal degree property parameterizes solutions to an order problem by the degrees of the columns of the order basis. In the case of rational approximation, order bases can be viewed as a natural generalization of the Padé table of a power series 
-\begin_inset LatexCommand citep
-after ""
-before ""
+).
+ The minimal degree property parameterizes solutions to an order problem
+ by the degrees of the columns of the order basis.
+ In the case of rational approximation, order bases can be viewed as a natural
+ generalization of the Padé table of a power series 
+\begin_inset CommandInset citation
+LatexCommand citep
 key "gravesmorris"
 
 \end_inset
@@ -271,7 +288,7 @@ key "gravesmorris"
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 {
 \end_layout
@@ -282,7 +299,7 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -295,53 +312,57 @@ em
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 }
 \end_layout
 
 \end_inset
 
- solutions to such problems given particular degree bounds. They can even be used to show the well known block structure of the Padé and related Rational Interpolation tables 
-\begin_inset LatexCommand citep
-after ""
-before ""
+ solutions to such problems given particular degree bounds.
+ They can even be used to show the well known block structure of the Padé
+ and related Rational Interpolation tables 
+\begin_inset CommandInset citation
+LatexCommand citep
 key "BL1997"
 
 \end_inset
 
-. Order bases are used in such diverse applications as the inversion of structured matrices 
-\begin_inset LatexCommand citep
-after ""
-before ""
+.
+ Order bases are used in such diverse applications as the inversion of structure
+d matrices 
+\begin_inset CommandInset citation
+LatexCommand citep
 key "La92"
 
 \end_inset
 
 , normal forms of matrix polynomials 
-\begin_inset LatexCommand citep
-after ""
-before ""
+\begin_inset CommandInset citation
+LatexCommand citep
 key "BLV:1999,BLV:jsc06"
 
 \end_inset
 
-, and other important problems in matrix polynomial arithmetic including matrix inversion, determinant and nullspace computation 
-\begin_inset LatexCommand citep
-after ""
-before ""
+, and other important problems in matrix polynomial arithmetic including
+ matrix inversion, determinant and nullspace computation 
+\begin_inset CommandInset citation
+LatexCommand citep
 key "Giorgi2003,storjohann-villard:2005"
 
 \end_inset
 
-. In our case we also allow the minimal degree property to include a shift 
+.
+ In our case we also allow the minimal degree property to include a shift
+ 
 \begin_inset Formula $\vec{s}$
 \end_inset
 
-. Such a shift is important, for example, for matrix normal form problems 
-\begin_inset LatexCommand citep
-after ""
-before ""
+.
+ Such a shift is important, for example, for matrix normal form problems
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
 key "BLV:1999,BLV:jsc06"
 
 \end_inset
@@ -350,20 +371,22 @@ key "BLV:1999,BLV:jsc06"
 \end_layout
 
 \begin_layout Standard
-
-In this paper we focus on the efficient computation of order basis. Algorithms for fast computation of order basis include that of 
-\begin_inset LatexCommand citet
-after ""
-before ""
+In this paper we focus on the efficient computation of order basis.
+ Algorithms for fast computation of order basis include that of 
+\begin_inset CommandInset citation
+LatexCommand citet
 key "BeLa94"
 
 \end_inset
 
- which converts the matrix problem into a vector problem of higher order (which they called the Power Hermite-Padé problem). Their divide and conquer algorithm has complexity of 
+ which converts the matrix problem into a vector problem of higher order
+ (which they called the Power Hermite-Padé problem).
+ Their divide and conquer algorithm has complexity of 
 \begin_inset Formula $O^{\sim}(n^{2}m\sigma+nm^{2}\sigma)$
 \end_inset
 
- field operations. As usual, the soft-
+ field operations.
+ As usual, the soft-
 \begin_inset Formula $O$
 \end_inset
 
@@ -375,35 +398,28 @@ key "BeLa94"
 \begin_inset Formula $O$
 \end_inset
 
- with log factors omitted. By working more directly on the input 
+ with polylogarithmic factors 
+\begin_inset Formula $(\log(nm\sigma))^{O(1)}$
+\end_inset
+
+ ommited.
+ By working more directly on the input 
 \begin_inset Formula $m\times n$
 \end_inset
 
  input matrix, 
-\begin_inset LatexCommand citet
-after ""
-before ""
+\begin_inset CommandInset citation
+LatexCommand citet
 key "Giorgi2003"
 
 \end_inset
 
  give a divide and conquer method with cost 
-\begin_inset Formula $O\left(\MM\left(n,\sigma\right)\log\sigma\right)\subset O^{\sim}\left(\MM\left(n,\sigma\right)\right)$
+\begin_inset Formula $O^{\sim}\left(n^{\omega}\sigma\right)$
 \end_inset
 
- arithmetic operations, where 
-\begin_inset Formula $\MM\left(n,\sigma\right)\in O^{\sim}\left(n^{\omega}\sigma\right)$
-\end_inset
-
- denotes the cost of multiplying two polynomial matrices with dimension 
-\begin_inset Formula $n$
-\end_inset
-
- and degree 
-\begin_inset Formula $\sigma$
-\end_inset
-
-. Their method is very efficient if 
+ arithmetic operations.
+ Their method is very efficient if 
 \begin_inset Formula $m$
 \end_inset
 
@@ -419,16 +435,18 @@ key "Giorgi2003"
 \end_layout
 
 \begin_layout Standard
-
 In a novel construction, 
-\begin_inset LatexCommand citet
-after ""
-before ""
+\begin_inset CommandInset citation
+LatexCommand citet
 key "Storjohann:2006"
 
 \end_inset
 
- effectively reverses the approach of Beckermann and Labahn. Namely, rather than convert a high dimension matrix order problem into a lower dimension vector problem of higher order, Storjohann converts a low dimension problem to a high dimension problem with lower order. For example, computing an order basis for a 
+ effectively reverses the approach of Beckermann and Labahn.
+ Namely, rather than convert a high dimension matrix order problem into
+ a lower dimension vector problem of higher order, Storjohann converts a
+ low dimension problem to a high dimension problem with lower order.
+ For example, computing an order basis for a 
 \begin_inset Formula $1\times n$
 \end_inset
 
@@ -448,24 +466,32 @@ key "Storjohann:2006"
 \begin_inset Formula $O\left(\left\lceil \sigma/n\right\rceil \right)$
 \end_inset
 
-. Combining this conversion with the method of Giorgi et al. can then be used effectively for problems with small row dimensions to achieve a cost of 
-\begin_inset Formula $O^{\sim}\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\right)$
+.
+ Combining this conversion with the method of Giorgi et al.
+ can then be used effectively for problems with small row dimensions to
+ achieve a cost of 
+\begin_inset Formula $O^{\sim}\left(n^{\omega}\left\lceil m\sigma/n\right\rceil \right)$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Standard
-
-However, while order bases of the original problem can have degree up to 
+However, while order bases of the original problem can have degree up to
+ 
 \begin_inset Formula $\sigma$
 \end_inset
 
-, the nature of Storjohann's conversion limits the degree of an order basis of the converted problem to 
+, the nature of Storjohann's conversion limits the degree of an order basis
+ of the converted problem to 
 \begin_inset Formula $O\left(\left\lceil m\sigma/n\right\rceil \right)$
 \end_inset
 
- in order to be computationally efficient. In other words, this approach does not in general compute a complete order basis. Rather, in order to achieve efficiency, it only computes a partial order basis containing basis elements with degrees within 
+ in order to be computationally efficient.
+ In other words, this approach does not in general compute a complete order
+ basis.
+ Rather, in order to achieve efficiency, it only computes a partial order
+ basis containing basis elements with degrees within 
 \begin_inset Formula $O\left(\left\lceil m\sigma/n\right\rceil \right)$
 \end_inset
 
@@ -473,7 +499,7 @@ However, while order bases of the original problem can have degree up to
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 {
 \end_layout
@@ -484,7 +510,7 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -497,25 +523,30 @@ em
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 }
 \end_layout
 
 \end_inset
 
-. Fast methods for computing a minbasis are particularly useful for certain problems, for example, in the case of inversion of structured block matrices where one needs only precisely the minbasis 
-\begin_inset LatexCommand citep
-after ""
-before ""
+.
+ Fast methods for computing a minbasis are particularly useful for certain
+ problems, for example, in the case of inversion of structured block matrices
+ where one needs only precisely the minbasis 
+\begin_inset CommandInset citation
+LatexCommand citep
 key "La92"
 
 \end_inset
 
-. However, in other applications, such as those arising in matrix polynomial arithmetic, one needs a complete basis which specifies all solutions of a given order, not just those within a particular degree bound (cf. 
-\begin_inset LatexCommand citet
-after ""
-before ""
+.
+ However, in other applications, such as those arising in matrix polynomial
+ arithmetic, one needs a complete basis which specifies all solutions of
+ a given order, not just those within a particular degree bound (cf.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
 key "BL1997"
 
 \end_inset
@@ -524,34 +555,51 @@ key "BL1997"
 \end_layout
 
 \begin_layout Standard
-
-In this paper we present two algorithms which compute an entire order basis with a cost of 
-\begin_inset Formula $O^{\sim}\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\right)$
+In this paper we present two algorithms which compute an entire order basis
+ with a cost of 
+\begin_inset Formula $O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$
 \end_inset
 
- field operations. This work extends the previous results first reported in 
-\begin_inset LatexCommand citet
-after ""
-before ""
+ field operations.
+ This work extends the previous results first reported in 
+\begin_inset CommandInset citation
+LatexCommand citet
 key "za2009"
 
 \end_inset
 
-. The two algorithms differ depending on the nature of the degree shift required for the reduced order basis. In the first case we use a transformation that can be considered as an extension of Storjohann's transformation. This new transformation provides a way to extend the results from one transformed problem to another transformed problem of a higher degree. This enables us to use an idea from the null space basis algorithm found in 
-\begin_inset LatexCommand citep
-after ""
-before ""
+.
+ The two algorithms differ depending on the nature of the degree shift required
+ for the reduced order basis.
+ In the first case we use a transformation that can be considered as an
+ extension of Storjohann's transformation.
+ This new transformation provides a way to extend the results from one transform
+ed problem to another transformed problem of a higher degree.
+ This enables us to use an idea from the null space basis algorithm found
+ in 
+\begin_inset CommandInset citation
+LatexCommand citep
 key "storjohann-villard:2005"
 
 \end_inset
 
- in order to achieve efficient computation. At each iteration, basis elements within a specified degree bound are computed via a Storjohann transformed problem. Then the partial result is used to simplify the next Storjohann transformed problem of a higher degree, allowing basis elements within a higher degree bound to be computed efficiently. This is repeated until all basis elements are computed.
+ in order to achieve efficient computation.
+ At each iteration, basis elements within a specified degree bound are computed
+ via a Storjohann transformed problem.
+ Then the partial result is used to simplify the next Storjohann transformed
+ problem of a higher degree, allowing basis elements within a higher degree
+ bound to be computed efficiently.
+ This is repeated until all basis elements are computed.
 \end_layout
 
 \begin_layout Standard
-
-In order to compute an order basis efficiently, the first algorithm requires that the degree shifts are balanced. In the case where the shift is not balanced, the row degrees of the basis can also become unbalanced in addition to the unbalanced column degrees. We give a second algorithm that balances the high degree rows and uses 
-\begin_inset Formula $O^{\sim}(\MM(n,\lceil m\sigma/n\rceil))$
+In order to compute an order basis efficiently, the first algorithm requires
+ that the degree shifts are balanced.
+ In the case where the shift is not balanced, the row degrees of the basis
+ can also become unbalanced in addition to the unbalanced column degrees.
+ We give a second algorithm that balances the high degree rows and uses
+ 
+\begin_inset Formula $O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$
 \end_inset
 
  field operations when the shift 
@@ -562,49 +610,74 @@ In order to compute an order basis efficiently, the first algorithm requires tha
 \begin_inset Formula $\sum_{i=1}^{n}(\max(\vec{s})-\vec{s}_{i})\le m\sigma$
 \end_inset
 
-. This condition essentially allows us to locate the high degree unbalanced rows that need to be balanced. 
+.
+ This condition essentially allows us to locate the high degree unbalanced
+ rows that need to be balanced.
+ 
 \begin_inset Note Comment
-status open
+status collapsed
 
-\begin_layout Standard
-
-In fact, every problem with any unbalanced shift can be reformulated to a problem with a shift satisfying this condition if the degrees of the resulting order basis is known. 
+\begin_layout Plain Layout
+In fact, every problem with any unbalanced shift can be reformulated to
+ a problem with a shift satisfying this condition if the degrees of the
+ resulting order basis is known.
+ 
 \end_layout
 
 \end_inset
 
- The algorithm converts a problem of unbalanced shift to one with balanced shift, based on a second idea from 
-\begin_inset LatexCommand citep
-after ""
-before ""
+ The algorithm converts a problem of unbalanced shift to one with balanced
+ shift, based on a second idea from 
+\begin_inset CommandInset citation
+LatexCommand citep
 key "Storjohann:2006"
 
 \end_inset
 
-. Then the first algorithm is used to efficiently compute the elements of an order basis whose shifted degrees exceed a specified parameter. The problem is then reduced to one where we remove the computed elements. This results in a new problem with smaller dimension and higher degree. The same process is repeated again on this new problem in order to compute the elements with the next highest shifted degrees.
+.
+ Then the first algorithm is used to efficiently compute the elements of
+ an order basis whose shifted degrees exceed a specified parameter.
+ The problem is then reduced to one where we remove the computed elements.
+ This results in a new problem with smaller dimension and higher degree.
+ The same process is repeated again on this new problem in order to compute
+ the elements with the next highest shifted degrees.
 \end_layout
 
 \begin_layout Standard
-
-The remaining paper is structured as follows. Basic definitions and properties of order bases are given in the next section. 
-\begin_inset LatexCommand prettyref
+The remaining paper is structured as follows.
+ Basic definitions and properties of order bases are given in the next section.
+ 
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "sec:transform"
 
 \end_inset
 
- provides an extension to Storjohann's transformation to allow higher degree basis elements to be computed. Based on this new transformation, 
-\begin_inset LatexCommand prettyref
+ provides an extension to Storjohann's transformation to allow higher degree
+ basis elements to be computed.
+ Based on this new transformation, 
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "sec:Order-Basis-Computation"
 
 \end_inset
 
- establishes a link between two Storjohann transformed problems of different degrees, from which an recursive method and then an iterative algorithm are derived. The time complexity is analyzed in the next section. After this, 
-\begin_inset LatexCommand prettyref
+ establishes a link between two Storjohann transformed problems of different
+ degrees, from which an recursive method and then an iterative algorithm
+ are derived.
+ The time complexity is analyzed in the next section.
+ After this, 
+\begin_inset CommandInset ref
+LatexCommand prettyref
 reference "sec:Unbalanced-Shift"
 
 \end_inset
 
- describes an algorithm which handles problems with a type of unbalanced shift. This is followed by a conclusion along with a description for topics for future research. 
+ describes an algorithm which handles problems with a type of unbalanced
+ shift.
+ This is followed by a conclusion along with a description for topics for
+ future research.
+ 
 \end_layout
 
 \end_body

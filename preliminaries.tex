@@ -3,6 +3,19 @@
 
 \label{sec:Background}
 
+The computational cost in this paper is analysed by bounding the number
+of arithmetic operations (additions, subtractions, multiplications,
+and divisions) in the coefficient field $\mathbb{K}$ on an algebraic
+random access machine. We use $\MM(n,d)$ to denote the cost of multiplying
+two polynomial matrices with dimension $n$ and degree $d$, and $\M(n)$
+to denote the cost of multiplying two polynomials with degree $d$.
+We define $\M'(d)=d\log d\log\log d$, then $\M'(ab)\subset O\left(\M'(a)\M'(b)\right)$
+and $\M'(t)\in O(n^{\omega-1})$. We take $\MM(n,d)\in O\left(n^{\omega}\M(d)\right)\subset O(n^{\omega}\M'(d))$,
+where the multiplication exponent $\omega$ is assumed to satisfy
+$2<\omega\le3$. We refer to the book by \citet{vonzurgathen} for
+more details and reference about the cost of polynomial multiplication
+and matrix multiplication.
+
 In this section, we provide some of the background needed in order
 to understand the basic concepts and tools needed for order basis
 computation. This includes basic definitions and a look at the size
@@ -28,12 +41,10 @@ a vector of non-negative integers.
 A vector of polynomials $\mathbf{p}\in\mathbb{K}\left[x\right]^{n\times1}$
 has \emph{order} $\left(\mathbf{F},\vec{\sigma}\right)$ (or \emph{order}
 $\vec{\sigma}$ with respect to $\mathbf{F}$) if $\mathbf{F}\cdot\mathbf{p}\equiv\mathbf{0}\mod x^{\vec{\sigma}}$,
-that is, 
-\[
-\mathbf{F}\cdot\mathbf{p}  =  x^{\vec{\sigma}}\mathbf{r}=\begin{bmatrix}x^{\sigma_{1}}\\
+that is, \[
+\mathbf{F}\cdot\mathbf{p}=x^{\vec{\sigma}}\mathbf{r}=\begin{bmatrix}x^{\sigma_{1}}\\
  & \ddots\\
- &  & x^{\sigma_{m}}\end{bmatrix}\mathbf{r}
-\]
+ &  & x^{\sigma_{m}}\end{bmatrix}\mathbf{r}\]
  for some $\mathbf{r}\in\mathbb{K}\left[\left[x\right]\right]^{m\times1}$.
 If $\vec{\sigma}=\left[\sigma,\dots,\sigma\right]$ is uniform, then
 we say that $\mathbf{p}$ has order $\left(\mathbf{F},\sigma\right).$
@@ -58,19 +69,22 @@ is given by \[
 \deg_{\vec{s}}\mathbf{p}=\max_{1\le i\le n}[\deg p^{\left(i\right)}+s_{i}]=\deg(x^{\vec{s}}\cdot\mathbf{p}).\]
  We call this the \emph{$\vec{s}$-column degree}, or simply the \emph{$\vec{s}$-degree}
 of $\mathbf{p}$. A shifted column degree defined this way is equivalent
-to the notion of \emph{defect} commonly used in the literature. It
-is also equivalent to the notion of $\mathbf{H}$-degree from \citep{BL1997}
-for $\mathbf{H}=x^{\vec{s}}$. As in the uniform shift case, we say
-a matrix is \emph{$\vec{s}$-column reduced} or \emph{$\vec{s}$-reduced}
-if its $\vec{s}$-degrees cannot be lowered by column operations.
-Note that a matrix $\mathbf{P}$ is $\vec{s}$-column reduced if and
-only if $x^{\vec{s}}\cdot\mathbf{P}$ is column reduced. Similarly,
-$\mathbf{P}$ is in $\vec{s}$-Popov form if $x^{\vec{s}}\cdot\mathbf{P}$
-is in Popov form. 
-\begin{defn}
-\label{def:orderBasis} An \emph{order basis} \citep{BeLa94,BL1997}
-$\mathbf{P}$ of $\mathbf{F}$ with order $\vec{\sigma}$ and shift
-$\vec{s}$, or simply a $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis,
+to the notion of \emph{defect} commonly used in the literature. Our
+definition of $\vec{s}$-degree is also equivalent to the notion of
+$\mathbf{H}$-degree from \citep{BL1997} for $\mathbf{H}=x^{\vec{s}}$.
+As in the uniform shift case, we say a matrix is \emph{$\vec{s}$-column
+reduced} or \emph{$\vec{s}$-reduced} if its $\vec{s}$-degrees cannot
+be decreased by unimodular column operations. More precisely, if $\mathbf{P}$
+is a $\vec{s}$-column reduced and $[d_{1},\dots,d_{n}]$ are the
+$\vec{s}$-degrees of columns of $\mathbf{P}$ sorted in nondecreasing
+order, then $[d_{1},\dots,d_{n}]$ is lexicographically minimal among
+all matrices right equivalent to $\mathbf{P}$. Note that a matrix
+$\mathbf{P}$ is $\vec{s}$-column reduced if and only if $x^{\vec{s}}\cdot\mathbf{P}$
+is column reduced. Similarly, $\mathbf{P}$ is in $\vec{s}$-Popov
+form if $x^{\vec{s}}\cdot\mathbf{P}$ is in Popov form \citep{BLV:1999,BLV:jsc06}. 
+
+An \emph{order basis} \citep{BeLa94,BL1997} $\mathbf{P}$ of $\mathbf{F}$
+with order $\vec{\sigma}$ and shift $\vec{s}$, or simply an $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis,
 is a basis for the module $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
 %
 \begin{comment}
@@ -79,7 +93,22 @@ is a basis for the module $\left\langle \left(\mathbf{F},\vec{\sigma}\right)\rig
 
 \end{comment}
 {} having minimal $\vec{s}$-column degrees. If $\vec{\sigma}=\left[\sigma,\dots,\sigma\right]$
-are constant vectors then we simply write $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis. 
+are constant vectors then we simply write $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis.
+The precise definition of an $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis
+is as follows.
+\begin{defn}
+A polynomial matrix $\mathbf{P}$ is an order basis of $\mathbf{F}$
+of order $\sigma$ and shift $\vec{s}$, denoted by $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis,
+if the following properties hold:
+\begin{enumerate}
+\item $\mathbf{P}$ is a nonsigular matrix of dimension $n$.
+\item $\mathbf{P}$ is $\vec{s}$-column reduced. 
+\item $\mathbf{P}$ has order $\left(\mathbf{F},\vec{\sigma}\right)$ (or
+equivalently, each column of $\mathbf{P}$ is in $\left\langle (\mathbf{F},\vec{\sigma})\right\rangle $). 
+\item Any $\mathbf{q}\in\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
+can be expressed as a linear combination of the columns of $\mathbf{P}$,
+given by $\mathbf{P}^{-1}\mathbf{q}$. 
+\end{enumerate}
 \end{defn}
 %
 \begin{comment}
@@ -98,20 +127,10 @@ of generality, that $n/m$ and $\sigma$ are powers of two. This can
 be achieved by padding zero rows to the input matrix and multiplying
 it by some power of $x$.
 
-From \citep{BL1997} we have the following two lemmas. 
+From \citep{BL1997} we have the following lemma. 
 \begin{lem}
-\label{lem:orderBasisProperty} An $\left(\mathbf{F},\vec{\sigma},\vec{s}\right)$-basis
-$\mathbf{P}$ satisfies the following properties: 
-\begin{enumerate}
-\item $\mathbf{P}$ consists of $n$ linearly independent columns, hence
-$\mathbf{P}$ is a square $n\times n$ matrix. 
-\item $\mathbf{P}$ is $\vec{s}$-column reduced. 
-\item $\mathbf{P}$ has order $\left(\mathbf{F},\vec{\sigma}\right)$ (or
-equivalently, each column of $\mathbf{P}$ is in $\left\langle (\mathbf{F},\vec{\sigma})\right\rangle $). 
-\item Any $\mathbf{q}\in\left\langle \left(\mathbf{F},\vec{\sigma}\right)\right\rangle $
-can be expressed as a linear combination of the columns of $\mathbf{P}$,
-given by $\mathbf{P}^{-1}\mathbf{q}$. 
-\end{enumerate}
+\label{lem:orderBasisProperty} 
+
 \label{lem:orderBasisEquivalence}The following are equivalent for
 a polynomial matrix \textbf{$\mathbf{P}$}: 
 \begin{enumerate}
@@ -164,8 +183,13 @@ shift $\vec{s}$ and order $\sigma$ one can view $\mathbf{F}$ as
 a polynomial matrix with degree $\sigma-1$, as higher order terms
 are not needed in the computation. As such the total input size of
 an order basis problem is $mn\sigma$ coefficients. One can apply
-the method of Giorgi et al. \citeyearpar{Giorgi2003} directly, which
-gives a cost of $O\left(\MM\left(n,\sigma\right)\log\sigma\right)\subset O^{\sim}\left(\MM\left(n,\sigma\right)\right)$
+the method of \citet{Giorgi2003} directly, which gives a cost of
+\begin{align*}
+\sum_{i=0}^{\log\sigma}2^{i}\MM(n,2^{-i}\sigma)= & \sum_{i=0}^{\log\sigma}2^{-i}\sigma\MM(n,2^{i})\\
+\subset & O\left(\sum_{i=0}^{\log\sigma}2^{-i}n^{\omega}\sigma2^{i}\log2^{i}\log\log2^{i}\right)\\
+= & O\left(n^{\omega}\sigma\sum_{i=0}^{\log\sigma}i\log i\right)\\
+\subset & O\left(n^{\omega}\sigma\sum_{i=0}^{\log\sigma}\log\sigma\log\log\sigma\right)\\
+= & O\left(n^{\omega}\sigma\log^{2}\sigma\log\log\sigma\right)=O(n^{\omega}\M'(\sigma)\log\sigma)\end{align*}
 field operations, close to the cost of multiplying two matrices with
 dimension $n$ and degree $\sigma$. Note that this cost is independent
 of the degree shift. This is very efficient if $m\in\Theta\left(n\right)$.
@@ -173,16 +197,17 @@ However, for small $m$, say $m=1$ as in Hermite Padé approximation,
 the total input size is only $n\sigma$ coefficients. Matrix multiplication
 cannot be used effectively on a such vector input.
 
-\citet{Storjohann:2006} provides a novel way to transform an order
+\citet{storjohann:2006} provides a novel way to transform an order
 basis problem with small row dimension to a problem with higher row
-dimension and lower degree to take advantage of Giorgi et al.'s algorithm.
-We provide a quick overview of a slightly modified version of Storjohann's
-method. Our small modification allows a nonuniform degree shift for
-the input and provides a slightly simpler degree shift, degree, and
-order for the transformed problem. The proof of its correctness is
-provided in \prettyref{sec:transform}. In order to compute a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis,
-assuming without loss of generality that $\min\left(\vec{s}\right)=0$,
-we first write \[
+dimension and possibly lower degree to take advantage of \citet{Giorgi2003}'s
+algorithm. We provide a quick overview of a slightly modified version
+of Storjohann's method. Our small modification allows a nonuniform
+degree shift for the input and provides a slightly simpler degree
+shift, degree, and order for the transformed problem. The proof of
+its correctness is provided in \prettyref{sec:transform}. In order
+to compute a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis, assuming
+without loss of generality that $\min\left(\vec{s}\right)=0$, we
+first write \[
 \mathbf{F}=\mathbf{F}_{0}+\mathbf{F}_{1}x^{\delta}+\mathbf{F}_{2}x^{2\delta}+\cdots+\mathbf{F}_{l}x^{l\delta},\]
  with $\deg\mathbf{F}_{i}<\delta$%
 \begin{comment}
@@ -201,14 +226,14 @@ loss of generality) that $\sigma=\left(l+1\right)\delta$. Set \[
 \mathbf{F}_{2}+\mathbf{F}_{3}x^{\delta} & \mathbf{0}_{m} & \mathbf{I}_{m}\\
 \vdots &  &  & \ddots\\
 \mathbf{F}_{l-1}+\mathbf{F}_{l}x^{\delta} &  &  &  & \mathbf{I}_{m}\end{array}\right]_{ml\times(n+m(l-1))}.\]
-On the left side of $\bar{\mathbf{F}}$, each block $\mathbf{F}_{i}+\mathbf{F}_{i+1}x^{\delta}$
+ On the left side of $\bar{\mathbf{F}}$, each block $\mathbf{F}_{i}+\mathbf{F}_{i+1}x^{\delta}$
 has dimension $m\times n$. On the right side, there are $l\times(l-1)$
 blocks of $\mathbf{0}_{m}$'s or $\mathbf{I}_{m}$'s each having dimension
 $m\times m$. The overall dimension of $\bar{\mathbf{F}}$ is $ml\times(n+m(l-1))$.
 Set $\vec{s'}=\left[\vec{s},0,\dots,0\right]$ ($\vec{s}$ followed
 by $m\left(l-1\right)$ $0$'s). A $({\bar{\mathbf{F}}},2\delta,\vec{s'})$-basis
 can then be computed by the method of Giorgi et al. with a cost of
-$O^{\sim}\left(\MM\left(n,\delta\right)\right)$ for $\delta\ge\left\lceil m\sigma/n\right\rceil $.
+$O^{\sim}\left(n^{\omega}\delta\right)$ for $\delta\ge\left\lceil m\sigma/n\right\rceil $.
 This transformation of Storjohann can be viewed as a partial linearization
 of the original problem, where $\bar{\mathbf{F}}$ is analogous to
 the coefficient matrix of $\mathbf{F}$. Note that $\bar{\mathbf{F}}$
@@ -230,10 +255,10 @@ $l$ of $\bar{\mathbf{F}}$ to be close to $n/m$, which requires
 $\delta=\Theta\left(\left\lceil m\sigma/n\right\rceil \right)$. Recall
 that $mn\sigma$ is the total size of the original $m\times n$ input
 matrix $\mathbf{F}$, hence $d=mn\sigma/n^{2}=m\sigma/n$ is the average
-degree of each entry if we treat $\mathbf{F}$ as square. Choosing
-$\delta=\Theta\left(\left\lceil d\right\rceil \right)$, the cost
-of computing a $({\bar{\mathbf{F}}},2\delta,\vec{s'})$-basis is then
-$O^{\sim}\left(\MM\left(n,d\right)\right)=O^{\sim}\left(\MM\left(n,\left\lceil m\sigma/n\right\rceil \right)\right)$.
+degree of each entry of $\mathbf{F}$ if the $m$ rows of $\mathbf{F}$
+are spread out over $n$ rows. Choosing $\delta=\Theta\left(\left\lceil d\right\rceil \right)$,
+the cost of computing a $({\bar{\mathbf{F}}},2\delta,\vec{s'})$-basis
+is then $O^{\sim}\left(n^{\omega}\left\lceil d\right\rceil \right)=O^{\sim}\left(n^{\omega}\left\lceil m\sigma/n\right\rceil \right)$.
 The ceiling function here is used to take care of the case of $m\sigma<n$.
 For the remainder of the paper, we assume that $m\sigma\ge n$ in
 order to avoid the need for the ceiling function and so simplify the
@@ -247,14 +272,12 @@ of two, $m\sigma/n$ is then always a positive integer in this paper.
 \label{exm:StorjohannTransformation}Let $\mathbb{K}=\mathbb{Z}_{2}$,
 $\sigma=8$, $\delta=2$ and \[
 \mathbf{F}=[x+x^{2}+x^{3}+x^{4}+x^{5}+x^{6},~1+x+x^{5}+x^{6}+x^{7},~1+x^{2}+x^{4}+x^{5}+x^{6}+x^{7},~1+x+x^{3}+x^{7}]\]
-a vector of size $1\times4$. Then 
-\[
-\bar{\mathbf{F}}=\left[{\begin{array}{cccccc}
+ a vector of size $1\times4$. Then \[
+\bar{\mathbf{F}}=\left[{\begin{array}{cccc|cc}
 x+x^{2}+x^{3} & 1+x & 1+x^{2} & 1+x+x^{2} & ~~0~ & ~0~\\
-1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & ~~1~ & ~0~\\
-1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]_{3\times6}
-\]
-and a $\left(\bar{\mathbf{F}},4,\vec{0}\right)$-basis is given by
+\hline 1+x+x^{2}+x^{3} & x^{3} & 1+x^{2}+x^{3} & x & ~~1~ & ~0~\\
+1+x+x^{2} & x+x^{2}+x^{3} & 1+x+x^{2}+x^{3} & x^{3} & ~~0~ & ~1~\end{array}}\right]_{3\times6}\]
+ and a $\left(\bar{\mathbf{F}},4,\vec{0}\right)$-basis is given by
 \[
 \bar{\mathbf{P}}=\left[{\begin{array}{cc|cccc}
 ~1~ & ~x~ & 1 & x^{2}+x^{3} & 0 & x+x^{2}+x^{3}\\
@@ -280,21 +303,29 @@ Storjohann's transformation can be used to efficiently compute a $\left(\mathbf{
 if the degree parameter $\delta$ is close to the average degree $d=m\sigma/n$.
 However, if $\delta$ is large, say $\delta=\Theta\left(\sigma\right)$,
 or if we want to compute a complete $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis,
-then the computation will still cost $O^{\sim}\left(\MM\left(n,\sigma\right)\right)$.
+then the current analysis for the computation still gives the cost
+estimate of  $O^{\sim}\left(n^{\omega}\sigma\right)$.
 
 The underlying difficulty with computing a complete order basis is
 that the basis can have degree up to $\sigma$. As the output of this
 problem has dimension $n\times n$ and degree up to $\Theta\left(\sigma\right)$,
-this may seem to suggest $O^{\sim}\left(\MM\left(n,\sigma\right)\right)$
+this may seem to suggest $O^{\sim}\left(n^{\omega}\sigma\right)$
 is about the best that can be done. However, the total size of the
-output can still be bounded by $O\left(mn\sigma\right)$, the same
-as the size of the input. This gives some hope for a more efficient
-method. 
+output, that is, the total number of coefficients of all $n^{2}$
+polynomial entries can still be bounded by $O\left(mn\sigma\right)$,
+the same as the size of the input. This gives some hope for a more
+efficient method. 
 \begin{lem}
 \label{lem:size}Let $\vec{t}$ be the $\vec{s}$-column degrees of
-a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis. Then $\sum_{i}\left(\vec{t}_{i}-\vec{s}_{i}\right)~\le~m\sigma$
-and \textup{$\max_{i}\left(\vec{t}_{i}-\vec{s}_{i}\right)\le\sigma$}.
-In addition, the total size of any $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
+a $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis. Then $\sum_{i}\left(\vec{t}_{i}-\vec{s}_{i}\right)~\le~m\sigma$%
+\begin{comment}
+ and $\max_{i}\left(\vec{t}_{i}-\vec{s}_{i}\right)\le\sigma$
+\end{comment}
+{}\textup{}%
+\begin{comment}
+need to permute the columns to put the pivots on the diagonal.
+\end{comment}
+{}. In addition, the total size of any $\left(\mathbf{F},\sigma,\vec{s}\right)$-basis
 in $\vec{s}$-Popov form is bounded by $nm\sigma$. \end{lem}
 \begin{pf}
 This can be shown by considering the sizes of the pivots in the iterative
@@ -321,8 +352,8 @@ can be also bounded by $d=m\sigma/n$.
 {}
 
 Let us now look at the average column degree of the output. In the
-first part of this paper, we assumed, without loss of generality, that
-$\min\left(\vec{s}\right)=0$ so $\deg\mathbf{q}\le\deg_{\vec{s}}\mathbf{q}$
+first part of this paper, we assumed, without loss of generality,
+that $\min\left(\vec{s}\right)=0$ so $\deg\mathbf{q}\le\deg_{\vec{s}}\mathbf{q}$
 for any $\mathbf{q}\in\mathbb{K}\left[x\right]^{n}$. The situation
 is simpler if the shift $\vec{s}$ is uniform since then $\sum_{i}\vec{t}_{i}\le m\sigma$
 by \prettyref{lem:size} and the average column degree is therefore

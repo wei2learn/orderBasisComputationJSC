@@ -21,6 +21,7 @@
  \let\AND\relax 
  \usepackage{algorithmic}
  \usepackage{algolyx}
+ \usepackage{algolyx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 \usepackage{yjsco}\journal{Journal of Symbolic Computation}
@@ -57,10 +58,8 @@ In this paper we present two algorithms for the computation of a shifted
 order basis of an $m\times n$ matrix of power series over a field
 $\mathbb{K}$ with $m\le n$. For a given order $\sigma$ and balanced
 shift $\vec{s}$ the first algorithm determines an order basis with
-a cost of $O^{\sim}(\MM(n,\lceil m\sigma/n\rceil))\subset O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$
-field operations in $\mathbb{K}$ where $\MM\left(n,d\right)$ denotes
-the cost of multiplying two polynomial matrices with dimension $n$
-and degree $d$. Here an input shift is balanced when $\max(\vec{s})-\min(\vec{s})\in O(m\sigma/n)$.
+a cost of $O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$ field operations
+in $\mathbb{K}$. Here an input shift is balanced when $\max(\vec{s})-\min(\vec{s})\in O(m\sigma/n)$.
 %Here $O^{\sim}$
 %is just $O$ with log factors omitted and 
 %$\MM\left(n,d\right)$ denotes
@@ -68,17 +67,17 @@ and degree $d$. Here an input shift is balanced when $\max(\vec{s})-\min(\vec{s}
 %and degree $d$. 
 This extends earlier work of Storjohann which only determines a subset
 of an order basis that is within a specified degree bound $\delta$
-using $O^{\sim}(\MM(n,\delta))$ field operations for $\delta\ge\lceil m\sigma/n\rceil$.
+using $O^{\sim}(n^{\omega}\delta)$ field operations for $\delta\ge\lceil m\sigma/n\rceil$.
 
 While the first algorithm addresses the case when the column degrees
 of a complete order basis are unbalanced given a balanced input shift,
-it is not efficient in the case when a unbalanced shift results in
+it is not efficient in the case when an unbalanced shift results in
 the row degrees also becoming unbalanced. %The column degrees of a complete basis may be unbalanced, which is
 %a major issue we address in the first algorithm. When the input shift
 %is unbalanced, the row degrees of the basis can also be unbalanced
 %in addition to the unbalanced column degrees. For this, we present
 We present a second algorithm which balances the high degree rows
-and computes an order basis using $O^{\sim}(\MM(n,\lceil m\sigma/n\rceil))$
+and computes an order basis also using $O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$
 field operations in the case that the shift is unbalanced but satisfies
 the condition $\sum_{i=1}^{n}(\max(\vec{s})-\vec{s}_{i})\le m\sigma$.%
 \begin{comment}

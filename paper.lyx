@@ -171,24 +171,11 @@ In this paper we present two algorithms for the computation of a shifted
 \end_inset
 
  the first algorithm determines an order basis with a cost of 
-\begin_inset Formula $O^{\sim}(\MM(n,\lceil m\sigma/n\rceil))\subset O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$
+\begin_inset Formula $O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$
 \end_inset
 
  field operations in 
 \begin_inset Formula $\mathbb{K}$
-\end_inset
-
- where 
-\begin_inset Formula $\MM\left(n,d\right)$
-\end_inset
-
- denotes the cost of multiplying two polynomial matrices with dimension
- 
-\begin_inset Formula $n$
-\end_inset
-
- and degree 
-\begin_inset Formula $d$
 \end_inset
 
 .
@@ -287,7 +274,7 @@ This extends earlier work of Storjohann which only determines a subset of
 \end_inset
 
  using 
-\begin_inset Formula $O^{\sim}(\MM(n,\delta))$
+\begin_inset Formula $O^{\sim}(n^{\omega}\delta)$
 \end_inset
 
  field operations for 
@@ -300,7 +287,7 @@ This extends earlier work of Storjohann which only determines a subset of
 \begin_layout Abstract
 While the first algorithm addresses the case when the column degrees of
  a complete order basis are unbalanced given a balanced input shift, it
- is not efficient in the case when a unbalanced shift results in the row
+ is not efficient in the case when an unbalanced shift results in the row
  degrees also becoming unbalanced.
  
 \begin_inset ERT
@@ -365,8 +352,8 @@ status collapsed
 \end_inset
 
 We present a second algorithm which balances the high degree rows and computes
- an order basis using 
-\begin_inset Formula $O^{\sim}(\MM(n,\lceil m\sigma/n\rceil))$
+ an order basis also using 
+\begin_inset Formula $O^{\sim}(n^{\omega}\lceil m\sigma/n\rceil)$
 \end_inset
 
  field operations in the case that the shift is unbalanced but satisfies
